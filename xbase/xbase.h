@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.21 2002/03/19 19:16:33 dbryson Exp $
+/*  $Id: xbase.h,v 1.22 2002/03/19 19:27:07 dbryson Exp $
 
     Xbase project source code
 
@@ -114,11 +114,11 @@
 #endif
 
 #ifndef XB_MIN
-#define XB_MIN(a, b)	((a < b) ? a : b)
+#define XB_MIN(a, b)	(((a) < (b)) ? (a) : (b))
 #endif /* XB_MIN */
 
 #ifndef XB_MAX
-#define XB_MAX(a, b)	((a < b) ? b : a)
+#define XB_MAX(a, b)	(((a) < (b)) ? (b) : (a))
 #endif /* XB_MAX */
 
 /*! \file xbase.h
