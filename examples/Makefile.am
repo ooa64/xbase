@@ -1,6 +1,6 @@
 
 INCLUDES= -I$(topdir) $(all_includes)
-LDADD	= -L$(topdir)/xbase/.libs -lxdb
+LDADD	= -L$(topdir)/xbase/.libs -lxbase
 
 # for shadow passwords override the value
 INSTALL_PROGRAM = @INSTALL@

@@ -126,15 +126,20 @@ fi
 AC_SUBST(TVPROGS)
 
 dnl add here all your Makefiles
-AC_OUTPUT(
-	Makefile
-	xbase/Makefile
-	xbase/xbase.h
-	examples/Makefile
-    	bin/Makefile
-	html/Makefile
-	tv/Makefile
-    	libtest/Makefile
-	ybase/Makefile
+AC_OUTPUT([
+	    Makefile
+	    xbase/Makefile
+	    xbase/xbase.h
+	    examples/Makefile
+    	    bin/Makefile
+	    html/Makefile
+	    tv/Makefile
+    	    libtest/Makefile
+	    ybase/Makefile
+	    xbase-config
+	  ],
+	  [
+	    chmod +x xbase-config
+          ]
 )
 

@@ -39,3 +39,5 @@
 SUBDIRS = xbase examples bin html tv
 
 MAINTAINERCLEANFILES = Makefile.in configure aclocal.m4 libtool
+
+bin_SCRIPTS = xbase-config
