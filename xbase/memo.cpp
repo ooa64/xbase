@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.9 2002/09/05 17:48:29 dbryson Exp $
+/*  $Id: memo.cpp,v 1.10 2002/09/06 18:04:44 dbryson Exp $
 
     Xbase project source code
 
@@ -45,6 +45,7 @@
     V 1.6a  4/1/98     - Added expression support
     V 1.6b  4/8/98     - Numeric index keys
     V 1.7.1 5/25/98    - Added support for dBase III+ type memo files
+            6/3/02     - More support for Visual Foxpro memo files (gsker)
 */
 
 #ifdef __WIN32__
@@ -291,7 +292,7 @@ xbShort xbDbf::OpenFPTFile(void) {
 */
 xbShort xbDbf::OpenMemoFile( void )
 {
-  if (Version == (char)0xf5)
+  if (Version == (char)0xf5 || Version == (char)0x30) 
     return OpenFPTFile();
 
    xbLong  Size, NewSize, l;
@@ -566,9 +567,20 @@ xbShort xbDbf::GetFPTField(const xbShort FieldNo, const xbLong len,
        return XB_LOCK_FAILED;
 #endif
 
-  xbLong  BlockNo;
-  if ((BlockNo = GetLongField(FieldNo)) == 0L)
+	xbLong BlockNo;
+	char buf[18];
+
+	if ( Version == (char)0x30 ) {
+		memset( buf, 0x00, 18 ) ;
+		GetField( FieldNo, buf );
+		BlockNo = xbase->GetLong((char*) buf);
+	} else {
+		BlockNo = GetLongField(FieldNo);
+	}  
+
+  if ( BlockNo == 0L )
     return 0L;
+
   // Seek to start_of_block + 4
 #ifdef XB_LOCKING_ON
   try {
@@ -596,6 +608,7 @@ xbShort xbDbf::GetFPTField(const xbShort FieldNo, const xbLong len,
   if (LockOpt != -1)
     LockMemoFile(F_SETLK, F_UNLCK);
 #endif
+Buf[l]=0;
 
   return XB_NO_ERROR;
 }
@@ -611,7 +624,7 @@ xbShort xbDbf::GetFPTField(const xbShort FieldNo, const xbLong len,
 xbShort xbDbf::GetMemoField( const xbShort FieldNo, const xbLong len,
         char * Buf, const xbShort LockOpt )
 {
-  if (Version == (char)0xf5)
+  if (Version == (char)0xf5 || Version == (char)0x30 )
     return GetFPTField(FieldNo, len, Buf, LockOpt);
 
    xbLong BlockNo, Tcnt, Scnt;
@@ -712,7 +725,7 @@ xbLong xbDbf::GetFPTFieldLen(const xbShort FieldNo) {
   \param FieldNo
 */
 xbLong xbDbf::GetMemoFieldLen(const xbShort FieldNo) {
-  if (Version == (char)0xf5)
+  if (Version == (char)0xf5 || Version == (char)0x30 )
     return GetFPTFieldLen(FieldNo);
 
    xbLong  BlockNo, ByteCnt;

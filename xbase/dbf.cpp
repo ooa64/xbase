@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.17 2002/09/05 17:48:29 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.18 2002/09/06 18:04:44 dbryson Exp $
 
     Xbase project source code
    
@@ -54,6 +54,7 @@
                         values for dBASE III+ and dBASE IV.
    V 1.9.2 6/15/2000  - Added call to InitVars() to cleanup error handling
                         in CreateDatabase() and OpenDatabase().
+  ???      6/3/2002   - Added check for Version 0x30 - Visual Foxpro. (gsker)
 */
 
 #ifdef __GNUG__
@@ -982,6 +983,13 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
       MemoHeader.Version = 0x00;
 #endif
    }
+	else if( Version == (char)0x30 )  /* Visual Foxpro */
+	{
+		XFV = 4;
+#ifdef XB_MEMO_FIELDS
+      MemoHeader.Version = 0x00;
+#endif
+	}
    else
    {
      InitVars(); 
@@ -998,7 +1006,11 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
    }
 
    /* calculate the number of fields */
-   NoOfFields = ( HeaderLen - 33 ) / 32;
+    if( Version == (char)0x30 ) {
+          NoOfFields = ( HeaderLen - 296 ) / 32 ;
+	} else {
+	   NoOfFields = ( HeaderLen - 33 ) / 32;
+	}
 
    if(( RecBuf = (char *) malloc( RecordLen )) == NULL ) {
       fclose( fp );
