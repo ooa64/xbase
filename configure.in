@@ -9,7 +9,7 @@ XSUBDIRS="xbase examples bin html libtest tv"
 AC_SUBST(XSUBDIRS)
 
 dnl You have to change this
-AM_INIT_AUTOMAKE(xbase, 2.0.0) dnl searches for some needed programs
+AM_INIT_AUTOMAKE(xbase, 2.0.0, nodefine) dnl searches for some needed programs
 
 dnl generate the config header
 AM_CONFIG_HEADER(xbase/xbconfig.h) dnl at the distribution this done

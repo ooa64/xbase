@@ -2,12 +2,14 @@
 
 Summary: Xbase dBase database file library
 Name: xbase
+Provides: xbase-2.0
 Version: %{xbase_ver}
 Release: 1
 Source: xbase-@VERSION@.tar.gz
 Copyright: LGPL
 Group: Development/Libraries
 Packager: Derry Bryson <derry@techass.com>
+Vendor: Xbase Development Team (linux.techass.com/projects/xdb)
 
 %description
 Library for accessing dBase .dbf, .ndx, .dbt, and Clipper .ntx files.
@@ -16,6 +18,8 @@ Library for accessing dBase .dbf, .ndx, .dbt, and Clipper .ntx files.
 Version: %{xbase_ver}
 Summary: Xbase development package
 Group: Development/Libraries
+Provides: xbase-devel-2.0
+Requires: xbase-2.0
 
 %description -n xbase-devel
 Headers and such for compiling programs that use the Xbase library.
@@ -34,7 +38,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %post
 /sbin/ldconfig
 
-%postrun
+%postun
 /sbin/ldconfig
 
 %files -n xbase
@@ -48,8 +52,6 @@ make DESTDIR=$RPM_BUILD_ROOT install
 /usr/bin/undelall
 /usr/bin/zap
 /usr/bin/dbfutil1
-/usr/lib/libxbase.la
-/usr/lib/libxbase.a
 /usr/lib/libxbase.so
 /usr/lib/libxbase-2.0.so.*
 
@@ -58,5 +60,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %files -n xbase-devel
 /usr/include/xbase
 /usr/bin/xbase-config
+/usr/lib/libxbase.la
+/usr/lib/libxbase.a
 
 %doc docs/html docs/latex

@@ -135,13 +135,6 @@
 /* Define if you have the <tvision/tv.h> header file.  */
 /* #undef HAVE_TVISION_TV_H */
 
-/* Name of package */
-#define PACKAGE "xbase"
-
-/* Version number of package */
-#define VERSION "2.0.0"
-
-
 /* Should we include generic index support? */
 #if defined(XB_INDEX_NDX) || defined(XB_INDEX_NTX)
 #define  XB_INDEX_ANY 1
