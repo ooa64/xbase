@@ -1,4 +1,4 @@
-/*  $Id: exp.h,v 1.6 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: exp.h,v 1.7 2002/03/19 18:30:52 dbryson Exp $
 
     Xbase project source code 
 
@@ -111,28 +111,8 @@ public:
 
 
   public:
-   xbExpNode() :
-    NodeText(0),
-    Type(0),
-    Len(0),
-    InTree(0),
-    Node(0),
-    Sibling1(0),
-    Sibling2(0),
-    Sibling3(0),
-    DataLen(0),
-    ResultLen(0),
-    DoubResult(0),
-    IntResult(0),
-    dbf(0),
-    FieldNo(-1),
-    ExpressionType(0)
-    {}
-   ~xbExpNode(){
-     if( Sibling1 ) delete Sibling1;
-     if( Sibling2 ) delete Sibling2;
-     if( Sibling3 ) delete Sibling3;
-   }
+   xbExpNode();
+   ~xbExpNode();
 };
 
 //! xbExpn class
@@ -149,6 +129,8 @@ public:
    xbExpNode * GetFirstTreeNode( xbExpNode * );
 
    xbExpn( void );
+   ~xbExpn();
+   
    xbShort  GetNextToken( const char *s, xbShort MaxLen);
 
    /* expression methods */
@@ -164,7 +146,7 @@ public:
    xbLong   DOW( const char * );
    char *   DTOC( const char * );
    char *   DTOS( const char * );
-   xbDouble EXP( xbDouble );   
+   xbDouble EXP( xbDouble );
    xbLong   INT( xbDouble );
    xbLong   ISALPHA( const char * );
    xbLong   ISLOWER( const char * );

@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.9 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: exp.cpp,v 1.10 2002/03/19 18:30:52 dbryson Exp $
 
     Xbase project source code
 
@@ -120,7 +120,7 @@ static xbFuncDtl FuncList[] =
 };
 
 /*************************************************************************/
-//! Constructor
+//! xbExpn Constructor
 /*!
 */
 xbExpn::xbExpn( void )
@@ -139,10 +139,23 @@ xbExpn::xbExpn( void )
 }
 
 /*************************************************************************/
+//! xbExpn Destructor
+/*!
+*/
+xbExpn::~xbExpn()
+{
+  if(Op1)
+    free(Op1);
+
+  if(Op2)
+    free(Op2);
+}
+
+/*************************************************************************/
 //! Get information on a function.
 /*!
   Returns the information specifed (Option) for the specified function.
-  
+
   \param Function name of function to get information about
   \param Option One of the following:
     \htmlonly
@@ -1048,7 +1061,51 @@ void xbExpn::DumpExpNode(xbExpNode *e) {
 }
 
 #endif
-#endif     // XB_EXPRESSIONS
+
 
 /*************************************************************************/
+//! xbExpNode()
+/*!
+*/
+xbExpNode::xbExpNode() :
+  NodeText(0),
+  Type(0),
+  Len(0),
+  InTree(0),
+  Node(0),
+  Sibling1(0),
+  Sibling2(0),
+  Sibling3(0),
+  DataLen(0),
+  ResultLen(0),
+  DoubResult(0),
+  IntResult(0),
+  dbf(0),
+  FieldNo(-1),
+  ExpressionType(0)
+{
+}
+
+/*************************************************************************/
+//! ~xbExpNode()
+/*!
+*/
+xbExpNode::~xbExpNode()
+{
+  if(NodeText)
+    free(NodeText);
+
+  if(Sibling1)
+    delete Sibling1;
+
+  if(Sibling2)
+    delete Sibling2;
+
+  if(Sibling3)
+    delete Sibling3;
+}
+
+/*************************************************************************/
+
+#endif     // XB_EXPRESSIONS
 

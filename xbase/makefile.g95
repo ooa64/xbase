@@ -62,10 +62,26 @@ exeext = .exe
 #
 # Various targets to build.
 #
-DLL_NAME = xbasedll.dll
+VERSION = 2.1.0
+DLL_NAME = xbase-$(VERSION).dll
 DLL_EXP_LIB = libxbasedll.a
-DLL_EXP_DEF = xbasedll.def
+DLL_EXP_DEF = xbase-$(VERSION).def
 STATICLIB_NAME = libxbase.a
+
+#
+# Directory to install DLL into
+#
+WIN32_SYSTEM_DIR = \winnt\system32
+
+#
+# Directory to install development libs into
+#
+INSTALL_LIB_DIR = \mingw\lib
+
+#
+# Directory to install header files into
+#
+INSTALL_INCLUDE_DIR = \mingw\include
 
 DLL_OBJ_DIR = dobj
 STATIC_OBJ_DIR = sobj
@@ -87,7 +103,7 @@ $(STATIC_OBJ_DIR) :
 DLL_CFLAGS = -DXBMAKINGDLL -mdll
 # The default entry point defined by dllwrap; the default user callback
 # is DllMain, and there is stub in dllinit.c.
-DLL_LDFLAGS = 
+DLL_LDFLAGS =
 # any extra libraries that your DLL may depend on.
 DLL_LDLIBS = -lstdc++
 
@@ -133,8 +149,16 @@ $(STATICLIB_NAME) : $(STATIC_OBJS)
 	ar -ru $(STATICLIB_NAME) $(STATIC_OBJS)
 	ranlib $(STATICLIB_NAME)
 
+install : all
+	copy $(DLL_NAME) $(WIN32_SYSTEM_DIR)
+	copy $(DLL_EXP_LIB) $(INSTALL_LIB_DIR)
+	copy $(DLL_EXP_DEF) $(INSTALL_LIB_DIR)
+	copy $(STATICLIB_NAME) $(INSTALL_LIB_DIR)
+	-md $(INSTALL_INCLUDE_DIR)\xbase
+	copy *.h $(INSTALL_INCLUDE_DIR)\xbase
+
 clean:
-	-rm -f $(DLL_OBJS) $(STATIC_OBJS) $(DLL_NAME) $(DLL_EXP_LIB) $(DLL_EXP_DEF) $(STATICLIB_NAME)
+	-del $(DLL_OBJ_DIR)\*.o $(STATIC_OBJ_DIR)\*.o $(DLL_NAME) $(DLL_EXP_LIB) $(DLL_EXP_DEF) $(STATICLIB_NAME)
 
 #
 # dependencies (need better ones!).

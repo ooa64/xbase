@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.9 2001/08/02 16:12:47 dyp Exp $
+/*  $Id: dbf.cpp,v 1.10 2002/03/19 18:30:51 dbryson Exp $
 
     Xbase project source code
    
@@ -69,7 +69,7 @@
 #include <xbase/xbase.h>
 
 #ifdef HAVE_IO_H
-#include <io.h> 
+#include <io.h>
 #endif
 #include <errno.h>
 
@@ -91,6 +91,16 @@ xbDbf::xbDbf( xbXBase * x )
 {
    xbase = x;
    InitVars();
+}
+
+/************************************************************************/
+//! Destructor
+/*!
+  \param x pointer to the global xbXbase class
+*/
+xbDbf::~xbDbf()
+{
+  CloseDatabase(true);
 }
 
 /************************************************************************/
@@ -124,9 +134,9 @@ void xbDbf::InitVars( void )
 
 #ifdef XB_LOCKING_ON
    AutoLock        = 1;
-  
+
    CurLockType = -1;
-   CurLockCount = 0; 
+   CurLockCount = 0;
    CurLockedRecNo = 0L;
    CurRecLockType = -1;
    CurRecLockCount = 0;
@@ -260,7 +270,7 @@ xbShort xbDbf::WriteHeader( const xbShort PositionOption )
    
    if(PositionOption)
      rewind(fp);
-     
+
    memcpy(&buf[0], &Version, 4); 
    xbase->PutLong(&buf[4], NoOfRecs);
    xbase->PutShort(&buf[8], HeaderLen );
@@ -704,7 +714,8 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
 #endif
 
    if (DbfStatus == XB_CLOSED)
-     xb_error(XB_NOT_OPEN);
+     return XB_NO_ERROR;
+//     xb_error(XB_NOT_OPEN);
 
    if (DbfStatus == XB_UPDATED /*&& AutoUpdate*/ ) {
       xbDate d;
@@ -716,7 +727,7 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
 
       /* update the header */
       WriteHeader( 1 );
-      
+
       /* write eof marker */
       fseek( fp, 0L, 2 );
 //      fwrite( EofChar, 1, 1, fp );
@@ -726,7 +737,7 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
 
 #if defined(XB_INDEX_ANY)
    i = NdxList;
-   while (i) 
+   while (i)
    {
      i->index->CloseIndex();
      if(deleteIndexes)
@@ -748,9 +759,9 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
      free( SchemaPtr );
    }
    if (RecBuf)
-     free( RecBuf ); 
+     free( RecBuf );
    if (RecBuf2)
-     free( RecBuf2 ); 
+     free( RecBuf2 );
 
 #ifdef XB_MEMO_FIELDS
    if (mbb)
@@ -760,8 +771,9 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
 #endif
 
    xbase->RemoveDbfFromDbfList( this );
-   fclose( fp );
-   InitVars(); 
+   if(fp)
+     fclose( fp );
+   InitVars();
    return XB_NO_ERROR;
 }
 /************************************************************************/

@@ -1,4 +1,4 @@
-/*  $Id: ntx.h,v 1.5 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: ntx.h,v 1.6 2002/03/19 18:30:52 dbryson Exp $
 
     Xbase project source code
 
@@ -116,8 +116,9 @@ struct xbNodeLink {        /* ndx node memory */
 /*!
 */
 
-class XBDLLEXPORT xbNtx : public xbIndex  {
- public:
+class XBDLLEXPORT xbNtx : public xbIndex
+{
+protected:
    NtxHeadNode HeadNode;
    NtxLeafNode LeafNode;
    xbLong NodeLinkCtr;
@@ -142,11 +143,11 @@ class XBDLLEXPORT xbNtx : public xbIndex  {
    xbUShort   GetItemOffset ( xbShort, xbNodeLink *, xbShort );
    xbUShort   InsertKeyOffset ( xbShort, xbNodeLink * );
    xbUShort   GetKeysPerNode( void );
-   xbShort    GetHeadNode( void );    
+   xbShort    GetHeadNode( void );
    xbShort    GetLeafNode( xbLong, xbShort );
    xbNodeLink * GetNodeMemory( void );
    xbLong    GetNextNodeNo( void );
-   void     ReleaseNodeMemory( xbNodeLink * );
+   void     ReleaseNodeMemory(xbNodeLink *n, bool doFree = false);
    xbULong     GetLeafFromInteriorNode( const char *, xbShort );
    xbShort    CalcKeyLen( void );
    xbShort    PutKeyData( xbShort, xbNodeLink * );
@@ -156,7 +157,7 @@ class XBDLLEXPORT xbNtx : public xbIndex  {
    xbShort    TouchIndex( void );
    xbShort    PutDbfNo( xbShort, xbNodeLink *, xbLong );
    xbShort    PutKeyInNode( xbNodeLink *, xbShort, xbLong, xbLong, xbShort );
-   xbShort    SplitLeafNode( xbNodeLink *, xbNodeLink *, xbShort, xbLong ); 
+   xbShort    SplitLeafNode( xbNodeLink *, xbNodeLink *, xbShort, xbLong );
    xbShort    SplitINode( xbNodeLink *, xbNodeLink *, xbLong );
    xbShort    AddToIxList( void );
    xbShort    RemoveFromIxList( void );
@@ -164,12 +165,12 @@ class XBDLLEXPORT xbNtx : public xbIndex  {
    xbShort    DeleteKeyFromNode( xbShort, xbNodeLink * );
    xbShort    JoinSiblings(xbNodeLink *, xbShort, xbNodeLink *, xbNodeLink *);
    xbUShort   DeleteKeyOffset( xbShort, xbNodeLink *);
-   xbShort    FindKey( const char *, xbShort, xbShort );      
+   xbShort    FindKey( const char *, xbShort, xbShort );
    xbShort    UpdateParentKey( xbNodeLink * );
    xbShort    GetFirstKey( xbShort );
    xbShort    GetNextKey( xbShort );
    xbShort    GetLastKey( xbLong, xbShort );
-   xbShort    GetPrevKey( xbShort ); 
+   xbShort    GetPrevKey( xbShort );
    void     UpdateDeleteList( xbNodeLink * );
    void     ProcessDeleteList( void );
 //    xbNodeLink * LeftSiblingHasSpace( xbNodeLink * );
@@ -181,19 +182,19 @@ class XBDLLEXPORT xbNtx : public xbIndex  {
 
    xbShort    CloneNodeChain( void );          /* test */
    xbShort    UncloneNodeChain( void );        /* test */
-   
 
-
-   xbNtx() : xbIndex() {}
-   xbNtx( xbDbf * );
+public:
+   xbNtx();
+   xbNtx(xbDbf *);
+   ~xbNtx();
 
 /* note to gak - don't uncomment next line - it causes seg faults */
-//   ~NTX() { if( NtxStatus ) CloseIndex(); }  
+//   ~NTX() { if( NtxStatus ) CloseIndex(); }
 
    xbShort  OpenIndex ( const char * );
    xbShort  CloseIndex( void );
    void   DumpHdrNode  ( void );
-   void   DumpNodeRec  ( xbLong ); 
+   void   DumpNodeRec  ( xbLong );
    xbShort  CreateIndex( const char *, const char *, xbShort, xbShort );
    xbLong   GetTotalNodes( void );
    xbLong   GetCurDbfRec( void ) { return CurDbfRec; }

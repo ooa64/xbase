@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.7 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: xdate.cpp,v 1.8 2002/03/19 18:30:52 dbryson Exp $
 
     Xbase project source code
 
@@ -193,46 +193,52 @@ and send it to me..
 Gary  -  gkunkelstartech.keller.tx.us
 */
 
-#ifdef XB_CASTELLANO
-  Days[0]    = new const xbString( "Domingo" );
-  Days[1]    = new const xbString( "Lunes" );
-  Days[2]    = new const xbString( "Martes" );
-  Days[3]    = new const xbString( "Miercoles" );
-  Days[4]    = new const xbString( "Jueves" );
-  Days[5]    = new const xbString( "Viernes" );
-  Days[6]    = new const xbStirng( "Sabado" );
-  Months[0]  = new const xbString( "Enero" );
-  Months[1]  = new const xbString( "Febrero" );
-  Months[2]  = new const xbString( "Marzo" );
-  Months[3]  = new const xbString( "Abril" );
-  Months[4]  = new const xbString( "Mayo" );
-  Months[5]  = new const xbString( "Junio" );
-  Months[6]  = new const xbString( "Julio" );
-  Months[7]  = new const xbString( "Agosto" );
-  Months[8]  = new const xbString( "Septiembre" );
-  Months[9]  = new const xbString( "Octubre" );
-  Months[10] = new const xbString( "Noviembre" );
-  Months[11] = new const xbString( "Diciembre" );
+#ifdef __MSVC__
+	#define CONSTMOD
 #else
-  Days[0]    = new const xbString( "Sunday" );
-  Days[1]    = new const xbString( "Monday" );
-  Days[2]    = new const xbString( "Tuesday" );
-  Days[3]    = new const xbString( "Wednesday" );
-  Days[4]    = new const xbString( "Thursday" );
-  Days[5]    = new const xbString( "Friday" );
-  Days[6]    = new const xbString( "Saturday" );
-  Months[0]  = new const xbString( "January" );
-  Months[1]  = new const xbString( "February" );
-  Months[2]  = new const xbString( "March" );
-  Months[3]  = new const xbString( "April" );
-  Months[4]  = new const xbString( "May" );
-  Months[5]  = new const xbString( "June" );
-  Months[6]  = new const xbString( "July" );
-  Months[7]  = new const xbString( "August" );
-  Months[8]  = new const xbString( "September" );
-  Months[9]  = new const xbString( "October" );
-  Months[10] = new const xbString( "November" );
-  Months[11] = new const xbString( "December" );
+	#define CONSTMOD const
+#endif
+
+#ifdef XB_CASTELLANO
+  Days[0]    = new CONSTMOD xbString( "Domingo" );
+  Days[1]    = new CONSTMOD xbString( "Lunes" );
+  Days[2]    = new CONSTMOD xbString( "Martes" );
+  Days[3]    = new CONSTMOD xbString( "Miercoles" );
+  Days[4]    = new CONSTMOD xbString( "Jueves" );
+  Days[5]    = new CONSTMOD xbString( "Viernes" );
+  Days[6]    = new CONSTMOD xbStirng( "Sabado" );
+  Months[0]  = new CONSTMOD xbString( "Enero" );
+  Months[1]  = new CONSTMOD xbString( "Febrero" );
+  Months[2]  = new CONSTMOD xbString( "Marzo" );
+  Months[3]  = new CONSTMOD xbString( "Abril" );
+  Months[4]  = new CONSTMOD xbString( "Mayo" );
+  Months[5]  = new CONSTMOD xbString( "Junio" );
+  Months[6]  = new CONSTMOD xbString( "Julio" );
+  Months[7]  = new CONSTMOD xbString( "Agosto" );
+  Months[8]  = new CONSTMOD xbString( "Septiembre" );
+  Months[9]  = new CONSTMOD xbString( "Octubre" );
+  Months[10] = new CONSTMOD xbString( "Noviembre" );
+  Months[11] = new CONSTMOD xbString( "Diciembre" );
+#else
+  Days[0]    = new CONSTMOD xbString( "Sunday" );
+  Days[1]    = new CONSTMOD xbString( "Monday" );
+  Days[2]    = new CONSTMOD xbString( "Tuesday" );
+  Days[3]    = new CONSTMOD xbString( "Wednesday" );
+  Days[4]    = new CONSTMOD xbString( "Thursday" );
+  Days[5]    = new CONSTMOD xbString( "Friday" );
+  Days[6]    = new CONSTMOD xbString( "Saturday" );
+  Months[0]  = new CONSTMOD xbString( "January" );
+  Months[1]  = new CONSTMOD xbString( "February" );
+  Months[2]  = new CONSTMOD xbString( "March" );
+  Months[3]  = new CONSTMOD xbString( "April" );
+  Months[4]  = new CONSTMOD xbString( "May" );
+  Months[5]  = new CONSTMOD xbString( "June" );
+  Months[6]  = new CONSTMOD xbString( "July" );
+  Months[7]  = new CONSTMOD xbString( "August" );
+  Months[8]  = new CONSTMOD xbString( "September" );
+  Months[9]  = new CONSTMOD xbString( "October" );
+  Months[10] = new CONSTMOD xbString( "November" );
+  Months[11] = new CONSTMOD xbString( "December" );
 #endif
  }
 }

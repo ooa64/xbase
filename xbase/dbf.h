@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.9 2001/08/02 16:12:47 dyp Exp $
+/*  $Id: dbf.h,v 1.10 2002/03/19 18:30:52 dbryson Exp $
 
     Xbase project source code
 
@@ -201,6 +201,8 @@ class XBDLLEXPORT xbDbf {
 
 public:
    xbDbf( xbXBase * );
+   ~xbDbf();
+
    xbXBase  *xbase;               /* linkage to main base class */
 //   char EofChar[10];
 

@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.6 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.7 2002/03/19 18:30:52 dbryson Exp $
 
     Xbase project source code
 
@@ -179,21 +179,36 @@ void xbNtx::DumpNodeChain( void )
 /* This routine returns a chain of one or more index nodes back to the */
 /* free node chain                                                     */
 
-void xbNtx::ReleaseNodeMemory( xbNodeLink * n )
+void xbNtx::ReleaseNodeMemory( xbNodeLink * n, bool doFree )
 {
-   xbNodeLink * temp;
+  xbNodeLink
+    *temp;
 
-   if( !FreeNodeChain )
+  if(doFree)
+  {
+    while(n)
+    {
+      temp = n->NextNode;
+      if(n->offsets)
+        free(n->offsets);
+      free(n);
+      n = temp;
+    }
+  }
+  else
+  {
+    if(!FreeNodeChain )
       FreeNodeChain = n;
-   else    /* put this list at the end */
-   {
+    else    /* put this list at the end */
+    {
       temp = FreeNodeChain;
       while( temp->NextNode )
-         temp = temp->NextNode;
+        temp = temp->NextNode;
       temp->NextNode = n;
-   }
-   return;
+    }
+  }
 }
+
 /***********************************************************************/
 //! Short description.
 /*!
@@ -210,7 +225,7 @@ xbNodeLink * xbNtx::GetNodeMemory( void )
       temp->offsets = FreeNodeChain->offsets;
       FreeNodeChain = temp->NextNode;
       ReusedNodeLinks++;
-      
+
       memset( temp->Leaf.KeyRecs, 0x00, XB_NTX_NODE_SIZE );
       temp->Leaf.NoOfKeysThisNode = 0;
 
@@ -223,9 +238,6 @@ xbNodeLink * xbNtx::GetNodeMemory( void )
       {
           temp->offsets[i] = 2 + ((HeadNode.KeysPerNode + 1) * 2) + (HeadNode.KeySize * i);
       }
-      
-      
-      
    }
    else
    {
@@ -263,15 +275,24 @@ void xbNtx::DumpHdrNode( void )
     cout << "\n";
 }
 #endif
+
 /***********************************************************************/
-//! Short description.
+//! Constructor
+/*!
+*/
+xbNtx::xbNtx() : xbIndex()
+{
+}
+
+/***********************************************************************/
+//! Constructor
 /*!
   \param pdbf
 */
 xbNtx::xbNtx( xbDbf * pdbf )  : xbIndex (pdbf)
 {
    memset( Node, 0x00, XB_NTX_NODE_SIZE );
-   memset( &HeadNode, 0x00, sizeof( NtxHeadNode )); 
+   memset( &HeadNode, 0x00, sizeof( NtxHeadNode ));
    NodeChain       = NULL;
    CloneChain      = NULL;
    FreeNodeChain   = NULL;
@@ -282,15 +303,24 @@ xbNtx::xbNtx( xbDbf * pdbf )  : xbIndex (pdbf)
 }
 
 /***********************************************************************/
+//! Destructor
+/*!
+*/
+xbNtx::~xbNtx()
+{
+  CloseIndex();
+}
+
+/***********************************************************************/
 //! Short description.
 /*!
 */
 xbShort
 xbNtx::AllocKeyBufs(void)
 {
-   KeyBuf  = (char *) malloc( HeadNode.KeyLen + 1 ); 
-   if(KeyBuf==NULL) { 
-      return XB_NO_MEMORY;    
+   KeyBuf  = (char *) malloc( HeadNode.KeyLen + 1 );
+   if(KeyBuf==NULL) {
+      return XB_NO_MEMORY;
    };
    KeyBuf2 = (char *) malloc( HeadNode.KeyLen + 1);
    if(KeyBuf2==NULL) {
@@ -385,7 +415,7 @@ xbShort xbNtx::OpenIndex( const char * FileName )
    if( dbf->GetAutoLock() )
       LockIndex(F_SETLKW, F_UNLCK);
 #endif
-   return dbf->AddIndexToIxList( index, IndexName );  
+   return dbf->AddIndexToIxList( index, IndexName );
 }
 /***********************************************************************/
 //! Short description.
@@ -393,13 +423,31 @@ xbShort xbNtx::OpenIndex( const char * FileName )
 */
 xbShort xbNtx::CloseIndex( void )
 {
-   if( KeyBuf )    { free ( KeyBuf );    KeyBuf = NULL;    }
-   if( KeyBuf2 )   { free ( KeyBuf2 );   KeyBuf2 = NULL;   }
-   dbf->RemoveIndexFromIxList( index );
+  if(KeyBuf)
+  {
+    free(KeyBuf);
+    KeyBuf = NULL;
+  }
+  if(KeyBuf2)
+  {
+    free(KeyBuf2);
+    KeyBuf2 = NULL;
+  }
 
-   fclose( indexfp );
-   IndexStatus = 0;
-   return 0;
+  dbf->RemoveIndexFromIxList( index );  // why not 'this'?
+
+  ReleaseNodeMemory(NodeChain, true);
+  NodeChain = 0;
+  ReleaseNodeMemory(CloneChain, true);
+  CloneChain = 0;
+  ReleaseNodeMemory(FreeNodeChain, true);
+  FreeNodeChain = 0;
+  ReleaseNodeMemory(DeleteChain, true);
+  DeleteChain = 0;
+
+  fclose( indexfp );
+  IndexStatus = 0;
+  return 0;
 }
 /***********************************************************************/
 //! Short description.
@@ -2260,12 +2308,12 @@ xbShort xbNtx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
    if( KeyBufSw )
    {
        memset( KeyBuf2, 0x00, HeadNode.KeyLen + 1 );
-       memcpy( KeyBuf2, TempNode->StringResult, TempNode->DataLen );
+       memcpy( KeyBuf2, TempNode->StringResult, min(HeadNode.KeyLen + 1, TempNode->DataLen) );
    }
    else
    {
        memset( KeyBuf, 0x00, HeadNode.KeyLen + 1 );
-       memcpy( KeyBuf, TempNode->StringResult, TempNode->DataLen );
+       memcpy( KeyBuf, TempNode->StringResult, min(HeadNode.KeyLen + 1, TempNode->DataLen) );
    }
 //   if( !TempNode->InTree ) dbf->xbase->FreeExpNode( TempNode );
    if( !TempNode->InTree ) delete TempNode;
@@ -2276,7 +2324,7 @@ xbShort xbNtx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
 /*!
   \param key
 */
-xbShort  
+xbShort
 xbNtx::GetCurrentKey(char *key)
 {
   CreateKey(0, 0);

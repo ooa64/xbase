@@ -71,6 +71,6 @@ testhtml.exe : testhtml.o
 	$(CXX) -o $@ $(CXXFLAGS) testhtml.o $(LDFLAGS) $(LIBS)
 
 clean :
-	-rm *.o *.exe
+	-del *.o *.exe
 
 

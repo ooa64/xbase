@@ -74,6 +74,6 @@ exfilter.exe : exfilter.o
 	$(CXX) -o $@ $(CXXFLAGS) exfilter.o $(LDFLAGS) $(LIBS)
 
 clean :
-	-rm *.o *.exe
+	-del *.o *.exe
 
 
