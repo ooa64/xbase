@@ -1,4 +1,4 @@
-/*  $Id: fields.cpp,v 1.10 2003/08/20 01:53:27 gkunkel Exp $
+/*  $Id: fields.cpp,v 1.11 2003/08/22 14:27:22 gkunkel Exp $
 
     Xbase project source code
 
@@ -121,11 +121,12 @@ xbShort xbDbf::GetFieldLen( const xbShort FieldNo )
 /************************************************************************/
 /* This function returns a fields decimal length */
 //! Returns the number of decimals in the specified field.
-/*! Returns the number decimals in the field specified by FieldNo.
-  
+/*! Returns the number of decimals in the field specified by FieldNo.
+
     \param FieldNo Number of field.
-    \returns Number of decimals in the specified field.
+    \returns Length of the specified field in bytes.
 */
+
 xbShort xbDbf::GetFieldDecimal( const xbShort FieldNo )
 {
    if( FieldNo >= 0 && FieldNo < NoOfFields )

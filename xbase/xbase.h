@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.34 2003/08/20 22:53:03 gkunkel Exp $
+/*  $Id: xbase.h,v 1.35 2003/08/22 14:27:22 gkunkel Exp $
 
     Xbase project source code
 
@@ -59,8 +59,8 @@
 //
 //  Identify ourselves
 //
-#define XDB_VERSION        "2.1.1"
-#define XBASE_VERSION        "2.1.1"
+#define XDB_VERSION        "2.1.2"
+#define XBASE_VERSION        "2.1.2"
 
 #include <string.h>
 

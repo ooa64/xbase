@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.12 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: xbase.cpp,v 1.13 2003/08/22 14:27:22 gkunkel Exp $
 
     Xbase project source code
 
@@ -439,7 +439,7 @@ void xbXBase::PutShort( char * c, const xbShort s )
   by c.
   
   \param c pointer to memory to hold converted value
-  \param s value to be converted
+  \param l value to be converted
 */
 /* This routine puts a long value to a 4 byte character stream */
 void xbXBase::PutLong( char * c, const xbLong l )
@@ -495,7 +495,7 @@ void xbXBase::PutUShort( char * c, const xbUShort s )
   by c.
   
   \param c pointer to memory to hold converted value
-  \param s value to be converted
+  \param l value to be converted
 */
 /* This routine puts a long value to a 4 byte character stream */
 void xbXBase::PutULong( char * c, const xbULong l )
@@ -523,7 +523,7 @@ void xbXBase::PutULong( char * c, const xbULong l )
   by c.
   
   \param c pointer to memory to hold converted value
-  \param s value to be converted
+  \param d value to be converted
 */
 /* This routine puts a double value to an 8 byte character stream */
 void xbXBase::PutDouble( char * c, const xbDouble d )

@@ -1,4 +1,4 @@
-/*  $Id: xdate.h,v 1.9 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: xdate.h,v 1.10 2003/08/22 14:27:22 gkunkel Exp $
 
     Xbase project source code
 
@@ -43,7 +43,7 @@
 
 */
 
-/*! \file xbdate.h
+/*! \file xdate.h
 */
 
 #ifndef __XB_XDATE_H__

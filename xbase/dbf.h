@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.15 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: dbf.h,v 1.16 2003/08/22 14:27:22 gkunkel Exp $
 
     Xbase project source code
 
@@ -473,7 +473,7 @@ protected:
    void    InitVars( void );
    xbShort   PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems) = 0);
    xbShort   ReadHeader( xbShort );
-   xbShort   WriteHeader( const xbShort );
+   xbShort   WriteHeader( xbShort );
 
 #ifdef XB_MEMO_FIELDS
    xbShort   AddMemoData( const xbShort FieldNo, const xbLong Len, const char * Buf );

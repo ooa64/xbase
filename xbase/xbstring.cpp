@@ -320,9 +320,7 @@ xbString &xbString::sprintf(const char *format, ...) {
 #  if HAVE_VSPRINTF
   vsprintf(data, format, ap);
 #  else
-#    if
 #      error "You have neither vsprintf nor vsnprintf!!!"
-#    endif
 #  endif
 #endif
 
@@ -711,7 +709,6 @@ xbString& xbString::assign(const xbString& str, size_t pos, int n)
 //! Short description.
 /*!
   \param str
-  \param pos
   \param n
 */
 xbString& xbString::assign(char* str, int n)
@@ -920,7 +917,6 @@ void xbString::zapLeadingChar( char c )
 
 //! Short description.
 /*!
-  \param c
 */
 bool xbString::hasAlphaChars() const
 {

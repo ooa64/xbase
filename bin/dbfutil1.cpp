@@ -1,4 +1,4 @@
-/*  $Id: dbfutil1.cpp,v 1.8 2003/08/16 19:59:38 gkunkel Exp $
+/*  $Id: dbfutil1.cpp,v 1.9 2003/08/22 14:27:21 gkunkel Exp $
 
     dbf utility program
 
@@ -76,7 +76,8 @@ class MyClass {
     void RecordMenu();
     void FieldMenu();
     void IndexMenu();
-    void DebugMenu();
+    void LockingMenu();
+    void DebugMenu();    
     
     void OpenIndex();
     void CloseIndex();
@@ -87,6 +88,11 @@ class MyClass {
     void GetPrevKey();
     void Reindex();
     void DumpIndexNodes();
+    
+    void LockDbf();
+    void UnlockDbf();
+    void LockRecord();
+    void UnlockRecord();
 };
 /************************************************************************/
 #ifdef XBASE_DEBUG
@@ -104,7 +110,7 @@ void MyClass::DumpIndexNodes()
 /************************************************************************/
 void MyClass::OpenIndex()
 {
-  int rc = 0;
+  int rc;
   char Filename[51];
   std::cout << "Enter index name: ";
   std::cin >> Filename;
@@ -142,10 +148,6 @@ void MyClass::GetNextKey()
   std::cout << "Return code " << ix->GetNextKey() << std::endl;
 }
 /************************************************************************/
-void MyClass::GetPrevKey()
-{
-  std::cout << "Return code " << ix->GetPrevKey() << std::endl;
-}
 /************************************************************************/
 void MyClass::GetFirstKey()
 {
@@ -165,12 +167,43 @@ void MyClass::CloseIndex()
 /* stats */
 void MyClass::FileStats()
 {
-  std::cout << "Number of records   = " << d.NoOfRecords()       << std::endl;
-  std::cout << "Number of fields    = " << d.FieldCount()        << std::endl;
-  std::cout << "Database Status     = " << d.GetDbfStatus()      << std::endl;
+  std::cout << "Database name       = " << d.GetDbfName()          << std::endl;
+  std::cout << "Number of records   = " << d.NoOfRecords()         << std::endl;
+  std::cout << "Physical no of recs = " << d.PhysicalNoOfRecords() << std::endl;
+
+  std::cout << "Number of fields    = " << d.FieldCount()          << std::endl;
+  std::cout << "Database Status     = " << d.GetDbfStatus();
+  switch( d.GetDbfStatus() ){
+    case 0:
+      std::cout << "  XB_CLOSED" << std::endl;
+      break;
+    case 1:
+      std::cout << "  XB_OPEN" << std::endl;
+      break;
+    case 2:
+      std::cout << "  XB_UPDATED" << std::endl;
+      break;
+    default:
+      std::cout << std::endl;
+      break;
+  }    
   std::cout << "Record Length       = " << d.GetRecordLen()      << std::endl;
-  std::cout << "Memo Fields Present = " << d.MemoFieldsPresent() << std::endl;
-  std::cout << "Current Record No   = " << d.GetCurRecNo()       << std::endl;
+  std::cout << "Memo Fields Present = " << d.MemoFieldsPresent();
+  switch( d.MemoFieldsPresent() ){
+    case 0:
+      std::cout << "  No " << std::endl;
+      break;
+    case 1:
+      std::cout << "  Yes" << std::endl;
+      break;
+    default:
+      std::cout << std::endl;
+      break;
+  }
+  std::cout << "Current Record No   = " << d.GetCurRecNo()  << std::endl;
+  std::cout << "Autolock status     = " << d.GetAutoLock()  << std::endl;
+  std::cout << "Real Delete status  = " << d.GetRealDelete()<< std::endl;
+  std::cout << "Index Count         = " << d.IndexCount()   << std::endl;
 }  
 /************************************************************************/
 /* open database */
@@ -409,7 +442,7 @@ void MyClass::DeleteMemoField()
 #ifdef XBASE_DEBUG
 void MyClass::DumpDbtHeader()
 {
-  int rc = 0;
+  int rc;
 
 #ifdef XB_MEMO_FIELDS
 #ifdef XBASE_DEBUG
@@ -423,7 +456,7 @@ void MyClass::DumpDbtHeader()
 */
 
   rc = d.DumpMemoFreeChain();
-  std::cout << "\nFuncion Return Code = " << rc << std::endl;
+  std::cout << "\nFunction Return Code = " << rc << std::endl;
 #else
   std::cout << "\nXBASE_DEBUG is not compiled in\n";
 #endif
@@ -525,6 +558,55 @@ void MyClass::DebugMenu()
   }
 }
 #endif   //  XBASE_DEBUG
+
+/************************************************************************/
+
+void MyClass::GetPrevKey()
+{
+  std::cout << "Return code " << ix->GetPrevKey() << std::endl;
+}
+
+/************************************************************************/
+#ifdef XB_LOCKING_ON
+
+void MyClass::LockDbf()
+{
+  std::cout << "Locking database" << std::endl;
+  std::cout << "Return code " << d.LockDatabase( F_SETLKW, F_WRLCK, 0L ) << std::endl;
+}
+
+#endif
+/************************************************************************/
+#ifdef XB_LOCKING_ON
+
+void MyClass::UnlockDbf()
+{
+  std::cout << "LockDbf" << std::endl;
+  std::cout << "Unlocking database" << std::endl;
+  std::cout << "Return code " << d.LockDatabase( F_SETLKW, F_UNLCK, 0L ) << std::endl;
+}
+
+#endif
+/************************************************************************/
+#ifdef XB_LOCKING_ON
+
+void MyClass::LockRecord()
+{
+  std::cout << "LockDbf" << std::endl;
+//  std::cout << "Return code " << ix->GetPrevKey() << std::endl;
+}
+
+#endif
+/************************************************************************/
+#ifdef XB_LOCKING_ON
+
+void MyClass::UnlockRecord()
+{
+  std::cout << "LockDbf" << std::endl;
+//  std::cout << "Return code " << ix->GetPrevKey() << std::endl;
+}
+
+#endif
 /************************************************************************/
 void MyClass::PutRecord()
 {
@@ -605,6 +687,32 @@ void MyClass::FileMenu()
  }
 }
 /************************************************************************/
+#ifdef XB_LOCKING_ON
+void MyClass::LockingMenu()
+{
+  int option = 0;
+
+  while( option != 99 ) {
+   std::cout << std::endl << std::endl << "File Menu" << std::endl;
+   std::cout << "1  - Lock DBF File" << std::endl;
+   std::cout << "2  - Unlock DBF File" << std::endl;
+   std::cout << "3  - Lock DBF Record" << std::endl;
+   std::cout << "4  - Unlock DBF Record" << std::endl; 
+   std::cout << "99 - Exit Menu" << std::endl;
+   std::cin  >> option;
+
+   switch( option ){
+    case 1:  LockDbf();  break;
+    case 2:  UnlockDbf(); break;
+    case 3:  LockRecord(); break;
+    case 4:  UnlockRecord(); break;
+    case 99: break;
+    default: std::cout << "Invalid Option" << std::endl;
+   }
+ }
+}
+#endif
+/************************************************************************/
 void MyClass::MainMenu()
 {
   int option = 0;
@@ -615,18 +723,24 @@ void MyClass::MainMenu()
    std::cout << "2  - Record Menu" << std::endl; 
    std::cout << "3  - Field Menu" << std::endl;
    std::cout << "4  - Index Menu" << std::endl;
+#ifdef XB_LOCKING_ON
+   std::cout << "5  - Locking Menu" << std::endl;
+#endif
 #ifdef XBASE_DEBUG
-   std::cout << "5  - Debug Menu" << std::endl;
+   std::cout << "6  - Debug Menu" << std::endl;
 #endif
    std::cout << "99 - Exit" << std::endl;
    std::cin >> option;
    switch( option ){
-     case 1:  FileMenu();   break;
-     case 2:  RecordMenu(); break;
-     case 3:  FieldMenu();  break;
-     case 4:  IndexMenu();  break;
+     case 1:  FileMenu();     break;
+     case 2:  RecordMenu();   break;
+     case 3:  FieldMenu();    break;
+     case 4:  IndexMenu();    break;
+#ifdef XB_LOCKING_ON
+     case 5:  LockingMenu();  break;
+#endif
 #ifdef XBASE_DEBUG
-     case 5:  DebugMenu();  break;
+     case 6:  DebugMenu();  break;
 #endif
      case 99: std::cout << "Bye!! - Thanks for using XBase"
                         << std::endl; break;

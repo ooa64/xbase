@@ -1,4 +1,4 @@
-# $Id: configure.in,v 1.19 2003/08/20 22:53:02 gkunkel Exp $
+# $Id: configure.in,v 1.20 2003/08/22 14:27:20 gkunkel Exp $
 # Created by Denis Pershin <dyp@inetlab.com>
 #
 # 8/10/03  Recreated by Gary Kunkel <gkunkel@zhsac.com> 
@@ -10,7 +10,7 @@
 
 
 
-AC_INIT(xbase,2.1.1,xdb-devel@lists.sourceforge.net) 
+AC_INIT(xbase,2.1.2,xdb-devel@lists.sourceforge.net) 
 
 
 # set variable XSUBVARS with a list of sub directories to process
@@ -52,7 +52,7 @@ AC_CONFIG_SRCDIR( examples/exfilter.cpp,
 		 )
 		  
 # init automake
-AM_INIT_AUTOMAKE(xbase, 2.1.1)
+AM_INIT_AUTOMAKE(xbase, 2.1.2)
 
 # create this header file
 AM_CONFIG_HEADER(xbase/xbconfig.h)
@@ -184,7 +184,7 @@ AC_ARG_WITH(xbase-debug,
     [  --without-xbase-debug   turn off XBase specific debug ], 
     enable_xbase_debug="$withval", enable_xbase_debug="yes")
 if test "$enable_xbase_debug" = "yes"; then
-  AC_DEFINE(XB_DEBUG, 1, XB_DEBUG)
+  AC_DEFINE(XBASE_DEBUG, 1, XB_DEBUG)
 fi
 
 # compile in support for exception error processing

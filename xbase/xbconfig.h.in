@@ -71,13 +71,13 @@
 /* Version number of package */
 #undef VERSION
 
+/* XB_DEBUG */
+#undef XBASE_DEBUG
+
 /* XB_CASTELLANO */
 #undef XB_CASTELLANO
 
 #define XB_DBT_BLOCK_SIZE 512
-
-/* XB_DEBUG */
-#undef XB_DEBUG
 
 /* XB_EXPRESSIONS */
 #undef XB_EXPRESSIONS

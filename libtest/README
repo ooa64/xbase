@@ -6,4 +6,4 @@ after enhancements/updates or fixes have been applied to the library.
 
 indextst - used for testing indices
 exptest  - used for testing the expression logic
-locktest - used for the debugging og the record and file locking logic
+locktest - used for the debugging of the record and file locking logic

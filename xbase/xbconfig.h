@@ -56,13 +56,13 @@
 #define PACKAGE_NAME "xbase"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "xbase 2.1.1"
+#define PACKAGE_STRING "xbase 2.1.2"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "xbase"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "2.1.1"
+#define PACKAGE_VERSION "2.1.2"
 
 #define PATH_SEPARATOR '/'
 
@@ -70,15 +70,15 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "2.1.1"
+#define VERSION "2.1.2"
+
+/* XB_DEBUG */
+#define XBASE_DEBUG 1
 
 /* XB_CASTELLANO */
 /* #undef XB_CASTELLANO */
 
 #define XB_DBT_BLOCK_SIZE 512
-
-/* XB_DEBUG */
-#define XB_DEBUG 1
 
 /* XB_EXPRESSIONS */
 #define XB_EXPRESSIONS 1

@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.25 2003/08/20 01:53:27 gkunkel Exp $
+/*  $Id: dbf.cpp,v 1.26 2003/08/22 14:27:22 gkunkel Exp $
 
     Xbase project source code
    
@@ -86,7 +86,6 @@ xbDbf::xbDbf( xbXBase * x )
 /************************************************************************/
 //! Destructor
 /*!
-  \param x pointer to the global xbXbase class
 */
 xbDbf::~xbDbf()
 {
@@ -211,7 +210,7 @@ xbShort xbDbf::SetVersion(xbShort v) {
   \param PositionOption flag that indicates whether file postition should
   be moved.  non-zero if so, zero if not.
 */
-xbShort xbDbf::WriteHeader( const xbShort PositionOption )
+xbShort xbDbf::WriteHeader( xbShort PositionOption )
 {
 #if 0
    char buf[4];
