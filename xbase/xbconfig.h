@@ -31,7 +31,7 @@
 #define HAVE_FUNC_SETENV 1
 
 /* Define if you need the GNU extensions to compile */
-/* #undef _GNU_SOURCE */
+#define _GNU_SOURCE 1
 
 /* Define if you need to have .ndx indexes */
 #define XB_INDEX_NDX 1
@@ -70,7 +70,7 @@
 #define HAVE_FCNTL 1
 
 /* Define if you have the flock function.  */
-/* #undef HAVE_FLOCK */
+#define HAVE_FLOCK 1
 
 /* Define if you have the getdomainname function.  */
 #define HAVE_GETDOMAINNAME 1
@@ -106,7 +106,7 @@
 /* #undef HAVE_G___EXCEPTION_H */
 
 /* Define if you have the <io.h> header file.  */
-#define HAVE_IO_H 1
+/* #undef HAVE_IO_H */
 
 /* Define if you have the <ndir.h> header file.  */
 /* #undef HAVE_NDIR_H */

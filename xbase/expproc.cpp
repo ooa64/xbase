@@ -1,4 +1,4 @@
-/*  $Id: expproc.cpp,v 1.7 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: expproc.cpp,v 1.8 2003/01/19 07:00:10 dbryson Exp $
 
     Xbase project source code
 
@@ -487,7 +487,7 @@ xbShort xbExpn::AlphaOperation( char * Operator )
      WorkNode->StringResult += Op1;
    }
    else if( Operator[0] == '-' ) {
-      WorkNode->StringResult = LTRIM( Op2 );
+      WorkNode->StringResult = RTRIM( Op2 );
       WorkNode->StringResult += Op1;
       i = WorkNode->StringResult.len();
       for( ; i < ResultLen-1; i++)
