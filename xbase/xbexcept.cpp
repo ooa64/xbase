@@ -1,4 +1,4 @@
-/*  $Id: xbexcept.cpp,v 1.4 2000/08/11 19:34:32 dbryson Exp $
+/*  $Id: xbexcept.cpp,v 1.1 2000/09/20 19:45:31 dbryson Exp $
 
     Xbase project source code
 

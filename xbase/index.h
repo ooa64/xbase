@@ -1,4 +1,4 @@
-/*  $Id: index.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: index.h,v 1.1 2000/09/20 19:45:30 dbryson Exp $
 
     Xbase project source code
 

@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.6 2000/08/11 20:20:36 dbryson Exp $
+/*  $Id: dbf.h,v 1.1 2000/09/20 19:45:30 dbryson Exp $
 
     Xbase project source code
 
@@ -358,10 +358,10 @@ public:
 	 You cannot "turn on" real deletes once a database has been created
 	 and records added.
    */
-   void      RealDeleteOn(void) { RealDelete = 1; ReadHeader(1); }
+   void      RealDeleteOn(void) { RealDelete = 1; if(fp) ReadHeader(1); }
    /*! Turn off "real" deletes
    */
-   void      RealDeleteOff(void) { RealDelete = 0; ReadHeader(1); }
+   void      RealDeleteOff(void) { RealDelete = 0; if(fp) ReadHeader(1); }
    //! Return whether "real" deletes are on or off
    /*!
      Use this to determine if "real deletes" are being used with

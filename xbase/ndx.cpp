@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.7 2000/08/11 19:34:32 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.1 2000/09/20 19:45:30 dbryson Exp $
 
     Xbase project source code
 

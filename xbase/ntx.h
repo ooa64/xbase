@@ -1,4 +1,4 @@
-/*  $Id: ntx.h,v 1.4 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: ntx.h,v 1.1 2000/09/20 19:45:31 dbryson Exp $
 
     Xbase project source code
 

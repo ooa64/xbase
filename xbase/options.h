@@ -1,4 +1,4 @@
-/*  $Id: options.h,v 1.1 2000/06/01 06:05:58 dbryson Exp $
+/*  $Id: options.h,v 1.1 2000/09/20 19:45:31 dbryson Exp $
     
     Xbase project source code
 

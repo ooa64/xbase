@@ -1,4 +1,4 @@
-/*  $Id: xbcf_b32.h,v 1.1 2000/06/06 21:36:45 dbryson Exp $
+/*  $Id: xbcf_b32.h,v 1.1 2000/09/20 19:45:31 dbryson Exp $
 
     Xbase project source code
 

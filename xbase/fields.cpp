@@ -1,4 +1,4 @@
-/*  $Id: fields.cpp,v 1.4 2000/08/11 20:20:36 dbryson Exp $
+/*  $Id: fields.cpp,v 1.1 2000/09/20 19:45:30 dbryson Exp $
 
     Xbase project source code
 
