@@ -1,8 +1,8 @@
-# $Id: xbase.spec.in,v 1.9 2003/02/08 01:48:14 dbryson Exp $
-%define xbase_ver @RHREL@_@GXXVER@_@VERSION@
+# $Id: xbase.spec.in,v 1.10 2003/02/08 03:02:22 dbryson Exp $
+%define xbase_ver @VERSION@
 
 Summary: Xbase dBase database file library
-Name: xbase
+Name: xbase-@RHREL@-@GXXVER@
 Provides: xbase-@RELEASE@
 Version: %{xbase_ver}
 Release: 1
@@ -15,14 +15,14 @@ Vendor: Xbase Development Team (linux.techass.com/projects/xdb)
 %description
 Library for accessing dBase .dbf, .ndx, .dbt, and Clipper .ntx files.
 
-%package -n xbase-devel
+%package -n xbase-devel-@RHREL@-@GXXVER@
 Version: %{xbase_ver}
 Summary: Xbase development package
 Group: Development/Libraries
 Provides: xbase-devel-@RELEASE@
 Requires: xbase-@RELEASE@
 
-%description -n xbase-devel
+%description -n xbase-devel-@RHREL@-@GXXVER@
 Headers and such for compiling programs that use the Xbase library.
 
 %prep
@@ -42,7 +42,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %postun
 /sbin/ldconfig
 
-%files -n xbase
+%files -n xbase-@RHREL@-@GXXVER@
 /usr/bin/checkndx
 /usr/bin/copydbf
 /usr/bin/deletall
@@ -58,7 +58,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 %doc NEWS README TODO AUTHORS COPYING ChangeLog
 
-%files -n xbase-devel
+%files -n xbase-devel-@RHREL@-@GXXVER@
 /usr/include/xbase
 /usr/bin/xbase-config
 /usr/lib/libxbase.la
