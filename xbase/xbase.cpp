@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.4 2000/09/27 19:19:07 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.5 2000/09/27 19:23:36 dbryson Exp $
 
     Xbase project source code
 
@@ -524,6 +524,7 @@ xbShort xbXBase::DirectoryExistsInName( const char * Name )
 */
 void xbXBase::DisplayError( const xbShort ErrorNo ) const
 {
+#if 0 // replaced following code to remove duplicate strings (9/27/2000 DTB)
   switch( ErrorNo ) {
     case    0: cout << "No Error" << endl;                     break;
     case -100: cout << "End Of File" << endl;                  break;
@@ -574,6 +575,9 @@ void xbXBase::DisplayError( const xbShort ErrorNo ) const
     case -145: cout << "Invalid Date" << endl;                 break;
     default:   cout << "Unknown error code" << endl;           break;
   }
+#else
+  cout << GetErrorMessage(ErrorNo) << endl;
+#endif
 }
 
 /************************************************************************/
