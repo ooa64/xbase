@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.15 2002/08/14 23:20:58 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.16 2002/08/22 00:38:12 dbryson Exp $
 
     Xbase project source code
    
@@ -2125,7 +2125,7 @@ xbShort xbDbf::RecordDeleted( void )
       return 1;
    else
       return 0;
-} 
+}
 /************************************************************************/
 //! Pack data file
 /*!
@@ -2167,7 +2167,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
    /* copy file header */
    if(( rc = fseek( fp, 0, SEEK_SET )) != 0 )
       xb_io_error(XB_SEEK_ERROR, TempDbfName);
-  
+
    for( i = 0; i < HeaderLen; i++ )
       fputc( fgetc( fp ), t );
    fputc( 0x1a, t );
@@ -2188,7 +2188,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
       l = 1L;
       memset( tbuf, 0x00, 4 );
       xbase->PutLong( tbuf, l );
-      
+
       if ((fwrite(&tbuf, 4, 1, t)) != 1)
          xb_io_error(XB_WRITE_ERROR, TempDbfName);
 
@@ -2209,7 +2209,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
 
          for( i = 22; i < MemoHeader.BlockSize; i++ ) fputc( 0x00, t );
       }
- 
+
       if( fclose( t ) != 0 )
             xb_io_error(XB_CLOSE_ERROR, TempDbfName);
    }
@@ -2228,7 +2228,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
    {
       if(statusFunc && (l == 1 || !(l % 100) || l == PhysicalNoOfRecords()))
          statusFunc(l, PhysicalNoOfRecords());
-         
+
       if(( rc = GetRecord( l )) != XB_NO_ERROR )
         return rc;
 
@@ -2236,9 +2236,16 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
       {
          strncpy( target, source, GetRecordLen());
 
+         if(( rc = Temp.AppendRecord()) != XB_NO_ERROR )
+         {
+           if(Buf) free(Buf);
+           return rc;
+         }
+
 #ifdef XB_MEMO_FIELDS
          len = BufSize = 0L;
          Buf = NULL;
+
          for( i = 0; i < NoOfFields; i++ )
          {
             if( GetFieldType( i ) == 'M' && MemoFieldExists( i ))
@@ -2246,7 +2253,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
                len = GetMemoFieldLen( i );
                if( len > BufSize )
                {
-                  if( BufSize ) 
+                  if( BufSize )
                      free( Buf );
                   if ((Buf = (char *)malloc(len)) == NULL)
                               xb_memory_error;
@@ -2258,16 +2265,11 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
          }
 #endif
 
-         if(( rc = Temp.AppendRecord()) != XB_NO_ERROR )
-    {
-       if(Buf) free(Buf);
-       return rc;
-         }
       }
    }
    if( Buf ) free( Buf );
    Temp.CloseDatabase();
- 
+
    if (fclose(fp) != 0)
          xb_io_error(XB_CLOSE_ERROR, DatabaseName);
 
@@ -2284,7 +2286,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
  //     len = DatabaseName.len();
  //     len--;
  //     lb = DatabaseName[len];
-      
+
       int len = DatabaseName.len() - 1;
       char lb = DatabaseName[len];
 
@@ -2292,10 +2294,10 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
          DatabaseName.putAt(len, 'T');
       else
          DatabaseName.putAt(len, 't');
-   
+
       if(fclose(mfp) != 0)       /* thanks Jourquin */
          xb_io_error(XB_CLOSE_ERROR, TempDbtName);
-   
+
       if (remove(DatabaseName) != 0)
       {
          DatabaseName.putAt(len, lb);
