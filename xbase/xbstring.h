@@ -74,9 +74,6 @@ public:
 
   ~xbString();
 
-  void ctor(const char *s);
-  void ctor(const char *s, size_t maxlen);
-
   xbString &operator=(const xbString &s);
   xbString &operator=(const char *s);
   xbString &operator=(char c);
@@ -123,6 +120,9 @@ public:
   xbString mid(size_t pos = 0, int n = npos) const;
 
 protected:
+  void ctor(const char *s);
+  void ctor(const char *s, size_t maxlen);
+
   char *data;
   size_t size;
   static const char * NullString;

@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.6 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: exp.cpp,v 1.7 2000/11/07 23:31:49 dbryson Exp $
 
     Xbase project source code
 
@@ -707,7 +707,7 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
          }
          else if( TokenType == 'C' || TokenType == 'N' ) {
             CurNode->DataLen = CurNode->Len;
-            CurNode->StringResult.ctor( CurNode->NodeText );
+            CurNode->StringResult = CurNode->NodeText;
             CurNode->StringResult.resize( CurNode->DataLen+1 );
             if( TokenType == 'N' ) { 
                CurNode->DoubResult = strtod( CurNode->StringResult, 0 );

@@ -1,4 +1,4 @@
-/*  $Id: fields.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: fields.cpp,v 1.6 2000/11/07 23:31:49 dbryson Exp $
 
     Xbase project source code
 
@@ -356,9 +356,9 @@ xbShort xbDbf::GetField(const xbShort FieldNo, xbString & sf,
      length = SchemaPtr[FieldNo].FieldLen;
 
    if( RecBufSw )
-     sf.ctor( SchemaPtr[FieldNo].Address2, length );
+     sf.assign( SchemaPtr[FieldNo].Address2, 0, length );
    else
-     sf.ctor( SchemaPtr[FieldNo].Address, length );
+     sf.assign( SchemaPtr[FieldNo].Address, 0, length );
    return( length ); 
 }
 /************************************************************************/
