@@ -25,7 +25,7 @@
     V 1.8   4/29/99  - Initial creation of this program 
 */
 
-#include "xbase.h"
+#include "xbase/xbase.h"
 
 class ExpTestor{
  public:

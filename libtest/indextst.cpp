@@ -29,7 +29,7 @@
     V 1.8   11/29/98   - Version 1.8 upgrade 
 */
 
-#include "xbase.h"
+#include <xbase/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS
