@@ -576,7 +576,7 @@ bool xbString::operator>=( const xbString &s2 ) const {
 //! Short description.
 /*!
 */
-ostream& operator << ( ostream& os, const xbString& xbs ) {
+XBDLLEXPORT ostream& operator << ( ostream& os, const xbString& xbs ) {
   return os << xbs.data;
 }
 
