@@ -1,3 +1,4 @@
+# $Header: /home/oleg/src/xdb.cvs/xdb/xbase.spec.in,v 1.6 2001/06/27 04:32:30 dbryson Exp $
 %define xbase_ver @VERSION@
 
 Summary: Xbase dBase database file library
