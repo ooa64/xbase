@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.18 2002/09/06 18:04:44 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.19 2002/09/11 02:04:48 dbryson Exp $
 
     Xbase project source code
    
@@ -2258,12 +2258,6 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
       {
          strncpy( target, source, GetRecordLen());
 
-         if(( rc = Temp.AppendRecord()) != XB_NO_ERROR )
-         {
-           if(Buf) free(Buf);
-           return rc;
-         }
-
 #ifdef XB_MEMO_FIELDS
          len = BufSize = 0L;
          Buf = NULL;
@@ -2286,7 +2280,11 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
             }
          }
 #endif
-
+         if(( rc = Temp.AppendRecord()) != XB_NO_ERROR )
+         {
+           if(Buf) free(Buf);
+           return rc;
+         }
       }
    }
    if( Buf ) free( Buf );
@@ -2334,6 +2332,11 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
       if(( mfp = fopen( DatabaseName, "r+b" )) == NULL )
         xb_open_error(DatabaseName);
 
+      if(( rc = GetDbtHeader(1)) != 0 )
+      {
+        fclose( mfp );
+        return rc;
+      }
 #ifdef XB_LOCKING_ON
         /* no buffering in multi user mode */
         setbuf( mfp, NULL );
