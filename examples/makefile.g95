@@ -53,7 +53,7 @@ LDFLAGS = -L../xbase
 LIBS = -lxbasedll -lstdc++
 #LIBS = -lxbase
 
-all : sample1.exe sample2.exe sample3.exe sample4.exe sample5.exe
+all : sample1.exe sample2.exe sample3.exe sample4.exe sample5.exe exfilter.exe
 
 sample1.exe : sample1.o
 	$(CXX) -o $@ $(CXXFLAGS) sample1.o $(LDFLAGS) $(LIBS)
@@ -69,6 +69,9 @@ sample4.exe : sample4.o
 
 sample5.exe : sample5.o
 	$(CXX) -o $@ $(CXXFLAGS) sample5.o $(LDFLAGS) $(LIBS)
+
+exfilter.exe : exfilter.o
+	$(CXX) -o $@ $(CXXFLAGS) exfilter.o $(LDFLAGS) $(LIBS)
 
 clean :
 	-rm *.o *.exe
