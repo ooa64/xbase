@@ -1,4 +1,4 @@
-/*  $Id: xdate.h,v 1.7 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: xdate.h,v 1.8 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
 
@@ -80,6 +80,7 @@ class XBDLLEXPORT xbDate {
     xbDate();
     xbDate( const char * Date8 );
     xbDate( const xbString &Date8 );
+    virtual ~xbDate();
 
     //! Short description.
     /*!

@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.10 2002/03/19 18:30:52 dbryson Exp $
+/*  $Id: exp.cpp,v 1.11 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
 
@@ -126,14 +126,14 @@ static xbFuncDtl FuncList[] =
 xbExpn::xbExpn( void )
 {
    TokenType       = 0x00;
-   Tree            = NULL;
+   Tree            = 0;
    TokenLen        = 0;
    OpLen1          = 0;
    OpLen2          = 0;
    OpDataLen1      = 0;
    OpDataLen2      = 0;
-   Op1             = NULL;
-   Op2             = NULL;
+   Op1             = 0;
+   Op2             = 0;
    XbaseFuncList   = FuncList;
    memset( WorkBuf, 0x00, WorkBufMaxLen+1 );
 }
@@ -144,6 +144,8 @@ xbExpn::xbExpn( void )
 */
 xbExpn::~xbExpn()
 {
+  delete Tree;
+
   if(Op1)
     free(Op1);
 

@@ -76,7 +76,7 @@ public:
   xbString(const char *s, size_t maxlen);
   xbString(const xbString &s);
 
-  ~xbString();
+  virtual ~xbString();
 
   xbString &operator=(const xbString &s);
   xbString &operator=(const char *s);

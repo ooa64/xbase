@@ -1,4 +1,4 @@
-/*  $Id: ndx.h,v 1.7 2002/03/19 18:30:52 dbryson Exp $
+/*  $Id: ndx.h,v 1.8 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
 
@@ -140,7 +140,7 @@ class XBDLLEXPORT xbNdx : public xbIndex
 public:
    xbNdx();
    xbNdx(xbDbf *);
-   ~xbNdx();
+   virtual ~xbNdx();
 
 /* don't uncomment next line - it causes seg faults for some undiagnosed reason*/
 //   ~NDX() { if( NdxStatus ) CloseIndex(); }

@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.9 2002/03/19 18:36:38 dbryson Exp $
+/*  $Id: xdate.cpp,v 1.10 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
 
@@ -109,11 +109,20 @@ xbDate::xbDate( const char * Date8 ) {
 //! Short description.
 /*!
 */
-xbDate::xbDate() 
+xbDate::xbDate()
 {
   Sysdate();
   SetDateTables();
 }
+
+/***************************************************************/
+//! Destructor
+/*!
+*/
+xbDate::~xbDate()
+{
+}
+
 /***************************************************************/
 //! Short description.
 /*!

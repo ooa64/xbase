@@ -1,4 +1,4 @@
-/*  $Id: ntx.h,v 1.6 2002/03/19 18:30:52 dbryson Exp $
+/*  $Id: ntx.h,v 1.7 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
 
@@ -186,7 +186,7 @@ protected:
 public:
    xbNtx();
    xbNtx(xbDbf *);
-   ~xbNtx();
+   virtual ~xbNtx();
 
 /* note to gak - don't uncomment next line - it causes seg faults */
 //   ~NTX() { if( NtxStatus ) CloseIndex(); }

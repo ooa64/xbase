@@ -1,4 +1,4 @@
-/*  $Id: expfunc.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: expfunc.cpp,v 1.6 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
 
@@ -149,7 +149,7 @@ xbShort xbExpn::ProcessFunction( char * Func )
       ptype = 'd';
       DoubResult = DESCEND( p1->StringResult );
    }
-   else if( strncmp( Func, "DOW", 3 ) == 0 ) {  
+   else if( strncmp( Func, "DOW", 3 ) == 0 ) {
       ptype = 'd';
       DoubResult = DOW( p1->StringResult );
    }
@@ -187,7 +187,7 @@ xbShort xbExpn::ProcessFunction( char * Func )
    }
    else if( strncmp( Func, "LEFT", 4 ) == 0 ) {  
       ptype = 's';
-      buf = LEFT( p1->StringResult, INT( p2->DoubResult ));   
+      buf = LEFT( p1->StringResult, INT( p2->DoubResult ));
    }
    else if( strncmp( Func, "LTRIM", 5 ) == 0 ) {  
       ptype = 's';
@@ -263,7 +263,7 @@ xbShort xbExpn::ProcessFunction( char * Func )
    else if( strncmp( Func, "STR", 3 ) == 0 && ParmsNeeded == 2) {
       ptype = 's';
       buf = STR( p1->StringResult, GetInt( p2 ));
-   }   
+   }
    else if( strncmp( Func, "STR", 3 ) == 0 && ParmsNeeded == 3) {
       ptype = 's';
       if(p1->ExpressionType == 'N')
@@ -330,7 +330,7 @@ xbShort xbExpn::ProcessFunction( char * Func )
       cout << "\nInternal error. " << ptype;
       break;
    }
-   Push( (void *) WorkNode );
+   Push(WorkNode);
    return XB_NO_ERROR;
 }
 /*************************************************************************/
@@ -344,7 +344,7 @@ xbString & xbExpn::GetStringResult()
   if( GetStackDepth() < 1 ) return *s;
   e = (xbExpNode *) Pop();
   s = &e->StringResult;
-  Push((void *) e );
+  Push(e);
   return *s;
 }
 /*************************************************************************/
@@ -358,7 +358,7 @@ xbLong xbExpn::GetIntResult( void )
    if( GetStackDepth() < 1 ) return 0L;
    e = (xbExpNode *) Pop();
    l = e->IntResult;
-   Push( (void *) e );
+   Push(e);
    return l;
 }
 /*************************************************************************/
@@ -372,7 +372,7 @@ xbDouble xbExpn::GetDoubleResult( void )
    if( GetStackDepth() < 1 ) return (xbDouble) 0;
    e = (xbExpNode *) Pop();
    d = e->DoubResult;
-   Push( (void *) e );
+   Push(e);
    return d;
 }
 /*************************************************************************/

@@ -1,10 +1,10 @@
-/*  $Id: stack.cpp,v 1.5 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: stack.cpp,v 1.6 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
 
     This file contains logic for handling basic stack functions.
 
-    Copyright (C) 1997 Startech, Gary A. Kunkel   
+    Copyright (C) 1997 Startech, Gary A. Kunkel
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -55,7 +55,7 @@
 #include <xbase/xbconfig.h>
 #endif
 
-#include <xbase/xbase.h>
+#include "xbase/xbase.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -67,128 +67,136 @@
 */
 
 /*************************************************************************/
-//! Short description.
+//! Constructor.
+/*!
+*/
+xbStackElement::xbStackElement()
+{
+  Next = 0;
+  Previous = 0;
+  UserPtr = 0;
+}
+
+/*************************************************************************/
+//! Destructor.
+/*!
+*/
+xbStackElement::~xbStackElement()
+{
+}
+
+/*************************************************************************/
+//! Constructor.
 /*!
 */
 xbStack::xbStack( void )
 {
-   First      = NULL;
-   Last       = NULL;
-   Free       = NULL;
-   StackDepth = 0;;
+  First      = 0;
+  Last       = 0;
+  StackDepth = 0;
 }
+
+/*************************************************************************/
+//! Destructor.
+/*!
+*/
+xbStack::~xbStack( void )
+{
+  InitStack();
+}
+
 /*************************************************************************/
 //! Short description.
 /*!
 */
 void xbStack::InitStack( void )
 {
-   if( !First || !Last ) return;
-   if( Free )
-   {
-      Last->Next     = Free;
-      Free->Previous = Last;
-   }
-   Free  = First;
-   First = NULL;
-   Last  = NULL;
-   StackDepth = 0;
-   return;
+  xbStackElement
+    *next;
+
+  while(First)
+  {
+    next = First->Next;
+    delete First;
+    First = next;
+  }
+
+  First = 0;
+  Last  = 0;
+  StackDepth = 0;
+
+  return;
 }
+
 /*************************************************************************/
-//! Short description.
-/*!
-*/
-xbStackElement * xbStack::GetStackElement( void )
-{
-   xbStackElement * Temp;
-
-   /* check the free chain for an empty Stack element, if not found,
-      allocate one from memory */
-
-   if( Free )
-   {
-      Temp = Free;
-      Free = Free->Next;
-   }
-   else 
-
-    if((( Temp = (xbStackElement *) malloc( sizeof( xbStackElement )))==NULL))
-      return NULL;
-
-   memset( Temp, 0x00, sizeof( xbStackElement ));
-   return Temp;
-}
-/*************************************************************************/
-//! Short description.
-/*!
-  \param e
-*/
-void xbStack::FreeStackElement( xbStackElement * e )
-{
-   e->Previous = NULL;
-   e->Next = Free;
-   if( Free ) Free->Previous = e;
-   Free = e;
-}
-/*************************************************************************/
-//! Short description.
+//! Push a value onto the stack.
 /*!
   \param p
 */
-xbShort xbStack::Push( void * p )
+xbShort
+xbStack::Push(void *p)
 {
-   xbStackElement * Temp;
-   if(( Temp = GetStackElement()) == NULL )
-      return 102;
+ xbStackElement
+   *Temp = new xbStackElement;
 
-   Temp->UserPtr = p;
-   if( !First )
-   {
-      First = Temp;
-      Last  = Temp;
-      StackDepth = 1;
-   }
-   else
-   {
-      Last->Next = Temp;
-      Temp->Previous = Last;
-      Last = Temp;
-      StackDepth++;
-   }
-   return 0;
+ if(!Temp)
+   return XB_NO_MEMORY;
+
+ Temp->UserPtr = p;
+
+ if( !First )
+ {
+   First = Temp;
+   Last  = Temp;
+   StackDepth = 1;
+ }
+ else
+ {
+   Last->Next = Temp;
+   Temp->Previous = Last;
+   Last = Temp;
+   StackDepth++;
+ }
+
+ return XB_NO_ERROR;
 }
+
 /*************************************************************************/
-//! Short description.
+//! Pop the top value from the stack.
 /*!
 */
-void * xbStack::Pop( void )
+void *
+xbStack::Pop()
 {
-   void * p;
-   xbStackElement * Save;
+  void
+    *p;
 
-   if( StackDepth == 0 ) 
-      return NULL;
-   else
-   {
-      p = Last->UserPtr;
-      if( StackDepth == 1 )
-      {
-         FreeStackElement( First );
-         First = NULL;
-         Last  = NULL;
-      }
-      else  /* number of items in Stack must be > 1 */
-      {
-         Last->Previous->Next = NULL;
-         Save = Last;
-         Last = Last->Previous;
-         FreeStackElement( Save );
-      }
-      StackDepth--;
-      return p;
-   }
+  xbStackElement
+    *Save;
+
+  if(StackDepth == 0)
+     return 0;
+  else
+  {
+    p = Last->UserPtr;
+    if( StackDepth == 1 )
+    {
+      delete First;
+      First = 0;
+      Last  = 0;
+    }
+    else  /* number of items in Stack must be > 1 */
+    {
+      Last->Previous->Next = 0;
+      Save = Last;
+      Last = Last->Previous;
+      delete Save;
+    }
+    StackDepth--;
+    return p;
+  }
 }
+
 /*************************************************************************/
 //! Short description.
 /*!
@@ -207,17 +215,6 @@ void xbStack::DumpStack( void )
    cout << "\nFirst = " << First << "  Last = " << Last;
 
    e = First;
-   while( e )
-   {
-      cout << "\n*****************************";
-      cout << "\nThis      = " << e;
-      cout << "\nNext      = " << e->Next;
-      cout << "\nPrevious  = " << e->Previous;
-      cout << "\nUser Pointer = " << e->UserPtr;
-      e = e->Next;
-   }
-   cout << "\nFree list follows...";
-   e = Free;
    while( e )
    {
       cout << "\n*****************************";

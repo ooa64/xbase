@@ -60,19 +60,23 @@
 /*!
 */
 
-class XBDLLEXPORT xbFilter {
-  public:
-   xbFilter( xbDbf * dbf, xbIndex * index, char * expression );
-   xbShort GetFirstFilterRec();
-   xbShort GetLastFilterRec();
-   xbShort GetNextFilterRec();
-   xbShort GetPrevFilterRec();
-  protected:
-   xbULong CurFilterRecNo;
-   xbShort Status;
-   xbExpNode *e;
-   xbDbf *d;
-   xbIndex *i;
+class XBDLLEXPORT xbFilter
+{
+public:
+  xbFilter( xbDbf * dbf, xbIndex * index, char * expression );
+  virtual ~xbFilter();
+
+  xbShort GetFirstFilterRec();
+  xbShort GetLastFilterRec();
+  xbShort GetNextFilterRec();
+  xbShort GetPrevFilterRec();
+
+protected:
+  xbULong CurFilterRecNo;
+  xbShort Status;
+  xbExpNode *e;
+  xbDbf *d;
+  xbIndex *i;
 };
 
 #endif

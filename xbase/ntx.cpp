@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.9 2002/04/04 18:29:11 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.10 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
 
@@ -1508,7 +1508,7 @@ xbShort xbNtx::FindKey( const char * Tkey, xbShort Klen, xbShort RetrieveSw )
    {
       rc = CompareKey(  Tkey, GetKeyData( i, CurNode ) );
          
-      if( rc == 0 ) 
+      if( rc == 0 )
       {
          CurNode->CurKeyNo = i;
          CurDbfRec = GetDbfNo( i, CurNode );
@@ -1812,7 +1812,7 @@ xbShort xbNtx::PutLeafNode( xbLong l, xbNodeLink *n )
 {
     NtxLeafNode *temp;
     char *p;
-    
+
     if(( fseek( indexfp, l , SEEK_SET )) != 0 )
     {
         fclose( indexfp );
@@ -1964,7 +1964,7 @@ xbShort xbNtx::PutHeadNode( NtxHeadNode * Head, FILE * f, xbShort UpdateOnly )
         fclose( f );
         xb_io_error( XB_WRITE_ERROR, IndexName );
     }
-    return 0;   
+    return 0;
 }
 
 xbShort xbNtx::TouchIndex( void )
@@ -2458,7 +2458,7 @@ xbShort xbNtx::AddKey( xbLong DbfRec )
       PutKeyData( 0, TempNode );
       
        PutDbfNo ( 0, TempNode, PushItem.RecordNumber );
-       
+
       PutLeftNodeNo( 0, TempNode, CurNode->NodeNo );
       PutLeftNodeNo( 1, TempNode, PushItem.Node );
 
@@ -2496,7 +2496,7 @@ xbShort xbNtx::AddKey( xbLong DbfRec )
    if( rc ) return rc;
    rc = PutHeadNode( &HeadNode, indexfp, 1 );
    if( rc ) return rc;
- 
+
    return XB_NO_ERROR;
 }
 /***********************************************************************/
@@ -2686,7 +2686,7 @@ xbShort xbNtx::KeyWasChanged( void )
 //    memcpy( KeyBuf, GetKeyData( CurNode->CurKeyNo, CurNode ), HeadNode.KeyLen);
 //    ReleaseNodeMemory( NodeChain );
 //    NodeChain = NULL;       /* for next GetLastKey */
-//    PutKeyData( Left->Leaf.NoOfKeysThisNode, Left); 
+//    PutKeyData( Left->Leaf.NoOfKeysThisNode, Left);
 //    PutLeftNodeNo( Left->Leaf.NoOfKeysThisNode+1, Left, GetLeftNodeNo( j,n ));
 //    Left->Leaf.NoOfKeysThisNode++;
 //    Left->CurKeyNo = Left->Leaf.NoOfKeysThisNode;
@@ -3293,10 +3293,10 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
    } else
        TempName = "TEMPFILE.NTX";
 
- 
+
    if(( t = fopen( TempName, "w+b" )) == NULL )
       return XB_OPEN_ERROR;
-   
+
    if(( rc = PutHeadNode( &TempHead, t, 0 )) != 0 )
    {
       fclose( t );
@@ -3319,14 +3319,14 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
 
    if ((rc = GetLeafNode(TempHead.StartNode, 1)) != 0)
        return rc;
-   
-   for (i = 0; i < TempHead.KeysPerNode; i++)
+
+   for (i = 0; i < TempHead.KeysPerNode + 1; i++)
    {
        CurNode->offsets[i] = (i * HeadNode.KeySize) +
            2 + (2 * (HeadNode.KeysPerNode + 1));
    }
 
-   
+
    if ((rc = PutLeafNode(TempHead.StartNode, CurNode )) != 0)
        return rc;
 
@@ -3341,7 +3341,7 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
 
    if( remove( IndexName ) != 0 )
        xb_io_error( XB_CLOSE_ERROR, IndexName );
-    
+
    if( rename( TempName, IndexName ) != 0 )
        xb_io_error( XB_WRITE_ERROR, IndexName );
 
@@ -3355,7 +3355,7 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
    {
       if(statusFunc)
          statusFunc(l, dbf->NoOfRecords());
-         
+
       if(( rc = dbf->GetRecord(l)) != XB_NO_ERROR )
          return rc;
 
@@ -3368,10 +3368,10 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
          if(( rc = AddKey( l )) != XB_NO_ERROR )
             return rc;
       }
-   } 
+   }
    if(saveAutoLock)
       dbf->AutoLockOn();
-     
+
    return XB_NO_ERROR;
 }
 

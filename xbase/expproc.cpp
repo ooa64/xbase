@@ -1,4 +1,4 @@
-/*  $Id: expproc.cpp,v 1.6 2001/01/13 20:20:53 dbryson Exp $
+/*  $Id: expproc.cpp,v 1.7 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
 
@@ -189,7 +189,7 @@ xbShort xbExpn::ProcessExpression( xbExpNode * Wtree, xbShort RecBufSw )
      xb_error(XB_NO_DATA);
 
    while( WorkNode ) {
-      Push( (void *) WorkNode );
+      Push(WorkNode);
       if( WorkNode->Type == 'D' && WorkNode->dbf ) {
          WorkNode->dbf->GetField( WorkNode->FieldNo, WorkNode->StringResult, RecBufSw );
          if( WorkNode->dbf->GetFieldType( WorkNode->FieldNo ) == 'N' || 
@@ -445,7 +445,7 @@ xbShort xbExpn::NumericOperation( char * Operator )
    else
       xb_error(XB_PARSE_ERROR);
 
-   Push((void *) WorkNode );
+   Push(WorkNode);
    return 0;
 }
 /*************************************************************************/
@@ -533,7 +533,7 @@ xbShort xbExpn::AlphaOperation( char * Operator )
      xb_error(XB_PARSE_ERROR);
 
 //printf("WorkNode->IntResult = %d\n", WorkNode->IntResult);
-   Push((void *) WorkNode);
+   Push(WorkNode);
    return XB_NO_ERROR;
 }
 /*************************************************************************/

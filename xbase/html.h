@@ -1,4 +1,4 @@
-/*  $Id: html.h,v 1.7 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: html.h,v 1.8 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
  
@@ -88,7 +88,9 @@ typedef char **xbArrayPtr;
 */
 class XBDLLEXPORT xbHtml {
 public:
-   xbHtml  ( void );
+   xbHtml();
+   virtual ~xbHtml();
+
    //! Short description.
    /*!
    */

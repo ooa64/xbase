@@ -1,4 +1,4 @@
-/*  $Id: html.cpp,v 1.6 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: html.cpp,v 1.7 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code
 
@@ -80,6 +80,7 @@ void xbHtml::TextOut( const char * String )
 {
    cout << String;
 }
+
 /************************************************************************/
 //! Short description
 /*!
@@ -93,14 +94,24 @@ void xbHtml::InitVals( void )
    HtmlWorkBuf    = NULL;
    LoadArray();
 }
+
 /************************************************************************/
-//! Short description
+//! Constructor
 /*!
 */
-xbHtml::xbHtml( void )
+xbHtml::xbHtml()
 {
    InitVals();
-}   
+}
+
+/************************************************************************/
+//! Destructor
+/*!
+*/
+xbHtml::~xbHtml()
+{
+}
+
 /************************************************************************/
 //! Short description
 /*!

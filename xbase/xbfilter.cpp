@@ -65,7 +65,7 @@
 
 #ifdef XB_FILTERS
 /************************************************************************/
-//! Short description.
+//! Constructor.
 /*!
   \param dbf
   \param index
@@ -78,6 +78,7 @@ xbFilter::xbFilter( xbDbf * dbf, xbIndex * index, char * exp )
   CurFilterRecNo = 0L;
   d = dbf;
   i = index;
+  e = 0;
 
   if(( rc = d->xbase->ParseExpression( exp, d )) != XB_NO_ERROR )
     Status = rc;
@@ -87,6 +88,16 @@ xbFilter::xbFilter( xbDbf * dbf, xbIndex * index, char * exp )
       Status = XB_PARSE_ERROR;
   }
 }
+
+/***********************************************************************/
+//! Destructor.
+/*!
+*/
+xbFilter::~xbFilter()
+{
+  delete e;
+}
+
 /***********************************************************************/
 //! Short description.
 /*!
@@ -95,7 +106,7 @@ xbShort xbFilter::GetFirstFilterRec()
 {
   xbShort rc;
 
-  if( Status ) 
+  if( Status )
     return Status;
 
   if( i )
@@ -107,11 +118,11 @@ xbShort xbFilter::GetFirstFilterRec()
     if(( rc = d->xbase->ProcessExpression( e )) != XB_NO_ERROR )
       xb_error( rc );
 
-  cout << "xbfilter fixme" << endl;
-//    if( d->xbase->GetInt()){
+    if(d->xbase->GetIntResult())
+    {
       CurFilterRecNo = d->GetCurRecNo();
       return XB_NO_ERROR;
-//    }
+    }
     if( i )
       rc = i->GetNextKey();
     else
@@ -127,7 +138,7 @@ xbShort xbFilter::GetLastFilterRec()
 {
   xbShort rc;
 
-  if( Status ) 
+  if( Status )
     return Status;
 
   if( i )
@@ -139,11 +150,11 @@ xbShort xbFilter::GetLastFilterRec()
     if(( rc = d->xbase->ProcessExpression( e )) != XB_NO_ERROR )
       xb_error( rc );
 
-cout << "xbfilter fixme" << endl;
-//    if( d->xbase->GetInt()){
+    if(d->xbase->GetIntResult())
+    {
       CurFilterRecNo = d->GetCurRecNo();
       return XB_NO_ERROR;
-//    }
+    }
     if( i )
       rc = i->GetPrevKey();
     else
@@ -159,7 +170,7 @@ xbShort xbFilter::GetNextFilterRec()
 {
   xbShort rc;
 
-  if( Status ) 
+  if( Status )
     return Status;
 
   if( !CurFilterRecNo )
@@ -175,18 +186,18 @@ xbShort xbFilter::GetNextFilterRec()
     if(( rc = d->xbase->ProcessExpression( e )) != XB_NO_ERROR )
       xb_error( rc );
 
-    cout << "xbfilter fix me" << endl;
-//    if( d->xbase->GetInt()){
+    if(d->xbase->GetIntResult())
+    {
       CurFilterRecNo = d->GetCurRecNo();
       return XB_NO_ERROR;
-//    }
+    }
     if( i )
       rc = i->GetNextKey();
     else
       rc = d->GetNextRecord();
   }
   return rc;
-} 
+}
 /***********************************************************************/
 //! Short description.
 /*!
@@ -195,7 +206,7 @@ xbShort xbFilter::GetPrevFilterRec()
 {
   xbShort rc;
 
-  if( Status ) 
+  if( Status )
     return Status;
 
   if( !CurFilterRecNo )
@@ -210,17 +221,18 @@ xbShort xbFilter::GetPrevFilterRec()
   while( rc == XB_NO_ERROR ){
     if(( rc = d->xbase->ProcessExpression( e )) != XB_NO_ERROR )
       xb_error( rc );
-   cout << "xbfilter fix me" << endl;
-  //  if( d->xbase->GetInt()){
+
+    if(d->xbase->GetIntResult())
+    {
       CurFilterRecNo = d->GetCurRecNo();
       return XB_NO_ERROR;
-//    }
+    }
     if( i )
       rc = i->GetPrevKey();
     else
       rc = d->GetPrevRecord();
   }
   return rc;
-} 
+}
 /***********************************************************************/
 #endif  // XB_FILTERS_ON

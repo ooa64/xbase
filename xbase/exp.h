@@ -1,4 +1,4 @@
-/*  $Id: exp.h,v 1.7 2002/03/19 18:30:52 dbryson Exp $
+/*  $Id: exp.h,v 1.8 2002/04/04 22:58:42 dbryson Exp $
 
     Xbase project source code 
 
@@ -112,7 +112,7 @@ public:
 
   public:
    xbExpNode();
-   ~xbExpNode();
+   virtual ~xbExpNode();
 };
 
 //! xbExpn class
@@ -129,8 +129,8 @@ public:
    xbExpNode * GetFirstTreeNode( xbExpNode * );
 
    xbExpn( void );
-   ~xbExpn();
-   
+   virtual ~xbExpn();
+
    xbShort  GetNextToken( const char *s, xbShort MaxLen);
 
    /* expression methods */
