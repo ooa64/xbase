@@ -1,4 +1,4 @@
-# $Id: configure.in,v 1.13 2001/06/27 04:36:44 dbryson Exp $
+# $Id: configure.in,v 1.14 2002/03/19 19:17:40 dbryson Exp $
 # Created by Denis Pershin <dyp@inetlab.com>
 
 dnl Process this file with autoconf to produce a configure script.
@@ -10,7 +10,7 @@ XSUBDIRS="xbase examples bin html libtest tv"
 AC_SUBST(XSUBDIRS)
 
 dnl You have to change this
-AM_INIT_AUTOMAKE(xbase, 2.0.0, nodefine) dnl searches for some needed programs
+AM_INIT_AUTOMAKE(xbase, 2.1.0, nodefine) dnl searches for some needed programs
 
 dnl generate the config header
 AM_CONFIG_HEADER(xbase/xbconfig.h) dnl at the distribution this done

@@ -1,9 +1,9 @@
-# $Id: xbase.spec.in,v 1.7 2001/06/27 04:36:44 dbryson Exp $
+# $Id: xbase.spec.in,v 1.8 2002/03/19 19:17:40 dbryson Exp $
 %define xbase_ver @VERSION@
 
 Summary: Xbase dBase database file library
 Name: xbase
-Provides: xbase-2.0
+Provides: xbase-2.1
 Version: %{xbase_ver}
 Release: 1
 Source: xbase-@VERSION@.tar.gz
@@ -19,8 +19,8 @@ Library for accessing dBase .dbf, .ndx, .dbt, and Clipper .ntx files.
 Version: %{xbase_ver}
 Summary: Xbase development package
 Group: Development/Libraries
-Provides: xbase-devel-2.0
-Requires: xbase-2.0
+Provides: xbase-devel-2.1
+Requires: xbase-2.1
 
 %description -n xbase-devel
 Headers and such for compiling programs that use the Xbase library.
@@ -54,7 +54,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 /usr/bin/zap
 /usr/bin/dbfutil1
 /usr/lib/libxbase.so
-/usr/lib/libxbase-2.0.so.*
+/usr/lib/libxbase-2.1.so.*
 
 %doc NEWS README TODO AUTHORS COPYING ChangeLog
 

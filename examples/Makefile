@@ -16,7 +16,7 @@ SHELL = /bin/sh
 
 srcdir = .
 top_srcdir = ..
-prefix = /usr
+prefix = /usr/local
 exec_prefix = ${prefix}
 
 bindir = ${exec_prefix}/bin
@@ -83,7 +83,7 @@ PAMLIBPATHS = @PAMLIBPATHS@
 PAMLIBS = @PAMLIBS@
 RANLIB = ranlib
 TVPROGS = 
-VERSION = 2.0.0
+VERSION = 2.1.0
 XPMINC = @XPMINC@
 XPMLIB = @XPMLIB@
 XSUBDIRS = xbase examples bin html libtest tv docs
@@ -291,7 +291,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pr $$/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
