@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.8 2002/03/19 18:30:52 dbryson Exp $
+/*  $Id: xdate.cpp,v 1.9 2002/03/19 18:36:38 dbryson Exp $
 
     Xbase project source code
 
@@ -193,6 +193,9 @@ and send it to me..
 Gary  -  gkunkelstartech.keller.tx.us
 */
 
+//
+// Fix for MSVC provided by Serge Smirnov.
+//
 #ifdef __MSVC__
 	#define CONSTMOD
 #else
@@ -242,6 +245,7 @@ Gary  -  gkunkelstartech.keller.tx.us
 #endif
  }
 }
+
 /***************************************************************/
 //! Short description.
 /*!
