@@ -1,4 +1,4 @@
-/*  $Id: xtypes.h,v 1.1 2000/06/01 06:06:03 dbryson Exp $
+/*  $Id: xtypes.h,v 1.2 2000/06/06 23:36:46 dbryson Exp $
 
     Xbase project source code
 
@@ -37,9 +37,8 @@ typedef short int          xbShort;
 
 #define xbLong long
 //typedef long             LONG;
-
 typedef float              xbFloat;
-
 typedef double             xbDouble;
+
 
 #endif 		// __XB_XTYPES_H__

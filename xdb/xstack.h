@@ -1,11 +1,11 @@
-/*  $Id: xstack.h,v 1.1 2000/06/01 06:06:02 dbryson Exp $
+/*  $Id: xstack.h,v 1.2 2000/06/06 23:36:46 dbryson Exp $
 
     Xbase project source code
   
     This file conatains a header file for the xbStack object which
     is used for handling expressions.
 
-    Copyright (C) 1997  Crypton Technologies, Gary A. Kunkel   
+    Copyright (C) 1997  Startech, Gary A. Kunkel   
     email - xbase@startech.keller.tx.us
     www   - http://www.startech.keller.tx.us/xbase.html
 
@@ -41,20 +41,22 @@ struct xbStackElement{
 };
 
 class XBDLLEXPORT xbStack{
+
+ public:
+   xbStack( void );
+   void    InitStack( void );
+   void *  Pop( void );
+   xbShort Push( void * );
+   xbShort GetStackDepth( void ) { return StackDepth; }
+   void    DumpStack( void );
+
+ private:
    xbShort StackDepth;
    xbStackElement * First;
    xbStackElement * Last;
    xbStackElement * Free;          /* points to free stack items */
    xbStackElement * GetStackElement( void );
    void FreeStackElement( xbStackElement * );
-
-public:
-   xbStack( void );
-   void InitStack( void );
-   void * Pop( void );
-   xbShort  Push( void * );
-   xbShort  GetStackDepth( void ) { return StackDepth; }
-   void   DumpStack( void );
 };
 
 #endif               // __XB_STACK_H__
