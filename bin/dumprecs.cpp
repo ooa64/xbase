@@ -1,4 +1,4 @@
-/*  $Id: dumprecs.cpp,v 1.1 2000/06/01 06:06:36 dbryson Exp $
+/*  $Id: dumprecs.cpp,v 1.2 2000/06/07 04:42:30 dbryson Exp $
 
     Xbase project source code
 
@@ -29,7 +29,7 @@
     V 1.8   11/29/98   - Version 1.8 upgrade
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 #ifdef HAVE_EXCEPTIONS
 #include <xbase/xbexcept.h>
@@ -60,11 +60,12 @@ int main(int ac,char** av)
      }
 
      cout << "\nLoop through forwards...\n";
-     rc = MyFile.GetFirstRecord(); 
-     while(rc == XB_NO_ERROR) {
-       MyFile.DumpRecord( MyFile.GetCurRecNo() );
-       rc = MyFile.GetNextRecord();
+     int i = 0;
+     while(i<MyFile.NoOfRecords()) {
+       MyFile.DumpRecord(i+1);
+       i++;
      }
+
      MyFile.CloseDatabase();	/* close database */
 #ifdef HAVE_EXCEPTIONS
  } catch (xbEoFException &x) {

@@ -1,4 +1,4 @@
-/*  $Id: deletall.cpp,v 1.1 2000/06/01 06:06:35 dbryson Exp $
+/*  $Id: deletall.cpp,v 1.2 2000/06/07 04:42:30 dbryson Exp $
 
     Xbase project source code
 
@@ -26,7 +26,7 @@
     V 1.8   11/29/98   - Version 1.8 upgrade
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 int main(int ac,char** av)
 {

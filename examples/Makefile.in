@@ -98,18 +98,17 @@ LDADD = -L$(topdir)/xdb/.libs -lxdb
 # for shadow passwords override the value
 INSTALL_PROGRAM = @INSTALL@
 
-noinst_PROGRAMS = sample1 sample2 sample3 sample4 sample5 testdate                     testhtml.cgi indextst testdbinfo
+noinst_PROGRAMS = sample1 sample2 sample3 sample4 sample5 testdate                     testhtml.cgi exfilter
 
 
+exfilter_SOURCES = exfilter.cpp
 sample1_SOURCES = sample1.cpp
 sample2_SOURCES = sample2.cpp
 sample3_SOURCES = sample3.cpp
 sample4_SOURCES = sample4.cpp
 sample5_SOURCES = sample5.cpp
-indextst_SOURCES = indextst.cpp
 testdate_SOURCES = testdate.cpp
 testhtml_cgi_SOURCES = testhtml.cpp
-testdbinfo_SOURCES = testdbinfo.cpp
 
 noinst_HEADERS = 
 
@@ -152,14 +151,10 @@ testhtml_cgi_OBJECTS =  testhtml.o
 testhtml_cgi_LDADD = $(LDADD)
 testhtml_cgi_DEPENDENCIES = 
 testhtml_cgi_LDFLAGS = 
-indextst_OBJECTS =  indextst.o
-indextst_LDADD = $(LDADD)
-indextst_DEPENDENCIES = 
-indextst_LDFLAGS = 
-testdbinfo_OBJECTS =  testdbinfo.o
-testdbinfo_LDADD = $(LDADD)
-testdbinfo_DEPENDENCIES = 
-testdbinfo_LDFLAGS = 
+exfilter_OBJECTS =  exfilter.o
+exfilter_LDADD = $(LDADD)
+exfilter_DEPENDENCIES = 
+exfilter_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -174,11 +169,11 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/indextst.P .deps/sample1.P .deps/sample2.P \
+DEP_FILES =  .deps/exfilter.P .deps/sample1.P .deps/sample2.P \
 .deps/sample3.P .deps/sample4.P .deps/sample5.P .deps/testdate.P \
-.deps/testdbinfo.P .deps/testhtml.P
-SOURCES = $(sample1_SOURCES) $(sample2_SOURCES) $(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES) $(testdate_SOURCES) $(testhtml_cgi_SOURCES) $(indextst_SOURCES) $(testdbinfo_SOURCES)
-OBJECTS = $(sample1_OBJECTS) $(sample2_OBJECTS) $(sample3_OBJECTS) $(sample4_OBJECTS) $(sample5_OBJECTS) $(testdate_OBJECTS) $(testhtml_cgi_OBJECTS) $(indextst_OBJECTS) $(testdbinfo_OBJECTS)
+.deps/testhtml.P
+SOURCES = $(sample1_SOURCES) $(sample2_SOURCES) $(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES) $(testdate_SOURCES) $(testhtml_cgi_SOURCES) $(exfilter_SOURCES)
+OBJECTS = $(sample1_OBJECTS) $(sample2_OBJECTS) $(sample3_OBJECTS) $(sample4_OBJECTS) $(sample5_OBJECTS) $(testdate_OBJECTS) $(testhtml_cgi_OBJECTS) $(exfilter_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -260,13 +255,9 @@ testhtml.cgi: $(testhtml_cgi_OBJECTS) $(testhtml_cgi_DEPENDENCIES)
 	@rm -f testhtml.cgi
 	$(CXXLINK) $(testhtml_cgi_LDFLAGS) $(testhtml_cgi_OBJECTS) $(testhtml_cgi_LDADD) $(LIBS)
 
-indextst: $(indextst_OBJECTS) $(indextst_DEPENDENCIES)
-	@rm -f indextst
-	$(CXXLINK) $(indextst_LDFLAGS) $(indextst_OBJECTS) $(indextst_LDADD) $(LIBS)
-
-testdbinfo: $(testdbinfo_OBJECTS) $(testdbinfo_DEPENDENCIES)
-	@rm -f testdbinfo
-	$(CXXLINK) $(testdbinfo_LDFLAGS) $(testdbinfo_OBJECTS) $(testdbinfo_LDADD) $(LIBS)
+exfilter: $(exfilter_OBJECTS) $(exfilter_DEPENDENCIES)
+	@rm -f exfilter
+	$(CXXLINK) $(exfilter_LDFLAGS) $(exfilter_OBJECTS) $(exfilter_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 .cpp.lo:

@@ -1,4 +1,4 @@
-/*  $Id: sample5.cpp,v 1.2 2000/06/07 03:32:03 dbryson Exp $
+/*  $Id: sample5.cpp,v 1.3 2000/06/07 04:37:59 dbryson Exp $
 
     Xbase project source code
 
@@ -26,7 +26,7 @@
     V 1.8   1/29/99    - V1.8 upgrade
 */
 
-#include <xbase/xbase.h>
+#include <xdb/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS

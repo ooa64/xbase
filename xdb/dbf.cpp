@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.4 2000/06/07 03:25:39 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.5 2000/06/07 04:39:08 dbryson Exp $
 
     Xbase project source code
    
@@ -492,7 +492,16 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 
    Version = XFV & 0x7;            // file version - bit 0-2
 #ifdef XB_MEMO_FIELDS
-   if (MemoSw) Version |= 0x80;    // memo presence - bit 7
+//   if (MemoSw) Version |= 0x80;    // memo presence - bit 7
+//FIXME - I'm not sure what is correct here, but what was here didn't
+//        work as it doesn't match what is in OpenDatabase.
+   if (MemoSw) 
+   {
+     if(XFV & 0x7 == 3)
+	   Version |= 0x80;    // memo presence - bit 7
+	 else 
+	   Version = 0x8b;
+   }
 #endif
 
    CurRec  = 0L;

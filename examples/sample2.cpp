@@ -1,4 +1,4 @@
-/*  $Id: sample2.cpp,v 1.2 2000/06/07 03:32:03 dbryson Exp $
+/*  $Id: sample2.cpp,v 1.3 2000/06/07 04:37:59 dbryson Exp $
 
     Xbase project source code
 
@@ -34,7 +34,7 @@
     V 1.9.1 8/18/99    - Modifications to xbDate class
 */
 
-#include <xbase/xbase.h>
+#include <xdb/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS
@@ -57,7 +57,8 @@ int main()
   xbDate d;
 
 
-  MyFile.OpenDatabase( "MYFILE.DBF" );
+  if(( rc = MyFile.OpenDatabase( "MYFILE.DBF" )) != XB_NO_ERROR )
+     cout << "\nError opening MYFILE.DBF rc=" << rc;
   if(( rc = MyIndex1.OpenIndex( "MYINDEX1.NDX" )) != XB_NO_ERROR )
      cout << "\nError opening index1 rc=" << rc;
   if(( rc = MyIndex2.OpenIndex( "MYINDEX2.NDX" )) != XB_NO_ERROR )

@@ -1,4 +1,4 @@
-/*  $Id: testdate.cpp,v 1.2 2000/06/07 03:32:03 dbryson Exp $
+/*  $Id: testdate.cpp,v 1.3 2000/06/07 04:37:59 dbryson Exp $
 
     Xbase project source code
 
@@ -37,7 +37,7 @@
     containing a date value.  
 */
 
-#include <xbase/xbase.h>
+#include <xdb/xbase.h>
 
 int main()
 {

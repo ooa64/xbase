@@ -1,4 +1,4 @@
-/*  $Id: sample5-ntx.cpp,v 1.1 2000/06/07 03:32:03 dbryson Exp $
+/*  $Id: sample5-ntx.cpp,v 1.2 2000/06/07 04:37:59 dbryson Exp $
 
     Xbase project source code
 
@@ -25,7 +25,7 @@
     V 1.6a  5/1/98     - Added expression support
 */
 
-#include <xbase/xbase.h>
+#include <xdb/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef DOS
