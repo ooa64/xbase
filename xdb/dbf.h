@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.1 2000/06/01 06:05:58 dbryson Exp $
+/*  $Id: dbf.h,v 1.2 2000/06/06 22:06:39 dbryson Exp $
 
     Xbase project source code
 
@@ -28,6 +28,7 @@
     V 1.6b   4/8/98     - Numeric index keys
     V 1.7.4d 10/28/98   - Added support for OS2/DOS/Win/NT locking
     V 1.8    11/29/98   - New class names and types 
+    V 1.9.2  9/14/99    - Updated EOR and EOF processing
 */
 
 
@@ -72,6 +73,9 @@
 
 #define XB_OVERLAY     1    
 #define XB_DONTOVERLAY 0
+
+#define XB_CHAREOF  '\x1A'         /* end of DBF        */
+#define XB_CHARHDR  '\x0D'         /* header terminator */
 
 /* This structure is used for defining a database */
 struct xbSchema {
@@ -128,7 +132,7 @@ class XBDLLEXPORT xbDbf {
 public:
    xbDbf( xbXBase * );
    xbXBase  *xbase;               /* linkage to main base class */
-   char EofChar[10];
+//   char EofChar[10];
 
 /* datafile methods */
 #if defined(XB_INDEX_ANY)
@@ -149,6 +153,7 @@ public:
 #endif
    xbShort   DumpRecord( xbULong );
    xbLong    FieldCount( void ) { return NoOfFields; }
+   xbString& GetDbfName( void ) { return DatabaseName; }
    xbShort   GetDbfStatus( void ) { return DbfStatus; }
    xbShort   GetFirstRecord( void );
    xbShort   GetLastRecord( void );
@@ -170,7 +175,7 @@ public:
    xbShort   RebuildAllIndices(void (*statusFunc)(xbLong itemNum, xbLong numItems) = 0);
    xbShort   RecordDeleted( void );
    void      ResetNoOfRecs( void ) { NoOfRecs = 0L; }
-   xbShort   SetVersion( const xbShort );
+   xbShort   SetVersion( xbShort );
    xbShort   UndeleteAllRecords( void ) { return DeleteAll(1); }
    xbShort   UndeleteRecord( void );
    xbShort   Zap( xbShort );
@@ -178,12 +183,11 @@ public:
 /* field methods */
    const char *GetField(xbShort FieldNo) const; // Using internal static buffer
    const char *GetField(const char *Name) const;
-   xbShort   GetField(const xbShort FieldNo, char *Buf) const;
-   xbShort   GetField(const xbShort FieldNo, char *Buf,
-		      const xbShort RecBufSw) const;
-   xbShort   GetField(const char *Name, char *Buf) const;
-   xbShort   GetField(const char *Name, char *Buf,
-		      const xbShort RecBufSw) const;
+   xbShort   GetField( xbShort FieldNo, char *Buf) const;
+   xbShort   GetField( xbShort FieldNo, char *Buf, xbShort RecBufSw) const;
+   xbShort   GetField( const char *Name, char *Buf) const;
+   xbShort   GetField( const char *Name, char *Buf, xbShort RecBufSw) const;
+   xbShort   GetField(xbShort FieldNo, xbString&, xbShort RecBufSw ) const;
    xbShort   GetFieldDecimal( const xbShort );
    xbShort   GetFieldLen( const xbShort );
    char *    GetFieldName( const xbShort );

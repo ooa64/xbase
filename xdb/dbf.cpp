@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.1 2000/06/01 06:03:47 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.2 2000/06/06 22:04:08 dbryson Exp $
 
     Xbase project source code
    
@@ -29,6 +29,10 @@
     V 1.6b  4/8/98     - Numeric index keys
     V 1.6c  4/16/98    - Big Endian support, dBASE III + memo field support
     V 1.8   11/30/98   - Version 1.8 Upgrade
+    V 1.9.2 9/14/99    - Fix to CreateDatabase - if field name too long
+                         Updated EOR and EOF processing
+    V 1.9.2 4/16/2000  - fixed record locking logic in GetRecord reoutines
+                       - turned off buffering when locking is on
 */
 
 #include <xdb/xbase.h>
@@ -84,7 +88,7 @@ void xbDbf::InitVars( void )
 //   NtxList         = NULL;
    FreeIxList      = NULL;
    XFV             = 3;            /* Xbase file version */
-   strncpy(EofChar, "\x0D\x1A", 10);
+//   strncpy(EofChar, "\x0D\x1A", 10);
 
 #ifdef XB_LOCKING_ON
    AutoLock        = 1;
@@ -422,7 +426,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    if(( rc = NameSuffixMissing( 1, TableName )) > 0 )
       NameLen += 4;
 
-	 DatabaseName = TableName;
+   DatabaseName = TableName;
 
    if( rc == 1)
       DatabaseName +=".dbf";
@@ -430,30 +434,23 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
       DatabaseName += ".DBF";
 
    /* check if the file already exists */
-   if((( fp = fopen( DatabaseName, "r" )) != NULL ) && !Overlay )
-   {
-      fclose( fp );
-      xb_error(XB_FILE_EXISTS);
+   if((( fp = fopen( DatabaseName, "r" )) != NULL ) && !Overlay ){
+     fclose( fp );
+     xb_error(XB_FILE_EXISTS);
    }
    else if( fp ) fclose( fp );
 
    if(( fp = fopen( DatabaseName, "w+b" )) == NULL )
-   {
-		 xb_open_error(DatabaseName);
-   }
-   
-#ifdef XB_LOCKING_ON   
-   /*
-   **  Must turn off buffering when multiple programs may be accessing
-   **  data files.
-   */
-   setvbuf(fp, NULL, _IONBF, 0);
-#endif   
-
+     xb_open_error(DatabaseName);
+  
+#ifdef XB_LOCKING_ON
+   /* no buffering in multi user mode */
+   setbuf( fp, NULL );
+#endif
+ 
    /* count the number of fields and check paramaters */
    i = 0;
-   while( s[i].Type != 0 )
-   {
+   while( s[i].Type != 0 ){
       NoOfFields++;
       RecordLen += s[i].FieldLen;
       if( s[i].Type != 'C' && 
@@ -479,12 +476,10 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    }
    RecordLen++;                  /* add one byte for 0x0D    */
 
-   if(( RecBuf = (char *) malloc( RecordLen )) == NULL ) {
-	   xb_memory_error;
-   }
-
-   if(( RecBuf2 = (char *) malloc( RecordLen )) == NULL )
-   { 
+   if(( RecBuf = (char *) malloc( RecordLen )) == NULL )
+      xb_memory_error;
+  
+   if(( RecBuf2 = (char *) malloc( RecordLen )) == NULL ){ 
       free( RecBuf );
       xb_memory_error;
    }
@@ -495,41 +490,20 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 
    /* set class variables */
 
+   Version = XFV & 0x7;            // file version - bit 0-2
 #ifdef XB_MEMO_FIELDS
-   if (MemoSw) {
-      if(XFV == 3)
-         Version = '\x83';
-      else
-         Version = '\x8B';
-   }
-   else
-   {
-#endif
-      if( XFV == 3 )
-         Version = 3;
-      else
-         Version = 4;
-#ifdef XB_MEMO_FIELDS
-   }
+   if (MemoSw) Version |= 0x80;    // memo presence - bit 7
 #endif
 
-/*
-   if( MemoSw ) 
-      Version = 0x83;
-   else
-      Version = 3;
-*/
    CurRec  = 0L;
-
    HeaderLen = 33 + NoOfFields * 32;
-
-   UpdateYY = xbase->YearOf( xbase->Sysdate()) - 1900;
-   UpdateMM = xbase->MonthOf( xbase->Sysdate());
-   UpdateDD = xbase->DayOf( XB_FMT_MONTH, xbase->Sysdate());
+   xbDate d;
+   UpdateYY = d.YearOf() - 1900;
+   UpdateMM = d.MonthOf();
+   UpdateDD = d.DayOf( XB_FMT_MONTH );
 
    /* write the header prolog */
-   if(( rc = WriteHeader( 0 )) != XB_NO_ERROR )
-   {  
+   if(( rc = WriteHeader( 0 )) != XB_NO_ERROR ){  
       free( RecBuf );
       free( RecBuf2 );
       fclose( fp );
@@ -554,8 +528,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    }
 #endif
 
-   if((SchemaPtr = (xbSchemaRec *) malloc( NoOfFields * sizeof(xbSchemaRec))) == NULL ) 
-   {
+   if((SchemaPtr=(xbSchemaRec *)malloc(NoOfFields*sizeof(xbSchemaRec)))==NULL){
       free( RecBuf ); 
       free( RecBuf2 );
       fclose( fp );
@@ -564,24 +537,23 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    memset( SchemaPtr, 0x00, ( NoOfFields * sizeof(xbSchemaRec)));
 
    /* write the field information into the header */
-   for( i = 0, k = 1; i < NoOfFields; i++ )
-   {
-      strcpy( SchemaPtr[i].FieldName, s[i].FieldName );
+   for( i = 0, k = 1; i < NoOfFields; i++ ){
+// next two lines updated 9/14/99 - reported by Piotr Klaban
+// if field name too long ( > 10 bytes ) then  SIGSEGV errors
+      memset( SchemaPtr[i].FieldName, 0x00, 11 );
+      strncpy( SchemaPtr[i].FieldName, s[i].FieldName, 10 );
+      
       SchemaPtr[i].Type = s[i].Type;
-
-      if( s[i].Type == 'M' || s[i].Type == 'B' || s[i].Type == 'O' )
-      {  /* memo fields are always 10 bytes */
+      if( s[i].Type == 'M' || s[i].Type == 'B' || s[i].Type == 'O' ) {
+        /* memo fields are always 10 bytes */
         SchemaPtr[i].FieldLen = 10;
         SchemaPtr[i].NoOfDecs = 0;
-      }
-      else
-      {
+      } else {
         SchemaPtr[i].FieldLen = s[i].FieldLen;
         SchemaPtr[i].NoOfDecs = s[i].NoOfDecs;
       }
 
-      if( SchemaPtr[i].NoOfDecs > SchemaPtr[i].FieldLen )
-      {
+      if( SchemaPtr[i].NoOfDecs > SchemaPtr[i].FieldLen ) {
          fclose( fp );
          free( SchemaPtr );
          free( RecBuf );
@@ -592,8 +564,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
       k2 = k;
       k += SchemaPtr[i].FieldLen;
 
-      if(( fwrite( &SchemaPtr[i], 1, 18, fp )) != 18 )
-      {
+      if(( fwrite( &SchemaPtr[i], 1, 18, fp )) != 18 ) {
          fclose( fp );
          free( SchemaPtr );
          free( RecBuf );
@@ -601,10 +572,8 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
          xb_error(XB_WRITE_ERROR);
       }
 
-      for( j = 0; j < 14; j++ )
-      {
-         if(( fwrite( "\x00", 1, 1, fp )) != 1 )
-         {
+      for( j = 0; j < 14; j++ ) {
+         if(( fwrite( "\x00", 1, 1, fp )) != 1 ) {
             free( SchemaPtr );
             free( RecBuf );
             free( RecBuf2 );
@@ -616,9 +585,9 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
       SchemaPtr[i].Address2 = RecBuf2 + k2;
    }
 
-   /* write the end of header marker */
-   if(( fwrite( EofChar, 2, 1, fp )) != 1 )
-   {
+   /* write the header terminator */
+// if(( fwrite( EofChar, 2, 1, fp )) != 1 ) {
+   if(( fputc( XB_CHARHDR, fp )) != XB_CHARHDR ){
       fclose( fp );
       free( SchemaPtr );
       free( RecBuf );
@@ -662,16 +631,18 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
      xb_error(XB_NOT_OPEN);
 
    if (DbfStatus == XB_UPDATED /*&& AutoUpdate*/ ) {
-      UpdateYY = xbase->YearOf( xbase->Sysdate()) - 1900;
-      UpdateMM = xbase->MonthOf( xbase->Sysdate());
-      UpdateDD = xbase->DayOf( XB_FMT_MONTH, xbase->Sysdate());
+      xbDate d;
+      UpdateYY = d.YearOf() - 1900;
+      UpdateMM = d.MonthOf();
+      UpdateDD = d.DayOf( XB_FMT_MONTH );
 
       /* update the header */
       WriteHeader( 1 );
       
       /* write eof marker */
       fseek( fp, 0L, 2 );
-      fwrite( EofChar, 1, 1, fp );
+//      fwrite( EofChar, 1, 1, fp );
+      fputc( XB_CHAREOF, fp );
       PutRecord( CurRec );
    }
 
@@ -833,12 +804,9 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
       xb_open_error(DatabaseName);
       
 #ifdef XB_LOCKING_ON
-   /*
-   **  Must turn off buffering when multiple programs may be accessing
-   **  data files.
-   */
-   setvbuf(fp, NULL, _IONBF, 0);
-#endif   
+   /* no buffering in multi user mode - may not see what others have updated */
+   setbuf( fp, NULL );
+#endif
 
 #ifdef XB_LOCKING_ON
    if( AutoLock )
@@ -874,19 +842,16 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
    /* calculate the number of fields */
    NoOfFields = ( HeaderLen - 33 ) / 32;
 
-   if(( RecBuf = (char *) malloc( RecordLen )) == NULL )
-   {
+   if(( RecBuf = (char *) malloc( RecordLen )) == NULL ) {
       fclose( fp );
       xb_memory_error;
    }
-   if(( RecBuf2 = (char *) malloc( RecordLen )) == NULL )
-   {
+   if(( RecBuf2 = (char *) malloc( RecordLen )) == NULL ) {
       fclose( fp );
       free( RecBuf );
       xb_memory_error;
    }
-   if(( SchemaPtr = (xbSchemaRec *) malloc( NoOfFields * sizeof(xbSchemaRec))) == NULL )
-   {
+   if((SchemaPtr=(xbSchemaRec *)malloc(NoOfFields*sizeof(xbSchemaRec)))==NULL){
       free( RecBuf );
       free( RecBuf2 );
       fclose( fp );
@@ -895,8 +860,7 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
    memset( SchemaPtr, 0x00, ( NoOfFields * sizeof(xbSchemaRec)));
 
    /* copy field info into memory */
-   for( i = 0, j = 1; i < NoOfFields; i++ )
-   {
+   for( i = 0, j = 1; i < NoOfFields; i++ ){
       fseek( fp, i*32+32, 0 );
       
 //      fread( &SchemaPtr[i].FieldName, 1, 18, fp );
@@ -1107,17 +1071,18 @@ xbShort xbDbf::AppendRecord( void )
 
    /* write the end of file marker */
 //   if( fwrite( "\x0d", 1, 1, fp ) != 1 )
-   if( fwrite( EofChar, 1, 1, fp ) != 1 )
+//   if( fwrite( EofChar, 1, 1, fp ) != 1 )
+   if( fputc( XB_CHAREOF, fp ) != XB_CHAREOF )
      xb_error(XB_WRITE_ERROR);
 #endif
 
-   /* calculate the latest header information */ 
-   UpdateYY = xbase->YearOf( xbase->Sysdate()) - 1900;
-   UpdateMM = xbase->MonthOf( xbase->Sysdate());
-   UpdateDD = xbase->DayOf( XB_FMT_MONTH, xbase->Sysdate());
+   /* calculate the latest header information */
+   xbDate d; 
+   UpdateYY = d.YearOf() - 1900;
+   UpdateMM = d.MonthOf();
+   UpdateDD = d.DayOf( XB_FMT_MONTH );
 #ifndef XB_REAL_DELETE
    NoOfRecs++;
-//fprintf(stderr, "fuck this!\n");
 #else
    if(RealDelete)
    {
@@ -1141,8 +1106,7 @@ xbShort xbDbf::AppendRecord( void )
 
 #if defined(XB_INDEX_ANY)
    i = NdxList;
-   while( i && AutoLock )
-   {
+   while( i && AutoLock ){
       i->index->LockIndex( F_SETLK, F_UNLCK );
       i = i->NextIx;
    }
@@ -1173,6 +1137,8 @@ xbShort xbDbf::AppendRecord( void )
 */
 xbShort xbDbf::GetRecord( xbULong RecNo )
 {
+/* 4/16/2000 - gk - made mods to record locking logic */
+
    int rc;
 
    if( DbfStatus == XB_CLOSED )
@@ -1221,8 +1187,10 @@ xbShort xbDbf::GetRecord( xbULong RecNo )
    }
 
 #ifdef XB_LOCKING_ON
-   LockDatabase( F_SETLK, F_UNLCK, RecNo );
+   if( AutoLock )
+      LockDatabase( F_SETLKW, F_UNLCK, RecNo );
 #endif
+
    DbfStatus = XB_OPEN;
    CurRec = RecNo;
    return XB_NO_ERROR;
@@ -1330,9 +1298,9 @@ xbShort xbDbf::GetNextRecord( void )
 {
    xbShort rc = 0;
    if( NoOfRecs == 0 ) {
-	   xb_error(XB_INVALID_RECORD);
+     xb_error(XB_INVALID_RECORD);
    } else if( CurRec >= NoOfRecs ) {
-	   xb_eof_error;
+     xb_eof_error;
    }
 
 #ifndef XB_LOCKING_ON
@@ -1373,9 +1341,9 @@ xbShort xbDbf::GetPrevRecord( void )
 {
    xbShort rc = 0;
    if( NoOfRecs == 0 ) {
-	   xb_error(XB_INVALID_RECORD);
+     xb_error(XB_INVALID_RECORD);
    } else if( CurRec <= 1L ) {
-	   xb_eof_error;
+     xb_eof_error;
    }
 
 #if XB_LOCKING_ON
@@ -1818,7 +1786,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
      TempDbfName = "TMPXBASE.DBF";
 
    if (( t = fopen( TempDbfName, "w+b" )) == NULL )
-		 xb_open_error(TempDbfName);
+     xb_open_error(TempDbfName);
 
    /* copy file header */
    if(( rc = fseek( fp, 0, SEEK_SET )) != 0 )
@@ -1829,15 +1797,14 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
    fputc( 0x1a, t );
 
    if( fclose( t ) != 0 )
-		 xb_io_error(XB_CLOSE_ERROR, TempDbfName);
-
+     xb_io_error(XB_CLOSE_ERROR, TempDbfName);
 
 #ifdef XB_MEMO_FIELDS
    if(( MemoFields = MemoFieldsPresent()) > 0 )
    {
 
       TempDbtName = TempDbfName;
-      TempDbtName.put_at(TempDbtName.len()-1, 'T');
+      TempDbtName.putAt(TempDbtName.len()-1, 'T');
 
       if ((t = fopen( TempDbtName, "w+b" )) == NULL)
 	xb_open_error(TempDbtName);
@@ -1946,34 +1913,44 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
       char lb = DatabaseName[len];
 
       if( lb == 'F' )
-         DatabaseName.put_at(len, 'T');
+         DatabaseName.putAt(len, 'T');
       else
-         DatabaseName.put_at(len, 't');
+         DatabaseName.putAt(len, 't');
    
       if(fclose(mfp) != 0)       /* thanks Jourquin */
          xb_io_error(XB_CLOSE_ERROR, TempDbtName);
    
       if (remove(DatabaseName) != 0)
       {
-         DatabaseName.put_at(len, lb);
+         DatabaseName.putAt(len, lb);
          xb_io_error(XB_WRITE_ERROR, DatabaseName);
       }
       if( rename( TempDbtName, DatabaseName ) != 0 )
       {
-         DatabaseName.put_at(len, lb);
+         DatabaseName.putAt(len, lb);
          xb_io_error(XB_WRITE_ERROR, DatabaseName);
       }
 
       if(( mfp = fopen( DatabaseName, "r+b" )) == NULL )
-				xb_open_error(DatabaseName);
+        xb_open_error(DatabaseName);
 
-      DatabaseName.put_at(len, lb);
+#ifdef XB_LOCKING_ON
+        /* no buffering in multi user mode */
+        setbuf( mfp, NULL );
+#endif
+
+      DatabaseName.putAt(len, lb);
    }
 
 #endif /* XB_MEMO_FIELDS */
 
    if(( fp = fopen( DatabaseName, "r+b" )) == NULL )
-		 xb_open_error(DatabaseName);
+     xb_open_error(DatabaseName);
+
+#ifdef XB_LOCKING_ON
+   /* no buffering in multi user mode */
+   setbuf( fp, NULL );
+#endif
 
    return XB_NO_ERROR;
 }
@@ -2046,11 +2023,12 @@ xbShort xbDbf::CopyDbfStructure(const char *NewFileName, xbShort Overlay) {
    fputc( fgetc( fp ), t );
 
    /* do the date */
-   ch = xbase->YearOf( xbase->Sysdate()) - 1900;
+   xbDate d;
+   ch = d.YearOf() - 1900;
    fputc( ch, t );
-   ch = xbase->MonthOf( xbase->Sysdate());
+   ch = d.MonthOf();
    fputc( ch, t );
-   ch = xbase->DayOf( XB_FMT_MONTH, xbase->Sysdate());
+   ch = d.DayOf( XB_FMT_MONTH );
    fputc( ch, t );
 
    /* record count */
@@ -2084,10 +2062,10 @@ xbShort xbDbf::CopyDbfStructure(const char *NewFileName, xbShort Overlay) {
 
       NameLen = MemoName.len();
       NameLen--;
-      if( MemoName.get_character( NameLen ) == 'F' )
-         MemoName.put_at(NameLen, 'T');
+      if( MemoName.getCharacter( NameLen ) == 'F' )
+         MemoName.putAt(NameLen, 'T');
       else
-         MemoName.put_at(NameLen, 't');
+         MemoName.putAt(NameLen, 't');
 
       if(( t = fopen( MemoName, "w+b" )) == NULL )
         xb_open_error(MemoName);
@@ -2111,7 +2089,7 @@ xbShort xbDbf::CopyDbfStructure(const char *NewFileName, xbShort Overlay) {
          memset( buf, 0x00, 9 );
          NameLen = ndfn.len();
          for( i = 0, ct = 0; i < NameLen; i++ )
-           if( ndfn.get_character( i ) == PATH_SEPARATOR )
+           if( ndfn.getCharacter( i ) == PATH_SEPARATOR )
            {
              ct = i;
              ct++;
@@ -2150,11 +2128,10 @@ xbShort xbDbf::AddIndexToIxList(xbIndex * n, const char *IndexName)
 {
    xbIxList *i, *s, *t;
 
-   if( !FreeIxList )
-   {
-        if((i = (xbIxList *) malloc(sizeof(xbIxList))) == NULL) {
-		xb_memory_error;
-	}
+   if( !FreeIxList ){
+      if((i = (xbIxList *) malloc(sizeof(xbIxList))) == NULL) {
+        xb_memory_error;
+      }
    }
    else
    {
@@ -2188,8 +2165,8 @@ xbShort xbDbf::AddIndexToIxList(xbIndex * n, const char *IndexName)
 xbShort xbDbf::RebuildAllIndices(void (*statusFunc)(xbLong itemNum, xbLong numItems))
 {
 #if defined(XB_INDEX_ANY)
-   xbShort rc = 0;
-   xbIxList *n;
+  xbShort rc = 0;
+  xbIxList *n;
 
    n = NdxList;
    while( n )
@@ -2202,8 +2179,7 @@ xbShort xbDbf::RebuildAllIndices(void (*statusFunc)(xbLong itemNum, xbLong numIt
       n = n->NextIx;
    }
 #endif
-         
-   return XB_NO_ERROR;
+  return XB_NO_ERROR;
 }
 /************************************************************************/
 //! Delete all records
@@ -2220,14 +2196,13 @@ xbShort xbDbf::DeleteAll( xbShort Option )
 
    if( Option == 0 )   /* delete all option */
    {
-      while( 1 )
-      {
-         if( !RecordDeleted())
-            if(( rc = DeleteRecord()) != XB_NO_ERROR )
-               return rc;
-         if(( rc = GetNextRecord()) != XB_NO_ERROR )
-            break;
-      }
+     while( 1 ){
+       if( !RecordDeleted())
+          if(( rc = DeleteRecord()) != XB_NO_ERROR )
+             return rc;
+       if(( rc = GetNextRecord()) != XB_NO_ERROR )
+          break;
+     }
    }
    else   /* undelete all option */
    {
@@ -2300,45 +2275,48 @@ xbShort xbDbf::Zap( xbShort WaitOption )
    }
 
    if((fp = fopen( DatabaseName, "r+b" )) == NULL) {
-		 ExclusiveUnlock();
-		 xb_open_error(DatabaseName);
+     ExclusiveUnlock();
+     xb_open_error(DatabaseName);
    }
-   
+#ifdef XB_LOCKING_ON
+   setbuf( fp, NULL );
+#endif
    ReadHeader( 1 );
 
 #ifdef XB_MEMO_FIELDS
    if( MemosExist )
    {
       fclose( mfp );
-//      size_t dbnlen = DatabaseName.len();
-//      dbnlen--;
       int dbnlen = DatabaseName.len() - 1;
       char lb = DatabaseName[dbnlen];
       if( lb == 'F' ) {
-         DatabaseName.put_at(dbnlen, 'T');
-				 TempDbfName.put_at(dbnlen, 'T');
-			} else {
-         DatabaseName.put_at(dbnlen, 't');
-				 TempDbfName.put_at(dbnlen, 't');
-			}
+         DatabaseName.putAt(dbnlen, 'T');
+	 TempDbfName.putAt(dbnlen, 'T');
+      } else {
+         DatabaseName.putAt(dbnlen, 't');
+	 TempDbfName.putAt(dbnlen, 't');
+      }
 
       if(( rc = remove( DatabaseName )) != 0 )
       {
-				ExclusiveUnlock();
-				xb_open_error(DatabaseName);
+         ExclusiveUnlock();
+         xb_open_error(DatabaseName);
       }
       if(( rc = rename( TempDbfName, DatabaseName )) != 0 )
       {
-				ExclusiveUnlock();
-				xb_open_error(DatabaseName);
+	ExclusiveUnlock();
+	xb_open_error(DatabaseName);
       }
-      if(( mfp = fopen( DatabaseName, "r+b" )) == NULL )
-      {
-				ExclusiveUnlock();
-				xb_open_error(DatabaseName);
+      if(( mfp = fopen( DatabaseName, "r+b" )) == NULL ){
+	ExclusiveUnlock();
+	xb_open_error(DatabaseName);
       }
+#ifdef XB_LOCKING_ON
+      setbuf( mfp, NULL );
+#endif
+
       GetDbtHeader(1);
-			DatabaseName.put_at(dbnlen, lb);
+      DatabaseName.putAt(dbnlen, lb);
    }      
 #endif   // XB_MEMO_FIELDS
 
