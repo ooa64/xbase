@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.8 2000/06/27 06:15:47 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.9 2000/08/11 19:08:56 dbryson Exp $
 
     Xbase project source code
    
@@ -825,6 +825,17 @@ xbShort xbDbf::DumpHeader( xbShort Option )
         <tr><td>XB_NOT_XBASE</td><td>Not an XDB DBF file</td></tr>
       </table>
     \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+        XB\_OPEN\_ERROR & Couldn't open file \\ \hline
+        XB\_NO\_MEMORY & Memory allocation error \\ \hline
+        XB\_NOT\_XBASE & Not an XDB DBF file \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::OpenDatabase( const char * TableName )
 {
@@ -1012,6 +1023,16 @@ xbShort xbDbf::BlankRecord( void )
         <tr><td>XB_WRITE_ERROR</td><td>Error writing to file</td></tr>
       </table>
     \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::AppendRecord( void )
 {
@@ -1207,6 +1228,18 @@ xbShort xbDbf::AppendRecord( void )
         <tr><td>XB_WRITE_ERROR</td><td>Error writing to file</td></tr>
       </table>
     \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+	XB\_NOT\_OPEN & File is not open \\ \hline
+	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::GetRecord( xbULong RecNo )
 {
@@ -1286,6 +1319,19 @@ xbShort xbDbf::GetRecord( xbULong RecNo )
         <tr><td>XB_WRITE_ERROR</td><td>Error writing to file</td></tr>
       </table>
     \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+	XB\_NOT\_OPEN & File is not open \\ \hline
+	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+	XB\_SEEK\_ERROR & Error seeking file \\ \hline
+	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::GetFirstRecord( void )
 {
@@ -1294,7 +1340,7 @@ xbShort xbDbf::GetFirstRecord( void )
      xb_error(XB_INVALID_RECORD);
 
 #ifndef XB_LOCKING_ON
-   if( DbfStatus == XB_UPDATED /*&& AutoUpdate*/ )  /* update previous rec if necessary */
+   if( DbfStatus == XB_UPDATED /*&& AutoUpdate*/ )  /* updatfe previous rec if necessary */
       if(( rc = PutRecord( CurRec )) != 0 )
          return rc;
 #endif         
@@ -1326,6 +1372,20 @@ xbShort xbDbf::GetFirstRecord( void )
         <tr><td>XB_WRITE_ERROR</td><td>Error writing to file</td></tr>
       </table>
     \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+	XB\_EOF & At end of file \\ \hline
+	XB\_NOT\_OPEN & File is not open \\ \hline
+	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+	XB\_SEEK\_ERROR & Error seeking file \\ \hline
+	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::GetLastRecord( void )
 {
@@ -1366,6 +1426,20 @@ xbShort xbDbf::GetLastRecord( void )
         <tr><td>XB_WRITE_ERROR</td><td>Error writing to file</td></tr>
       </table>
     \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+	XB\_EOF & At end of file \\ \hline
+	XB\_NOT\_OPEN & File is not open \\ \hline
+	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+	XB\_SEEK\_ERROR & Error seeking file \\ \hline
+	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::GetNextRecord( void )
 {
@@ -1409,6 +1483,20 @@ xbShort xbDbf::GetNextRecord( void )
         <tr><td>XB_WRITE_ERROR</td><td>Error writing to file</td></tr>
       </table>
     \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+	XB\_BOF & At beginning of file \\ \hline
+	XB\_NOT\_OPEN & File is not open \\ \hline
+	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+	XB\_SEEK\_ERROR & Error seeking file \\ \hline
+	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::GetPrevRecord( void )
 {
@@ -1485,6 +1573,19 @@ xbShort xbDbf::DumpRecord( xbULong RecNo )
         <tr><td>XB_WRITE_ERROR</td><td>Error writing to file</td></tr>
       </table>
     \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+	XB\_NOT\_OPEN & File is not open \\ \hline
+	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+	XB\_SEEK\_ERROR & Error seeking file \\ \hline
+	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::PutRecord(void) {
 	return PutRecord(CurRec);
@@ -1508,6 +1609,19 @@ xbShort xbDbf::PutRecord(void) {
         <tr><td>XB_WRITE_ERROR</td><td>Error writing to file</td></tr>
       </table>
     \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+	XB\_NOT\_OPEN & File is not open \\ \hline
+	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+	XB\_SEEK\_ERROR & Error seeking file \\ \hline
+	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::PutRecord(xbULong RecNo) 
 {
@@ -1649,6 +1763,30 @@ perror("failed file unlock");
 /************************************************************************/
 //! Delete the current record
 /*!
+  Marks the current record as deleted or if "real" deletes are turned
+  on (xbDbf::RealDeleteOn()) will delete the record and add it to the
+  free record list.  Normal dBase behavior is to simply mark the record
+  as deleted; the record will actually be deleted when the the DBF file 
+  "packed" (xbDbf::PackDatabase()).  If "real" deletes are not on, a 
+  record may be undeleted using xbDbf::UndeleteRecord().
+  
+  \returns One of the following:
+    \htmlonly
+      <p>
+      <table border=2><tr><th>Return Code</th><th>Description</th></tr>
+        <tr><td>XB_NO_ERROR</td><td>No error</td></tr>
+        <tr><td>XB_INVALID_RECORD</td><td>Invalid record number</td></tr>
+      </table>
+    \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::DeleteRecord( void )
 {
@@ -1787,6 +1925,27 @@ xbShort xbDbf::DeleteRecord( void )
 /************************************************************************/
 //! Undelete the current record
 /*!
+  Marks the currect record as not deleted (i.e. removes the flag indicating
+  the record is deleted).  This method may not be used (and will return
+  an error code) if "real" deletes are on.
+  
+  \returns One of the following:
+    \htmlonly
+      <p>
+      <table border=2><tr><th>Return Code</th><th>Description</th></tr>
+        <tr><td>XB_NO_ERROR</td><td>No error</td></tr>
+        <tr><td>XB_INVALID_RECORD</td><td>Invalid record number</td></tr>
+      </table>
+    \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No error \\ \hline
+	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::UndeleteRecord( void )
 {
@@ -1816,6 +1975,8 @@ xbShort xbDbf::UndeleteRecord( void )
 /************************************************************************/
 //! Determine if current record is deleted
 /*!
+  \returns TRUE (1) if the current record is marked as deleted or FALSE
+    (0) if not.
 */
 xbShort xbDbf::RecordDeleted( void )
 {
@@ -2029,8 +2190,57 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
    return XB_NO_ERROR;
 }
 /************************************************************************/
-//! Pack the data file
+//! Pack the database
 /*!
+  This method removes all records marked for deletion from an Xbase (.DBF) 
+  file, reindexes any open index files, and also reorganizes any memo fields
+  stored in a .DBT memo file. 
+  
+  \param LockWaitOption One of the following:
+    \htmlonly
+      <p>
+      <table border=2><tr><th>LockWaitOption</th><th>Description</th></tr>
+        <tr><td>F_SETLK</td><td>Return immediately if the DBF file cannot be locked</td></tr>
+        <tr><td>F_SETLKW</td><td>Wait for lock on DBF file to succeed</td></tr>
+      </table>
+    \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{LockWaitOption} & \textbf{Description} \\ \hline \hline
+        F\_SETLK & Return immediately if DBF file cannot be locked \\ \hline
+        F\_SETLKW  & Wait for lock on DBF file to succeed \\ \hline
+      \end{tabular}
+    \endlatexonly
+    
+  \returns One of the following return codes:
+    \htmlonly
+      <p>
+      <table border=2><tr><th>Return Code</th><th>Description</th></tr>
+        <tr><td>XB_NO_ERROR</td><td>No error</td></tr>
+	<tr><td>XB_CLOSE_ERROR</td><td>Unable to close intermediate work file</td></tr>
+	<tr><td>XB_OPEN_ERROR</td><td>Could not open file</td></tr>
+	<tr><td>XB_NO_MEMORY</td><td>Memory allocation error</td></tr>
+        <tr><td>XB_WRITE_ERROR</td><td>Couldn't write to disk</td></tr>
+	<tr><td>XB_SEEK_ERROR</td><td>Error seeking file</td></tr>
+	<tr><td>XB_LOCK_FAILED</td><td>Unable to lock file or index</td></tr>
+      </table>
+    \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No Error \\ \hline
+	XB\_CLOSE\_ERROR & Unable to close intermediate work file \\ \hline
+        XB\_OPEN\_ERROR & Couldn't open the file \\ \hline
+	XB\_NO\_MEMORY & Memory allocation error \\ \hline
+        XB\_WRITE\_ERROR & Couldn't write to disk \\ \hline
+	XB\_SEEK\_ERROR & Error seeking file \\ \hline
+	XB\_LOCK\_FAILED & Unable to lock file or index \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::PackDatabase(xbShort LockWaitOption,
                             void (*packStatusFunc)(xbLong itemNum, xbLong numItems),
@@ -2213,7 +2423,7 @@ xbShort xbDbf::AddIndexToIxList(xbIndex * n, const char *IndexName)
    {
       i = FreeIxList;
       FreeIxList = i->NextIx;
-   }
+   } 
    memset(i, 0x00, sizeof(xbIxList));
 
    i->IxName  = IndexName;
