@@ -1,4 +1,4 @@
-/*  $Id: fields.cpp,v 1.3 2000/08/11 19:34:32 dbryson Exp $
+/*  $Id: fields.cpp,v 1.4 2000/08/11 20:20:36 dbryson Exp $
 
     Xbase project source code
 
@@ -216,6 +216,21 @@ xbShort xbDbf::GetField(const char *Name, char *buf) const
 	return GetField(GetFieldNo(Name), buf);
 }
 
+//! Get the raw value of the specified field.
+/*! Get the value of the field specified by Name and place its value
+    in buf.
+    
+    \param Name Name of field.
+    \param buf Buffer to hold field value.  Must be large enough to hold
+               the entire field value.  Use GetFieldLen() to determine
+               the length of the field, if necessary.
+    \returns One of the following:
+*/
+xbShort xbDbf::GetRawField(const char *Name, char *buf) const
+{
+	return GetRawField(GetFieldNo(Name), buf);
+}
+
 static char __buf[1024];
 
 static void trim(char *s) {
@@ -346,6 +361,13 @@ xbShort xbDbf::PutField(const char *Name, const char *buf) {
 	return PutField(GetFieldNo(Name), buf);
 }
 
+//! Put a raw value into the specified field.
+/*!
+*/
+xbShort xbDbf::PutRawField(const char *Name, const char *buf) {
+	return PutRawField(GetFieldNo(Name), buf);
+}
+
 //! Put a value into the specified field.
 /*!
 */
@@ -424,6 +446,30 @@ xbShort xbDbf::PutField(const xbShort FieldNo, const char *buf) {
    memcpy( startpos, buf, len );
    return 0;
 }
+
+//! Put a raw value into the specified field.
+/*!
+*/
+xbShort xbDbf::PutRawField(const xbShort FieldNo, const char *buf) {
+   xbShort len;
+   char * startpos;
+
+   if( FieldNo < 0 || FieldNo >= NoOfFields )
+      xb_error(XB_INVALID_FIELDNO);
+
+   if( DbfStatus != XB_UPDATED )
+   {
+      DbfStatus = XB_UPDATED;
+      memcpy( RecBuf2, RecBuf, RecordLen );
+   }
+  
+   startpos = SchemaPtr[FieldNo].Address;
+   len = SchemaPtr[FieldNo].FieldLen;
+   memcpy( startpos, buf, len );
+   
+   return 0;
+}
+
 /************************************************************************/
 //! Get the value of the specified field.
 /*!
@@ -431,6 +477,15 @@ xbShort xbDbf::PutField(const xbShort FieldNo, const char *buf) {
 xbShort xbDbf::GetField(const xbShort FieldNo, char *buf) const {
 	return GetField(FieldNo, buf, 0);
 }
+
+/************************************************************************/
+//! Get the raw value of the specified field.
+/*!
+*/
+xbShort xbDbf::GetRawField(const xbShort FieldNo, char *buf) const {
+	return GetField(FieldNo, buf, 0);
+}
+
 /************************************************************************/
 //! Get the long value of the specified field.
 /*!

@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.5 2000/06/27 06:15:47 dbryson Exp $
+/*  $Id: dbf.h,v 1.6 2000/08/11 20:20:36 dbryson Exp $
 
     Xbase project source code
 
@@ -258,8 +258,10 @@ public:
    const char *GetField(xbShort FieldNo) const; // Using internal static buffer
    const char *GetField(const char *Name) const;
    xbShort   GetField( xbShort FieldNo, char *Buf) const;
+   xbShort   GetRawField(const xbShort FieldNo, char *Buf) const;
    xbShort   GetField( xbShort FieldNo, char *Buf, xbShort RecBufSw) const;
    xbShort   GetField( const char *Name, char *Buf) const;
+   xbShort   GetRawField(const char *Name, char *Buf) const;
    xbShort   GetField( const char *Name, char *Buf, xbShort RecBufSw) const;
    xbShort   GetField(xbShort FieldNo, xbString&, xbShort RecBufSw ) const;
    xbShort   GetFieldDecimal( const xbShort );
@@ -274,7 +276,9 @@ public:
    char *    GetStringField( const char * FieldName );
 
    xbShort   PutField( const xbShort, const char * );
+   xbShort   PutRawField( const xbShort FieldNo, const char *buf );
    xbShort   PutField( const char *Name, const char *buf);
+   xbShort   PutRawField( const char *Name, const char *buf );
    xbShort   ValidLogicalData( const char * );
    xbShort   ValidNumericData( const char * );
 

@@ -10,8 +10,6 @@
 
 #ifdef XB_INDEX_ANY
 
-#define XDB_VERSION                  "1.2.0"
-
 #define XBDB_MAXPATHLEN              256
 
 #define XBDB_DBNAMELEN               100
