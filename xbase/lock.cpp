@@ -1,4 +1,4 @@
-/*  $Id: lock.cpp,v 1.6 2002/12/22 09:08:21 dbryson Exp $
+/*  $Id: lock.cpp,v 1.7 2002/12/23 18:48:56 dbryson Exp $
 
     Xbase project source code
 
@@ -54,12 +54,19 @@
 #endif
 
 #include <xbase/xbase.h>
+
+#ifndef XB_LOCKING_ON
+XBDLLEXPORT_DATA(const int)
+  xbF_SETLK = 0,
+  xbF_SETLKW = 1;
+#endif
+
 #ifdef XB_LOCKING_ON
 
 #include <fcntl.h>
 #include <stdio.h>
 
-#ifdef HAVE_SYS_TYPES_H 
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>           /* BSDI BSD/OS 3.1 */
 #endif
 
@@ -75,7 +82,7 @@
 
 #include <errno.h>
 
-const int
+XBDLLEXPORT_DATA(const int)
   xbF_SETLK = F_SETLK,
   xbF_SETLKW = F_SETLKW;
 
@@ -89,7 +96,7 @@ const int
   \param LockType
 */
 #ifndef HAVE_FCNTL
-xbShort xbDbf::UnixToDosLockCommand( const xbShort WaitOption, 
+xbShort xbDbf::UnixToDosLockCommand( const xbShort WaitOption,
     const xbShort LockType ) const
 // this method converts the unix locking commands into as close of 
 // a dos lock command as is possible

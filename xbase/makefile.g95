@@ -76,12 +76,12 @@ WIN32_SYSTEM_DIR = \winnt\system32
 #
 # Directory to install development libs into
 #
-INSTALL_LIB_DIR = \mingw-3.2\lib
+INSTALL_LIB_DIR = \mingw\lib
 
 #
 # Directory to install header files into
 #
-INSTALL_INCLUDE_DIR = \mingw-3.2\include
+INSTALL_INCLUDE_DIR = \mingw\include
 
 DLL_OBJ_DIR = dobj
 STATIC_OBJ_DIR = sobj
