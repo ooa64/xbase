@@ -1,19 +1,14 @@
-                             XDB Version 1.2.0
+                             XBASE Version 2.0.0
                              
                              
                              
 WHAT IS IT?
 -----------
 
-XDB is an xbase (i.e. dBase, FoxPro, etc.) compatible C++ class library 
-originally based on the xBase library (version 1.8.1) by Gary Kunkel and 
-others (see the AUTHORS file).
+XBase is an xbase (i.e. dBase, FoxPro, etc.) compatible C++ class library 
+originally by Gary Kunkel and others (see the AUTHORS file).
 
-XDB was forked off from the xBase library because the original authors
-are busy working on other things and we wanted to make our changes and
-bugfixes available to others who might be interested.
-
-XDB is useful for accessing data in legacy dBase 3 and 4 database files as
+XBASE is useful for accessing data in legacy dBase 3 and 4 database files as
 well as a general light-weight database engine.  It includes support for
 DBF (dBase version 3 and 4) data files, NDX and NTX indexes, and DBT 
 (dBase version 3 and 4).  It supports file and record locking under *nix
@@ -27,13 +22,13 @@ DIRECTORY LAYOUT
     /examples   contains various test programs
     /html       contains the original xBase documentation in html format
     /tv         turbo vision interface stuff
-    /xdb        XDB source and header files
+    /xbase      XBase source and header files
 
 
 BUILDING THE LIBRARY
 --------------------
 
-XDB uses autoconf and libtool to manage the build process.
+XBase uses autoconf and libtool to manage the build process.
 
 To configure the library for your specific system, run the "configure"
 shell script as follows:
@@ -76,9 +71,6 @@ DOCUMENTATION
 The documentation at this point consists of the original xBase documentation
 (in the html directory).  It is still very useful as little has changed 
 from the original library except bugfixes and a few enhancements.
-However, instead of including "xbase/xxx.h", you should include "xdb/xxx.h"
-and should link against the xdb library instead of the xbase library (i.e.
--lxdb).
 
 We are working on incorporating comments into the source to allow
 generation of reference documentation using the Doxygen document generator.
