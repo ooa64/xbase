@@ -1,4 +1,4 @@
-/*  $Id: lock.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: lock.cpp,v 1.6 2002/12/22 09:08:21 dbryson Exp $
 
     Xbase project source code
 
@@ -75,6 +75,10 @@
 
 #include <errno.h>
 
+const int
+  xbF_SETLK = F_SETLK,
+  xbF_SETLKW = F_SETLKW;
+
 /*! \file lock.cpp
 */
 
@@ -98,6 +102,27 @@ xbShort xbDbf::UnixToDosLockCommand( const xbShort WaitOption,
     return LK_LOCK;
 }
 #endif
+
+#ifdef HAVE_FCNTL
+//
+//  This method handles the case where fcntl fails because it is interrupted
+//  for some reason.  In this case it will return -1 and set errno to
+//  EINTR.  If it does this, we must try again.
+static int 
+DoFcntl(int fd, int cmd, struct flock *lock)
+{
+  int
+    rc;
+
+  do
+  {
+    rc = fcntl(fd, cmd, lock);
+  } while(rc == -1 && errno == EINTR);
+
+  return rc;
+}
+#endif
+
 /************************************************************************/
 //! Short description
 /*!
@@ -253,7 +278,7 @@ xbShort xbDbf::LockDatabase( const xbShort WaitOption, const xbShort LockType,
    }
 
 #ifdef HAVE_FCNTL
-   if(fcntl(fileno(fp), WaitOption, &fl) == -1)
+   if(DoFcntl(fileno(fp), WaitOption, &fl) == -1)
 {
 //fprintf(stderr, "LockDatabase:  failed!\n");
       xb_error(XB_LOCK_FAILED)
@@ -391,7 +416,7 @@ xbShort xbIndex::LockIndex( const xbShort WaitOption,
 //   fl.l_len = XB_NDX_NODE_SIZE;
    fl.l_len = 1;
 
-   if( fcntl( fileno( indexfp ), WaitOption, &fl ) == -1 )
+   if(DoFcntl( fileno( indexfp ), WaitOption, &fl ) == -1 )
        xb_error(XB_LOCK_FAILED)
    else
    {
@@ -401,7 +426,7 @@ xbShort xbIndex::LockIndex( const xbShort WaitOption,
          CurLockCount++;
       }
       else if(!CurLockCount)
-         CurLockType = 0;
+         CurLockType = -1;
       return XB_NO_ERROR;
    }
 #else
@@ -418,7 +443,7 @@ xbShort xbIndex::LockIndex( const xbShort WaitOption,
          CurLockCount++;
       }
       else if(!CurLockCount)
-         CurLockType = 0;
+         CurLockType = -1;
       return XB_NO_ERROR;
    }
 #endif
@@ -490,7 +515,7 @@ xbShort xbDbf::LockMemoFile( const xbShort WaitOption, const xbShort LockType )
    fl.l_start  = 0L;
    fl.l_len    = 4L;
 
-   if( fcntl( fileno( mfp ), WaitOption, &fl ) == -1 )
+   if(DoFcntl( fileno( mfp ), WaitOption, &fl ) == -1 )
        xb_error(XB_LOCK_FAILED)
    else
    {
@@ -500,7 +525,7 @@ xbShort xbDbf::LockMemoFile( const xbShort WaitOption, const xbShort LockType )
          CurMemoLockCount++;
       }
       else if(!CurMemoLockCount)
-         CurMemoLockType = 0;
+         CurMemoLockType = -1;
       return XB_NO_ERROR;
    }
 #else
@@ -518,7 +543,7 @@ xbShort xbDbf::LockMemoFile( const xbShort WaitOption, const xbShort LockType )
          CurMemoLockCount++;
       }
       else if(!CurMemoLockCount)
-         CurMemoLockType = 0;
+         CurMemoLockType = -1;
       return XB_NO_ERROR;
    }
 #endif

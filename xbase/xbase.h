@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.25 2002/12/08 07:53:20 dbryson Exp $
+/*  $Id: xbase.h,v 1.26 2002/12/22 09:08:21 dbryson Exp $
 
     Xbase project source code
 
@@ -200,6 +200,15 @@ public:
 #endif
 
 #ifdef XB_LOCKING_ON
+
+//
+// Use these instead of F_SETLK and F_SETLKW to insure Xbase gets
+// the right value rather than whatever is defined in your environment
+// during compile.
+//
+extern const int
+  xbF_SETLK,
+  xbF_SETLKW;
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
