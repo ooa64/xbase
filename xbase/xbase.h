@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.20 2001/08/02 16:12:47 dyp Exp $
+/*  $Id: xbase.h,v 1.21 2002/03/19 19:16:33 dbryson Exp $
 
     Xbase project source code
 
@@ -63,8 +63,8 @@
 //
 //  Identify ourselves
 //
-#define XDB_VERSION        "2.0.0"
-#define XBASE_VERSION        "2.0.0"
+#define XDB_VERSION        "2.1.0"
+#define XBASE_VERSION        "2.1.0"
 
 #include <string.h>
 
@@ -112,6 +112,14 @@
 #if defined(XB_EXPRESSIONS)
 #include <xbase/exp.h>
 #endif
+
+#ifndef XB_MIN
+#define XB_MIN(a, b)	((a < b) ? a : b)
+#endif /* XB_MIN */
+
+#ifndef XB_MAX
+#define XB_MAX(a, b)	((a < b) ? b : a)
+#endif /* XB_MAX */
 
 /*! \file xbase.h
 */

@@ -1,4 +1,4 @@
-/*  $Id: xbase.h.in,v 1.6 2001/08/02 16:12:47 dyp Exp $
+/*  $Id: xbase.h.in,v 1.7 2002/03/19 19:16:33 dbryson Exp $
 
     Xbase project source code
 
@@ -112,6 +112,14 @@
 #if defined(XB_EXPRESSIONS)
 #include <xbase/exp.h>
 #endif
+
+#ifndef XB_MIN
+#define XB_MIN(a, b)	((a < b) ? a : b)
+#endif /* XB_MIN */
+
+#ifndef XB_MAX
+#define XB_MAX(a, b)	((a < b) ? b : a)
+#endif /* XB_MAX */
 
 /*! \file xbase.h
 */
