@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.11 2002/04/04 23:11:14 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.12 2002/05/09 01:40:30 dbryson Exp $
 
     Xbase project source code
    
@@ -727,6 +727,7 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
      return XB_NO_ERROR;
 //     xb_error(XB_NOT_OPEN);
 
+#if 0 //  shouldn't need any of this 05/08/2002 DTB
    if (DbfStatus == XB_UPDATED /*&& AutoUpdate*/ ) {
       xbDate d;
       UpdateYY = d.YearOf() - 1900;
@@ -744,6 +745,7 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
       fputc( XB_CHAREOF, fp );
       PutRecord( CurRec );
    }
+#endif
 
 #if defined(XB_INDEX_ANY)
    i = NdxList;
@@ -1066,6 +1068,14 @@ xbShort xbDbf::BlankRecord( void )
    if( DbfStatus == XB_CLOSED ) 
      xb_error(XB_NOT_OPEN);
 
+#if 1
+   if( DbfStatus != XB_UPDATED )
+   {
+      DbfStatus = XB_UPDATED;
+      memcpy( RecBuf2, RecBuf, RecordLen );
+   }
+#endif   
+  
    memset( RecBuf, 0x20, RecordLen );
    return XB_NO_ERROR;
 }
@@ -1312,17 +1322,17 @@ xbShort xbDbf::GetRecord( xbULong RecNo )
 
    if( DbfStatus == XB_CLOSED )
     xb_error(XB_NOT_OPEN);
- 
-#ifndef XB_LOCKING_ON
+
+#if 0 // This shouldn't be here 05/08/2002 DTB
    if( DbfStatus == XB_UPDATED /*&& AutoUpdate*/ )   /* update previous rec if necessary */
       if(( rc = PutRecord( CurRec )) != 0 )
          return rc;
-#endif         
+#endif
 
 #ifdef XB_LOCKING_ON
    if( AutoLock )
       if(( rc = LockDatabase( F_SETLKW, F_RDLCK, RecNo )) != 0 ) return rc;
-      
+
    if((rc = ReadHeader(1)) != XB_NO_ERROR)
    {
       if(AutoLock)
@@ -1402,7 +1412,7 @@ xbShort xbDbf::GetFirstRecord( void )
    if( NoOfRecs == 0 )
      xb_error(XB_INVALID_RECORD);
 
-#ifndef XB_LOCKING_ON
+#if 0 // This shouldn't be here 05/08/2002 DTB
    if( DbfStatus == XB_UPDATED /*&& AutoUpdate*/ )  /* updatfe previous rec if necessary */
       if(( rc = PutRecord( CurRec )) != 0 )
          return rc;
@@ -1456,18 +1466,18 @@ xbShort xbDbf::GetLastRecord( void )
    if( NoOfRecs == 0 )
      xb_error(XB_INVALID_RECORD);
 
-#ifndef XB_LOCKING_ON
+#if 0 // This shouldn't be here 05/08/2002 DTB
    if( DbfStatus == XB_UPDATED /*&& AutoUpdate*/ )  /* update previous rec if necessary */
       if(( rc = PutRecord( CurRec )) != 0 )
          return rc;
-#endif         
+#endif
 
    rc = GetRecord( NoOfRecs );
 #ifdef XB_REAL_DELETE
    if(!rc && RealDelete && RecordDeleted())
      rc = GetPrevRecord();
 #endif
-     
+
    return rc;
 }
 /************************************************************************/
@@ -1475,7 +1485,7 @@ xbShort xbDbf::GetLastRecord( void )
 /*!
   Attempts to retrieve the next physical record from the data file into
   the record buffer.
-  
+
   \returns One of the following:
     \htmlonly
       <p>
@@ -1513,7 +1523,7 @@ xbShort xbDbf::GetNextRecord( void )
      xb_eof_error;
    }
 
-#ifndef XB_LOCKING_ON
+#if 0 // This shouldn't be here 05/08/2002 DTB
    if( DbfStatus == XB_UPDATED /*&& AutoUpdate*/ )  /* update previous rec if necessary */
       if(( rc = PutRecord( CurRec )) != 0 )
          return rc;
@@ -1570,7 +1580,7 @@ xbShort xbDbf::GetPrevRecord( void )
      xb_eof_error;
    }
 
-#if XB_LOCKING_ON
+#if 0 // This shouldn't be here 05/08/2002 DTB
    if( DbfStatus == XB_UPDATED /*&& AutoUpdate*/ )  /* update previous rec if necessary */
       if(( rc = PutRecord( CurRec )) != 0 )
          return rc;
@@ -1757,9 +1767,12 @@ perror("failed index lock");
       if( i->index->UniqueIndex() )
       {
         if(( i->KeyUpdated = i->index->KeyWasChanged()) == 1 )
-          if( i->index->FindKey() == XB_FOUND )
-            xb_error(XB_KEY_NOT_UNIQUE);      
-      } 
+        {
+          i->index->CreateKey(0, 0);
+          if( i->index->FindKey() == XB_FOUND && i->index->GetCurDbfRec() != RecNo)
+            xb_error(XB_KEY_NOT_UNIQUE);
+        }
+      }
       i = i->NextIx;
    }
 #endif
@@ -1791,6 +1804,7 @@ perror("failed index lock");
            }
 #endif               /* XB_INDEX_ANY  */
 #endif               /* XB_LOCKING_ON */
+           rc = 10000;
            return rc;
          }
 
@@ -1825,6 +1839,18 @@ perror("failed index lock");
 
    if( fwrite( RecBuf, RecordLen, 1, fp ) != 1 )
      xb_error(XB_WRITE_ERROR);
+
+   /* calculate the latest header information */
+   xbDate d;
+   UpdateYY = d.YearOf() - 1900;
+   if(XFV == 3)
+      UpdateYY %= 100;  // dBASE III seems to do this, IV does not.  DTB
+   UpdateMM = d.MonthOf();
+   UpdateDD = d.DayOf( XB_FMT_MONTH );
+
+   /* rewrite the header record */
+   if(( rc = WriteHeader( 1 )) != XB_NO_ERROR )
+      return rc;
 
 #ifdef XB_LOCKING_ON
    if( AutoLock )

@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.12 2002/03/19 19:17:08 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.13 2002/05/09 01:40:30 dbryson Exp $
 
     Xbase project source code
 
@@ -2766,12 +2766,12 @@ xbShort xbNdx::CheckIndexIntegrity( const xbShort option )
    xbShort rc;
    xbLong ctr = 1L;
 
-   rc = dbf->GetRecord( ctr );
-   while( ctr < dbf->NoOfRecords() )
+   while( ctr <= dbf->NoOfRecords() )
    {
-      ctr++;
       if( option ) cout << "\nChecking Record " << ctr;
-      if(!dbf->RecordDeleted())      
+      if(( rc = dbf->GetRecord(ctr++)) != XB_NO_ERROR )
+         return rc;
+      if(!dbf->RecordDeleted())
       {
          CreateKey( 0, 0 );
          rc = FindKey( KeyBuf, dbf->GetCurRecNo());
@@ -2785,11 +2785,9 @@ xbShort xbNdx::CheckIndexIntegrity( const xbShort option )
             return rc;
          }
       }
-      if(( rc = dbf->GetRecord( ctr )) != XB_NO_ERROR )
-         return rc;
    }
    if( option ){
-      cout << "\nTotal records checked = " << ctr << "\n";
+      cout << "\nTotal records checked = " << ctr - 1 << "\n";
       cout << "Exiting with rc = " << rc << "\n";
    }
 
