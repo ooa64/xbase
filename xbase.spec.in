@@ -22,7 +22,7 @@ Headers and such for compiling programs that use the Xbase library.
 
 %prep
 %setup
-CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=/usr --with-exceptions --enable-static
+CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=/usr --enable-static
 
 %build
 make

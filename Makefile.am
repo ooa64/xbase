@@ -36,7 +36,7 @@
 #        linux.techass.com
 #
 
-SUBDIRS = xbase examples bin html tv
+SUBDIRS = xbase examples bin html tv libtest
 
 MAINTAINERCLEANFILES = Makefile.in configure aclocal.m4 libtool
 
