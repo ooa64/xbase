@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.4 2000/10/31 00:54:24 dbryson Exp $
 
     Xbase project source code
 
@@ -58,7 +58,7 @@
 #include <ctype.h>
 #include <sys/stat.h>
 
-/* FIXME?	Why <unistd.h> is there?  Nothing bad happens if it isn't.
+/* FIXME?   Why <unistd.h> is there?  Nothing bad happens if it isn't.
    -- willy */
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -225,10 +225,10 @@ xbNodeLink * xbNtx::GetNodeMemory( void )
 
       memset( temp, 0x00, sizeof( xbNodeLink ));
       temp->offsets = (xbUShort *)malloc( (HeadNode.KeysPerNode + 1) * sizeof(xbUShort));
-	  if (temp->offsets==NULL) {
-		free(temp);
-		return NULL;
-	  };
+     if (temp->offsets==NULL) {
+      free(temp);
+      return NULL;
+     };
       NodeLinkCtr++;
    }
    return temp;
@@ -279,19 +279,19 @@ xbNtx::xbNtx( xbDbf * pdbf )  : xbIndex (pdbf)
 xbShort
 xbNtx::AllocKeyBufs(void)
 {
-	KeyBuf  = (char *) malloc( HeadNode.KeyLen + 1 ); 
-	if(KeyBuf==NULL) { 
-		return XB_NO_MEMORY;		
-	};
-	KeyBuf2 = (char *) malloc( HeadNode.KeyLen + 1);
-	if(KeyBuf2==NULL) {
-		free(KeyBuf);
-		return XB_NO_MEMORY;		
-	};
-	memset( KeyBuf,  0x00, HeadNode.KeyLen + 1 );
-	memset( KeyBuf2, 0x00, HeadNode.KeyLen + 1 );
+   KeyBuf  = (char *) malloc( HeadNode.KeyLen + 1 ); 
+   if(KeyBuf==NULL) { 
+      return XB_NO_MEMORY;    
+   };
+   KeyBuf2 = (char *) malloc( HeadNode.KeyLen + 1);
+   if(KeyBuf2==NULL) {
+      free(KeyBuf);
+      return XB_NO_MEMORY;    
+   };
+   memset( KeyBuf,  0x00, HeadNode.KeyLen + 1 );
+   memset( KeyBuf2, 0x00, HeadNode.KeyLen + 1 );
 
-	return XB_NO_ERROR;
+   return XB_NO_ERROR;
 }
 /***********************************************************************/
 //! Short description.
@@ -343,24 +343,30 @@ xbShort xbNtx::OpenIndex( const char * FileName )
       return rc;
    }
 
-    /* parse the expression */
-    if(( rc = dbf->xbase->BuildExpressionTree( HeadNode.KeyExpression,
+   /* parse the expression */
+   if(( rc = dbf->xbase->BuildExpressionTree( HeadNode.KeyExpression,
        strlen( HeadNode.KeyExpression ), dbf )) != XB_NO_ERROR )
-    {
+   {
 #ifdef XB_LOCKING_ON
       if( dbf->GetAutoLock() )
          LockIndex(F_SETLKW, F_UNLCK);
 #endif
-          return rc;
-    }
-    ExpressionTree = dbf->xbase->GetTree();
-    dbf->xbase->SetTreeToNull(); 
+      fclose( indexfp );
+      return rc;
+   }
+   ExpressionTree = dbf->xbase->GetTree();
+   dbf->xbase->SetTreeToNull(); 
 
-	rc=AllocKeyBufs();
-	if(rc) {
-		fclose(indexfp);
-		return rc;		
-	};
+   rc=AllocKeyBufs();
+   if(rc) 
+   {
+#ifdef XB_LOCKING_ON
+      if( dbf->GetAutoLock() )
+         LockIndex(F_SETLKW, F_UNLCK);
+#endif
+      fclose(indexfp);
+      return rc;     
+   }
 
 #ifdef XBASE_DEBUG
 //   CheckIndexIntegrity( 0 );
@@ -466,8 +472,8 @@ xbShort xbNtx::GetLeafNode( xbLong NodeNo, xbShort SetNodeChain )
    p = Node + 2;
    for (int i = 0; i < HeadNode.KeysPerNode + 1; i++)
    {
-       n->offsets[i] = dbf->xbase->GetShort( p );
-       p += 2;
+      n->offsets[i] = dbf->xbase->GetShort( p );
+      p += 2;
    }
    
 
@@ -511,7 +517,7 @@ void xbNtx::DumpNodeRec( xbLong n )
 
    GetLeafNode( n, 0 );
    NoOfKeys = dbf->xbase->GetShort( Node );
-   p = Node + 4;			/* go past no of keys */
+   p = Node + 4;        /* go past no of keys */
    cout << "\n--------------------------------------------------------";
    cout << "\nNode # " << n << " Number of keys = " << NoOfKeys << "\n";
 
@@ -698,7 +704,7 @@ xbShort xbNtx::GetFirstKey( xbShort RetrieveSw )
 #ifdef XB_LOCKING_ON
    if( dbf->GetAutoLock() )
       if((rc = LockIndex(F_SETLKW, F_RDLCK)) != 0)
-        return rc;
+         return rc;
 #endif
        
    /* initialize the node chain */
@@ -739,7 +745,7 @@ xbShort xbNtx::GetFirstKey( xbShort RetrieveSw )
          if( dbf->GetAutoLock() )
             LockIndex(F_SETLKW, F_UNLCK);
 #endif
-     CurDbfRec = 0L;
+         CurDbfRec = 0L;
          return rc;     
       }
       CurNode->CurKeyNo = 0;
@@ -772,7 +778,7 @@ xbShort xbNtx::GetNextKey( xbShort RetrieveSw )
 #ifdef XB_LOCKING_ON
    if( dbf->GetAutoLock() )
       if((rc = LockIndex(F_SETLKW, F_RDLCK)) != 0)
-        return rc;
+         return rc;
 #endif
 
    if( !IndexStatus )
@@ -815,13 +821,13 @@ xbShort xbNtx::GetNextKey( xbShort RetrieveSw )
    if( CurNode->NodeNo == HeadNode.StartNode )
    {
 #ifdef XB_LOCKING_ON
-          if( dbf->GetAutoLock() )
-             LockIndex(F_SETLKW, F_UNLCK);
+      if( dbf->GetAutoLock() )
+         LockIndex(F_SETLKW, F_UNLCK);
 #endif
 #ifdef HAVE_EXCEPTIONS
-		 throw xbEoFException();
+      throw xbEoFException();
 #else
-	   return XB_EOF;
+      return XB_EOF;
 #endif
    }
 
@@ -851,13 +857,13 @@ xbShort xbNtx::GetNextKey( xbShort RetrieveSw )
       ( CurNode->CurKeyNo >= CurNode->Leaf.NoOfKeysThisNode ))
    {
 #ifdef XB_LOCKING_ON
-          if( dbf->GetAutoLock() )
-             LockIndex(F_SETLKW, F_UNLCK);
+      if( dbf->GetAutoLock() )
+         LockIndex(F_SETLKW, F_UNLCK);
 #endif
 #ifdef HAVE_EXCEPTIONS
-		 throw xbEoFException();
+      throw xbEoFException();
 #else
-	   return XB_EOF;
+      return XB_EOF;
 #endif
    }
 
@@ -868,8 +874,8 @@ xbShort xbNtx::GetNextKey( xbShort RetrieveSw )
    if(( rc = GetLeafNode( TempNodeNo, 1 )) != 0 )
    {
 #ifdef XB_LOCKING_ON
-          if( dbf->GetAutoLock() )
-             LockIndex(F_SETLKW, F_UNLCK);
+      if( dbf->GetAutoLock() )
+         LockIndex(F_SETLKW, F_UNLCK);
 #endif
       return rc;
    }
@@ -881,8 +887,8 @@ xbShort xbNtx::GetNextKey( xbShort RetrieveSw )
       if(( rc = GetLeafNode( TempNodeNo, 1 )) != 0 )
       {
 #ifdef XB_LOCKING_ON
-          if( dbf->GetAutoLock() )
-             LockIndex(F_SETLKW, F_UNLCK);
+         if( dbf->GetAutoLock() )
+            LockIndex(F_SETLKW, F_UNLCK);
 #endif
          CurDbfRec = 0L;
          return rc;     
@@ -923,7 +929,7 @@ xbShort xbNtx::GetLastKey( xbLong NodeNo, xbShort RetrieveSw )
 #ifdef XB_LOCKING_ON
    if( dbf->GetAutoLock() )
       if((rc = LockIndex(F_SETLKW, F_RDLCK)) != 0)
-        return rc;
+         return rc;
 #endif
 
    /* initialize the node chain */
@@ -1065,9 +1071,9 @@ xbShort xbNtx::GetPrevKey( xbShort RetrieveSw )
          LockIndex(F_SETLKW, F_UNLCK);
 #endif
 #ifdef HAVE_EXCEPTIONS
-		 throw xbEoFException();
+       throw xbEoFException();
 #else
-	   return XB_EOF;
+      return XB_EOF;
 #endif
    }
 
@@ -1096,9 +1102,9 @@ xbShort xbNtx::GetPrevKey( xbShort RetrieveSw )
          LockIndex(F_SETLKW, F_UNLCK);
 #endif
 #ifdef HAVE_EXCEPTIONS
-		 throw xbEoFException();
+      throw xbEoFException();
 #else
-	   return XB_EOF;
+      return XB_EOF;
 #endif
    }
 
@@ -1115,13 +1121,13 @@ xbShort xbNtx::GetPrevKey( xbShort RetrieveSw )
       return rc;
    }
 
-   if( GetLeftNodeNo( 0, CurNode ))	/* if interior node */
+   if( GetLeftNodeNo( 0, CurNode )) /* if interior node */
       CurNode->CurKeyNo = CurNode->Leaf.NoOfKeysThisNode;
-   else					/* leaf node */
+   else              /* leaf node */
       CurNode->CurKeyNo = CurNode->Leaf.NoOfKeysThisNode -1;
 
 /* traverse down the right side of the tree */
-   while( GetLeftNodeNo( 0, CurNode ))		/* while interior node */
+   while( GetLeftNodeNo( 0, CurNode ))    /* while interior node */
    {
       TempNodeNo = GetLeftNodeNo( CurNode->Leaf.NoOfKeysThisNode, CurNode );     
       if(( rc = GetLeafNode( TempNodeNo, 1 )) != 0 )
@@ -1133,9 +1139,9 @@ xbShort xbNtx::GetPrevKey( xbShort RetrieveSw )
          CurDbfRec = 0L;
          return rc;     
       }
-      if( GetLeftNodeNo( 0, CurNode ))	/* if interior node */
+      if( GetLeftNodeNo( 0, CurNode )) /* if interior node */
          CurNode->CurKeyNo = CurNode->Leaf.NoOfKeysThisNode;
-      else					/* leaf node */
+      else              /* leaf node */
          CurNode->CurKeyNo = CurNode->Leaf.NoOfKeysThisNode -1;
    }
    CurDbfRec = GetDbfNo( CurNode->Leaf.NoOfKeysThisNode -1, CurNode );
@@ -1368,7 +1374,7 @@ xbShort xbNtx::FindKey( const char * Tkey, xbShort Klen, xbShort RetrieveSw )
 #ifdef XB_LOCKING_ON
    if( dbf->GetAutoLock() )
       if((rc = LockIndex(F_SETLKW, F_RDLCK)) != 0)
-        return rc;
+         return rc;
 #endif
 
    if( NodeChain )
@@ -1409,11 +1415,11 @@ xbShort xbNtx::FindKey( const char * Tkey, xbShort Klen, xbShort RetrieveSw )
    }
 
    /* traverse down the tree until it hits a leaf */
-   while( GetLeftNodeNo( 0, CurNode ))	/* while interior node */
+   while( GetLeftNodeNo( 0, CurNode )) /* while interior node */
    {
       TempNodeNo = GetLeafFromInteriorNode( Tkey, Klen );
 
-#if 0
+#if 1
       // GetLeafFromInteriorNode will return 0 if the key is found on
       // an inode. But the leftNodeNo will not be 0. 
       if (TempNodeNo == 0 &&
@@ -1543,9 +1549,9 @@ xbShort xbNtx::CreateIndex(const char * IxName, const char * Exp, xbShort Unique
    if(( IndexName = (char *) malloc( NameLen )) == NULL )
    {
 #ifdef HAVE_EXCEPTIONS
-		 throw xbOutOfMemoryException();
+       throw xbOutOfMemoryException();
 #else
-	   return XB_NO_MEMORY;
+      return XB_NO_MEMORY;
 #endif
    }
 */           
@@ -1582,7 +1588,7 @@ xbShort xbNtx::CreateIndex(const char * IxName, const char * Exp, xbShort Unique
 #ifdef XB_LOCKING_ON
    if( dbf->GetAutoLock() )
       if((rc = LockIndex(F_SETLKW, F_WRLCK)) != 0)
-        return rc;
+         return rc;
 #endif
 
    /* parse the expression */
@@ -1630,11 +1636,11 @@ xbShort xbNtx::CreateIndex(const char * IxName, const char * Exp, xbShort Unique
    HeadNode.Unique = Unique;
    strncpy( HeadNode.KeyExpression, Exp, 255 );
 
-	rc=AllocKeyBufs();
-	if(rc) {
-		fclose(indexfp);
-		return rc;		
-	};
+   rc=AllocKeyBufs();
+   if(rc) {
+      fclose(indexfp);
+      return rc;     
+   };
 
    if(( rc = PutHeadNode( &HeadNode, indexfp, 0 )) != 0 )
    {
@@ -2356,7 +2362,7 @@ xbShort xbNtx::AddKey( xbLong DbfRec )
 #ifdef HAVE_EXCEPTIONS
           throw xbOutOfMemoryException();
 #else
-	   return XB_NO_MEMORY;
+      return XB_NO_MEMORY;
 #endif
 
 
@@ -2386,7 +2392,7 @@ xbShort xbNtx::AddKey( xbLong DbfRec )
 #ifdef HAVE_EXCEPTIONS
           throw xbOutOfMemoryException();
 #else
-	   return XB_NO_MEMORY;
+      return XB_NO_MEMORY;
 #endif
 
 
@@ -2621,7 +2627,7 @@ xbShort xbNtx::KeyWasChanged( void )
 //    GetLastKey( Left->NodeNo, 0 );
 //    memcpy( KeyBuf, GetKeyData( CurNode->CurKeyNo, CurNode ), HeadNode.KeyLen);
 //    ReleaseNodeMemory( NodeChain );
-//    NodeChain = NULL;			/* for next GetLastKey */
+//    NodeChain = NULL;       /* for next GetLastKey */
 //    PutKeyData( Left->Leaf.NoOfKeysThisNode, Left); 
 //    PutLeftNodeNo( Left->Leaf.NoOfKeysThisNode+1, Left, GetLeftNodeNo( j,n ));
 //    Left->Leaf.NoOfKeysThisNode++;
@@ -3307,7 +3313,7 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
    } 
    if(saveAutoLock)
       dbf->AutoLockOn();
-	  
+     
    return XB_NO_ERROR;
 }
 
