@@ -1,15 +1,16 @@
-/*  $Id: locktest.cpp,v 1.2 2000/06/07 05:02:35 dbryson Exp $
+/*  $Id: locktest.cpp,v 1.3 2000/06/07 17:54:05 dbryson Exp $
 
     this debugging program tests Xbase locking functions
 */
 
-#include "xdb/xbase.h"
+#include "xbase.h"
 #include <stdlib.h>
 #include <stdio.h>
 
 int main(int, char**)
 {
-#ifdef XBASE_LOCKING_ON
+#if 0 // FIXME - seriously
+#ifdef XB_LOCKING_ON
    xbShort rc;
 
    if(2!=ac){
@@ -38,7 +39,8 @@ int main(int, char**)
    cout << "Unlock database rc = " << rc << "\n";
    d.CloseDatabase();
 #else
-   cout << "\nXBASE_LOCKING_ON is not compiled in\n";
+   cout << "\nXB_LOCKING_ON is not compiled in\n";
+#endif
 #endif
    return 0;
 }
