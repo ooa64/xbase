@@ -1,0 +1,43 @@
+Hello Derry
+
+Here's the test results:
+
+                .---------DBT flag (Memofile)
+                | .-------Precence of SQL table
+                | | .-----Presence of memofile
+                | | |  ---Version no.
+dBASE III       |/ \|/ \
+                76543210
+T1      03h     00000011        DBF only
+T2      83h     10000011        DBF and memo file
+T3      83h     10000011        DBF and memo file and indexes
+
+Structure for database: E:T3.dbf
+Number of data records:       0
+Date of last update   : 12/06/00
+Field  Field Name  Type       Width    Dec      Index
+    1  CHARACTER   Character    100             CHAR3           (Max 100 bytes)
+    2  NUMERIC     Numeric       19     15      NUMERIC3
+    3  DATE        Date           8             DATE3
+    4  LOGICAL     Logical        1
+    5  MEMO        Memo          10
+** Total **                     139
+
+
+
+                .---------DBT flag (Memofile)
+                | .-------Precence of SQL table
+                | | .-----Presence of memofile
+                | | |  ---Version no.
+dBASE IV        |/ \|/ \
+                76543210
+T4      04h     00000100        DBF only
+T5      8Bh     10001011        DBF and memo file
+T6      8Bh     10001011        DBF with memo file and indexes
+
+
+
+
+:-)
+
+Erik Bachmann
