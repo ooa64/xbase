@@ -49,12 +49,12 @@ int CheckIndex(
 #endif
               );
 
-main()
+int main()
 {
   xbShort f1, f2, f3, rc, sts = 0;
   char charbuf[10];
 
-  xbSchema MyRecord[] = 
+  xbSchema MyRecord[] =
   {
     { "CHARFLD1",  XB_CHAR_FLD,      6, 0 },
     { "CHARFLD2",  XB_CHAR_FLD,      6, 0 },
@@ -85,27 +85,27 @@ main()
 
 
   cout << "Creating test database and indices" << endl;
-  if(( rc = MyFile.CreateDatabase( "IXTEST.DBF", MyRecord, XB_OVERLAY )) 
+  if(( rc = MyFile.CreateDatabase( "IXTEST.DBF", MyRecord, XB_OVERLAY ))
         != XB_NO_ERROR )
      cout << "Error creating database = " << rc << "\n";
   else
   {
 #ifdef XB_INDEX_NDX
-     if(( rc = indx1.CreateIndex( 
+     if(( rc = indx1.CreateIndex(
        "IXNDX1.NDX", "CHARFLD1", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
-        cout << "Error creating index 1 = " << rc << endl;       
+        cout << "Error creating index 1 = " << rc << endl;
         exit( 1 );
      }
 
-     if(( rc = indx2.CreateIndex( 
+     if(( rc = indx2.CreateIndex(
        "IXNDX2.NDX", "CHARFLD1+CHARFLD2", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
         cout << "Error creating index 2 = " << rc << endl;
         exit( 1 );
      }
 
-     if(( rc = indx3.CreateIndex( 
+     if(( rc = indx3.CreateIndex(
        "IXNDX3.NDX", "NUMFLD1", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
         cout << "Error creating index 3 = " << rc << endl;
@@ -113,9 +113,9 @@ main()
      }
 #endif
 
-     
+
 #ifdef XB_INDEX_NTX
-     if(( rc = intx1.CreateIndex( 
+     if(( rc = intx1.CreateIndex(
        "IXNTX1.NTX", "CHARFLD1", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
         cout << "Error creating index 4 = " << rc << endl;
