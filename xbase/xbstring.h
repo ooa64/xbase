@@ -78,39 +78,15 @@ public:
 
   virtual ~xbString();
 
+  operator const char *() const;
+  char operator[](int n) { return data[n]; }
+
   xbString &operator=(const xbString &s);
   xbString &operator=(const char *s);
   xbString &operator=(char c);
-  
-  bool isNull() const;
-  bool isEmpty() const;
-  size_t len() const;
-  size_t length() const;
-
-  void resize(size_t size);  
-  xbString copy() const;
-  
-  xbString &sprintf(const char *format, ...);
-  void setNum(long num);
-
-  xbString& assign(const xbString& str, size_t pos = 0, int n = npos);
-  xbString& assign(char* str, int n);
-  char operator[](int n) { return data[n]; }
-  char getCharacter( int n ) const { return data[n]; }
-  operator const char *() const;
   xbString &operator+=(const char *s);
   xbString &operator+=(char c);
   xbString &operator-=(const char *s);
-  void putAt(size_t pos, char c);
-
-  const char *getData() const;
-  const char *c_str() const;
-  void toLowerCase();
-  int pos(char c);
-  int pos(const char* s);
-  void trim();
-  bool compare(char s);
-  bool compare(const char *s);
 
   bool operator == ( const xbString& ) const;
   bool operator != ( const xbString& ) const;
@@ -120,15 +96,41 @@ public:
   bool operator >= ( const xbString& ) const;
 
   friend XBDLLEXPORT std::ostream& operator << ( std::ostream&,
-                                                 const xbString& );
-
-  xbString &remove(size_t pos = 0, int n = npos);
+                                             const xbString& );
+  void     addBackSlash( char c );
+  xbString &assign(const xbString& str, size_t pos = 0, int n = npos);
+  xbString &assign(char* str, int n);
+  xbString copy() const;
+  const char *c_str() const;
+  int      countChar( char c ) const;
+  int      cvtHexChar( char & out );
+  int      cvtHexString( xbString & out );
+  char     getCharacter( int n ) const { return data[n]; }
+  const char *getData() const;
+  bool     hasAlphaChars() const;
+  bool     isEmpty() const;
+  bool     isNull() const;
+  size_t   len() const;
+  size_t   length() const;
   xbString mid(size_t pos = 0, int n = npos) const;
+  void     lTrunc( size_t cnt );
+  int      pos(char c);
+  int      pos(const char* s);
+  void     putAt(size_t pos, char c);
+  xbString &remove(size_t pos = 0, int n = npos);
+  void     resize(size_t size);  
+  void     setNum(long num);
+  xbString &sprintf(const char *format, ...);
+  void     swapChars( char from, char to );
+  void     toLowerCase();
+  void     toUpperCase();
+  void     trim();
+  void     zapChar( char c );
+  void     zapLeadingChar( char c );
 
 protected:
   void ctor(const char *s);
   void ctor(const char *s, size_t maxlen);
-
   char *data;
   size_t size;
   static const char * NullString;

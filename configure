@@ -7973,7 +7973,7 @@ RELEASE="${RHREL}-${GXXVER}-2.1"
 
 
 # setup topdir
-topdir = `pwd`
+topdir=`pwd`
 
 
 

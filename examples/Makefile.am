@@ -6,7 +6,7 @@ LDADD	= -L$(topdir)/xbase -lxbase
 INSTALL_PROGRAM = @INSTALL@
 
 noinst_PROGRAMS = sample1 sample2 sample3 sample4 sample5 \
-               exfilter
+               exfilter string
 	       
 exfilter_SOURCES = exfilter.cpp
 sample1_SOURCES  = sample1.cpp
@@ -14,6 +14,7 @@ sample2_SOURCES  = sample2.cpp
 sample3_SOURCES  = sample3.cpp
 sample4_SOURCES  = sample4.cpp
 sample5_SOURCES  = sample5.cpp
+string_SOURCES   = string.cpp
 
 noinst_HEADERS =
 

@@ -1,4 +1,4 @@
-# $Id: Makefile.am,v 1.13 2003/08/20 01:53:27 gkunkel Exp $
+# $Id: Makefile.am,v 1.14 2003/08/20 22:53:03 gkunkel Exp $
 #
 #	This file is part of the XBase libraries
 #    Copyright (C) 1998 Denis Pershin (dyp@inetlab.com)
@@ -48,8 +48,8 @@ pkginclude_HEADERS = dbf.h exp.h html.h ndx.h retcodes.h xbase.h \
 #install-data-hook:
 #	(cd $(includedir); rm -f xbase.h; ln -s xbase/xbase.h xbase.h)
 
-libxbase_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp \
-	html.cpp lock.cpp memo.cpp ndx.cpp stack.cpp xbase.cpp xdate.cpp \
+libxbase_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp  \
+	html.cpp lock.cpp memo.cpp ndx.cpp stack.cpp xbase.cpp xdate.cpp  \
 	xbexcept.cpp xbstring.cpp index.cpp ntx.cpp xbfilter.cpp 
 
 EXTRA_DIST = \

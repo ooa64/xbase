@@ -421,6 +421,17 @@ void xbString::toLowerCase() {
     data[i] = (char)tolower(data[i]);
 }
 
+
+//! Short description.
+/*!
+*/
+void xbString::toUpperCase() {
+  int len = this->len();
+  for (int i=0;i<len;i++)
+    data[i] = (char)toupper(data[i]);
+}
+
+
 //! Short description.
 /*!
   \param c
@@ -791,3 +802,190 @@ xbString xbString::mid(size_t pos, int n) const {
   return s;
 }
 
+//! Short description.
+/*!
+  \param from
+  \param to
+*/
+void xbString::swapChars( char from, char to )
+{
+  size_t i;
+  for( i = 0; i < size; i++ )
+    if( data[i] == from )
+       data[i] = to;
+} 
+
+//! Short description.
+/*!
+  \param c
+*/
+void xbString::zapChar( char c )
+{
+  /* routine zaps every occurrence of a given character from the string */
+  int p;
+  size_t s;
+  p = pos( c );
+  while( p != -1 ){
+    for( s = (size_t) p; s < size; s++ )
+      putAt( s, data[s+1]);
+    resize( size-1 );
+    p = pos( c );
+  }
+}
+
+//! Short description.
+/*!
+  \param c
+*/
+int xbString::countChar( char c ) const
+{
+  int i,j;
+  
+  for( i = 0,j = 0; i < (int) size; i++ )
+    if( data[i] == c )
+      j++;
+
+  return j;
+}
+
+
+//! Short description.
+/*!
+  \param c
+*/
+
+void xbString::addBackSlash( char c )
+{
+ /* prefixes all char "c" with a backslash */
+ int i, t, cnt;
+ xbString ws;
+  
+  cnt = countChar( c );
+  if( !cnt )
+    return;
+    
+  ws.resize( size+cnt );
+  for( i = 0, t = 0; i < (int)size; i++ ){
+    if( data[i] == c )
+      ws.putAt( t++, '\\' );
+    ws.putAt( t++, data[i] );
+  }
+  ws.putAt( t, 0 );
+  *this = ws.getData();
+}
+
+//! Short description.
+/*!
+  \param cnt
+*/
+void xbString::lTrunc( size_t cnt )
+{
+  /* left truncate cnt butes */
+
+  char * ndata;
+  char * p;
+  if( cnt >= size ){
+    ctor(0);
+    return;
+  }
+  ndata = (char *) malloc( size - cnt );
+  p = data;
+  p += cnt;
+  strcpy( ndata, p );
+  free( data );
+  data = ndata;
+  size = size - cnt;
+}
+
+
+//! Short description.
+/*!
+  \param c
+*/
+void xbString::zapLeadingChar( char c )
+{
+  /* left truncate all of character c */
+
+  int len = 0;
+  char *p;
+  p = data;
+  while( *p && *p == c ){
+    len++;
+    p++;
+  }
+  if( len )
+    lTrunc( len );
+}
+
+
+//! Short description.
+/*!
+  \param c
+*/
+bool xbString::hasAlphaChars() const
+{
+  for( int i = 0; i < (int) size; i++ )
+    if( isalpha( data[i] ))
+      return 1;
+  return 0;
+}
+
+
+//! Short description.
+/*!
+  \param out
+*/
+
+int xbString::cvtHexChar( char & out )
+{
+  /* this routine converts a four byte string in the format of 0x00 
+     to a one byte char value 
+     
+     the first four bytes of the string must be in the format 0x00
+     anything past the first four bytes is disregarded
+     
+     returns -1 on error
+              0 on success 
+  */
+
+  int  j, k;
+  char c;
+    
+  if( len() < 4 || data[0] != '0' || (data[1]!='X' && data[1]!='x' ))
+    return -1;
+
+  c = toupper( data[2] );
+  j = ( c > '9' ? c - 'A' + 10 : c - '0' );
+  c = toupper( data[3] );
+  k = ( c > '9' ? c - 'A' + 10 : c - '0' );
+  j = ( j << 4 ) + k;
+    
+  out = ( char ) j; 
+  return 0;
+} 
+
+//! Short description.
+/*!
+  \param out
+*/
+int xbString::cvtHexString( xbString & out )
+{
+  /* this routine converts a string of four byte format of 0x00 
+     to a string of one byte chars 
+     
+     returns -1 on error
+              0 on success 
+  */
+
+  char c;
+  xbString ws;
+  ws = data;
+  out = "";
+  while( ws.len()){
+    if( ws.cvtHexChar( c ))
+      return -1;
+    out += c;
+    ws.lTrunc( 4 );
+  }
+  return 0;
+}

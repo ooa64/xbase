@@ -93,8 +93,8 @@ doxygen = @doxygen@
 install_sh = @install_sh@
 topdir = @topdir@
 
-INCLUDES = -I../xbase
-LDADD = -L../xbase -lxbase
+INCLUDES = -I$(topdir)
+LDADD = -L$(topdir)/xbase -lxbase
 
 noinst_PROGRAMS = indextst exptest locktest testdate testhtml.cgi
 

@@ -3,7 +3,7 @@
 <TITLE>Xbase DBMS Chapter 3</TITLE>
 <BODY BGCOLOR=#FFFFFF>
 <H1><p align="center">Fields and Strings</p></H1>
-<p align="center">Chapter Updated 2/1/99</p><hr>
+<p align="center">Chapter Updated 8/20/03</p><hr>
 
 <br><br>
 The title of this chapter almost sounds like a popular North American
@@ -68,8 +68,7 @@ more efficient than accessing by name.<br><br>
 <h2>Record Schema</h2>
 
 The record schema of a file can be found in the documentation for method
-CreateDatabase in the Database Methods chapter, or view example 
-<A HREF="/XbaseSamples/sample1.cpp">
+CreateDatabase in the Database Methods chapter, or view example program
 sample1.cpp.</A><br><br>
 
 <h2>Strings</h2>
@@ -78,15 +77,13 @@ Beginning with Release 1.8.0a, Xbase includes support for a string class
 <em>xbString</em>.  The original thinking was not to include a string 
 class in the library, and encourage users to use the string class
 native to the user's compiler.  But as C++ does not have a native way 
-to handle strings,
-and there is not a standard string class across C++ compilers, it was
-decided to include a lightweight string class with the library. 
-In some cases this
-is redundant.
+to handle strings, and there is not a standard string class across C++
+compilers, it was decided to include a lightweight string class with the 
+library. In some cases this is redundant, but it is portable.
 <br><br>
-The string class interface is derived from the <em>Draft Standard C++ 
-Library by P.J. Plauger</em>.  If you are familiar with other string 
-classes, this one should feel familiar to you.  
+The xbString class interface was derived from the <em>Draft Standard C++ 
+Library by P.J. Plauger</em> and modified.  If you are familiar with 
+other string classes, this one should feel similar.  
 <br><br>
 <hr>
 <p><img src="xbase.jpg"><hr>

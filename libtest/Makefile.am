@@ -1,6 +1,6 @@
 
-INCLUDES= -I../xbase
-LDADD	= -L../xbase -lxbase
+INCLUDES= -I$(topdir)
+LDADD	= -L$(topdir)/xbase -lxbase
 
 INSTALL_PROGRAM = @INSTALL@
 

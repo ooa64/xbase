@@ -92,13 +92,13 @@ am__include = include
 am__quote = 
 doxygen = yes
 install_sh = /mnt/vol2/xbase/install-sh
-topdir = 
+topdir = /mnt/vol2/xbase
 
 INCLUDES = -I$(topdir) $(all_includes)
 LDADD = -L$(topdir)/xbase -lxbase
 
 noinst_PROGRAMS = sample1 sample2 sample3 sample4 sample5 \
-               exfilter
+               exfilter string
 
 
 exfilter_SOURCES = exfilter.cpp
@@ -107,6 +107,7 @@ sample2_SOURCES = sample2.cpp
 sample3_SOURCES = sample3.cpp
 sample4_SOURCES = sample4.cpp
 sample5_SOURCES = sample5.cpp
+string_SOURCES = string.cpp
 
 noinst_HEADERS = 
 
@@ -121,7 +122,8 @@ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/xbase/xbconfig.h
 CONFIG_CLEAN_FILES =
 noinst_PROGRAMS = sample1$(EXEEXT) sample2$(EXEEXT) sample3$(EXEEXT) \
-	sample4$(EXEEXT) sample5$(EXEEXT) exfilter$(EXEEXT)
+	sample4$(EXEEXT) sample5$(EXEEXT) exfilter$(EXEEXT) \
+	string$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
 am_exfilter_OBJECTS = exfilter.$(OBJEXT)
@@ -154,6 +156,11 @@ sample5_OBJECTS = $(am_sample5_OBJECTS)
 sample5_LDADD = $(LDADD)
 sample5_DEPENDENCIES =
 sample5_LDFLAGS =
+am_string_OBJECTS = string.$(OBJEXT)
+string_OBJECTS = $(am_string_OBJECTS)
+string_LDADD = $(LDADD)
+string_DEPENDENCIES =
+string_LDFLAGS =
 
 DEFS = -DHAVE_CONFIG_H
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/xbase
@@ -164,7 +171,8 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 DEP_FILES = ./$(DEPDIR)/exfilter.Po ./$(DEPDIR)/sample1.Po \
 	./$(DEPDIR)/sample2.Po ./$(DEPDIR)/sample3.Po \
-	./$(DEPDIR)/sample4.Po ./$(DEPDIR)/sample5.Po
+	./$(DEPDIR)/sample4.Po ./$(DEPDIR)/sample5.Po \
+	./$(DEPDIR)/string.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -175,11 +183,12 @@ CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 CXXFLAGS = -g -O2
 DIST_SOURCES = $(exfilter_SOURCES) $(sample1_SOURCES) $(sample2_SOURCES) \
-	$(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES)
+	$(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES) \
+	$(string_SOURCES)
 HEADERS = $(noinst_HEADERS)
 
 DIST_COMMON = $(noinst_HEADERS) Makefile.am Makefile.in
-SOURCES = $(exfilter_SOURCES) $(sample1_SOURCES) $(sample2_SOURCES) $(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES)
+SOURCES = $(exfilter_SOURCES) $(sample1_SOURCES) $(sample2_SOURCES) $(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES) $(string_SOURCES)
 
 all: all-am
 
@@ -215,6 +224,9 @@ sample4$(EXEEXT): $(sample4_OBJECTS) $(sample4_DEPENDENCIES)
 sample5$(EXEEXT): $(sample5_OBJECTS) $(sample5_DEPENDENCIES) 
 	@rm -f sample5$(EXEEXT)
 	$(CXXLINK) $(sample5_LDFLAGS) $(sample5_OBJECTS) $(sample5_LDADD) $(LIBS)
+string$(EXEEXT): $(string_OBJECTS) $(string_DEPENDENCIES) 
+	@rm -f string$(EXEEXT)
+	$(CXXLINK) $(string_LDFLAGS) $(string_OBJECTS) $(string_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -228,6 +240,7 @@ include ./$(DEPDIR)/sample2.Po
 include ./$(DEPDIR)/sample3.Po
 include ./$(DEPDIR)/sample4.Po
 include ./$(DEPDIR)/sample5.Po
+include ./$(DEPDIR)/string.Po
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)

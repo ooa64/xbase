@@ -1,4 +1,4 @@
-# $Id: configure.in,v 1.18 2003/08/20 01:53:26 gkunkel Exp $
+# $Id: configure.in,v 1.19 2003/08/20 22:53:02 gkunkel Exp $
 # Created by Denis Pershin <dyp@inetlab.com>
 #
 # 8/10/03  Recreated by Gary Kunkel <gkunkel@zhsac.com> 
@@ -92,7 +92,7 @@ AC_SUBST(RELEASE)
 
 
 # setup topdir
-topdir = `pwd`
+topdir=`pwd`
 AC_SUBST(topdir)
 
 

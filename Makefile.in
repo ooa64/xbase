@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $Id: Makefile.in,v 1.25 2003/08/20 01:53:26 gkunkel Exp $
+# $Id: Makefile.in,v 1.26 2003/08/20 22:53:02 gkunkel Exp $
 #
 #	This file is part of the XBase libraries
 #    Copyright (C) 1998 Denis Pershin (dyp@inetlab.com)
