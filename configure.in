@@ -1,4 +1,4 @@
-# $Id: configure.in,v 1.15 2003/02/07 22:34:52 dbryson Exp $
+# $Id: configure.in,v 1.16 2003/02/08 01:48:14 dbryson Exp $
 # Created by Denis Pershin <dyp@inetlab.com>
 
 dnl Process this file with autoconf to produce a configure script.
@@ -24,14 +24,26 @@ if test "$doxygen" = "yes"; then
   XSUBDIRS="$XSUBDIRS docs"
 fi
 
+dnl get RedHat release
+if test -f /etc/redhat-release ; then
+  RHREL=`cut -d " " -f 5 /etc/redhat-release`
+  RHREL="rh${RHREL}"
+else
+  RHREL="X"
+fi
+AC_SUBST(RHREL)
+
 dnl get G++ version
 if test "$GXX" = "yes"; then
   GXXVER=`${CXX} -v 2>&1 | grep version | cut -d " " -f 3 -`
-  GXXVER="${GXXVER}-"
+  GXXVER="gcc${GXXVER}"
 else
   GXXVER=""
 fi
 AC_SUBST(GXXVER)
+
+RELEASE="${RHREL}-${GXXVER}-2.1"
+AC_SUBST(RELEASE)
 
 dnl find out some variables 
 AC_AIX

@@ -16,7 +16,7 @@ SHELL = /bin/sh
 
 srcdir = .
 top_srcdir = ..
-prefix = /usr
+prefix = /usr/local
 exec_prefix = ${prefix}
 
 bindir = ${exec_prefix}/bin
@@ -67,7 +67,7 @@ CPP = gcc -E
 CXX = g++
 GLINC = @GLINC@
 GLLIB = @GLLIB@
-GXXVER = 2.95.3-
+GXXVER = gcc2.95.3
 LD = /usr/bin/ld
 LIBDL = @LIBDL@
 LIBJPEG = @LIBJPEG@
@@ -83,6 +83,8 @@ PAMINC = @PAMINC@
 PAMLIBPATHS = @PAMLIBPATHS@
 PAMLIBS = @PAMLIBS@
 RANLIB = ranlib
+RELEASE = rh6.2-gcc2.95.3-2.1
+RHREL = rh6.2
 TVPROGS = 
 VERSION = 2.1.0
 XPMINC = @XPMINC@
