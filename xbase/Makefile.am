@@ -1,4 +1,4 @@
-# $Id: Makefile.am,v 1.9 2002/03/19 19:17:40 dbryson Exp $
+# $Id: Makefile.am,v 1.10 2003/02/07 22:35:13 dbryson Exp $
 #
 #	This file is part of the XBase libraries
 #    Copyright (C) 1998 Denis Pershin (dyp@inetlab.com)
@@ -58,7 +58,7 @@ EXTRA_DIST = \
 	makefile.g95 \
 	xbase.ide
 
-libxbase_la_LDFLAGS = -version-info 0:0:0 -release 2.1
+libxbase_la_LDFLAGS = -version-info 0:0:0 -release @GXXVER@2.1
 libxbase_la_LIBADD = 
 
 MAINTAINERCLEANFILES = Makefile.in stamp-h.in xbconfig.h.in

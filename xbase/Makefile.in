@@ -10,7 +10,7 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# $Id: Makefile.in,v 1.9 2002/12/08 07:53:20 dbryson Exp $
+# $Id: Makefile.in,v 1.10 2003/02/07 22:35:13 dbryson Exp $
 #
 #	This file is part of the XBase libraries
 #    Copyright (C) 1998 Denis Pershin (dyp@inetlab.com)
@@ -107,6 +107,7 @@ CPP = @CPP@
 CXX = @CXX@
 GLINC = @GLINC@
 GLLIB = @GLLIB@
+GXXVER = @GXXVER@
 LD = @LD@
 LIBDL = @LIBDL@
 LIBJPEG = @LIBJPEG@
@@ -150,7 +151,7 @@ libxbase_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp 	html.c
 EXTRA_DIST =  	xbase.h 	xbconfigw32.h 	makefile.g95 	xbase.ide
 
 
-libxbase_la_LDFLAGS = -version-info 0:0:0 -release 2.1
+libxbase_la_LDFLAGS = -version-info 0:0:0 -release @GXXVER@2.1
 libxbase_la_LIBADD = 
 
 MAINTAINERCLEANFILES = Makefile.in stamp-h.in xbconfig.h.in
@@ -352,7 +353,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$/$$file $(distdir)/$$file; \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \

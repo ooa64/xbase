@@ -67,6 +67,7 @@ CPP = gcc -E
 CXX = g++
 GLINC = @GLINC@
 GLLIB = @GLLIB@
+GXXVER = 2.95.3-
 LD = /usr/bin/ld
 LIBDL = @LIBDL@
 LIBJPEG = @LIBJPEG@
@@ -86,11 +87,11 @@ TVPROGS =
 VERSION = 2.1.0
 XPMINC = @XPMINC@
 XPMLIB = @XPMLIB@
-XSUBDIRS = xbase examples bin html libtest tv docs
+XSUBDIRS = xbase examples bin html libtest tv
 X_INCLUDES = @X_INCLUDES@
 X_LDFLAGS = @X_LDFLAGS@
-doxygen = yes
-topdir = /usr/src/tasrc/xdb
+doxygen = no
+topdir = /usr/src/xdb
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
@@ -291,7 +292,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$/$$file $(distdir)/$$file; \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
