@@ -1,4 +1,4 @@
-/*  $Id: copydbf.cpp,v 1.6 2000/09/27 17:25:07 dbryson Exp $
+/*  $Id: copydbf.cpp,v 1.7 2002/12/17 03:03:55 dbryson Exp $
 
     Xbase project source code
 
@@ -47,7 +47,7 @@
 int main(int ac,char** av)
 {
    if (3 != ac) {
-      cout <<
+      std::cout <<
          "\nUsage: copydbf filename1 filename2\n"
          "This program copies the structure of one dbf file to another\n";
         return 1;
@@ -61,7 +61,8 @@ int main(int ac,char** av)
 
     xbShort rc = MyFile.OpenDatabase( sfilename );
     if( rc != XB_NO_ERROR ) {
-      cout << "Could not open file " << sfilename << " Error = " << rc << "\n";
+      std::cout << "Could not open file " << sfilename << " Error = " << rc
+                << "\n";
         return 2;
    }
 
@@ -70,7 +71,8 @@ int main(int ac,char** av)
 
    if(( rc = MyFile.CopyDbfStructure( tfilename, OverlaySwitch )) != XB_NO_ERROR )
    {
-      cout << "Could not copy file " << tfilename << " Error = " << rc << "\n";
+      std::cout << "Could not copy file " << tfilename << " Error = " << rc
+                << "\n";
       return 3;
    }
 

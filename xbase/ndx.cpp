@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.15 2002/12/08 07:53:20 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.16 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -66,7 +66,7 @@
 #endif
 
 #include <xbase/xbase.h>
-#include <iostream.h>
+#include <iostream>
 
 #ifdef XB_INDEX_NDX
 
@@ -148,26 +148,26 @@ xbShort xbNdx::UncloneNodeChain()
 void xbNdx::DumpNodeChain()
 {
    xbNdxNodeLink  *n;
-   cout << "\n*************************\n";
-   cout <<   "xbNodeLinkCtr = " << xbNodeLinkCtr;
-   cout << "\nReused      = " << ReusedxbNodeLinks << "\n";
+   std::cout << "\n*************************\n";
+   std::cout <<   "xbNodeLinkCtr = " << xbNodeLinkCtr;
+   std::cout << "\nReused      = " << ReusedxbNodeLinks << "\n";
 
    n = NodeChain;
    while(n)
    {
-      cout << "xbNodeLink Chain" << n->NodeNo << "\n";
+      std::cout << "xbNodeLink Chain" << n->NodeNo << "\n";
       n = n->NextNode;
    }
    n = FreeNodeChain;
    while(n)
    {
-      cout << "FreexbNodeLink Chain" << n->NodeNo << "\n";
+      std::cout << "FreexbNodeLink Chain" << n->NodeNo << "\n";
       n = n->NextNode;
    }
    n = DeleteChain;
    while(n)
    {
-      cout << "DeleteLink Chain" << n->NodeNo << "\n";
+      std::cout << "DeleteLink Chain" << n->NodeNo << "\n";
       n = n->NextNode;
    }
 }
@@ -238,20 +238,20 @@ xbNdxNodeLink * xbNdx::GetNodeMemory( void )
 #ifdef XBASE_DEBUG
 void xbNdx::DumpHdrNode()
 {
-   cout << "\nStart node    = " << HeadNode.StartNode;
-   cout << "\nTotal nodes   = " << HeadNode.TotalNodes;
-   cout << "\nNo of keys    = " << HeadNode.NoOfKeys;
-   cout << "\nKey Length    = " << HeadNode.KeyLen;
-   cout << "\nKeys Per Node = " << HeadNode.KeysPerNode;
-   cout << "\nKey type      = " << HeadNode.KeyType;
-   cout << "\nKey size      = " << HeadNode.KeySize;
-   cout << "\nUnknown 2     = " << HeadNode.Unknown2;
-   cout << "\nUnique        = " << HeadNode.Unique;
-   cout << "\nKeyExpression = " << HeadNode.KeyExpression;
+   std::cout << "\nStart node    = " << HeadNode.StartNode;
+   std::cout << "\nTotal nodes   = " << HeadNode.TotalNodes;
+   std::cout << "\nNo of keys    = " << HeadNode.NoOfKeys;
+   std::cout << "\nKey Length    = " << HeadNode.KeyLen;
+   std::cout << "\nKeys Per Node = " << HeadNode.KeysPerNode;
+   std::cout << "\nKey type      = " << HeadNode.KeyType;
+   std::cout << "\nKey size      = " << HeadNode.KeySize;
+   std::cout << "\nUnknown 2     = " << HeadNode.Unknown2;
+   std::cout << "\nUnique        = " << HeadNode.Unique;
+   std::cout << "\nKeyExpression = " << HeadNode.KeyExpression;
 #ifdef XB_VAR_NODESIZE
-   cout << "\nNodeSize      = " << NodeSize;
+   std::cout << "\nNodeSize      = " << NodeSize;
 #endif // XB_VAR_NODESIZE
-   cout << "\n";
+   std::cout << "\n";
 
 #if 0
    FILE * log;
@@ -1990,7 +1990,7 @@ xbShort xbNdx::SplitINode( xbNdxNodeLink *n1, xbNdxNodeLink *n2, xbLong t )
    /* if not at the end of the node shift everthing to the right */
    if( n1->CurKeyNo+1 < HeadNode.KeysPerNode )   /* this clause appears to work */
    {
-      if( CurNode->NodeNo == HeadNode.StartNode ) cout << "\nHead node ";
+      if( CurNode->NodeNo == HeadNode.StartNode ) std::cout << "\nHead node ";
    
       for( j = 0,i = n1->CurKeyNo+1; i < n1->Leaf.NoOfKeysThisNode; i++,j++ ) 
       {
@@ -2692,7 +2692,7 @@ xbShort xbNdx::DeleteSibling( xbNdxNodeLink * n )
    else
    {
       /* this should never be true-but could be if 100 byte limit is ignored*/
-      cout << "Fatal index error\n";
+      std::cout << "Fatal index error\n";
       exit(0);
    }
    return XB_NO_ERROR;   
@@ -2774,7 +2774,7 @@ xbShort xbNdx::CheckIndexIntegrity( const xbShort option )
 
    while( ctr <= dbf->NoOfRecords() )
    {
-      if( option ) cout << "\nChecking Record " << ctr;
+      if( option ) std::cout << "\nChecking Record " << ctr;
       if(( rc = dbf->GetRecord(ctr++)) != XB_NO_ERROR )
          return rc;
       if(!dbf->RecordDeleted())
@@ -2785,16 +2785,17 @@ xbShort xbNdx::CheckIndexIntegrity( const xbShort option )
          {
             if( option )
             {
-               cout << "\nRecord number " << dbf->GetCurRecNo() <<  " Not Found\n";
-               cout << "Key = " << KeyBuf << "\n";
+               std::cout << "\nRecord number " << dbf->GetCurRecNo()
+                         <<  " Not Found\n";
+               std::cout << "Key = " << KeyBuf << "\n";
             }
             return rc;
          }
       }
    }
    if( option ){
-      cout << "\nTotal records checked = " << ctr - 1 << "\n";
-      cout << "Exiting with rc = " << rc << "\n";
+      std::cout << "\nTotal records checked = " << ctr - 1 << "\n";
+      std::cout << "Exiting with rc = " << rc << "\n";
    }
 
    return XB_NO_ERROR;

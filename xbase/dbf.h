@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.13 2002/10/24 17:02:22 dbryson Exp $
+/*  $Id: dbf.h,v 1.14 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -65,7 +65,7 @@
 #include <xbase/xtypes.h>
 #include <xbase/xdate.h>
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 
 /*! \file dbf.h

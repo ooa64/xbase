@@ -1,4 +1,4 @@
-/*  $Id: sample2.cpp,v 1.8 2000/11/10 19:40:16 dbryson Exp $
+/*  $Id: sample2.cpp,v 1.9 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -75,15 +75,15 @@ int main()
 
 
   if(( rc = MyFile.OpenDatabase( "MYFILE.DBF" )) != XB_NO_ERROR )
-     cout << "\nError opening MYFILE.DBF rc=" << rc;
+     std::cout << "\nError opening MYFILE.DBF rc=" << rc;
   if(( rc = MyIndex1.OpenIndex( "MYINDEX1.NDX" )) != XB_NO_ERROR )
-     cout << "\nError opening index1 rc=" << rc;
+     std::cout << "\nError opening index1 rc=" << rc;
   if(( rc = MyIndex2.OpenIndex( "MYINDEX2.NDX" )) != XB_NO_ERROR )
-     cout << "\nError opening index2 rc=" << rc;
+     std::cout << "\nError opening index2 rc=" << rc;
   if(( rc = MyIndex3.OpenIndex( "MYINDEX3.NDX" )) != XB_NO_ERROR )
-     cout << "\nError opening index3 rc=" << rc;
+     std::cout << "\nError opening index3 rc=" << rc;
   if(( rc = MyIndex4.OpenIndex( "MYINDEX4.NDX" )) != XB_NO_ERROR )
-     cout << "\nError opening index4 rc=" << rc;
+     std::cout << "\nError opening index4 rc=" << rc;
 
   lname     = MyFile.GetFieldNo( "LASTNAME" );
   fname     = MyFile.GetFieldNo( "FIRSTNAME" ); 
@@ -97,19 +97,19 @@ int main()
   m1        = MyFile.GetFieldNo( "MEMO1" );
   z         = MyFile.GetFieldNo( "ZIPCODE" );
 
-  cout << "\nLast Name Id  = " << lname;
-  cout << "\nFirst Name Id = " << fname;
-  cout << "\nBirthdate Id  = " << birthdate;
-  cout << "\nAmount Id     = " << amount;
-  cout << "\nSwitch Id     = " << sw;
-  cout << "\nFloat 1 Id    = " << f1;  
-  cout << "\nFloat 2 Id    = " << f2;
-  cout << "\nFloat 3 Id    = " << f3;
-  cout << "\nFloat 4 Id    = " << f4;
+  std::cout << "\nLast Name Id  = " << lname;
+  std::cout << "\nFirst Name Id = " << fname;
+  std::cout << "\nBirthdate Id  = " << birthdate;
+  std::cout << "\nAmount Id     = " << amount;
+  std::cout << "\nSwitch Id     = " << sw;
+  std::cout << "\nFloat 1 Id    = " << f1;  
+  std::cout << "\nFloat 2 Id    = " << f2;
+  std::cout << "\nFloat 3 Id    = " << f3;
+  std::cout << "\nFloat 4 Id    = " << f4;
 #ifdef XB_MEMO_FIELDS
-  cout << "\nMemo1 Id      = " << m1;
+  std::cout << "\nMemo1 Id      = " << m1;
 #endif
-  cout << "\nZipcode Id    = " << z << "\n";
+  std::cout << "\nZipcode Id    = " << z << "\n";
 
   /* build record one */
   MyFile.BlankRecord();			/* blank out the record buffer */
@@ -125,7 +125,7 @@ int main()
   MyFile.PutField( f4, "1" );
   MyFile.PutField( z, "76262" );
   if(( rc = MyFile.AppendRecord()) != XB_NO_ERROR )       /* write it */
-     cout << "\nError " << rc << " appending data record.";
+     std::cout << "\nError " << rc << " appending data record.";
 
   /* build record two */
   MyFile.BlankRecord();			/* blank out the record buffer */
@@ -146,7 +146,7 @@ int main()
   MyFile.UpdateMemoData( m1, 20, "Sample memo field 2", F_SETLKW );
 #endif
   if(( rc = MyFile.AppendRecord()) != XB_NO_ERROR )       /* write it */
-     cout << "\nError " << rc << " appending data record.";
+     std::cout << "\nError " << rc << " appending data record.";
 
   /* build record three */
   MyFile.BlankRecord();			/* blank out the record buffer */
@@ -167,7 +167,7 @@ int main()
   MyFile.UpdateMemoData( m1, 20, "Sample memo field 3", F_SETLKW );
 #endif
   if(( rc = MyFile.AppendRecord()) != XB_NO_ERROR )       /* write it */
-     cout << "\nError " << rc << " appending data record.";
+     std::cout << "\nError " << rc << " appending data record.";
 
   /* build record four */
   MyFile.BlankRecord();			/* blank out the record buffer */
@@ -188,7 +188,7 @@ int main()
   MyFile.UpdateMemoData( m1, 20, "Sample memo field 4", F_SETLKW );
 #endif
   if(( rc = MyFile.AppendRecord()) != XB_NO_ERROR )       /* write it */
-     cout << "\nError " << rc << " appending data record.";
+     std::cout << "\nError " << rc << " appending data record.";
 
   MyFile.CloseDatabase();				/* close database */
   return 0;

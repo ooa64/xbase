@@ -1,4 +1,4 @@
-/*  $Id: sample4.cpp,v 1.6 2000/09/27 17:25:08 dbryson Exp $
+/*  $Id: sample4.cpp,v 1.7 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -68,33 +68,33 @@ int main()
 
   if(( rc = MyFile.OpenDatabase( "MYFILE.DBF" )) != XB_NO_ERROR )
   {
-     cout << "\nError opening file rc = " << rc << "\n";
+     std::cout << "\nError opening file rc = " << rc << "\n";
      exit(1);
   }
   if(( rc = MyIndex1.OpenIndex( "MYINDEX1.NDX" )) != XB_NO_ERROR )
   {
-     cout << "\nError opening index1 rc = " << rc << "\n";
+     std::cout << "\nError opening index1 rc = " << rc << "\n";
      exit(1);
   }
 
   if(( rc = MyIndex2.OpenIndex( "MYINDEX2.NDX" )) != XB_NO_ERROR )
   {
-     cout << "\nError opening index2 rc = " << rc << "\n";
+     std::cout << "\nError opening index2 rc = " << rc << "\n";
      exit(1);
   }
   if(( rc = MyIndex3.OpenIndex( "MYINDEX3.NDX" )) != XB_NO_ERROR )
   {
-     cout << "\nError opening index3 rc = " << rc << "\n";
+     std::cout << "\nError opening index3 rc = " << rc << "\n";
      exit(1);
   }
   if(( rc = MyIndex4.OpenIndex( "MYINDEX4.NDX" )) != XB_NO_ERROR )
   {
-     cout << "\nError opening index4 rc = " << rc << "\n";
+     std::cout << "\nError opening index4 rc = " << rc << "\n";
      exit(1);
   }
 
 
-  cout << "Sample GetRecord\n"; 
+  std::cout << "Sample GetRecord\n"; 
 
   MyFile.ExclusiveLock( F_SETLKW ); /* lock the files for our exclusive use */
 
@@ -103,26 +103,26 @@ int main()
   MyFile.DeleteRecord();
   
   if( MyFile.RecordDeleted() )
-    cout << "Record is deleted...\n";
+    std::cout << "Record is deleted...\n";
   else 
-    cout << "Record is not deleted...\n";
+    std::cout << "Record is not deleted...\n";
 
 
 /* to undelete a record the following commented code could be used
 
   MyFile.UndeleteRecord();
   if( MyFile.RecordDeleted() )
-     cout << "Record is deleted...\n";
+     std::cout << "Record is deleted...\n";
   else 
-    cout << "Record is not deleted...\n";
+    std::cout << "Record is not deleted...\n";
 */
 
 /* to permanently remove deleted records from the file, pack the database */
 
    if(( rc = MyFile.PackDatabase( F_SETLKW )) != XB_NO_ERROR )
-      cout << "\nError packing database rc = " << rc;
+      std::cout << "\nError packing database rc = " << rc;
    else
-      cout << "\nDatabase packed.\n";
+      std::cout << "\nDatabase packed.\n";
 
   MyFile.ExclusiveUnlock();     /* unlock the files */
   MyFile.CloseDatabase();	/* close database */

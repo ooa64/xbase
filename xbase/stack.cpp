@@ -1,4 +1,4 @@
-/*  $Id: stack.cpp,v 1.6 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: stack.cpp,v 1.7 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -59,7 +59,7 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <iostream.h>
+#include <iostream>
 
 #include <xbase/xstack.h>
 
@@ -207,21 +207,21 @@ void xbStack::DumpStack( void )
    xbStackElement * e;
    if( StackDepth == 0 )
    {
-      cout << "\nStack is empty...";
+      std::cout << "\nStack is empty...";
       return;
    }
 
-   cout << "\nThere are " << StackDepth << " entries.";
-   cout << "\nFirst = " << First << "  Last = " << Last;
+   std::cout << "\nThere are " << StackDepth << " entries.";
+   std::cout << "\nFirst = " << First << "  Last = " << Last;
 
    e = First;
    while( e )
    {
-      cout << "\n*****************************";
-      cout << "\nThis      = " << e;
-      cout << "\nNext      = " << e->Next;
-      cout << "\nPrevious  = " << e->Previous;
-      cout << "\nUser Pointer = " << e->UserPtr;
+      std::cout << "\n*****************************";
+      std::cout << "\nThis      = " << e;
+      std::cout << "\nNext      = " << e->Next;
+      std::cout << "\nPrevious  = " << e->Previous;
+      std::cout << "\nUser Pointer = " << e->UserPtr;
       e = e->Next;
    }
    return;

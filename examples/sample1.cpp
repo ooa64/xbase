@@ -1,4 +1,4 @@
-/*  $Id: sample1.cpp,v 1.6 2000/09/27 17:25:08 dbryson Exp $
+/*  $Id: sample1.cpp,v 1.7 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -86,29 +86,29 @@ int main()
 
   if(( rc = MyFile.CreateDatabase( "MYFILE.DBF", MyRecord, XB_OVERLAY )) 
         != XB_NO_ERROR )
-     cout << "\nError creating database = " << rc << "\n";
+     std::cout << "\nError creating database = " << rc << "\n";
   else
   {
      /* define a simple index */
 
      if(( rc = MyIndex1.CreateIndex( 
        "MYINDEX1.NDX", "LASTNAME", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
-        cout << "\nError creating index 1 = " << rc << "\n";
+        std::cout << "\nError creating index 1 = " << rc << "\n";
 
      /* define a multi-field index "LASTNAME            FIRSTNAME" */
      if(( rc = MyIndex2.CreateIndex( 
        "MYINDEX2.NDX", "LASTNAME+FIRSTNAME", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
-        cout << "\nError creating index 2 = " << rc << "\n";
+        std::cout << "\nError creating index 2 = " << rc << "\n";
 
      /* define a multi-field index "LASTNAMEFIRSTNAME" */
      if(( rc = MyIndex3.CreateIndex( 
        "MYINDEX3.NDX", "LASTNAME-FIRSTNAME", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
-        cout << "\nError creating index 3 = " << rc << "\n";
+        std::cout << "\nError creating index 3 = " << rc << "\n";
 
      /* define a numeric index "ZIPCODE" */
      if(( rc = MyIndex4.CreateIndex( 
        "MYINDEX4.NDX", "ZIPCODE", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
-        cout << "\nError creating index 4 = " << rc << "\n";
+        std::cout << "\nError creating index 4 = " << rc << "\n";
   }
 
   MyFile.CloseDatabase();   /* Close database and associated indexes */

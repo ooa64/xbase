@@ -1,4 +1,4 @@
-/*  $Id: dumprecs.cpp,v 1.6 2000/09/27 17:25:07 dbryson Exp $
+/*  $Id: dumprecs.cpp,v 1.7 2002/12/17 03:03:55 dbryson Exp $
 
     Xbase project source code
 
@@ -55,7 +55,7 @@
 int main(int ac,char** av)
 {
     if (ac <= 1) {
-        cout <<
+        std::cout <<
             "\nUsage: dumprecs filename...\n"
             ;
         return 1;
@@ -72,11 +72,12 @@ int main(int ac,char** av)
 #endif
             xbShort rc = MyFile.OpenDatabase(filename);
             if ( rc != XB_NO_ERROR) {
-       cout << "Could not open file " << filename << " Error = " << rc << "\n";
+       std::cout << "Could not open file " << filename << " Error = " << rc
+                 << "\n";
        return 0;
      }
 
-     cout << "\nLoop through forwards...\n";
+     std::cout << "\nLoop through forwards...\n";
      int i = 0;
      while(i<MyFile.NoOfRecords()) {
        MyFile.DumpRecord(i+1);

@@ -1,4 +1,4 @@
-/*  $Id: dumphdr.cpp,v 1.6 2000/09/27 17:25:07 dbryson Exp $
+/*  $Id: dumphdr.cpp,v 1.7 2002/12/17 03:03:55 dbryson Exp $
 
     This sample program dumps an Xbase header record
 
@@ -54,7 +54,7 @@ int main( int ac, char ** av )
   xbXBase x;
 
   if( ac <= 1 ) {
-    cout << "\nUsage: dumphdr filename...\n";
+    std::cout << "\nUsage: dumphdr filename...\n";
     return 1;
   }
   for( int i = 1; i < ac; ++i ){
@@ -63,14 +63,15 @@ int main( int ac, char ** av )
  
     if(( rc =  MyFile.OpenDatabase( filename )) != 0 )
     {
-     cout << "Could not open file rc = " << rc  << " file = " << filename << "\n";
+     std::cout << "Could not open file rc = " << rc  << " file = "
+               << filename << "\n";
      return 0;
     }
     MyFile.DumpHeader( 3 );
     MyFile.CloseDatabase();
   }
 #else
-  cout << "\nXBASE_DEBUG is not compiled in\n";
+  std::cout << "\nXBASE_DEBUG is not compiled in\n";
 #endif
   return 0;
 }     

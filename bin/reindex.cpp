@@ -1,4 +1,4 @@
-/*  $Id: reindex.cpp,v 1.7 2001/01/27 04:58:47 dbryson Exp $
+/*  $Id: reindex.cpp,v 1.8 2002/12/17 03:03:55 dbryson Exp $
 
     Xbase project source code
 
@@ -57,7 +57,7 @@ showStatus(xbLong itemNum, xbLong numItems)
 int main(int ac,char** av)
 {
     if (3 != ac) {
-        cout << 
+        std::cout << 
             "\nUsage: reindex dbf_file ndx_file\n"
             ;
         return 1;
@@ -71,26 +71,26 @@ int main(int ac,char** av)
    xbNdx MyIndex( &MyFile );
 
     if( MyFile.OpenDatabase( filename )) {
-      cout << "Could not open file " << filename << "\n";
+      std::cout << "Could not open file " << filename << "\n";
       return 0;
    }
     if( MyIndex.OpenIndex( filename2 )) {
-      cout << "Could not open index file " << filename2 << "\n";
+      std::cout << "Could not open index file " << filename2 << "\n";
       return 0;
    }
 
     xbShort rc = MyIndex.ReIndex(showStatus);
     printf("\n");
     if( rc != XB_NO_ERROR ) {
-      cout << "\nError reindexing index ==> " << filename2;
-      cout << " Return Code = " << rc;
+      std::cout << "\nError reindexing index ==> " << filename2;
+      std::cout << " Return Code = " << rc;
    }
 
     /* or
    if(( rc = MyFile.RebuildAllIndicis()) != XB_NO_ERROR ) 
    {
-      cout << "\nError reindexing...";
-      cout << "\nReturn Code = " << rc;
+      std::cout << "\nError reindexing...";
+      std::cout << "\nReturn Code = " << rc;
    }
     */
    MyFile.CloseDatabase();	/* close database */

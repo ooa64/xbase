@@ -56,7 +56,7 @@
 #endif
 
 #include <stdlib.h>
-#include <iostream.h>
+#include <iostream>
 
 /*! \file xbstring.h
 */
@@ -119,7 +119,8 @@ public:
   bool operator <= ( const xbString& ) const;
   bool operator >= ( const xbString& ) const;
 
-  friend XBDLLEXPORT ostream& operator << ( ostream&, const xbString& );
+  friend XBDLLEXPORT std::ostream& operator << ( std::ostream&,
+                                                 const xbString& );
 
   xbString &remove(size_t pos = 0, int n = npos);
   xbString mid(size_t pos = 0, int n = npos) const;

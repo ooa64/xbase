@@ -79,36 +79,36 @@ int main()
 #endif
 
 #ifndef XBASE_DEBUG
-  cout << "XBASE_DEBUG support option not compiled into library";
+  std::cout << "XBASE_DEBUG support option not compiled into library";
   return 1;
 #endif
 
 
-  cout << "Creating test database and indices" << endl;
+  std::cout << "Creating test database and indices" << std::endl;
   if(( rc = MyFile.CreateDatabase( "IXTEST.DBF", MyRecord, XB_OVERLAY ))
         != XB_NO_ERROR )
-     cout << "Error creating database = " << rc << "\n";
+     std::cout << "Error creating database = " << rc << "\n";
   else
   {
 #ifdef XB_INDEX_NDX
      if(( rc = indx1.CreateIndex(
        "IXNDX1.NDX", "CHARFLD1", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
-        cout << "Error creating index 1 = " << rc << endl;
+        std::cout << "Error creating index 1 = " << rc << std::endl;
         exit( 1 );
      }
 
      if(( rc = indx2.CreateIndex(
        "IXNDX2.NDX", "CHARFLD1+CHARFLD2", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
-        cout << "Error creating index 2 = " << rc << endl;
+        std::cout << "Error creating index 2 = " << rc << std::endl;
         exit( 1 );
      }
 
      if(( rc = indx3.CreateIndex(
        "IXNDX3.NDX", "NUMFLD1", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
-        cout << "Error creating index 3 = " << rc << endl;
+        std::cout << "Error creating index 3 = " << rc << std::endl;
         exit( 1 );
      }
 #endif
@@ -118,21 +118,21 @@ int main()
      if(( rc = intx1.CreateIndex(
        "IXNTX1.NTX", "CHARFLD1", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
-        cout << "Error creating index 4 = " << rc << endl;
+        std::cout << "Error creating index 4 = " << rc << std::endl;
         exit( 1 );
      }
 
      if(( rc = intx2.CreateIndex( 
        "IXNTX2.NTX", "CHARFLD1+CHARFLD2", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
-        cout << "Error creating index 5 = " << rc << endl;
+        std::cout << "Error creating index 5 = " << rc << std::endl;
         exit( 1 );
      }
 
      if(( rc = intx3.CreateIndex( 
        "IXNTX3.NTX", "NUMFLD1", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
-        cout << "Error creating index 6 = " << rc << endl;
+        std::cout << "Error creating index 6 = " << rc << std::endl;
         exit( 1 );
      }
 #endif
@@ -142,14 +142,14 @@ int main()
   f2 = MyFile.GetFieldNo( "CHARFLD2" );
   f3 = MyFile.GetFieldNo( "NUMFLD1" ); 
 
-  cout << "Populating database and indices with data" << endl;
-  cout << ".";
-  cout.flush();
+  std::cout << "Populating database and indices with data" << std::endl;
+  std::cout << ".";
+  std::cout.flush();
   for( int i = 0; i < 10000; i++ ){
       if (i % 1000 == 0)
       {
-          cout << ".";
-          cout.flush();
+          std::cout << ".";
+          std::cout.flush();
       }
     memset( charbuf, 0x00, 10 );
     sprintf( charbuf, "%d", i );
@@ -159,7 +159,7 @@ int main()
     MyFile.PutLongField( f3, i );
     MyFile.AppendRecord();
   }
-  cout << " Done." << endl;
+  std::cout << " Done." << std::endl;
 
   // Check all indices.
   sts += CheckIndex(
@@ -179,14 +179,14 @@ int main()
   //
   // - Bob Cotton <bob@synxis.com>
   //
-  cout << "Reversing records." << endl;
-  cout << ".";
-  cout.flush();
+  std::cout << "Reversing records." << std::endl;
+  std::cout << ".";
+  std::cout.flush();
     for( xbLong j = 1; j < MyFile.NoOfRecords(); j++ ){
       if (j  % 1000 == 0)
       {
-          cout << ".";
-          cout.flush();
+          std::cout << ".";
+          std::cout.flush();
       }
       MyFile.GetRecord(j);
       memset( charbuf, 0x00, 10 );
@@ -196,7 +196,7 @@ int main()
       MyFile.PutLongField( f3, j-1 );
       MyFile.PutRecord();
   }
-  cout << " Done." << endl;
+  std::cout << " Done." << std::endl;
     
           
   // Check all indices
@@ -213,7 +213,7 @@ int main()
                     );
     
 
-  cout << "Index testing completed" << endl;cout.flush();
+  std::cout << "Index testing completed" << std::endl;std::cout.flush();
   MyFile.CloseDatabase();   /* Close database and associated indexes */
   return sts;
 }     
@@ -239,55 +239,55 @@ int CheckIndex(
     int sts = 0;
     
 #if defined( XB_INDEX_NDX ) && defined( XBASE_DEBUG )
-    cout << "Testing NDX index 1 "; cout.flush();
+    std::cout << "Testing NDX index 1 "; std::cout.flush();
     if(( rc = indx1->CheckIndexIntegrity(0)) != XB_NO_ERROR ){
-        cout << "Error " << rc << " with index indx1" << endl;
+        std::cout << "Error " << rc << " with index indx1" << std::endl;
         sts++;
     }
     else
-        cout << "OK" << endl;
+        std::cout << "OK" << std::endl;
 
-    cout << "Testing NDX index 2 ";cout.flush();
+    std::cout << "Testing NDX index 2 ";std::cout.flush();
     if(( rc = indx2->CheckIndexIntegrity(0)) != XB_NO_ERROR ){
-        cout << "Error " << rc << " with index indx2" << endl;
+        std::cout << "Error " << rc << " with index indx2" << std::endl;
         sts++;
     }
     else
-        cout << "OK" << endl;
+        std::cout << "OK" << std::endl;
 
 
-    cout << "Testing NDX index 3 ";cout.flush();
+    std::cout << "Testing NDX index 3 ";std::cout.flush();
     if(( rc = indx3->CheckIndexIntegrity(0)) != XB_NO_ERROR ){
-        cout << "Error " << rc << " with index indx3" << endl;
+        std::cout << "Error " << rc << " with index indx3" << std::endl;
         sts++;
     }
     else
-        cout << "OK" << endl;
+        std::cout << "OK" << std::endl;
 #endif
 #if defined( XB_INDEX_NTX ) && defined( XBASE_DEBUG )
-    cout << "Testing NTX index 1 ";cout.flush();
+    std::cout << "Testing NTX index 1 ";std::cout.flush();
     if(( rc = intx1->CheckIndexIntegrity(0)) != XB_NO_ERROR ){
-        cout << "Error " << rc << " with index intx1" << endl;
+        std::cout << "Error " << rc << " with index intx1" << std::endl;
         sts++;
     }
     else
-        cout << "OK" << endl;
+        std::cout << "OK" << std::endl;
 
-    cout << "Testing NTX index 2 ";cout.flush();
+    std::cout << "Testing NTX index 2 ";std::cout.flush();
     if(( rc = intx2->CheckIndexIntegrity(0)) != XB_NO_ERROR ){
-        cout << "Error " << rc << " with index intx2" << endl;
+        std::cout << "Error " << rc << " with index intx2" << std::endl;
         sts++;
     }
     else
-        cout << "OK" << endl;
+        std::cout << "OK" << std::endl;
 
-    cout << "Testing NTX index 3 ";cout.flush();
+    std::cout << "Testing NTX index 3 ";std::cout.flush();
     if(( rc = intx3->CheckIndexIntegrity(0)) != XB_NO_ERROR ){
-        cout << "Error " << rc << " with index intx3" << endl;
+        std::cout << "Error " << rc << " with index intx3" << std::endl;
         sts++;
     }
     else
-        cout << "OK" << endl;
+        std::cout << "OK" << std::endl;
 #endif
     return sts;
 

@@ -51,14 +51,14 @@
 void Usage();
 void Usage()
 {
-  cout << "\nUsage: dbfxtrct -iDATABASE.DBF -sINDEX.N[TD]X -f -F -dMM/DD/YY\n";
-  cout << "\nWhere DATABASE.DBF is the name of the database file to dump\n";
-  cout << "INDEX.NTX or .NDX is an optional index sort paramater\n";
-  cout << "-f  optional field name list in first record\n";
-  cout << "-F  optional field name and attributes in first record\n";
-  cout << "MM/DD/YY is an optional output date format for any date fields\n";
-  cout << "\nThis program creates output suitable for awk and perl scripts\n";
-  cout << "\nThis program does not support memo fields (yet).\n";
+  std::cout << "\nUsage: dbfxtrct -iDATABASE.DBF -sINDEX.N[TD]X -f -F -dMM/DD/YY\n";
+  std::cout << "\nWhere DATABASE.DBF is the name of the database file to dump\n";
+  std::cout << "INDEX.NTX or .NDX is an optional index sort paramater\n";
+  std::cout << "-f  optional field name list in first record\n";
+  std::cout << "-F  optional field name and attributes in first record\n";
+  std::cout << "MM/DD/YY is an optional output date format for any date fields\n";
+  std::cout << "\nThis program creates output suitable for awk and perl scripts\n";
+  std::cout << "\nThis program does not support memo fields (yet).\n";
 }
 /*************************************************************************/
 int main(int ac,char** av)
@@ -86,7 +86,7 @@ int main(int ac,char** av)
   {
     p = av[i];
     if( *p != '-' ){
-      cout << "Invalid paramater " << *p << endl;
+      std::cout << "Invalid paramater " << *p << std::endl;
       Usage();
       return 1;
     }
@@ -102,7 +102,7 @@ int main(int ac,char** av)
     else if( *p == 'd' )
       x.SetDefaultDateFormat( ++p );
     else{
-      cout << "Invalid paramater " << *p << endl;
+      std::cout << "Invalid paramater " << *p << std::endl;
       Usage();
       return 1;
     }
@@ -119,7 +119,8 @@ int main(int ac,char** av)
 
    if(( rc = d.OpenDatabase( dbfname )) != XB_NO_ERROR )
    {
-      cout << "\nCould not open file " << dbfname << " rc = " << rc << "\n";
+      std::cout << "\nCould not open file " << dbfname << " rc = " << rc
+                << "\n";
       return 2;
    }
 
@@ -137,12 +138,13 @@ int main(int ac,char** av)
        ix = new xbNdx( &d );
 #endif
      if( !ix ){
-       cout << "Unknown index type. .NTX and .NDX index file support only\n";
+       std::cout << "Unknown index type. .NTX and .NDX index file support only\n";
        return 3;
      }
      if(( rc = ix->OpenIndex( ixname )) != XB_NO_ERROR )
      {
-       cout << "\nCould not open index " << ixname << " rc = " << rc << "\n";
+       std::cout << "\nCould not open index " << ixname << " rc = " << rc
+                 << "\n";
        return 4;
      }
    }
@@ -151,14 +153,14 @@ int main(int ac,char** av)
 /*  if -f or -F paramater, dump the header information */
   if( FieldOption ){
     for( xbLong l = 0; l < d.FieldCount(); l++ ){
-      if( l ) cout << ",";
-      cout << d.GetFieldName(l);
+      if( l ) std::cout << ",";
+      std::cout << d.GetFieldName(l);
       if( FieldOption == 2 ){
-        cout << "|" << d.GetFieldType(l) << "|" << d.GetFieldLen(l);
-	cout << "|" << d.GetFieldDecimal(l);
+        std::cout << "|" << d.GetFieldType(l) << "|" << d.GetFieldLen(l);
+	std::cout << "|" << d.GetFieldDecimal(l);
       }
     }
-    cout << endl;
+    std::cout << std::endl;
   }
 
 /*  if an index used, then loop thru each record, based on index, else
@@ -170,18 +172,18 @@ int main(int ac,char** av)
     
   while( rc == XB_NO_ERROR ){
     for( xbLong l = 0; l < d.FieldCount(); l++ ){
-      if( l ) cout << ",";
+      if( l ) std::cout << ",";
       strcpy( buf, x.LTRIM( d.GetStringField( l )));
       if( d.GetFieldType( l ) == 'D' )
-        cout << x.DTOC( buf );
+        std::cout << x.DTOC( buf );
       else
-        cout << x.TRIM( buf );
+        std::cout << x.TRIM( buf );
     }
     if( ixname )
       rc = ix->GetNextKey();
     else
       rc = d.GetNextRecord();
-    cout << endl;
+    std::cout << std::endl;
   }
 
 /*  close everything */

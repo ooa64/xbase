@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.12 2002/08/14 23:20:58 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.13 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -147,26 +147,26 @@ xbShort xbNtx::UncloneNodeChain( void )
 void xbNtx::DumpNodeChain( void )
 {
    xbNodeLink  *n;
-   cout << "\n*************************\n";
-   cout <<   "NodeLinkCtr = " << NodeLinkCtr;
-   cout << "\nReused      = " << ReusedNodeLinks << "\n";
+   std::cout << "\n*************************\n";
+   std::cout <<   "NodeLinkCtr = " << NodeLinkCtr;
+   std::cout << "\nReused      = " << ReusedNodeLinks << "\n";
 
    n = NodeChain;
    while(n)
    {
-      cout << "xbNodeLink Chain" << n->NodeNo << "\n";
+      std::cout << "xbNodeLink Chain" << n->NodeNo << "\n";
       n = n->NextNode;
    }
    n = FreeNodeChain;
    while(n)
    {
-      cout << "FreeNodeLink Chain" << n->NodeNo << "\n";
+      std::cout << "FreeNodeLink Chain" << n->NodeNo << "\n";
       n = n->NextNode;
    }
    n = DeleteChain;
    while(n)
    {
-      cout << "DeleteLink Chain" << n->NodeNo << "\n";
+      std::cout << "DeleteLink Chain" << n->NodeNo << "\n";
       n = n->NextNode;
    }
 }
@@ -261,18 +261,18 @@ xbNodeLink * xbNtx::GetNodeMemory( void )
 #ifdef XBASE_DEBUG
 void xbNtx::DumpHdrNode( void )
 {
-    cout << "\nSignature          = " << HeadNode.Signature;
-    cout << "\nVersion            = " << HeadNode.Version;
-    cout << "\nStartPahe          = " << HeadNode.StartNode;
-    cout << "\nUnusedOffset       = " << HeadNode.UnusedOffset;
-    cout << "\nKeySize            = " << HeadNode.KeySize;
-    cout << "\nKeyLen             = " << HeadNode.KeyLen;
-    cout << "\nDecimalCount       = " << HeadNode.DecimalCount;
-    cout << "\nKeysPerNode        = " << HeadNode.KeysPerNode;
-    cout << "\nHalfKeysPerPage    = " << HeadNode.HalfKeysPerNode;
-    cout << "\nKeyExpression      = " << HeadNode.KeyExpression;
-    cout << "\nUnique             = " << HeadNode.Unique;
-    cout << "\n";
+    std::cout << "\nSignature          = " << HeadNode.Signature;
+    std::cout << "\nVersion            = " << HeadNode.Version;
+    std::cout << "\nStartPahe          = " << HeadNode.StartNode;
+    std::cout << "\nUnusedOffset       = " << HeadNode.UnusedOffset;
+    std::cout << "\nKeySize            = " << HeadNode.KeySize;
+    std::cout << "\nKeyLen             = " << HeadNode.KeyLen;
+    std::cout << "\nDecimalCount       = " << HeadNode.DecimalCount;
+    std::cout << "\nKeysPerNode        = " << HeadNode.KeysPerNode;
+    std::cout << "\nHalfKeysPerPage    = " << HeadNode.HalfKeysPerNode;
+    std::cout << "\nKeyExpression      = " << HeadNode.KeyExpression;
+    std::cout << "\nUnique             = " << HeadNode.Unique;
+    std::cout << "\n";
 }
 #endif
 
@@ -581,11 +581,11 @@ void xbNtx::DumpNodeRec( xbLong n )
    GetLeafNode( n, 0 );
    NoOfKeys = dbf->xbase->GetShort( Node );
    p = Node + 4;        /* go past no of keys */
-   cout << "\n--------------------------------------------------------";
-   cout << "\nNode # " << n << " Number of keys = " << NoOfKeys << "\n";
+   std::cout << "\n--------------------------------------------------------";
+   std::cout << "\nNode # " << n << " Number of keys = " << NoOfKeys << "\n";
 
-   cout << "\n Key     Left     Rec      Key";
-   cout << "\nNumber  Branch   Number    Data";
+   std::cout << "\n Key     Left     Rec      Key";
+   std::cout << "\nNumber  Branch   Number    Data";
 
    for( i = 0; i < GetKeysPerNode()+1 /*NoOfKeys*/; i++ )
    {
@@ -593,8 +593,11 @@ void xbNtx::DumpNodeRec( xbLong n )
       p+=4;
       RecNo = dbf->xbase->GetLong( p );
       p+=4;
-      cout << "\n" << i << "         " << LeftBranch << "          " << RecNo << "         ";
-      for( j = 0; j < HeadNode.KeyLen; j++ ) cout << *p++;
+      std::cout << "\n"
+                << i << "         "
+                << LeftBranch << "          "
+                << RecNo << "         ";
+      for( j = 0; j < HeadNode.KeyLen; j++ ) std::cout << *p++;
    }
 }
 #endif
@@ -673,9 +676,11 @@ xbUShort
 xbNtx::GetItemOffset(xbShort RecNo, xbNodeLink *n, xbShort) {
     if (RecNo > (this->HeadNode.KeysPerNode + 1))
     {
-        cout << "RecNo = " << RecNo << endl;
-        cout << "this->HeadNode.KeysPerNode = " << this->HeadNode.KeysPerNode << endl;
-        cout << "********************* BUG ***********************" << endl;
+        std::cout << "RecNo = " << RecNo << std::endl;
+        std::cout << "this->HeadNode.KeysPerNode = "
+                  << this->HeadNode.KeysPerNode << std::endl;
+        std::cout << "********************* BUG ***********************"
+                  << std::endl;
         // ;-)
         exit(1);
     }
@@ -2519,7 +2524,7 @@ xbShort xbNtx::UpdateParentKey( xbNodeLink * n )
    if( !n ) return XB_INVALID_NODELINK;
    if( !GetDbfNo( 0, n ))
    {
-      cout << "Fatal index error - Not a leaf node" << n->NodeNo << "\n";
+      std::cout << "Fatal index error - Not a leaf node" << n->NodeNo << "\n";
 //      exit(0);
       return XB_NOT_LEAFNODE;
    }
@@ -2842,7 +2847,7 @@ xbShort xbNtx::KeyWasChanged( void )
 //    else
 //    {
 //       /* this should never be true-but could be if 100 byte limit is ignored*/
-//       cout << "Fatal index error\n";
+//       std::cout << "Fatal index error\n";
 //       exit(0);
 //    }
 //    return XB_NO_ERROR;   
@@ -3183,7 +3188,7 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
 //             {
 //                 // Clipper, don't know why
 //                 PutLeftNodeNo(0, n2 , -1 );
-//                 cout << "Clipper hack" << endl;
+//                 std::cout << "Clipper hack" << std::endl;
 //             }
 
             DeleteKeyOffset(medianOffset, n2);
@@ -3203,7 +3208,7 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
 //                 {
 //                     // Clipper, don't know why
 //                     PutLeftNodeNo(0, n2 , -1 );
-//                     cout << "Clipper hack in loop i = " <<  i << endl;
+//                     std::cout << "Clipper hack in loop i = " <<  i << std::endl;
 //                 }
             
                 // Remove the key from the current node.
@@ -3235,12 +3240,12 @@ xbShort xbNtx::CheckIndexIntegrity( const xbShort option )
    xbShort rc;
    xbLong ctr = 1L;
 
-   if ( option ) cout << "Checking NTX " << IndexName << endl;
+   if ( option ) std::cout << "Checking NTX " << IndexName << std::endl;
    rc = dbf->GetRecord( ctr );
    while( ctr < dbf->NoOfRecords() )
    {
       ctr++;
-      if( option ) cout << "\nChecking Record " << ctr;
+      if( option ) std::cout << "\nChecking Record " << ctr;
       if(!dbf->RecordDeleted())      
       {
          CreateKey( 0, 0 );
@@ -3249,8 +3254,9 @@ xbShort xbNtx::CheckIndexIntegrity( const xbShort option )
          {
             if( option )
             {
-               cout << "\nRecord number " << dbf->GetCurRecNo() <<  " Not Found\n";
-               cout << "Key = " << KeyBuf << "\n";
+               std::cout << "\nRecord number " << dbf->GetCurRecNo()
+                         <<  " Not Found\n";
+               std::cout << "Key = " << KeyBuf << "\n";
             }
             return rc;
          }
@@ -3261,8 +3267,8 @@ xbShort xbNtx::CheckIndexIntegrity( const xbShort option )
 
    if( option )
    {
-       cout << "Exiting with rc = " << rc << "\n";
-       cout << "\nTotal records checked = " << ctr << "\n";
+       std::cout << "Exiting with rc = " << rc << "\n";
+       std::cout << "\nTotal records checked = " << ctr << "\n";
    }
 
    return XB_NO_ERROR;

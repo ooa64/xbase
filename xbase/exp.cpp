@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.11 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: exp.cpp,v 1.12 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -1042,23 +1042,23 @@ void xbExpn::DumpExpressionTree( xbExpNode * E )
 /*!
 */
 void xbExpn::DumpExpNode(xbExpNode *e) {
-   cout << "\n\n****** Exp Node ******";
-   cout << "\nExp Node Address " << e;
-   cout << "  Node Text = "  << e->NodeText;
-   cout << "\nType = "       << e->Type;
-   cout << " Len = "         << e->Len;
-   cout << " InTree = "      << e->InTree;
-   cout << "\nParent = "     << e->Node;
-   cout << "\nField No = "   << e->FieldNo;
-   cout << "\nExpressionType = " << e->ExpressionType;
-   cout << "\nStringResult = "     << e->StringResult;
-   cout << " DoubResult = "  << e->DoubResult;
-   cout << " IntResult = "   << e->IntResult;
-   cout << " ResultLen = "   << e->ResultLen;
-   cout << " DataLen = "     << e->DataLen;
-   cout << " Sibling 1 = "   << e->Sibling1;
-   cout << " Sibling 2 = "   << e->Sibling2;
-   if( e->Sibling3 ) cout << " Sibling3 = " << e->Sibling3;
+   std::cout << "\n\n****** Exp Node ******";
+   std::cout << "\nExp Node Address " << e;
+   std::cout << "  Node Text = "  << e->NodeText;
+   std::cout << "\nType = "       << e->Type;
+   std::cout << " Len = "         << e->Len;
+   std::cout << " InTree = "      << e->InTree;
+   std::cout << "\nParent = "     << e->Node;
+   std::cout << "\nField No = "   << e->FieldNo;
+   std::cout << "\nExpressionType = " << e->ExpressionType;
+   std::cout << "\nStringResult = "     << e->StringResult;
+   std::cout << " DoubResult = "  << e->DoubResult;
+   std::cout << " IntResult = "   << e->IntResult;
+   std::cout << " ResultLen = "   << e->ResultLen;
+   std::cout << " DataLen = "     << e->DataLen;
+   std::cout << " Sibling 1 = "   << e->Sibling1;
+   std::cout << " Sibling 2 = "   << e->Sibling2;
+   if( e->Sibling3 ) std::cout << " Sibling3 = " << e->Sibling3;
    return;
 }
 

@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.11 2002/12/08 07:53:20 dbryson Exp $
+/*  $Id: memo.cpp,v 1.12 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -1167,16 +1167,16 @@ xbShort xbDbf::MemoFieldExists( const xbShort FieldNo ) const
 void xbDbf::DumpMemoHeader( void ) const
 {
    xbShort i;
-   cout << "\n*********************************";
-   cout << "\nMemo header data...";
-   cout << "\nNext Block " << MemoHeader.NextBlock;
+   std::cout << "\n*********************************";
+   std::cout << "\nMemo header data...";
+   std::cout << "\nNext Block " << MemoHeader.NextBlock;
    if( IsType4Dbt() )
    {
-      cout << "\nFilename   ";
+      std::cout << "\nFilename   ";
       for( i = 0; i < 8; i++ )
-         cout << MemoHeader.FileName[i];
+         std::cout << MemoHeader.FileName[i];
    }
-   cout << "\nBlocksize  " << MemoHeader.BlockSize;
+   std::cout << "\nBlocksize  " << MemoHeader.BlockSize;
    return;
 }
 /***********************************************************************/
@@ -1192,16 +1192,16 @@ xbShort xbDbf::DumpMemoFreeChain( void )
       return rc;
    LastDataBlock = CalcLastDataBlock();
    CurBlock = MemoHeader.NextBlock;
-   cout << "\nTotal blocks in file = " << LastDataBlock;
-   cout << "\nHead Next Block = " << CurBlock;
+   std::cout << "\nTotal blocks in file = " << LastDataBlock;
+   std::cout << "\nHead Next Block = " << CurBlock;
    while( CurBlock < LastDataBlock )
    {
       if(( rc = ReadMemoBlock( CurBlock, 2 )) != XB_NO_ERROR )
          return rc;
-      cout << "\n**********************************";
-      cout << "\nThis Block = " << CurBlock;
-      cout << "\nNext Block = " << NextFreeBlock;
-      cout << "\nNo Of Blocks = " << FreeBlockCnt << "\n";
+      std::cout << "\n**********************************";
+      std::cout << "\nThis Block = " << CurBlock;
+      std::cout << "\nNext Block = " << NextFreeBlock;
+      std::cout << "\nNo Of Blocks = " << FreeBlockCnt << "\n";
       CurBlock = NextFreeBlock;
    }
    return XB_NO_ERROR;
@@ -1218,17 +1218,17 @@ void xbDbf::DumpMemoBlock( void ) const
    if( IsType3Dbt() )
    {
       for( i = 0; i < 512; i++ )
-         cout << *p++;
+         std::cout << *p++;
    }
    else
    {
-      cout << "\nField1     => " << mfield1;
-      cout << "\nStart Pos  => " << MStartPos;
-      cout << "\nField Len  => " << MFieldLen;
-      cout << "\nBlock data => ";
+      std::cout << "\nField1     => " << mfield1;
+      std::cout << "\nStart Pos  => " << MStartPos;
+      std::cout << "\nField Len  => " << MFieldLen;
+      std::cout << "\nBlock data => ";
       p += 8;
       for( i = 8; i < MemoHeader.BlockSize; i++ )
-         cout << *p++;
+         std::cout << *p++;
    }
    return;
 }

@@ -1,4 +1,4 @@
-/*  $Id: database.h,v 1.3 2000/09/27 17:25:08 dbryson Exp $
+/*  $Id: database.h,v 1.4 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -46,7 +46,7 @@
 #include <xbase/xtypes.h>
 #include <xbase/xdate.h>
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 
 #ifdef XB_INDEX_ANY

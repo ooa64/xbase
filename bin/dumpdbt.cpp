@@ -1,4 +1,4 @@
-/*  $Id: dumpdbt.cpp,v 1.6 2000/09/27 17:25:07 dbryson Exp $
+/*  $Id: dumpdbt.cpp,v 1.7 2002/12/17 03:03:55 dbryson Exp $
 
     Xbase project source code
 
@@ -53,7 +53,7 @@ int main( int ac, char **av )
    xbXBase x;
 
    if( ac <= 1 ){
-     cout << "\nUsage: dumpdbt filename...\n";
+     std::cout << "\nUsage: dumpdbt filename...\n";
      return 1;
    }
 
@@ -63,16 +63,16 @@ int main( int ac, char **av )
       
 
      if( dbf.OpenDatabase( filename )){
-        cout << "\nCant open input file " << filename;
+        std::cout << "\nCant open input file " << filename;
         return 2;
      }
   
-     cout << "\n\nFree Block Chain....";
+     std::cout << "\n\nFree Block Chain....";
 #ifdef XBASE_DEBUG
      dbf.DumpMemoFreeChain();
-     cout <<"\nEnd of free block chain\n***********************************";
+     std::cout <<"\nEnd of free block chain\n***********************************";
 #else
-     cout << "\nXBASE_DEBUG is not compiled in\n";
+     std::cout << "\nXBASE_DEBUG is not compiled in\n";
 #endif
 
    /* lock the memo file */
@@ -81,19 +81,20 @@ int main( int ac, char **av )
 #  endif /* XB_LOCKING_ON */
 
         if( !dbf.MemoFieldsPresent() ) {
-            cout << "No memo fields exist in " << filename << endl;
+            std::cout << "No memo fields exist in " << filename << std::endl;
         } else {
             xbLong BufSize = 0L;
             char* Buf = NULL;
             for( xbLong l = 1; l <= dbf.NoOfRecords(); l++ )
       {
          dbf.GetRecord( l );
-         cout << "\nRecord # " << dbf.GetCurRecNo();
+         std::cout << "\nRecord # " << dbf.GetCurRecNo();
                 for( int j = 0; j < dbf.FieldCount(); j++ ) {
                     if( dbf.GetFieldType( j ) == 'M' ) {
                         int len = dbf.GetMemoFieldLen( j );
-               cout << "\nMemo field " << dbf.GetFieldName(j) << " length = " << len;
-               cout << " Head Block = " << dbf.GetLongField( j ) << "\n";
+               std::cout << "\nMemo field " << dbf.GetFieldName(j)
+                         << " length = " << len;
+               std::cout << " Head Block = " << dbf.GetLongField( j ) << "\n";
                if( len > BufSize )
                {
                   if( BufSize ) free( Buf );
@@ -103,7 +104,7 @@ int main( int ac, char **av )
                }
                dbf.GetMemoField( j, len, Buf, F_SETLKW );
                         for( int i = 0; i < len; i++ )
-                  cout << Buf[i];
+                  std::cout << Buf[i];
             }
       }
    }
@@ -114,11 +115,11 @@ int main( int ac, char **av )
        dbf.LockMemoFile( F_SETLK, F_UNLCK );
 #  endif /* XB_LOCKING_ON */
 
-       cout << "\n";
+       std::cout << "\n";
        dbf.CloseDatabase();
      }
 #else
-     cout << "\nXB_MEMO_FIELDS is not compiled in\n";
+     std::cout << "\nXB_MEMO_FIELDS is not compiled in\n";
 #endif
    }
    return 0;

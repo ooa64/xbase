@@ -1,4 +1,4 @@
-/*  $Id: sample5.cpp,v 1.5 2000/09/27 17:25:08 dbryson Exp $
+/*  $Id: sample5.cpp,v 1.6 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -62,37 +62,37 @@ int main()
    xbNdx i4( &d );
 
    rc = d.OpenDatabase( "MYFILE" );
-   cout << "OpenDatabase rc = " << rc << "\n";
+   std::cout << "OpenDatabase rc = " << rc << "\n";
 
    rc = i1.OpenIndex( "MYINDEX1" );
-   cout << "OpenIndex 1 rc = " << rc << "\n";
+   std::cout << "OpenIndex 1 rc = " << rc << "\n";
 
    rc = i2.OpenIndex( "MYINDEX2" );
-   cout << "OpenIndex 2 rc = " << rc << "\n";
+   std::cout << "OpenIndex 2 rc = " << rc << "\n";
 
    rc = i3.OpenIndex( "MYINDEX3" );
-   cout << "OpenIndex 3 rc = " << rc << "\n";
+   std::cout << "OpenIndex 3 rc = " << rc << "\n";
 
    rc = i4.OpenIndex( "MYINDEX4" );
-   cout << "OpenIndex 4 rc = " << rc << "\n";
+   std::cout << "OpenIndex 4 rc = " << rc << "\n";
 
    rc = i1.FindKey( "Queue" );			/* alpha search   */
-   cout << "Find Key rc = " << rc << "\n";
+   std::cout << "Find Key rc = " << rc << "\n";
 
    rc = i4.FindKey( (xbDouble) 77.77 );		/* numeric search */
-   cout << "Find Key rc = " << rc << "\n";
+   std::cout << "Find Key rc = " << rc << "\n";
 
    rc = i1.GetFirstKey();
-   cout << "GetFirstKey rc = " << rc << "\n";
+   std::cout << "GetFirstKey rc = " << rc << "\n";
 
    rc = i1.GetNextKey();
-   cout << "GetNextKey rc = " << rc << "\n";
+   std::cout << "GetNextKey rc = " << rc << "\n";
 
    rc = i1.GetLastKey();
-   cout << "GetLastKey rc = " << rc << "\n";
+   std::cout << "GetLastKey rc = " << rc << "\n";
 
    rc = i1.GetPrevKey();
-   cout << "GetPrevKey rc = " << rc << "\n";
+   std::cout << "GetPrevKey rc = " << rc << "\n";
 
    d.CloseDatabase();
    return 0;

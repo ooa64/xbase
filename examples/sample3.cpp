@@ -1,4 +1,4 @@
-/*  $Id: sample3.cpp,v 1.7 2002/04/04 23:11:14 dbryson Exp $
+/*  $Id: sample3.cpp,v 1.8 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -81,68 +81,70 @@ int main()
   f1        = MyFile.GetFieldNo( "FLOAT1" );
   memo      = MyFile.GetFieldNo( "MEMO1" );
 
-  cout << "\nThere are " << MyFile.FieldCount() << " fields in the file";
+  std::cout << "\nThere are " << MyFile.FieldCount() << " fields in the file";
   recs = MyFile.NoOfRecords();
-  cout << "There are " << recs << " records in the file." << endl;  
+  std::cout << "\nThere are " << recs << " records in the file." << std::endl;
 
-  cout << "\nLASTNAME   is type: " << MyFile.GetFieldType( lname )
+  std::cout << "\nLASTNAME   is type: " << MyFile.GetFieldType( lname )
    << " length: " << MyFile.GetFieldLen( lname );
-  cout << "\nFIRSTNAME  is type: " << MyFile.GetFieldType( fname )
+  std::cout << "\nFIRSTNAME  is type: " << MyFile.GetFieldType( fname )
    << " length: " << MyFile.GetFieldLen( fname );
-  cout << "\nBIRTHDATE  is type: " << MyFile.GetFieldType( birthdate )
+  std::cout << "\nBIRTHDATE  is type: " << MyFile.GetFieldType( birthdate )
    << " length: " << MyFile.GetFieldLen( birthdate );
-  cout << "\nAMOUNT     is type: " << MyFile.GetFieldType( amount )
+  std::cout << "\nAMOUNT     is type: " << MyFile.GetFieldType( amount )
    << " length: " << MyFile.GetFieldLen( amount );
-  cout << "\nSWITCH     is type: " << MyFile.GetFieldType( sw )
+  std::cout << "\nSWITCH     is type: " << MyFile.GetFieldType( sw )
    << " length: " << MyFile.GetFieldLen( sw );
-  cout << "\nMEMO1      is type: " << MyFile.GetFieldType( memo )
+  std::cout << "\nMEMO1      is type: " << MyFile.GetFieldType( memo )
    << " length: " << MyFile.GetFieldLen( memo ) << "\n\n";
 
-  cout << "Sample GetRecord" << endl; 
+  std::cout << "Sample GetRecord" << std::endl; 
   MyFile.GetRecord( 1L );
   MyFile.GetField( lname, buf );  
-  cout << "Name 1 = " << buf << endl;
-  cout << "Name 1 = " << MyFile.GetStringField( lname ) << endl;
+  std::cout << "Name 1 = " << buf << std::endl;
+  std::cout << "Name 1 = " << MyFile.GetStringField( lname ) << std::endl;
 
   f = MyFile.GetFloatField( f1 );
-  cout << "FLOAT1 = " << f << endl;
+  std::cout << "FLOAT1 = " << f << std::endl;
   f = MyFile.GetFloatField( "FLOAT2" );
-  cout << "FLOAT2 = " << f << endl;
+  std::cout << "FLOAT2 = " << f << std::endl;
 
-  cout << "Sample GetRecordBuf" << endl; 
+  std::cout << "Sample GetRecordBuf" << std::endl; 
   p = MyFile.GetRecordBuf();			/* pointer to record buffer */
-  for( i = 0; i < 49; i++ ) cout << *p++;	/* display the buffer */
+  for( i = 0; i < 49; i++ ) std::cout << *p++;	/* display the buffer */
 
-  cout << "\n\nLoop through forwards..." << endl;
+  std::cout << "\n\nLoop through forwards..." << std::endl;
   rc = MyFile.GetFirstRecord(); 
   while( rc == XB_NO_ERROR )
   {
     MyFile.GetField( lname, buf );  
-    cout << MyFile.GetCurRecNo();
-    cout << " Name = " << buf << endl;
+    std::cout << MyFile.GetCurRecNo();
+    std::cout << " Name = " << buf << std::endl;
     rc = MyFile.GetNextRecord();
 #ifdef XB_MEMO_FIELDS
     if( MyFile.MemoFieldExists( memo ))
-     cout << "Memo field MEMO1 len = " << MyFile.GetMemoFieldLen(memo) << endl;
+     std::cout << "Memo field MEMO1 len = " << MyFile.GetMemoFieldLen(memo)
+               << std::endl;
 #endif
   }
 
-  cout << "\n\nSample PutRecord" << endl << endl;
+  std::cout << "\n\nSample PutRecord" << std::endl << std::endl;
   MyFile.PutField( lname, "Stantonbob" );
   MyFile.PutField( lname, "Sally" );
   MyFile.PutRecord( MyFile.GetCurRecNo() );
 
-  cout << "\nLoop through backwards.." << endl;
+  std::cout << "\nLoop through backwards.." << std::endl;
   rc = MyFile.GetLastRecord(); 
   while( rc == XB_NO_ERROR )
   {
 //    MyFile.GetField( lname, buf );  
-    cout << "Last Name = " << MyFile.GetStringField( lname ) << endl;
-    cout << "Logical Field = " << MyFile.GetLogicalField( "SWITCH" ) << endl;
+    std::cout << "Last Name = " << MyFile.GetStringField( lname ) << std::endl;
+    std::cout << "Logical Field = " << MyFile.GetLogicalField( "SWITCH" )
+              << std::endl;
     rc = MyFile.GetPrevRecord();
   }
 
-  cout << endl;
+  std::cout << std::endl;
   MyFile.CloseDatabase();				/* close database */
   return 0;
 }     

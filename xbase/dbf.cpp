@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.21 2002/12/08 07:53:20 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.22 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
    
@@ -836,31 +836,31 @@ xbShort xbDbf::DumpHeader( xbShort Option )
    if( DbfStatus == XB_CLOSED )
      xb_error(XB_NOT_OPEN);
 
-   cout << "\nDatabase file " << DatabaseName << endl << endl;
+   std::cout << "\nDatabase file " << DatabaseName << std::endl << std::endl;
 
    if( Option != 2 )
    {
-      cout << "File header data:" << endl;
+      std::cout << "File header data:" << std::endl;
       if( Version == 3 )
-         cout << "Dbase III file" << endl;
+         std::cout << "Dbase III file" << std::endl;
       else if ( Version == 83 )
-         cout << "Dbase III file with memo fields" << endl << endl;
+         std::cout << "Dbase III file with memo fields" << std::endl << std::endl;
 
-      cout << "Last update date = " 
-          << (int) UpdateMM << "/" << (int) UpdateDD << "/" << (int) UpdateYY % 100 << endl;  
+      std::cout << "Last update date = " 
+          << (int) UpdateMM << "/" << (int) UpdateDD << "/" << (int) UpdateYY % 100 << std::endl;  
 
-      cout << "Header length    = " << HeaderLen << endl;
-      cout << "Record length    = " << RecordLen << endl;
-      cout << "Records in file  = " << NoOfRecs << endl << endl;
+      std::cout << "Header length    = " << HeaderLen << std::endl;
+      std::cout << "Record length    = " << RecordLen << std::endl;
+      std::cout << "Records in file  = " << NoOfRecs << std::endl << std::endl;
 #ifdef XB_REAL_DELETE
-      cout << "First Free Rec   = " << FirstFreeRec << endl << endl;
+      std::cout << "First Free Rec   = " << FirstFreeRec << std::endl << std::endl;
 #endif      
    }
    if( Option != 1 )
    {
 
-      cout << "Field Name   Type  Length  Decimals" << endl;
-      cout << "----------   ----  ------  --------" << endl;
+      std::cout << "Field Name   Type  Length  Decimals" << std::endl;
+      std::cout << "----------   ----  ------  --------" << std::endl;
       for( i = 0; i <NoOfFields; i++ )
       {
          if( SchemaPtr[i].Type == 'C' && SchemaPtr[i].NoOfDecs > 0 )
@@ -871,7 +871,7 @@ xbShort xbDbf::DumpHeader( xbShort Option )
                   SchemaPtr[i].Type, SchemaPtr[i].FieldLen, SchemaPtr[i].NoOfDecs );
       }
    }
-   cout << endl;
+   std::cout << std::endl;
    return XB_NO_ERROR;
 }
 #endif
@@ -1639,10 +1639,10 @@ xbShort xbDbf::DumpRecord( xbULong RecNo )
    if( i != XB_NO_ERROR )
       return i;
 
-   cout << "\nREC NUMBER " << RecNo << "\n";
+   std::cout << "\nREC NUMBER " << RecNo << "\n";
 
    if( RecordDeleted() )
-      cout << "\nRecord deleted...\n";
+      std::cout << "\nRecord deleted...\n";
 
    for( i = 0; i < NoOfFields; i++ )
    {
@@ -1651,17 +1651,17 @@ xbShort xbDbf::DumpRecord( xbULong RecNo )
       {
         rc = GetMemoField(i, 1023, buf, F_SETLKW);
         if(rc != XB_NO_ERROR)
-          cout << "Error " << rc << "\n";
+          std::cout << "Error " << rc << "\n";
       }
       else
         GetField( i, buf );
-      cout << SchemaPtr[i].Type << " " << SchemaPtr[i].FieldName << " = '" << buf << "'\n";
+      std::cout << SchemaPtr[i].Type << " " << SchemaPtr[i].FieldName << " = '" << buf << "'\n";
 #else
       GetField( i, buf );
-      cout << SchemaPtr[i].FieldName << " = '" << buf << "'\n";
+      std::cout << SchemaPtr[i].FieldName << " = '" << buf << "'\n";
 #endif
    }
-   cout << "\n";
+   std::cout << "\n";
    return XB_NO_ERROR;
 }
 /************************************************************************/

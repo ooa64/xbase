@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.9 2001/08/02 16:12:47 dyp Exp $
+/*  $Id: xbase.cpp,v 1.10 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -590,57 +590,57 @@ void xbXBase::DisplayError( const xbShort ErrorNo ) const
 {
 #if 0 // replaced following code to remove duplicate strings (9/27/2000 DTB)
   switch( ErrorNo ) {
-    case    0: cout << "No Error" << endl;                     break;
-    case -100: cout << "End Of File" << endl;                  break;
-//  case -101: cout << "Beginning Of File" << endl;            break;
-    case -102: cout << "No Memory" << endl;                    break;
-    case -103: cout << "File Already Exists" << endl;          break;
-    case -104: cout << "Database or Index Open Error" << endl; break;
-    case -105: cout << "Error writing to disk drive" << endl;  break;
-    case -106: cout << "Unknown Field Type" << endl;           break;
-    case -107: cout << "Database already open" << endl;        break;
-    case -108: cout << "Not an Xbase type database" << endl;   break;
-    case -109: cout << "Invalid Record Number" << endl;        break;
-    case -110: cout << "Invalid Option" << endl;               break;
-    case -111: cout << "Database not open" << endl;            break;
-    case -112: cout << "Disk Drive Seek Error" << endl;        break;
-    case -113: cout << "Disk Drive Read Error" << endl;        break;
-    case -114: cout << "Search Key Not Found" << endl;         break;
-    case -115: cout << "Search Key Found" << endl;             break;
-    case -116: cout << "Invalid Key" << endl;                  break;
-    case -117: cout << "Invalid Node Link" << endl;            break;
-    case -118: cout << "Key Not Unique" << endl;               break;
-    case -119: cout << "Invalid Key Expression" << endl;       break;
-//  case -120: cout << "DBF File Not Open" << endl;            break;
-    case -121: cout << "Invalid Key Type" << endl;             break;
-    case -122: cout << "Invalid Node No" << endl;              break;
-    case -123: cout << "Node Full" << endl;                    break;
-    case -124: cout << "Invalid Field Number" << endl;         break;
-    case -125: cout << "Invalid Data" << endl;                 break;
-    case -126: cout << "Not a leaf node" << endl;              break;
-    case -127: cout << "Lock Failed" << endl;                  break;
-    case -128: cout << "Close Error" << endl;                  break;
-    case -129: cout << "Invalid Schema" << endl;               break;
-    case -130: cout << "Invalid Name" << endl;                 break;
-    case -131: cout << "Invalid Block Size" << endl;           break;
-    case -132: cout << "Invalid Block Number" << endl;         break;
-    case -133: cout << "Not a Memo field" << endl;             break;
-    case -134: cout << "No Memo Data" << endl;                 break;
-    case -135: cout << "Expression syntax error" << endl;      break;
-    case -136: cout << "Parse Error" << endl;                  break;
-    case -137: cout << "No Data" << endl;                      break;
-//  case -138: cout << "Unknown Token Type" << endl;           break;
+    case    0: std::cout << "No Error" << std::endl;                    break;
+    case -100: std::cout << "End Of File" << std::endl;                 break;
+//  case -101: std::cout << "Beginning Of File" << std::endl;           break;
+    case -102: std::cout << "No Memory" << std::endl;                   break;
+    case -103: std::cout << "File Already Exists" << std::endl;         break;
+    case -104: std::cout << "Database or Index Open Error" << std::endl;break;
+    case -105: std::cout << "Error writing to disk drive" << std::endl; break;
+    case -106: std::cout << "Unknown Field Type" << std::endl;          break;
+    case -107: std::cout << "Database already open" << std::endl;       break;
+    case -108: std::cout << "Not an Xbase type database" << std::endl;  break;
+    case -109: std::cout << "Invalid Record Number" << std::endl;       break;
+    case -110: std::cout << "Invalid Option" << std::endl;              break;
+    case -111: std::cout << "Database not open" << std::endl;           break;
+    case -112: std::cout << "Disk Drive Seek Error" << std::endl;       break;
+    case -113: std::cout << "Disk Drive Read Error" << std::endl;       break;
+    case -114: std::cout << "Search Key Not Found" << std::endl;        break;
+    case -115: std::cout << "Search Key Found" << std::endl;            break;
+    case -116: std::cout << "Invalid Key" << std::endl;                 break;
+    case -117: std::cout << "Invalid Node Link" << std::endl;           break;
+    case -118: std::cout << "Key Not Unique" << std::endl;              break;
+    case -119: std::cout << "Invalid Key Expression" << std::endl;      break;
+//  case -120: std::cout << "DBF File Not Open" << std::endl;           break;
+    case -121: std::cout << "Invalid Key Type" << std::endl;            break;
+    case -122: std::cout << "Invalid Node No" << std::endl;             break;
+    case -123: std::cout << "Node Full" << std::endl;                   break;
+    case -124: std::cout << "Invalid Field Number" << std::endl;        break;
+    case -125: std::cout << "Invalid Data" << std::endl;                break;
+    case -126: std::cout << "Not a leaf node" << std::endl;             break;
+    case -127: std::cout << "Lock Failed" << std::endl;                 break;
+    case -128: std::cout << "Close Error" << std::endl;                 break;
+    case -129: std::cout << "Invalid Schema" << std::endl;              break;
+    case -130: std::cout << "Invalid Name" << std::endl;                break;
+    case -131: std::cout << "Invalid Block Size" << std::endl;          break;
+    case -132: std::cout << "Invalid Block Number" << std::endl;        break;
+    case -133: std::cout << "Not a Memo field" << std::endl;            break;
+    case -134: std::cout << "No Memo Data" << std::endl;                break;
+    case -135: std::cout << "Expression syntax error" << std::endl;     break;
+    case -136: std::cout << "Parse Error" << std::endl;                 break;
+    case -137: std::cout << "No Data" << std::endl;                     break;
+//  case -138: std::cout << "Unknown Token Type" << std::endl;          break;
 
-    case -140: cout << "Invalid Field" << endl;                break;
-    case -141: cout << "Insufficient Parms" << endl;           break;
-    case -142: cout << "Invalid Function" << endl;             break;
-    case -143: cout << "Invalid Field Length" << endl;         break;
-    case -144: cout << "Harvest Node Error" << endl;           break;
-    case -145: cout << "Invalid Date" << endl;                 break;
-    default:   cout << "Unknown error code" << endl;           break;
+    case -140: std::cout << "Invalid Field" << std::endl;               break;
+    case -141: std::cout << "Insufficient Parms" << std::endl;          break;
+    case -142: std::cout << "Invalid Function" << std::endl;            break;
+    case -143: std::cout << "Invalid Field Length" << std::endl;        break;
+    case -144: std::cout << "Harvest Node Error" << std::endl;          break;
+    case -145: std::cout << "Invalid Date" << std::endl;                break;
+    default:   std::cout << "Unknown error code" << std::endl;          break;
   }
 #else
-  cout << GetErrorMessage(ErrorNo) << endl;
+  std::cout << GetErrorMessage(ErrorNo) << std::endl;
 #endif
 }
 

@@ -1,4 +1,4 @@
-/*  $Id: html.cpp,v 1.7 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: html.cpp,v 1.8 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -78,7 +78,7 @@
 */
 void xbHtml::TextOut( const char * String )
 {
-   cout << String;
+   std::cout << String;
 }
 
 /************************************************************************/
@@ -122,18 +122,18 @@ void xbHtml::DumpArray( void )
 
    xbShort i;
    if( NoOfDataFields == 0 )
-      cout << "No Input Data From Form\n";
+      std::cout << "No Input Data From Form\n";
    else
    {
-      cout << "There are " << NoOfDataFields << " fields";
-      cout << "<BR>" << NoOfDataFields << " Field Name / Data Values received\n";
-      cout << "<BR>-----------------------------------\n";
+      std::cout << "There are " << NoOfDataFields << " fields";
+      std::cout << "<BR>" << NoOfDataFields << " Field Name / Data Values received\n";
+      std::cout << "<BR>-----------------------------------\n";
       for( i = 0; i < NoOfDataFields; i++ )
       {
-         cout << "<br>" << FieldNameArray[i] << " => ";
+         std::cout << "<br>" << FieldNameArray[i] << " => ";
 //       PrintEncodedString( DataValueArray[i] );
          if( DataValueArray[i] )
-            cout << DataValueArray[i];
+            std::cout << DataValueArray[i];
       }
    }
 }
@@ -379,42 +379,42 @@ xbShort xbHtml::GenFormFields(xbDbf *d, xbShort Option, const char *Title,
    xbShort i;
    char  buf[255];
 
-   cout << "\n<TABLE>";
+   std::cout << "\n<TABLE>";
    if( Title )
-      cout << "\n<CAPTION ALIGN=\"TOP\">" << Title << "</CAPTION><BR>";
+      std::cout << "\n<CAPTION ALIGN=\"TOP\">" << Title << "</CAPTION><BR>";
    
    i = 0;
    while( fl[i].FieldLen != 0 )
    {
-      cout << "\n<BR><TR><TH ALIGN=\"LEFT\">" << fl[i].Label;
+      std::cout << "\n<BR><TR><TH ALIGN=\"LEFT\">" << fl[i].Label;
       if( fl[i].Option == 2 )
       {
          if( !d )
                 xb_error(XB_NOT_OPEN);
          d->GetField( fl[i].FieldNo, buf );
-         cout << "<TD>" << buf;
+         std::cout << "<TD>" << buf;
       }
       else
       {
-         cout << "<TD><INPUT TEXT NAME = \"" << fl[i].FieldName << "\"";
-         cout << " size = " << fl[i].FieldLen;
+         std::cout << "<TD><INPUT TEXT NAME = \"" << fl[i].FieldName << "\"";
+         std::cout << " size = " << fl[i].FieldLen;
      
          if( fl[i].Option == 1 )
-            cout << " TYPE=\"password\" ";
+            std::cout << " TYPE=\"password\" ";
 
-         cout << " value = ";
+         std::cout << " value = ";
          if( Option == 1 )
          {
        if( !d )
           xb_error(XB_NOT_OPEN);
             d->GetField( fl[i].FieldNo, buf );
-            cout << "\"" << buf << "\"";
+            std::cout << "\"" << buf << "\"";
          }
-         cout << ">";
+         std::cout << ">";
       }  
       i++;
    }
-   cout << "\n</TABLE>";
+   std::cout << "\n</TABLE>";
    return XB_NO_ERROR;
 }
 /************************************************************************/
@@ -424,8 +424,8 @@ xbShort xbHtml::GenFormFields(xbDbf *d, xbShort Option, const char *Title,
 */
 void xbHtml::StartHtmlPage( const char * Title )
 {
-   cout << "Content-type: text/html\n\n";
-   cout << "\n<HTML><HEAD><TITLE>" << Title << "</TITLE></HEAD><BODY>";
+   std::cout << "Content-type: text/html\n\n";
+   std::cout << "\n<HTML><HEAD><TITLE>" << Title << "</TITLE></HEAD><BODY>";
 }
 /************************************************************************/
 //! Short description
@@ -436,11 +436,11 @@ void xbHtml::PrintEncodedChar( char c )
 {
    switch( c )
    {
-      case '<':  cout << "&lt;"; break;
-      case '>':  cout << "&gt;"; break;
-      case '&':  cout << "&amp;"; break;
-      case '"':  cout << "&quot;"; break;
-      default: cout << c; break;  
+      case '<':  std::cout << "&lt;"; break;
+      case '>':  std::cout << "&gt;"; break;
+      case '&':  std::cout << "&amp;"; break;
+      case '"':  std::cout << "&quot;"; break;
+      default: std::cout << c; break;  
    }
    return;
 }
@@ -478,23 +478,23 @@ xbShort xbHtml::SetCookie( const char * Name,const char * Value,
      )
       xb_error(XB_INVALID_OPTION);
 
-   cout << "\nSet-Cookie: " << Name << "=" << Value << ";";
+   std::cout << "\nSet-Cookie: " << Name << "=" << Value << ";";
    if( ExpDate )
    {
-      cout << ExpDate << ";";
+      std::cout << ExpDate << ";";
       if( ExpTime )
-         cout << ExpTime;
+         std::cout << ExpTime;
       else
-         cout << "00:00:00";
-      cout << TimeZone << ";";
+         std::cout << "00:00:00";
+      std::cout << TimeZone << ";";
    }
    if( Path )
-      cout << "\nPath=" << Path << ";";
+      std::cout << "\nPath=" << Path << ";";
    if( Domain )
-      cout << "domain=" << Domain << ";";
+      std::cout << "domain=" << Domain << ";";
    if( Secure )
-      cout << "Secure";
-   cout << "\n";
+      std::cout << "Secure";
+   std::cout << "\n";
    return XB_NO_ERROR;
 }
 /************************************************************************/
@@ -526,7 +526,7 @@ void xbHtml::SpaceToPlus( char * String )
 */
 void xbHtml::SendRedirect( char * url ) const
 {  
-   cout << "Location: " << url << endl << endl; 
+   std::cout << "Location: " << url << std::endl << std::endl; 
 }
 /************************************************************************/
 //! Short description

@@ -50,39 +50,43 @@ xbShort ExpTestor::TestExpression( const char * Expression,
   xbShort rc = 0;
   
   if(( rc = dbfPtr->xbase->ParseExpression( Expression, dbfPtr )) != 0 ){
-    cout << "Parse Error " << rc << " in expression " << Expression << endl;
+    std::cout << "Parse Error " << rc << " in expression " << Expression
+              << std::endl;
     return 1;
   }
   e = dbfPtr->xbase->GetExpressionHandle();
 
-//  cout << "********************************" << endl << "Expression: " << Expression << endl;
+//  std::cout << "********************************" << std::endl << "Expression: " << Expression << std::endl;
 //  dbfPtr->xbase->DumpExpressionTree( e );
 
   if(( rc = dbfPtr->xbase->ProcessExpression(e)) != 0 ){
-    cout << "Error " << rc << " processing expression " << Expression << endl;
+    std::cout << "Error " << rc << " processing expression " << Expression
+              << std::endl;
     return 1;
   }
   char type = dbfPtr->xbase->GetExpressionResultType(e);
   if( type != 'N' && type != 'L' ){
-    cout << "Expression " << Expression;
-    cout << " Expected result type Numeric or Logical, actual was ";
-    cout << type << endl;
+    std::cout << "Expression " << Expression;
+    std::cout << " Expected result type Numeric or Logical, actual was ";
+    std::cout << type << std::endl;
     return 1;
   }
 //  if( type == 'N' && ExpectedResult != dbfPtr->xbase->GetDoub()){
-//    cout << "Expression " << Expression;
-//    cout << " Actual result of " << dbfPtr->xbase->GetDoub() << " does not match ";
-//    cout << " expected result of " << ExpectedResult << endl;
+//    std::cout << "Expression " << Expression;
+//    std::cout << " Actual result of " << dbfPtr->xbase->GetDoub()
+//              << " does not match ";
+//    std::cout << " expected result of " << ExpectedResult << std::endl;
 //    return  1;
 //  }
 //  if( type == 'L' && ExpectedResult != (xbDouble) dbfPtr->xbase->GetInt()){
-//    cout << "Expression " << Expression;
-//    cout << " Actual result of " << dbfPtr->xbase->GetInt() << " does not match ";
-//    cout << " expected result of " << ExpectedResult << endl;
+//    std::cout << "Expression " << Expression;
+//    std::cout << " Actual result of " << dbfPtr->xbase->GetInt()
+//              << " does not match ";
+//    std::cout << " expected result of " << ExpectedResult << std::endl;
 //    return  1;
 //  }
-  cout << "Expression " << Expression << " returned " << ExpectedResult;
-  cout << " OK" << endl;
+  std::cout << "Expression " << Expression << " returned " << ExpectedResult;
+  std::cout << " OK" << std::endl;
   return 0;
 }
 /**************************************************************************/
@@ -94,47 +98,54 @@ xbShort ExpTestor::TestExpression( const char * Expression,
 //  char temp[5];
 	
   if(( rc = dbfPtr->xbase->ParseExpression( Expression, dbfPtr )) != 0 ){
-    cout << "Parse Error " << rc << " in expression " << Expression << endl;
+    std::cout << "Parse Error " << rc << " in expression " << Expression
+              << std::endl;
     return 1;
   }
   e = dbfPtr->xbase->GetExpressionHandle();
 
-//  cout << "**********************************" << endl << "Expression: " << Expression << endl;
+//  std::cout << "**********************************" << std::endl
+//            << "Expression: " << Expression << std::endl;
 //  dbfPtr->xbase->DumpExpressionTree( e );
 //  cin >> temp;
 
   if(( rc = dbfPtr->xbase->ProcessExpression(e)) != 0 ){
-    cout << "Error " << rc << " processing expression " << Expression << endl;
+    std::cout << "Error " << rc << " processing expression " << Expression
+              << std::endl;
     return 1;
   }
   char type = dbfPtr->xbase->GetExpressionResultType(e);
   if( type != 'C' ){
-    cout << "Expression " << Expression;
-    cout << " Expected result type Character, actual was " << type << endl;
+    std::cout << "Expression " << Expression;
+    std::cout << " Expected result type Character, actual was " << type
+              << std::endl;
     return 1;
   }
 //  if( strlen( ExpectedResult ) != strlen( dbfPtr->xbase->GetCharResult())){
-//    cout << "Expression " << Expression;
-//    cout << " result length of " << strlen( dbfPtr->xbase->GetCharResult()) <<
-//      " different than expected of " << strlen( ExpectedResult ) << endl;
-//    cout << "Calculated result =" << dbfPtr->xbase->GetCharResult() << "<" << endl;
+//    std::cout << "Expression " << Expression;
+//    std::cout << " result length of "
+//              << strlen( dbfPtr->xbase->GetCharResult())
+//              << " different than expected of " << strlen( ExpectedResult )
+//              << std::endl;
+//    std::cout << "Calculated result =" << dbfPtr->xbase->GetCharResult()
+//              << "<" << std::endl;
 //    return 1;
 //  }
 /*
   if( strcmp( ExpectedResult, dbfPtr->xbase->GetCharResult())){
-    cout << "Expression " << Expression;
-    cout << " Actual result of " << dbfPtr->xbase->GetCharResult() << " does not match ";
-    cout << " expected result of " << ExpectedResult << endl;
+    std::cout << "Expression " << Expression;
+    std::cout << " Actual result of " << dbfPtr->xbase->GetCharResult()
+              << " does not match ";
+    std::cout << " expected result of " << ExpectedResult << std::endl;
     return  1;
   }
 */
-  cout << "Expression " << Expression << " returned " << ExpectedResult;
-  cout << " OK" << endl;
+  std::cout << "Expression " << Expression << " returned " << ExpectedResult;
+  std::cout << " OK" << std::endl;
   return 0;
 }
 /*************************************************************************/
-int
-main()
+int main(int argc, char* argv[])
 {
   xbSchema MyRecord[] =
   {
@@ -150,8 +161,8 @@ main()
   d.PutFloatField( "FLOAT1", 5 );  
   
 
-  cout << "XBase Expression testor program.." << endl;
-  cout << "This program test the XBase expression logic." << endl;
+  std::cout << "XBase Expression testor program.." << std::endl;
+  std::cout << "This program test the XBase expression logic." << std::endl;
   ExpTestor * e = new ExpTestor(&d);
 
   e->TestExpression( "(25-3+2)*2", 48 );

@@ -1,4 +1,4 @@
-/*  $Id: expfunc.cpp,v 1.6 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: expfunc.cpp,v 1.7 2002/12/17 03:03:56 dbryson Exp $
 
     Xbase project source code
 
@@ -327,7 +327,7 @@ xbShort xbExpn::ProcessFunction( char * Func )
       break;
 
       default:
-      cout << "\nInternal error. " << ptype;
+      std::cout << "\nInternal error. " << ptype;
       break;
    }
    Push(WorkNode);

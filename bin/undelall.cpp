@@ -1,4 +1,4 @@
-/*  $Id: undelall.cpp,v 1.6 2000/09/27 17:25:07 dbryson Exp $
+/*  $Id: undelall.cpp,v 1.7 2002/12/17 03:03:55 dbryson Exp $
 
     Xbase project source code
 
@@ -48,7 +48,7 @@
 int main(int ac,char** av)
 {
     if (ac <= 1) {
-        cout << 
+        std::cout << 
             "\nUsage: undelall filename...\n"
             "\nThis program does not automatically reindex any NDX indexes."
             "\nUse the reindex program to reindex any indexes associated"
@@ -66,18 +66,18 @@ int main(int ac,char** av)
    xbDbf MyFile( &x );
 
         if( MyFile.OpenDatabase( filename )) {
-      cout << "Could not open file " << filename << "\n";
+      std::cout << "Could not open file " << filename << "\n";
       return 0;
    }
 
         xbShort rc = MyFile.UndeleteAllRecords();
         if( rc != XB_NO_ERROR ) {
-      cout << "\nError undeleting records - database ==> " << filename;
-      cout << " Return Code = " << rc;
+      std::cout << "\nError undeleting records - database ==> " << filename;
+      std::cout << " Return Code = " << rc;
    }
    MyFile.CloseDatabase();	/* close database */
 
-   cout << "\nUndelete all records complete...\n\n";
+   std::cout << "\nUndelete all records complete...\n\n";
     }
     return 0;
 }     
