@@ -1,4 +1,4 @@
-/*  $Id: ntx.h,v 1.1 2000/06/01 06:06:08 dbryson Exp $
+/*  $Id: ntx.h,v 1.2 2000/06/06 23:10:09 dbryson Exp $
 
     Xbase project source code
 
@@ -38,7 +38,7 @@ struct NtxHeadNode {			/* ntx header on disk */
     xbUShort Signature;           /* Clipper 5.x or Clipper 87 */
     xbUShort Version;             /* Compiler Version */
                                 /* Also turns out to be a last modified counter */
-    xbULong StartNode;            /* Offset in file for first index */
+    xbLong   StartNode;			/* Offset in file for first index */
     xbULong  UnusedOffset;        /* First free page offset */
     xbUShort KeySize;             /* Size of items (KeyLen + 8) */
     xbUShort KeyLen;              /* Size of the Key */
@@ -67,7 +67,7 @@ struct xbNodeLink {			/* ndx node memory */
    xbNodeLink * PrevNode;
    xbNodeLink * NextNode;
    xbUShort       CurKeyNo;                 /* 0 - KeysPerNode-1 */
-   xbULong       NodeNo;
+   xbLong       NodeNo;
    struct NtxLeafNode Leaf;
     xbUShort *offsets;
 };
@@ -90,7 +90,7 @@ class XBDLLEXPORT xbNtx : public xbIndex  {
    NtxItem PushItem;
 
 /* private functions */
-   xbULong     GetLeftNodeNo( xbShort, xbNodeLink * );
+   xbLong     GetLeftNodeNo( xbShort, xbNodeLink * );
    xbShort    CompareKey( const char *, const char *, xbShort );
    xbShort    CompareKey( const char *, const char * );
    xbLong     GetDbfNo( xbShort, xbNodeLink * );
@@ -101,7 +101,7 @@ class XBDLLEXPORT xbNtx : public xbIndex  {
    xbShort    GetHeadNode( void );    
    xbShort    GetLeafNode( xbLong, xbShort );
    xbNodeLink * GetNodeMemory( void );
-   xbULong    GetNextNodeNo( void );
+   xbLong    GetNextNodeNo( void );
    void     ReleaseNodeMemory( xbNodeLink * );
    xbULong     GetLeafFromInteriorNode( const char *, xbShort );
    xbShort    CalcKeyLen( void );

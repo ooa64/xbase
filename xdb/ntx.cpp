@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.1 2000/06/01 06:05:45 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.2 2000/06/06 23:08:49 dbryson Exp $
 
     Xbase project source code
 
@@ -237,8 +237,7 @@ xbShort xbNtx::OpenIndex( const char * FileName )
        IndexName += ".NTX";
 
    /* open the file */
-   if(( indexfp = fopen( IndexName, "r+b" )) == NULL )
-   {
+   if(( indexfp = fopen( IndexName, "r+b" )) == NULL ){
      xb_open_error(IndexName);
    }
    
@@ -247,7 +246,7 @@ xbShort xbNtx::OpenIndex( const char * FileName )
    **  Must turn off buffering when multiple programs may be accessing
    **  index files.
    */
-   setvbuf(indexfp, NULL, _IONBF, 0);
+   setbuf( indexfp, NULL );
 #endif   
 
 #ifdef XB_LOCKING_ON
@@ -455,7 +454,7 @@ xbLong xbNtx::GetDbfNo( xbShort RecNo, xbNodeLink * n )
    return( dbf->xbase->GetLong( p ));
 }
 /***********************************************************************/
-xbULong xbNtx::GetLeftNodeNo( xbShort RecNo, xbNodeLink * n )
+xbLong xbNtx::GetLeftNodeNo( xbShort RecNo, xbNodeLink * n )
 {
    NtxLeafNode *temp;
    char *p;
@@ -490,8 +489,7 @@ char * xbNtx::GetKeyData( xbShort RecNo, xbNodeLink * n )
 }
 /***********************************************************************/
 xbUShort
-xbNtx::GetItemOffset(xbShort RecNo, xbNodeLink *n, xbShort NewOffset = 0)
-{
+xbNtx::GetItemOffset(xbShort RecNo, xbNodeLink *n, xbShort) {
     if (RecNo > (this->HeadNode.KeysPerNode + 1))
     {
         cout << "RecNo = " << RecNo << endl;
@@ -1047,7 +1045,7 @@ xbShort xbNtx::CompareKey( const char * Key1, const char * Key2)
 }
 
 /***********************************************************************/
-xbULong xbNtx::GetLeafFromInteriorNode( const char * Tkey, xbShort Klen )
+xbULong xbNtx::GetLeafFromInteriorNode( const char * Tkey, xbShort )
 {
    /* This function scans an interior node for a key and returns the   */
    /* correct interior leaf node no                                    */
@@ -1331,7 +1329,8 @@ xbShort xbNtx::CalcKeyLen( void )
    if( !TempNode ) return 0;
    rc = TempNode->DataLen;
 
-   if( !TempNode->InTree ) dbf->xbase->FreeExpNode( TempNode );
+//   if( !TempNode->InTree ) dbf->xbase->FreeExpNode( TempNode );
+   if( !TempNode->InTree ) delete TempNode;
    return rc;
 }
 /***********************************************************************/
@@ -1378,8 +1377,7 @@ xbShort xbNtx::CreateIndex(const char * IxName, const char * Exp, xbShort Unique
    }
    else if( indexfp ) fclose( indexfp );
 
-   if(( indexfp = fopen( IndexName, "w+b" )) == NULL )
-   {
+   if(( indexfp = fopen( IndexName, "w+b" )) == NULL ){
       return XB_OPEN_ERROR;
    }
 
@@ -1388,7 +1386,7 @@ xbShort xbNtx::CreateIndex(const char * IxName, const char * Exp, xbShort Unique
    **  Must turn off buffering when multiple programs may be accessing
    **  index files.
    */
-   setvbuf(indexfp, NULL, _IONBF, 0);
+   setbuf( indexfp, NULL );
 #endif   
 
 #ifdef XB_LOCKING_ON
@@ -1854,7 +1852,7 @@ xbShort xbNtx::SplitLeafNode( xbNodeLink *n1, xbNodeLink *n2, xbShort pos, xbLon
    return 0;
 }
 /************************************************************************/
-xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong t )
+xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong )
                    /* parent, tempnode, tempnodeno */
 {
    xbShort i,j,rc;
@@ -1863,6 +1861,7 @@ xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong t )
    xbShort pos = n1->CurKeyNo;
    xbShort start;
    xbShort end;
+   xbLong n1LastNodeNo = 0;
 
    NtxItem oldPushItem;
    oldPushItem.Node = PushItem.Node;
@@ -1883,8 +1882,20 @@ xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong t )
               HeadNode.KeyLen);
        PushItem.RecordNumber = GetDbfNo(HeadNode.HalfKeysPerNode -1, n1);
        PushItem.Node =  n2->NodeNo;
+       
+       n1LastNodeNo = GetLeftNodeNo(HeadNode.HalfKeysPerNode -1, n1);
+       
        start = pos;
        end = HeadNode.HalfKeysPerNode - 1;
+
+       // Insert the new key.
+       temp  = n1->offsets[end];
+       for( i = end; i > start; i--)
+       {
+           n1->offsets[i] = n1->offsets[i-1];
+       }
+       n1->offsets[start] = temp;
+
    }
    
    else
@@ -1907,18 +1918,24 @@ xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong t )
                   HeadNode.KeyLen);
            PushItem.RecordNumber = GetDbfNo(HeadNode.HalfKeysPerNode, n1);
            PushItem.Node = n2->NodeNo;
+           n1LastNodeNo = GetLeftNodeNo(HeadNode.HalfKeysPerNode, n1);
            
-           start = HeadNode.HalfKeysPerNode + 1;
-           end = pos;
+//           start = HeadNode.HalfKeysPerNode + 1;
+            start = HeadNode.HalfKeysPerNode;
+            end = pos -1;
+
+           // Insert the new key.
+           temp  = n1->offsets[start];
+           for( i = start; i < end; i++)
+           {
+               n1->offsets[i] = n1->offsets[i+1];
+           }
+           n1->offsets[end] = temp;
+           pos--;
        }
    }
 
-   temp  = n1->offsets[end];
-   for( i = end; i > start; i--)
-   {
-       n1->offsets[i] = n1->offsets[i-1];
-   }
-   n1->offsets[start] = temp;
+
 
    /* restore original key */
    memcpy( KeyBuf, oldPushItem.Key, HeadNode.KeyLen + 1);
@@ -1930,7 +1947,7 @@ xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong t )
    PutLeftNodeNo( pos + 1  /* +1 ?*/, n1, oldPushItem.Node /* t */ );
 
    
-   // Dup the node data
+   // Dup the node data into the new page
    memcpy(n2->Leaf.KeyRecs, n1->Leaf.KeyRecs, XB_NTX_NODE_SIZE);
 
    // Dup the offsets
@@ -1951,6 +1968,8 @@ xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong t )
    temp = n2->offsets[j];
    n2->offsets[j] = n2->offsets[HeadNode.KeysPerNode];
    n2->offsets[HeadNode.KeysPerNode] = temp;
+   
+   PutLeftNodeNo(HeadNode.HalfKeysPerNode, n1, n1LastNodeNo);
 
       // Set the new count of both nodes
    n2->Leaf.NoOfKeysThisNode = HeadNode.HalfKeysPerNode;
@@ -1980,14 +1999,15 @@ xbShort xbNtx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
    if( KeyBufSw )
    {
        memset( KeyBuf2, 0x00, HeadNode.KeyLen + 1 );
-       memcpy( KeyBuf2, TempNode->Result, TempNode->DataLen );
+       memcpy( KeyBuf2, TempNode->StringResult, TempNode->DataLen );
    }
    else
    {
        memset( KeyBuf, 0x00, HeadNode.KeyLen + 1 );
-       memcpy( KeyBuf, TempNode->Result, TempNode->DataLen );
+       memcpy( KeyBuf, TempNode->StringResult, TempNode->DataLen );
    }
-   if( !TempNode->InTree ) dbf->xbase->FreeExpNode( TempNode );
+//   if( !TempNode->InTree ) dbf->xbase->FreeExpNode( TempNode );
+   if( !TempNode->InTree ) delete TempNode;
    return 0;
 }
 /************************************************************************/
@@ -2525,7 +2545,12 @@ xbNtx::DeleteKeyFromNode(xbShort pos, xbNodeLink *n )
    {
        // Copy the rightmost key from the left node.
        TempNode = n;
+
        GetLeafNode ( GetLeftNodeNo (n->CurKeyNo, n), 1);
+       while ((rc = GetLeftNodeNo( 0, CurNode )) != 0)
+       {
+           GetLeafNode ( GetLeftNodeNo (CurNode->Leaf.NoOfKeysThisNode, CurNode), 1);
+       } 
 
        // Get the key Data
        strcpy (KeyBuf , GetKeyData( CurNode->Leaf.NoOfKeysThisNode -1, CurNode));
@@ -2590,17 +2615,15 @@ xbShort xbNtx::RemoveKeyFromNode( xbShort pos, xbNodeLink *n )
             sibling = CurNode;
             CurNode = TempNode;
 
-            JoinSiblings(parent, parent->CurKeyNo -1, sibling, n);
+            rc = JoinSiblings(parent, parent->CurKeyNo -1, sibling, n);
             
-            // Harvest the empty node, if necessary
-            // JoinSiblings will set NodeNo to -(NodeNo) to signal
-            // that the node needs to be harvested. Clipper keeps the
-            // old key count on the node, to we can't set it to 0
-            if (sibling->NodeNo < 0)
+            // Harvest the empty node, if necessary Clipper keeps the old key
+            // count on the node, to we can't set it to 0
+            if (rc == XB_HARVEST_NODE)
             {
-                sibling->NodeNo *= -1;
                 harvest = true;
             }
+
             if((rc = PutLeafNode( n->NodeNo,n )) != 0) return rc;
             if((rc = PutLeafNode( sibling->NodeNo,sibling )) != 0) return rc;
             if((rc = PutLeafNode( parent->NodeNo,parent )) != 0) return rc;
@@ -2624,14 +2647,11 @@ xbShort xbNtx::RemoveKeyFromNode( xbShort pos, xbNodeLink *n )
             sibling = CurNode;
             CurNode = TempNode;
             
-            JoinSiblings(parent, parent->CurKeyNo, n, sibling);
-            // Harvest the empty node, if necessary
-            // JoinSiblings will set NodeNo to -(NodeNo) to signal
-            // that the node needs to be harvested. Clipper keeps the
-            // old key count on the node, to we can't set it to 0
-            if (sibling->NodeNo < 0)
+            rc = JoinSiblings(parent, parent->CurKeyNo, n, sibling);
+            // Harvest the empty node, if necessary Clipper keeps the old key
+            // count on the node, to we can't set it to 0
+            if (rc == XB_HARVEST_NODE)
             {
-                sibling->NodeNo *= -1;
                 harvest = true;
             }
             if((rc = PutLeafNode( n->NodeNo,n )) != 0) return rc;
@@ -2686,12 +2706,16 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
 
     xbShort i, j;
 //    xbLong rightPointerOffset;
+    int totalKeys = 0;
+    int median = 0;
+
 
 
     // if n1 has exactly (it will never have less) 1/2 keys per node
     // then put everything into n1.
     if ( (n1->Leaf.NoOfKeysThisNode + n2->Leaf.NoOfKeysThisNode + 1) <= HeadNode.KeysPerNode)
     {
+        int n1LastNodeNo = GetLeftNodeNo(n2->Leaf.NoOfKeysThisNode, n2);        
 
         // Bring down the parent
         strcpy(KeyBuf, GetKeyData( parentPos, parent ));
@@ -2713,11 +2737,12 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
         }
         n1->Leaf.NoOfKeysThisNode += j;
 
+        PutLeftNodeNo(n1->Leaf.NoOfKeysThisNode, n1, n1LastNodeNo);
+
         // We need a way to signal that this node will be harvested.
         // Clipper keeps the KeyCount on harvested nodes, it does NOT
         // set them to 0.
-        n2->NodeNo *= -1;
-        return XB_NO_ERROR;
+        return XB_HARVEST_NODE;
         
     }
     else
@@ -2730,8 +2755,8 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
         // over untill we get to  median. All the while removing
         // keys from n2. Then 
         
-        int totalKeys = n1->Leaf.NoOfKeysThisNode + n2->Leaf.NoOfKeysThisNode + 1;
-        int median = (int) totalKeys/2;
+        totalKeys = n1->Leaf.NoOfKeysThisNode + n2->Leaf.NoOfKeysThisNode + 1;
+        median = (int) totalKeys/2;
 
         // If n1 has more keys then n2, then we need to copy the last keys
         // of n1 to the beginning of n2.
@@ -2745,9 +2770,11 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
             PutKeyData( 0 , n2);
             PutDbfNo ( 0, n2, GetDbfNo( parentPos, parent ) );
             n2->Leaf.NoOfKeysThisNode++;
+            //
+            PutLeftNodeNo(0, n2, GetLeftNodeNo(n1->Leaf.NoOfKeysThisNode, n1));
 
 
-            for (i = n1->Leaf.NoOfKeysThisNode -1; i > (median -1);  i--)
+            for (i = n1->Leaf.NoOfKeysThisNode -1; i > median;  i--)
             {
                 // Put the key in n2
                 InsertKeyOffset(0, n2);
@@ -2757,7 +2784,6 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
                 PutDbfNo ( 0 , n2, GetDbfNo( i, n1 ) );
             
                 // Remove the key from the current node.
-//                DeleteKeyOffset(i, n1);
                 n1->Leaf.NoOfKeysThisNode--;
                 n2->Leaf.NoOfKeysThisNode++;
 
@@ -2770,11 +2796,16 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
         }
         else
         {
+            xbLong n1LastLeftNodeNo = 0;
+            xbShort medianOffset = n2->Leaf.NoOfKeysThisNode - median -1;
             // Bring down the parent
             strcpy(KeyBuf, GetKeyData( parentPos, parent ));
             PutKeyData( n1->Leaf.NoOfKeysThisNode , n1);
             PutDbfNo ( n1->Leaf.NoOfKeysThisNode, n1, GetDbfNo( parentPos, parent ) );
+            
             n1->Leaf.NoOfKeysThisNode++;
+            n1LastLeftNodeNo = GetLeftNodeNo(medianOffset, n2);
+            PutLeftNodeNo( n1->Leaf.NoOfKeysThisNode, n1, GetLeftNodeNo(medianOffset, n2));
 
             // Moving the median to the parent may have to occur
             // before moving the other keys to n1. This we would have
@@ -2782,9 +2813,11 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
 
             // Copy up the first key from n2 (the median),
             // that will become the new parent key.
-            strcpy(KeyBuf, GetKeyData( (n2->Leaf.NoOfKeysThisNode - median) -1, n2 ));
+            strcpy(KeyBuf, GetKeyData( medianOffset, n2 ));
             PutKeyData( parentPos, parent);
-            PutDbfNo ( parentPos , parent, GetDbfNo( (n2->Leaf.NoOfKeysThisNode - median) -1, n2 ) );
+            PutDbfNo ( parentPos , parent, GetDbfNo(medianOffset, n2 ) );
+            
+            n1LastLeftNodeNo = GetLeftNodeNo(medianOffset, n2);
 
 // Still investigating the -1 thing with clipper, If anyone has clues, 
 // please let me know - bob@synxis.com            
@@ -2795,18 +2828,16 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
 //                 cout << "Clipper hack" << endl;
 //             }
 
-            DeleteKeyOffset(  (n2->Leaf.NoOfKeysThisNode - median) -1, n2);
+            DeleteKeyOffset(medianOffset, n2);
             n2->Leaf.NoOfKeysThisNode--;
 
 
 //            xbShort clipperMessedUpIndex = n1->Leaf.NoOfKeysThisNode;            
-            for (i = n1->Leaf.NoOfKeysThisNode; i < median -1; i++)
+            for (i = n1->Leaf.NoOfKeysThisNode, j = 0; j < medianOffset; i++, j++)
             {
 
-                cout << " i = " << i << endl;
                 strcpy(KeyBuf, GetKeyData( 0, n2 ));
                 PutKeyData( i, n1);
-                cout << "KeyBuf = " << KeyBuf << endl;
                 PutLeftNodeNo( i, n1, GetLeftNodeNo( 0, n2) );
                 PutDbfNo ( i , n1, GetDbfNo( 0, n2 ) );
 
@@ -2822,6 +2853,7 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
                 n2->Leaf.NoOfKeysThisNode--;
                 n1->Leaf.NoOfKeysThisNode++;
             }
+            PutLeftNodeNo(n1->Leaf.NoOfKeysThisNode, n1, n1LastLeftNodeNo);
 
         }
     }
@@ -2976,13 +3008,21 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
             return rc;
       }
    } 
+<<<<<<< ntx.cpp
    if(saveAutoLock)
       dbf->AutoLockOn();
+=======
+   dbf->AutoLockOn();
+
+#ifdef XB_LOCKING_ON
+   setbuf( indexfp, NULL );
+#endif
+
+>>>>>>> ../../xbase/xbase/ntx.cpp
    return XB_NO_ERROR;
 }
 
-
-xbULong
+xbLong
 xbNtx::GetNextNodeNo()
 {
     struct stat FileStat;
@@ -2993,19 +3033,15 @@ xbNtx::GetNextNodeNo()
     {
         FileSize = HeadNode.UnusedOffset;
         HeadNode.UnusedOffset = 0;
-        
         PutHeadNode(&HeadNode, indexfp, 1);
-        
         return FileSize;
     }
-    
 
     rc = fstat(fileno(indexfp), &FileStat);
     if (rc != 0)
     {
         return 0;
     }
-    
 
     FileSize = (xbULong)FileStat.st_size;
     // File offset is zero based, so the file size will be the
