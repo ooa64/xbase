@@ -118,6 +118,9 @@ lib_LTLIBRARIES = libxdb.la
 pkginclude_HEADERS = dbf.h exp.h html.h ndx.h options.h retcodes.h xbase.h 	xdate.h xstack.h xtypes.h xbexcept.h xbstring.h index.h ntx.h           xbconfig.h xbfilter.h
 
 
+#install-data-hook:
+#	(cd $(includedir); rm -f xbase.h; ln -s xbase/xbase.h xbase.h)
+
 libxdb_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp 	html.cpp lock.cpp memo.cpp ndx.cpp stack.cpp xbase.cpp xdate.cpp 	xbexcept.cpp xbstring.cpp index.cpp ntx.cpp xbfilter.cpp
 
 
@@ -394,8 +397,6 @@ install-exec-am: install-libLTLIBRARIES
 install-exec: install-exec-am
 
 install-data-am: install-pkgincludeHEADERS
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 install-data: install-data-am
 
 install-am: all-am
@@ -465,9 +466,6 @@ install uninstall-am uninstall all-redirect all-am all installdirs \
 mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
-
-install-data-hook:
-	(cd $(includedir); rm -f xbase.h; ln -s xbase/xbase.h xbase.h)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

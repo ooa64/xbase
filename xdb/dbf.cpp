@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.5 2000/06/07 04:39:08 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.6 2000/06/15 04:47:40 dbryson Exp $
 
     Xbase project source code
    
@@ -492,9 +492,6 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 
    Version = XFV & 0x7;            // file version - bit 0-2
 #ifdef XB_MEMO_FIELDS
-//   if (MemoSw) Version |= 0x80;    // memo presence - bit 7
-//FIXME - I'm not sure what is correct here, but what was here didn't
-//        work as it doesn't match what is in OpenDatabase.
    if (MemoSw) 
    {
      if(XFV & 0x7 == 3)
@@ -507,7 +504,10 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    CurRec  = 0L;
    HeaderLen = 33 + NoOfFields * 32;
    xbDate d;
-   UpdateYY = d.YearOf() - 1900;
+   UpdateYY = (d.YearOf() - 1900);
+   if(XFV & 0x7 == 3)
+     UpdateYY %= 100;	// dBASE III seems to do this, but IV does not.  DTB
+   
    UpdateMM = d.MonthOf();
    UpdateDD = d.DayOf( XB_FMT_MONTH );
 
@@ -642,6 +642,8 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
    if (DbfStatus == XB_UPDATED /*&& AutoUpdate*/ ) {
       xbDate d;
       UpdateYY = d.YearOf() - 1900;
+	  if(XFV == 3)
+	    UpdateYY %= 100;	// dBASE III seems to do this, IV does not.  DTB
       UpdateMM = d.MonthOf();
       UpdateDD = d.DayOf( XB_FMT_MONTH );
 
@@ -734,7 +736,7 @@ xbShort xbDbf::DumpHeader( xbShort Option )
          cout << "Dbase III file with memo fields" << endl << endl;
    
       cout << "Last update date = " 
-          << (int) UpdateMM << "/" << (int) UpdateDD << "/" << (int) UpdateYY << endl;  
+          << (int) UpdateMM << "/" << (int) UpdateDD << "/" << (int) UpdateYY % 100 << endl;  
 
       cout << "Header length    = " << HeaderLen << endl;
       cout << "Record length    = " << RecordLen << endl;
@@ -844,8 +846,11 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
    }
    else
      xb_error(XB_NOT_XBASE);
-      
-   if (UpdateYY == 0 || UpdateMM == 0 || UpdateDD == 0 )
+
+   // it would seem that dBASE III+ generates an UpdateYY value
+   // of 0 for 2000 and dBASE IV uses 100, so I have removed the
+   // check for UpdateYY being 0 (which might be valid).  DTB      
+   if (/*UpdateYY == 0 ||*/ UpdateMM == 0 || UpdateDD == 0 )
      xb_error(XB_NOT_XBASE);
 
    /* calculate the number of fields */
@@ -1089,6 +1094,8 @@ xbShort xbDbf::AppendRecord( void )
    /* calculate the latest header information */
    xbDate d; 
    UpdateYY = d.YearOf() - 1900;
+   if(XFV == 3)
+      UpdateYY %= 100;	// dBASE III seems to do this, IV does not.  DTB
    UpdateMM = d.MonthOf();
    UpdateDD = d.DayOf( XB_FMT_MONTH );
 #ifndef XB_REAL_DELETE
