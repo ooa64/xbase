@@ -94,9 +94,7 @@ doxygen = @doxygen@
 topdir = @topdir@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
-
-EXTRA_DIST =  	Makefile.am 	Makefile.in 	doxygen.cfg.in
-
+EXTRA_DIST = \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../xbase/xbconfig.h
 CONFIG_CLEAN_FILES =  doxygen.cfg
@@ -105,7 +103,7 @@ DIST_COMMON =  Makefile.am Makefile.in doxygen.cfg.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
@@ -135,7 +133,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$/$$file $(distdir)/$$file; \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
@@ -213,6 +211,10 @@ clean :
 	-rm -r html
 	-rm -r latex
 	-rm -r man
+
+	Makefile.am \
+	Makefile.in \
+	doxygen.cfg.in
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

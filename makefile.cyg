@@ -34,48 +34,51 @@
 #
 #        xdb.sourceforge.net
 #
+#
+#  Makefile for Cygwin environment
+#
 
-# Mingw32/Cygwin make file
+all : xbase_all examples_all libtest_all bin_all
 
-CPPFLAGS = -I..
+xbase_all :
+	cd xbase && $(MAKE) -f makefile.cyg all
 
-# uncomment the following to generate debug code
-#DEBUG = -g
+examples_all :
+	cd examples && $(MAKE) -f makefile.cyg all
 
-# Note, if linking to the dll, you need to define XBUSINGDLL
-CXXFLAGS = -O2 $(DEBUG) -DXBUSINGDLL --pipe -Wall -fvtable-thunks
-#CXXFLAGS = -O2 $(DEBUG) -Wall --pipe -fvtable-thunks
-CFLAGS = -02 $(DEBUG) -DXBUSINGDLL -Wall --pipe
-#CFLAGS = -02 $(DEBUG) -Wall --pipe
+libtest_all :
+	cd libtest && $(MAKE) -f makefile.cyg all
 
-LDFLAGS = -L../xbase
+bin_all :
+	cd bin && $(MAKE) -f makefile.cyg all
 
-LIBS = -lxbasedll -lstdc++
-#LIBS = -lxbase
+clean : xbase_clean examples_clean libtest_clean bin_clean
 
-all : sample1.exe sample2.exe sample3.exe sample4.exe sample5.exe exfilter.exe
+xbase_clean :
+	cd xbase && $(MAKE) -f makefile.cyg clean
 
-install : all
+examples_clean :
+	cd examples && $(MAKE) -f makefile.cyg clean
 
-sample1.exe : sample1.o
-	$(CXX) -o $@ $(CXXFLAGS) sample1.o $(LDFLAGS) $(LIBS)
+libtest_clean :
+	cd libtest && $(MAKE) -f makefile.cyg clean
 
-sample2.exe : sample2.o
-	$(CXX) -o $@ $(CXXFLAGS) sample2.o $(LDFLAGS) $(LIBS)
+bin_clean :
+	cd bin && $(MAKE) -f makefile.cyg clean
 
-sample3.exe : sample3.o
-	$(CXX) -o $@ $(CXXFLAGS) sample3.o $(LDFLAGS) $(LIBS)
+install : xbase_install examples_install libtest_install bin_install
 
-sample4.exe : sample4.o
-	$(CXX) -o $@ $(CXXFLAGS) sample4.o $(LDFLAGS) $(LIBS)
+xbase_install :
+	cd xbase && $(MAKE) -f makefile.cyg install
 
-sample5.exe : sample5.o
-	$(CXX) -o $@ $(CXXFLAGS) sample5.o $(LDFLAGS) $(LIBS)
+examples_install :
+	cd examples && $(MAKE) -f makefile.cyg install
 
-exfilter.exe : exfilter.o
-	$(CXX) -o $@ $(CXXFLAGS) exfilter.o $(LDFLAGS) $(LIBS)
+libtest_install :
+	cd libtest && $(MAKE) -f makefile.cyg install
 
-clean :
-	-del *.o *.exe
+bin_install :
+	cd bin && $(MAKE) -f makefile.cyg install
+
 
 

@@ -56,21 +56,21 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_alias = i686-pc-linux-gnu
-build_triplet = i686-pc-linux-gnu
-host_alias = i686-pc-linux-gnu
-host_triplet = i686-pc-linux-gnu
-target_alias = i686-pc-linux-gnu
-target_triplet = i686-pc-linux-gnu
+build_alias = i386-pc-cygwin32
+build_triplet = i386-pc-cygwin32
+host_alias = i386-pc-cygwin32
+host_triplet = i386-pc-cygwin32
+target_alias = i386-pc-cygwin32
+target_triplet = i386-pc-cygwin32
 CC = gcc
 CPP = gcc -E
 CXX = g++
 GLINC = @GLINC@
 GLLIB = @GLLIB@
-LD = /usr/bin/ld
+LD = /usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/../../../../i686-pc-cygwin/bin/ld.exe
 LIBDL = @LIBDL@
 LIBJPEG = @LIBJPEG@
-LIBNSL = -lnsl
+LIBNSL = 
 LIBOBJS = @LIBOBJS@
 LIBSOCKET = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool --silent
@@ -86,35 +86,26 @@ TVPROGS =
 VERSION = 2.1.0
 XPMINC = @XPMINC@
 XPMLIB = @XPMLIB@
-XSUBDIRS = xbase examples bin html libtest tv docs
+XSUBDIRS = xbase examples bin html libtest tv
 X_INCLUDES = @X_INCLUDES@
 X_LDFLAGS = @X_LDFLAGS@
-doxygen = yes
-topdir = /usr/src/tasrc/xdb
+doxygen = no
+topdir = /cygdrive/c/src/xdb
 x_includes = @x_includes@
 x_libraries = @x_libraries@
-
 INCLUDES = -I$(topdir) $(all_includes)
 LDADD = -L$(topdir)/xbase/.libs -lxbase
-
 # for shadow passwords override the value
 INSTALL_PROGRAM = /usr/bin/install -c
-
-noinst_PROGRAMS = sample1 sample2 sample3 sample4 sample5                exfilter
-
-
+noinst_PROGRAMS = sample1 sample2 sample3 sample4 sample5 \
 exfilter_SOURCES = exfilter.cpp
 sample1_SOURCES = sample1.cpp
 sample2_SOURCES = sample2.cpp
 sample3_SOURCES = sample3.cpp
 sample4_SOURCES = sample4.cpp
 sample5_SOURCES = sample5.cpp
-
 noinst_HEADERS = 
-
-EXTRA_DIST =  	makefile.g95 	examples.ide
-
-
+EXTRA_DIST = \
 MAINTAINERCLEANFILES = Makefile.in
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../xbase/xbconfig.h
@@ -146,15 +137,21 @@ sample5_OBJECTS =  sample5.o
 sample5_LDADD = $(LDADD)
 sample5_DEPENDENCIES = 
 sample5_LDFLAGS = 
-exfilter_OBJECTS =  exfilter.o
-exfilter_LDADD = $(LDADD)
-exfilter_DEPENDENCIES = 
-exfilter_LDFLAGS = 
+__SOURCES = \.c
+__OBJECTS =  \.o
+__LDADD = $(LDADD)
+__DEPENDENCIES = 
+__LDFLAGS = 
 CXXFLAGS = -O2 -Wall
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
+CFLAGS = -O2 -Wall
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 HEADERS =  $(noinst_HEADERS)
 
 DIST_COMMON =  Makefile.am Makefile.in
@@ -162,12 +159,12 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
-DEP_FILES =  .deps/exfilter.P .deps/sample1.P .deps/sample2.P \
-.deps/sample3.P .deps/sample4.P .deps/sample5.P
-SOURCES = $(sample1_SOURCES) $(sample2_SOURCES) $(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES) $(exfilter_SOURCES)
-OBJECTS = $(sample1_OBJECTS) $(sample2_OBJECTS) $(sample3_OBJECTS) $(sample4_OBJECTS) $(sample5_OBJECTS) $(exfilter_OBJECTS)
+DEP_FILES =  .deps/\.P .deps/sample1.P .deps/sample2.P .deps/sample3.P \
+.deps/sample4.P .deps/sample5.P
+SOURCES = $(sample1_SOURCES) $(sample2_SOURCES) $(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES) \.c
+OBJECTS = $(sample1_OBJECTS) $(sample2_OBJECTS) $(sample3_OBJECTS) $(sample4_OBJECTS) $(sample5_OBJECTS) \.o
 
 all: all-redirect
 .SUFFIXES:
@@ -241,9 +238,9 @@ sample5: $(sample5_OBJECTS) $(sample5_DEPENDENCIES)
 	@rm -f sample5
 	$(CXXLINK) $(sample5_LDFLAGS) $(sample5_OBJECTS) $(sample5_LDADD) $(LIBS)
 
-exfilter: $(exfilter_OBJECTS) $(exfilter_DEPENDENCIES)
-	@rm -f exfilter
-	$(CXXLINK) $(exfilter_LDFLAGS) $(exfilter_OBJECTS) $(exfilter_LDADD) $(LIBS)
+@PROGRAM@: $(@XPROGRAM@_OBJECTS) $(@XPROGRAM@_DEPENDENCIES)
+	@rm -f @PROGRAM@
+	$(@XLINK@) $(@XPROGRAM@_LDFLAGS) $(@XPROGRAM@_OBJECTS) $(@XPROGRAM@_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 .cpp.lo:
@@ -291,7 +288,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$/$$file $(distdir)/$$file; \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
@@ -425,6 +422,17 @@ install-data-am install-data install-am install uninstall-am uninstall \
 all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
+
+
+
+
+
+               exfilter
+	       
+
+
+	makefile.g95 \
+	examples.ide
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -35,7 +35,7 @@
 #        xdb.sourceforge.net
 #
 
-# Mingw32/Cygwin make file
+# Cygwin make file
 
 CPPFLAGS = -I..
 
@@ -43,15 +43,15 @@ CPPFLAGS = -I..
 #DEBUG = -g
 
 # Note, if linking to the dll, you need to define XBUSINGDLL
-CXXFLAGS = -O2 $(DEBUG) -DXBUSINGDLL -Wall --pipe -fvtable-thunks
-#CXXFLAGS = -O2 $(DEBUG) -Wall --pipe -fvtable-thunks
-CFLAGS = -02 $(DEBUG) -DXBUSINGDLL -Wall --pipe -fvtable-thunks
-#CFLAGS = -02 $(DEBUG) -Wall --pipe -fvtable-thunks
+#CXXFLAGS = -O2 $(DEBUG) -DXBUSINGDLL -Wall --pipe -fvtable-thunks
+CXXFLAGS = -O2 $(DEBUG) -Wall --pipe -fvtable-thunks
+#CFLAGS = -02 $(DEBUG) -DXBUSINGDLL -Wall --pipe -fvtable-thunks
+CFLAGS = -02 $(DEBUG) -Wall --pipe -fvtable-thunks
 
 LDFLAGS = -L../xbase
 
-LIBS = -lxbasedll -lstdc++
-#LIBS = -lxbase
+#LIBS = -lxbasedll -lstdc++
+LIBS = -lxbase
 
 #
 # Installation directory, modify for your system
@@ -75,8 +75,8 @@ PROGRAMS = \
 all : $(PROGRAMS)
 
 install : all
-	-md $(INSTALL_DIR)
-	copy *.exe $(INSTALL_DIR)
+	-mkdir $(INSTALL_DIR)
+	cp *.exe $(INSTALL_DIR)
 
 checkndx.exe : checkndx.o
 	$(CXX) -o $@ $(CXXFLAGS) checkndx.o $(LDFLAGS) $(LIBS)
@@ -115,6 +115,6 @@ zap.exe : zap.o
 	$(CXX) -o $@ $(CXXFLAGS) zap.o $(LDFLAGS) $(LIBS)
 
 clean :
-	-del *.o *.exe
+	-rm *.o *.exe
 
 

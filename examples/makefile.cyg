@@ -35,7 +35,7 @@
 #        xdb.sourceforge.net
 #
 
-# Mingw32/Cygwin make file
+# Cygwin make file
 
 CPPFLAGS = -I..
 
@@ -43,15 +43,15 @@ CPPFLAGS = -I..
 #DEBUG = -g
 
 # Note, if linking to the dll, you need to define XBUSINGDLL
-CXXFLAGS = -O2 $(DEBUG) -DXBUSINGDLL --pipe -Wall -fvtable-thunks
-#CXXFLAGS = -O2 $(DEBUG) -Wall --pipe -fvtable-thunks
-CFLAGS = -02 $(DEBUG) -DXBUSINGDLL -Wall --pipe
-#CFLAGS = -02 $(DEBUG) -Wall --pipe
+#CXXFLAGS = -O2 $(DEBUG) -DXBUSINGDLL --pipe -Wall -fvtable-thunks
+CXXFLAGS = -O2 $(DEBUG) -Wall --pipe -fvtable-thunks
+#CFLAGS = -02 $(DEBUG) -DXBUSINGDLL -Wall --pipe
+CFLAGS = -02 $(DEBUG) -Wall --pipe
 
 LDFLAGS = -L../xbase
 
-LIBS = -lxbasedll -lstdc++
-#LIBS = -lxbase
+#LIBS = -lxbasedll -lstdc++
+LIBS = -lxbase
 
 all : sample1.exe sample2.exe sample3.exe sample4.exe sample5.exe exfilter.exe
 
@@ -76,6 +76,6 @@ exfilter.exe : exfilter.o
 	$(CXX) -o $@ $(CXXFLAGS) exfilter.o $(LDFLAGS) $(LIBS)
 
 clean :
-	-del *.o *.exe
+	-rm *.o *.exe
 
 

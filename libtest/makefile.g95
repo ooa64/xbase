@@ -55,6 +55,8 @@ LIBS = -lxbasedll -lstdc++
 
 all : exptest.exe indextst.exe locktest.exe testdate.exe testhtml.exe
 
+install : all
+
 exptest.exe : exptest.o
 	$(CXX) -o $@ $(CXXFLAGS) exptest.o $(LDFLAGS) $(LIBS)
 

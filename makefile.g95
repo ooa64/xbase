@@ -63,5 +63,19 @@ libtest_clean :
 bin_clean :
 	cd bin && $(MAKE) -f makefile.g95 clean
 
+install : xbase_install examples_install libtest_install bin_install
+
+xbase_install :
+	cd xbase && $(MAKE) -f makefile.g95 install
+
+examples_install :
+	cd examples && $(MAKE) -f makefile.g95 install
+
+libtest_install :
+	cd libtest && $(MAKE) -f makefile.g95 install
+
+bin_install :
+	cd bin && $(MAKE) -f makefile.g95 install
+
 
 

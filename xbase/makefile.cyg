@@ -36,7 +36,7 @@
 #
 
 #
-# Makefile for Mingw32.  This makefile builds a static and dynamic/shared
+# Makefile for Cygwin.  This makefile builds only a static
 # version of the XBase library.  Note, this makefile was derived from the
 # c++ example in Mumit Kahn's dllhelper archive.
 #
@@ -86,8 +86,8 @@ INSTALL_INCLUDE_DIR = \mingw\include
 DLL_OBJ_DIR = dobj
 STATIC_OBJ_DIR = sobj
 
-all: $(DLL_OBJ_DIR) $(STATIC_OBJ_DIR) $(DLL_NAME) $(STATICLIB_NAME)
-#all: $(STATIC_OBJ_DIR) $(STATICLIB_NAME)
+#all: $(DLL_OBJ_DIR) $(STATIC_OBJ_DIR) $(DLL_NAME) $(STATICLIB_NAME)
+all: $(STATIC_OBJ_DIR) $(STATICLIB_NAME)
 
 $(DLL_OBJ_DIR) :
 	-md $(DLL_OBJ_DIR)
@@ -151,15 +151,16 @@ $(STATICLIB_NAME) : $(STATIC_OBJS)
 	ranlib $(STATICLIB_NAME)
 
 install : all
-	copy $(DLL_NAME) $(WIN32_SYSTEM_DIR)
-	copy $(DLL_EXP_LIB) $(INSTALL_LIB_DIR)
-	copy $(DLL_EXP_DEF) $(INSTALL_LIB_DIR)
-	copy $(STATICLIB_NAME) $(INSTALL_LIB_DIR)
-	-md $(INSTALL_INCLUDE_DIR)\xbase
-	copy *.h $(INSTALL_INCLUDE_DIR)\xbase
+#	cp $(DLL_NAME) $(WIN32_SYSTEM_DIR)
+#	cp $(DLL_EXP_LIB) $(INSTALL_LIB_DIR)
+#	cp $(DLL_EXP_DEF) $(INSTALL_LIB_DIR)
+	cp $(STATICLIB_NAME) $(INSTALL_LIB_DIR)
+	-mkdir $(INSTALL_INCLUDE_DIR)\xbase
+	cp *.h $(INSTALL_INCLUDE_DIR)\xbase
 
 clean:
-	-del $(DLL_OBJ_DIR)\*.o $(STATIC_OBJ_DIR)\*.o $(DLL_NAME) $(DLL_EXP_LIB) $(DLL_EXP_DEF) $(STATICLIB_NAME)
+#	-rm $(DLL_OBJ_DIR)/*.o $(STATIC_OBJ_DIR)/*.o $(DLL_NAME) $(DLL_EXP_LIB) $(DLL_EXP_DEF) $(STATICLIB_NAME)
+	-rm $(DLL_OBJ_DIR)/*.o $(STATIC_OBJ_DIR)/*.o $(STATICLIB_NAME)
 
 #
 # dependencies (need better ones!).

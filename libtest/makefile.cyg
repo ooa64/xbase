@@ -35,7 +35,7 @@
 #        xdb.sourceforge.net
 #
 
-# Mingw32/Cygwin make file
+# Cygwin make file
 
 CPPFLAGS = -I..
 
@@ -43,39 +43,36 @@ CPPFLAGS = -I..
 #DEBUG = -g
 
 # Note, if linking to the dll, you need to define XBUSINGDLL
-CXXFLAGS = -O2 $(DEBUG) -DXBUSINGDLL --pipe -Wall -fvtable-thunks
-#CXXFLAGS = -O2 $(DEBUG) -Wall --pipe -fvtable-thunks
-CFLAGS = -02 $(DEBUG) -DXBUSINGDLL -Wall --pipe
-#CFLAGS = -02 $(DEBUG) -Wall --pipe
+#CXXFLAGS = -O2 $(DEBUG) -DXBUSINGDLL --pipe -Wall -fvtable-thunks
+CXXFLAGS = -O2 $(DEBUG) -Wall --pipe -fvtable-thunks
+#CFLAGS = -02 $(DEBUG) -DXBUSINGDLL -Wall --pipe
+CFLAGS = -02 $(DEBUG) -Wall --pipe
 
 LDFLAGS = -L../xbase
 
-LIBS = -lxbasedll -lstdc++
-#LIBS = -lxbase
+#LIBS = -lxbasedll -lstdc++
+LIBS = -lxbase
 
-all : sample1.exe sample2.exe sample3.exe sample4.exe sample5.exe exfilter.exe
+all : exptest.exe indextst.exe locktest.exe testdate.exe testhtml.exe
 
 install : all
 
-sample1.exe : sample1.o
-	$(CXX) -o $@ $(CXXFLAGS) sample1.o $(LDFLAGS) $(LIBS)
+exptest.exe : exptest.o
+	$(CXX) -o $@ $(CXXFLAGS) exptest.o $(LDFLAGS) $(LIBS)
 
-sample2.exe : sample2.o
-	$(CXX) -o $@ $(CXXFLAGS) sample2.o $(LDFLAGS) $(LIBS)
+indextst.exe : indextst.o
+	$(CXX) -o $@ $(CXXFLAGS) indextst.o $(LDFLAGS) $(LIBS)
 
-sample3.exe : sample3.o
-	$(CXX) -o $@ $(CXXFLAGS) sample3.o $(LDFLAGS) $(LIBS)
+locktest.exe : locktest.o
+	$(CXX) -o $@ $(CXXFLAGS) locktest.o $(LDFLAGS) $(LIBS)
 
-sample4.exe : sample4.o
-	$(CXX) -o $@ $(CXXFLAGS) sample4.o $(LDFLAGS) $(LIBS)
+testdate.exe : testdate.o
+	$(CXX) -o $@ $(CXXFLAGS) testdate.o $(LDFLAGS) $(LIBS)
 
-sample5.exe : sample5.o
-	$(CXX) -o $@ $(CXXFLAGS) sample5.o $(LDFLAGS) $(LIBS)
-
-exfilter.exe : exfilter.o
-	$(CXX) -o $@ $(CXXFLAGS) exfilter.o $(LDFLAGS) $(LIBS)
+testhtml.exe : testhtml.o
+	$(CXX) -o $@ $(CXXFLAGS) testhtml.o $(LDFLAGS) $(LIBS)
 
 clean :
-	-del *.o *.exe
+	-rm *.o *.exe
 
 
