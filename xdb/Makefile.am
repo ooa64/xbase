@@ -24,8 +24,8 @@ pkginclude_HEADERS = dbf.h exp.h html.h ndx.h options.h retcodes.h xbase.h \
 	xdate.h xstack.h xtypes.h xbexcept.h xbstring.h index.h ntx.h   \
         xbconfig.h xbfilter.h
 
-install-data-hook:
-	(cd $(includedir); rm -f xbase.h; ln -s xbase/xbase.h xbase.h)
+#install-data-hook:
+#	(cd $(includedir); rm -f xbase.h; ln -s xbase/xbase.h xbase.h)
 
 libxdb_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp \
 	html.cpp lock.cpp memo.cpp ndx.cpp stack.cpp xbase.cpp xdate.cpp \
