@@ -1,4 +1,4 @@
-/*  $Id: testdate.cpp,v 1.6 2000/09/27 17:25:08 dbryson Exp $
+/*  $Id: testdate.cpp,v 1.1 2000/11/10 19:27:00 dbryson Exp $
 
     Xbase project source code
 

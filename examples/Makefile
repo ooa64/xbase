@@ -112,6 +112,9 @@ testhtml_cgi_SOURCES = testhtml.cpp
 
 noinst_HEADERS = 
 
+EXTRA_DIST =  	makefile.g95 	examples.ide
+
+
 MAINTAINERCLEANFILES = Makefile.in
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../xbase/xbconfig.h

@@ -17,6 +17,7 @@ noinst_HEADERS =
 EXTRA_DIST = \
 	makefile.g95 \
 	libtest.ide \
-	testhtml.html
+	testhtml.html \
+	README
 
 MAINTAINERCLEANFILES = Makefile.in
