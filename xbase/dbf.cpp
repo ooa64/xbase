@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.13 2002/05/09 01:49:04 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.14 2002/05/09 18:53:30 dbryson Exp $
 
     Xbase project source code
    
@@ -457,7 +457,7 @@ xbShort len;
       \end{tabular}
     \endlatexonly
 */
-xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s, 
+xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
     const xbShort Overlay )
 {
 /* future release - add logic to check number of fields and record length */
@@ -492,7 +492,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 
    if(( fp = fopen( DatabaseName, "w+b" )) == NULL )
      xb_open_error(DatabaseName);
-  
+
 #ifdef XB_LOCKING_ON
    /* no buffering in multi user mode */
    setbuf( fp, NULL );
@@ -1596,15 +1596,15 @@ xbShort xbDbf::GetPrevRecord( void )
 //! Dump record
 /*!
   Dump the contents of the specified record to stdout.
-  
+
   \param RecNo Record number of record to be dumped.
   \returns An error code (same as GetRecord()).
 */
 xbShort xbDbf::DumpRecord( xbULong RecNo )
 {
-   int i;
+   int i, rc;
    char buf[1024];
- 
+
    if( RecNo == 0 || RecNo > NoOfRecs )
      xb_error(XB_INVALID_RECORD);
 
@@ -1614,13 +1614,25 @@ xbShort xbDbf::DumpRecord( xbULong RecNo )
 
    cout << "\nREC NUMBER " << RecNo << "\n";
 
-   if( RecordDeleted() ) 
+   if( RecordDeleted() )
       cout << "\nRecord deleted...\n";
 
    for( i = 0; i < NoOfFields; i++ )
    {
+#ifdef XB_MEMO_FIELDS
+      if(SchemaPtr[i].Type == 'M')
+      {
+        rc = GetMemoField(i, 1023, buf, F_SETLKW);
+        if(rc != XB_NO_ERROR)
+          cout << "Error " << rc << "\n";
+      }
+      else
+        GetField( i, buf );
+      cout << SchemaPtr[i].Type << " " << SchemaPtr[i].FieldName << " = '" << buf << "'\n";
+#else
       GetField( i, buf );
       cout << SchemaPtr[i].FieldName << " = '" << buf << "'\n";
+#endif
    }
    cout << "\n";
    return XB_NO_ERROR;
@@ -1630,7 +1642,7 @@ xbShort xbDbf::DumpRecord( xbULong RecNo )
 /*!
   Attempts to write the contents of the record buffer to the current
   record in the data file.  Updates any open indexes.
-  
+
   \sa PutRecord(xbULong RecNo)
   \returns One of the following:
     \htmlonly

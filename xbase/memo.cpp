@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.6 2001/08/02 16:12:47 dyp Exp $
+/*  $Id: memo.cpp,v 1.7 2002/05/09 18:53:31 dbryson Exp $
 
     Xbase project source code
 
@@ -595,7 +595,7 @@ xbShort xbDbf::GetFPTField(const xbShort FieldNo, const xbLong len,
   \param Buf
   \param LockOpt
 */
-xbShort xbDbf::GetMemoField( const xbShort FieldNo, const xbLong len, 
+xbShort xbDbf::GetMemoField( const xbShort FieldNo, const xbLong len,
         char * Buf, const xbShort LockOpt )
 {
   if (Version == (char)0xf5)
@@ -629,7 +629,7 @@ xbShort xbDbf::GetMemoField( const xbShort FieldNo, const xbLong len,
 
    if( IsType3Dbt() )
       Vswitch = 1;
-   else 
+   else
       Vswitch = 0;
 
    if((  rc = ReadMemoBlock( BlockNo, Vswitch )) != 0 )
@@ -750,7 +750,7 @@ xbShort xbDbf::MemoFieldsPresent( void ) const
 {
    xbShort i;
    for( i = 0; i < NoOfFields; i++ )
-      if( GetFieldType( i ) == 'M' ) 
+      if( GetFieldType( i ) == 'M' )
          return 1;
 
    return 0;
@@ -792,7 +792,7 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
 
    /* Determine last good data block */
    LastDataBlock = CalcLastDataBlock();
-   
+
    /* position to correct location in chain */
    NextFreeBlock = MemoHeader.NextBlock;
 
@@ -816,7 +816,7 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
       SNextBlock = MemoHeader.NextBlock;
    else
       SNextBlock = NextFreeBlock;
- 
+
    /* if this is the first set of free blocks */
    if( LastFreeBlock == 0L )
    {
@@ -829,12 +829,13 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
       FreeBlockCnt = SNoOfBlocks;
       if(( rc = WriteMemoBlock( SBlockNo, 2 )) != XB_NO_ERROR )
          return rc;
-      
+
       MemoHeader.NextBlock = SBlockNo;
       if(( rc = UpdateHeadNextNode()) != XB_NO_ERROR )
         return rc;
       PutField( FieldNo, "          " );
-      return XB_NO_ERROR;
+      rc = PutRecord();
+      return rc;
    }
 
    /* determine if this block set should be added to the previous set */
@@ -847,7 +848,8 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
       if(( rc = WriteMemoBlock( LastFreeBlock, 2 )) != XB_NO_ERROR )
          return rc;
       PutField( FieldNo, "          " );
-      return XB_NO_ERROR;
+      rc = PutRecord();
+      return rc;
    }
 
    /* insert into the chain */
@@ -866,7 +868,8 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
    if(( rc = WriteMemoBlock( LastFreeBlock, 2 )) != XB_NO_ERROR )
       return rc;
    PutField( FieldNo, "          " );
-   return XB_NO_ERROR;
+   rc = PutRecord();
+   return rc;
 }
 /***********************************************************************/
 //! Short description
@@ -895,7 +898,7 @@ xbShort xbDbf::AddMemoData( const xbShort FieldNo, const xbLong DataLen,
         BlocksNeeded = TotalLen / MemoHeader.BlockSize;
 
       MemoHeader.NextBlock = LastDataBlock + BlocksNeeded;  /* reset to eof */
-      if(( rc = PutMemoData( LastDataBlock, BlocksNeeded, DataLen, Buf )) 
+      if(( rc = PutMemoData( LastDataBlock, BlocksNeeded, DataLen, Buf ))
            != XB_NO_ERROR )
         return rc;
       HeadBlock = LastDataBlock;
@@ -923,7 +926,7 @@ xbShort xbDbf::AddMemoData( const xbShort FieldNo, const xbLong DataLen,
       else /* append to the end */
       {
          /* if header block needed updated, already done by here */
-         if(( rc = PutMemoData( LastDataBlock, BlocksNeeded, DataLen, Buf )) 
+         if(( rc = PutMemoData( LastDataBlock, BlocksNeeded, DataLen, Buf ))
               != XB_NO_ERROR )
       return rc;
          HeadBlock = LastDataBlock;
@@ -932,17 +935,18 @@ xbShort xbDbf::AddMemoData( const xbShort FieldNo, const xbLong DataLen,
          NextFreeBlock += BlocksNeeded;
          if(( rc = WriteMemoBlock( PrevNode, 2 )) != XB_NO_ERROR )
            return rc;
-      }               
+      }
    }
    PutLongField( FieldNo, HeadBlock );
-   return XB_NO_ERROR;
+   rc = PutRecord();
+   return rc;
 }
 /***********************************************************************/
 //! Short description
 /*!
 */
 xbShort xbDbf::UpdateHeadNextNode( void ) const
-{      
+{
    char buf[4];
    memset( buf, 0x00, 4 );
    xbase->PutLong( buf, MemoHeader.NextBlock );
@@ -969,7 +973,7 @@ xbShort xbDbf::PutMemoData( const xbLong StartBlock,
    xbLong  CurBlock;
    char *tp;
    const char *sp;
-  
+
    wlen = DataLen + 2;
    CurBlock = StartBlock;
    tp = (char *) mbb;
@@ -991,7 +995,7 @@ xbShort xbDbf::PutMemoData( const xbLong StartBlock,
          if( Qctr >= DataLen )
             *tp++ = 0x1a;    /* end of data marker */
          else
-            *tp++ = *sp++;  
+            *tp++ = *sp++;
          Tctr++; Qctr++;
       }
 
@@ -1003,7 +1007,7 @@ xbShort xbDbf::PutMemoData( const xbLong StartBlock,
          if(( rc = WriteMemoBlock( CurBlock++, 0 )) != XB_NO_ERROR )
             return rc;
       }
-      else 
+      else
       {
          if(( rc = WriteMemoBlock( CurBlock++, 1 )) != XB_NO_ERROR )
             return rc;
