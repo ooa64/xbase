@@ -131,14 +131,16 @@ xbString::xbString(const xbString &s) {
   \param maxlen
 */
 xbString::xbString(const char *s, size_t maxlen) {
+#if 0
   size_t len = strlen(s);
   
   if(len < maxlen)
     maxlen = len;
+#endif    
 
   size = maxlen + 1;
   data = (char *)calloc(1, size);
-  memcpy(data, s, maxlen);
+  strncpy(data, s, maxlen);
   data[maxlen] = 0;
 }
 
@@ -180,14 +182,16 @@ void xbString::ctor(const char *s, size_t maxlen) {
     return;
   }
 
+#if 0
   size_t len = strlen(s);
   
   if (len < maxlen)
     maxlen = len;
+#endif    
 
   size = maxlen + 1;
   data = (char *)calloc(1, size);
-  memcpy(data, s, maxlen);
+  strncpy(data, s, maxlen);
   data[maxlen] = 0;
 }
 
@@ -283,7 +287,7 @@ bool xbString::isEmpty() const {
 /*!
 */
 size_t xbString::len() const {
-  return (data ? 0 : strlen(data));
+  return (data ? strlen(data) : 0);
 }
 
 //! Short description.
@@ -686,7 +690,7 @@ xbString& xbString::assign(const xbString& str, size_t pos, int n)
   {
 //   data = (char *)malloc(n);  ms win/nt bug fix
     data = (char *)calloc(n + 1, sizeof(char));
-    memcpy(data, d + pos, n);
+    strncpy(data, d + pos, n);
     data[n] = '\0';
     size = n + 1;
   }
@@ -709,7 +713,7 @@ xbString& xbString::assign(char* str, int n)
   }
   
   data = (char *)calloc(n + 1, sizeof(char));
-  memcpy(data, str, n);
+  strncpy(data, str, n);
   data[n] = 0;
   size = n + 1;
 
