@@ -1,4 +1,4 @@
-/*  $Id: copydbf.cpp,v 1.4 2000/09/20 20:34:02 dbryson Exp $
+/*  $Id: copydbf.cpp,v 1.5 2000/09/20 23:11:47 dbryson Exp $
 
     Xbase project source code
 
@@ -6,8 +6,6 @@
     dbf file
 
     Copyright (C) 1997  StarTech, Gary A. Kunkel   
-    email - xbase@startech.keller.tx.us
-    www   - http://www.startech.keller.tx.us/xbase.html
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +19,26 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+    Contact:
+
+      Mail:
+  
+        Technology Associates, Inc.
+        XBase Project
+        1455 Deming Way #11
+        Sparks, NV  89434
+        USA
+
+     Email:
+       
+       xbase@techass.com
+
+     Website:
+
+       linux.techass.com
+
 
 */
 

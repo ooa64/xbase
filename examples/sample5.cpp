@@ -1,10 +1,8 @@
-/*  $Id: sample5.cpp,v 1.3 2000/06/07 04:37:59 dbryson Exp $
+/*  $Id: sample5.cpp,v 1.4 2000/09/20 23:11:48 dbryson Exp $
 
     Xbase project source code
 
     Copyright (C) 1997  StarTech, Gary A. Kunkel   
-    email - xbase@startech.keller.tx.us
-    www   - http://www.startech.keller.tx.us/xbase.html
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +16,26 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+    Contact:
+
+      Mail:
+  
+        Technology Associates, Inc.
+        XBase Project
+        1455 Deming Way #11
+        Sparks, NV  89434
+        USA
+
+     Email:
+       
+       xbase@techass.com
+
+     Website:
+
+       linux.techass.com
+
 
     V 1.0   10/10/97   - Initial release of software
     V 1.5   1/2/98     - Added memo field support
@@ -26,7 +43,7 @@
     V 1.8   1/29/99    - V1.8 upgrade
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS
