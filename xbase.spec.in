@@ -53,9 +53,10 @@ make DESTDIR=$RPM_BUILD_ROOT install
 /usr/lib/libxbase.so
 /usr/lib/libxbase-%{xbase_ver}.so
 
+%doc NEWS README TODO AUTHORS COPYING ChangeLog
+
 %files -n xbase-devel
 /usr/include/xbase
 /usr/bin/xbase-config
 
-%doc html/*.html html/*.gif html/*.jpg
-%doc NEWS README TODO AUTHORS COPYING ChangeLog
+%doc docs/html docs/latex

@@ -36,7 +36,7 @@
 #        linux.techass.com
 #
 
-SUBDIRS = xbase examples bin html tv libtest
+SUBDIRS = xbase examples bin html tv libtest docs
 
 MAINTAINERCLEANFILES = Makefile.in configure aclocal.m4 libtool
 
@@ -49,3 +49,8 @@ rpm : dist
 	cp xbase-@VERSION@.tar.gz /usr/src/redhat/SOURCES
 	cp xbase.spec /usr/src/redhat/SPECS
 	(cd /usr/src/redhat/SPECS ; rpm -ba --clean xbase.spec)
+
+docs :
+	(cd docs ; make docs)
+
+.PHONY : docs

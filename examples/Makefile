@@ -16,7 +16,7 @@ SHELL = /bin/sh
 
 srcdir = .
 top_srcdir = ..
-prefix = /usr/local
+prefix = /usr
 exec_prefix = ${prefix}
 
 bindir = ${exec_prefix}/bin
@@ -88,7 +88,7 @@ XPMINC = @XPMINC@
 XPMLIB = @XPMLIB@
 X_INCLUDES = @X_INCLUDES@
 X_LDFLAGS = @X_LDFLAGS@
-topdir = /usr/src/tasrc/xdb/xdbcvs/xdb
+topdir = /usr/src/tasrc/xdb
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 

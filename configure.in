@@ -138,6 +138,8 @@ AC_OUTPUT([
 	    ybase/Makefile
 	    xbase-config
 	    xbase.spec
+	    docs/doxygen.cfg
+	    docs/Makefile
 	  ],
 	  [
 	    chmod +x xbase-config

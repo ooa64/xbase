@@ -3028,6 +3028,8 @@ trap 'rm -fr `echo "
 	    ybase/Makefile
 	    xbase-config
 	    xbase.spec
+	    docs/doxygen.cfg
+	    docs/Makefile
 	   xbase/xbconfig.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
@@ -3151,6 +3153,8 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
 	    ybase/Makefile
 	    xbase-config
 	    xbase.spec
+	    docs/doxygen.cfg
+	    docs/Makefile
 	  "}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
