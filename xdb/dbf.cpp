@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.6 2000/06/15 04:47:40 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.7 2000/06/16 02:59:04 dbryson Exp $
 
     Xbase project source code
    
@@ -33,6 +33,10 @@
                          Updated EOR and EOF processing
     V 1.9.2 4/16/2000  - fixed record locking logic in GetRecord reoutines
                        - turned off buffering when locking is on
+	V 1.9.2 6/14/2000  - Fixed Version header field to match empirical
+	                     values for dBASE III+ and dBASE IV.
+	V 1.9.2 6/15/2000  - Added call to InitVars() to cleanup error handling
+	                     in CreateDatabase() and OpenDatabase().
 */
 
 #include <xdb/xbase.h>
@@ -70,7 +74,7 @@ void xbDbf::InitVars( void )
 {
    DatabaseName    = (char)0x00;
    NoOfFields      = 0;
-   DbfStatus       = 0;
+   DbfStatus       = XB_CLOSED;
    fp              = NULL;
    CurRec          = 0L;
    SchemaPtr       = NULL;
@@ -477,10 +481,14 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    RecordLen++;                  /* add one byte for 0x0D    */
 
    if(( RecBuf = (char *) malloc( RecordLen )) == NULL )
+   {
+      InitVars(); 
       xb_memory_error;
+   }
   
    if(( RecBuf2 = (char *) malloc( RecordLen )) == NULL ){ 
       free( RecBuf );
+      InitVars(); 
       xb_memory_error;
    }
 
@@ -516,6 +524,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
       free( RecBuf );
       free( RecBuf2 );
       fclose( fp );
+      InitVars(); 
       xb_error(XB_WRITE_ERROR);
    }
    
@@ -532,6 +541,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
          free( RecBuf );
          free( RecBuf2 );
          fclose( fp );
+         InitVars(); 
          xb_error(XB_WRITE_ERROR);
       }
    }
@@ -541,6 +551,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
       free( RecBuf ); 
       free( RecBuf2 );
       fclose( fp );
+      InitVars(); 
       xb_memory_error;
    }
    memset( SchemaPtr, 0x00, ( NoOfFields * sizeof(xbSchemaRec)));
@@ -567,6 +578,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
          free( SchemaPtr );
          free( RecBuf );
          free( RecBuf2 );
+         InitVars(); 
          xb_error(XB_INVALID_SCHEMA);
       }
 
@@ -578,6 +590,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
          free( SchemaPtr );
          free( RecBuf );
          free( RecBuf2 );
+         InitVars(); 
          xb_error(XB_WRITE_ERROR);
       }
 
@@ -587,6 +600,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
             free( RecBuf );
             free( RecBuf2 );
             fclose( fp );
+            InitVars(); 
             xb_error(XB_WRITE_ERROR);
          }
       }
@@ -601,6 +615,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
       free( SchemaPtr );
       free( RecBuf );
       free( RecBuf2 );
+      InitVars(); 
       xb_error(XB_WRITE_ERROR);
    }
 #ifdef XB_MEMO_FIELDS
@@ -768,7 +783,7 @@ xbShort xbDbf::DumpHeader( xbShort Option )
 //! Open the DBF file.
 /*!
   This method attempts to open the XDB DBF file with the specified
-  name (TableName).  This method does not postition to any particular
+  name (TableName).  This method does not position to any particular
   record in the file.  The record buffer is blanked (set to spaces).
 
   \param TableName Name of table to open
@@ -827,8 +842,11 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
 
    /* copy the header into memory */
    if(( rc = ReadHeader( 1 )) != XB_NO_ERROR )
+   {
+      InitVars(); 
       return rc;
-
+   }
+   
    /* check the version */
    if( Version == 3 || Version == (char)0x83 )   	/* dBASE III+ */
    {
@@ -845,30 +863,39 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
 #endif
    }
    else
+   {
+     InitVars(); 
      xb_error(XB_NOT_XBASE);
+   }
 
    // it would seem that dBASE III+ generates an UpdateYY value
    // of 0 for 2000 and dBASE IV uses 100, so I have removed the
    // check for UpdateYY being 0 (which might be valid).  DTB      
    if (/*UpdateYY == 0 ||*/ UpdateMM == 0 || UpdateDD == 0 )
+   {
+     InitVars(); 
      xb_error(XB_NOT_XBASE);
+   }
 
    /* calculate the number of fields */
    NoOfFields = ( HeaderLen - 33 ) / 32;
 
    if(( RecBuf = (char *) malloc( RecordLen )) == NULL ) {
       fclose( fp );
+      InitVars(); 
       xb_memory_error;
    }
    if(( RecBuf2 = (char *) malloc( RecordLen )) == NULL ) {
       fclose( fp );
       free( RecBuf );
+      InitVars(); 
       xb_memory_error;
    }
    if((SchemaPtr=(xbSchemaRec *)malloc(NoOfFields*sizeof(xbSchemaRec)))==NULL){
       free( RecBuf );
       free( RecBuf2 );
       fclose( fp );
+      InitVars(); 
       xb_memory_error;
    }
    memset( SchemaPtr, 0x00, ( NoOfFields * sizeof(xbSchemaRec)));
@@ -893,7 +920,7 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
       if( SchemaPtr[i].Type == 'C' && SchemaPtr[i].NoOfDecs > 0 )
       {
         SchemaPtr[i].LongFieldLen = xbase->GetShort( p + 4 );
-	j += SchemaPtr[i].LongFieldLen;
+     	j += SchemaPtr[i].LongFieldLen;
       }
       else
         j += SchemaPtr[i].FieldLen;
@@ -915,6 +942,7 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
          free( RecBuf2 );
          free( SchemaPtr );
          fclose( fp );
+         InitVars(); 
          return rc;
       }
 #endif
@@ -2043,6 +2071,8 @@ xbShort xbDbf::CopyDbfStructure(const char *NewFileName, xbShort Overlay) {
    /* do the date */
    xbDate d;
    ch = d.YearOf() - 1900;
+   if(XFV == 3)
+     ch %= 100;          // dBASE III+ does this, dBASE IV does not.
    fputc( ch, t );
    ch = d.MonthOf();
    fputc( ch, t );
