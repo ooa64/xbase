@@ -1,0 +1,56 @@
+HACKING - 2/14/99
+
+Here are notes relative to working on the Xbase library
+
+
+1) update the --version-info field item in xbase/Makefile.am whenever 
+   the interface changes
+
+   Here are simple guidelines, taken from libtool docs:
+
+   -version-info flag accepts an argument of the form
+   `CURRENT[:REVISION[:AGE]]'.  So, passing `-version-info 3:12:1' sets
+   CURRENT to 3, REVISION to 12, and AGE to 1.
+
+   If the library source code has changed at all since the last
+   update, then increment REVISION (`C:R:A' becomes `C:r+1:A').
+
+   If any interfaces have been added, removed, or changed since the
+   last update, increment CURRENT, and set REVISION to 0.
+
+   If any interfaces have been added since the last public release,
+   then increment AGE.
+
+   If any interfaces have been removed since the last public release,
+   then set AGE to 0.
+
+
+2) Update the changelog file and log your changes
+
+3) Update or create documentation if relevant - see html directory
+
+4) Oh, and test your changes
+
+I started thinking of a test suite.  DejaGNU looks like an overkill.
+Instead I thought of record-by-line dump utility and diff...
+
+
+-------------------------------------------------------------------------
+> On Sun, 14 Feb 1999, Vitaly Fedrushkov wrote:
+> 
+> > I'd like to share with everybody one trick.  It can simplify cleanup
+> > and save TODO from many things not worth mentioning.  The trick is:
+> > FIXME comments.
+> 
+> I agree! I use this myself, usually when I don't have time to fix
+> something right now, but know I have to come back later and do so. Matter
+> of fact, this could be used to help generate the todo list. As you go
+> through the code, put FIXMEs where you think they're needed (if you're not
+> going to fix the bad code right there), and a grep can be run later, and
+> items added to the todo list.
+>
+----------------------------------------------------------------------------
+
+If you make changes to the expression logic,  please add your new expression
+module to the exptest.cpp program.  This program tests all expressions
+known to xbase.
