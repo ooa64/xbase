@@ -25,8 +25,8 @@ DIRECTORY LAYOUT
     /xbase      XBase source and header files
 
 
-BUILDING THE LIBRARY
---------------------
+BUILDING THE LIBRARY ON UNIX/LINUX
+----------------------------------
 
 XBase uses autoconf and libtool to manage the build process.
 
@@ -63,6 +63,18 @@ library, header files, and utilities as follows:
     make install
     
 The default install directory is /usr/local.  
+
+
+BUILDING THE LIBRARY ON WINDOWS
+-------------------------------
+
+If using the MINGW32 GCC compiler package, use the makefile.g95 make files.
+Edit bin/makefile.g95 xbase/makefile.g95 to change installation directories.
+
+If using the CYGWIN environment, use the makefile.cyg make files (or fix
+the autoconf/automake stuff to work correclty).  However, for some reason
+(as yet undetermined) it seems to run very slowly when compiled with the
+cygwin compiler (perhaps the file handing in the cygwin dll is just dog slow?).
 
 
 DOCUMENTATION

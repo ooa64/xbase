@@ -10,7 +10,7 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# $Id: Makefile.in,v 1.7 2002/03/19 21:19:58 dbryson Exp $
+# $Id: Makefile.in,v 1.8 2002/03/19 21:24:25 dbryson Exp $
 #
 #	This file is part of the XBase libraries
 #    Copyright (C) 1998 Denis Pershin (dyp@inetlab.com)
@@ -133,13 +133,26 @@ doxygen = @doxygen@
 topdir = @topdir@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
+
 INCLUDES = -I$(topdir)
+
 lib_LTLIBRARIES = libxbase.la
-pkginclude_HEADERS = dbf.h exp.h html.h ndx.h retcodes.h xbase.h \
-libxbase_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp \
-EXTRA_DIST = \
+
+pkginclude_HEADERS = dbf.h exp.h html.h ndx.h retcodes.h xbase.h 	xdate.h xstack.h xtypes.h xbexcept.h xbstring.h index.h ntx.h           xbconfig.h xbfilter.h
+
+
+#install-data-hook:
+#	(cd $(includedir); rm -f xbase.h; ln -s xbase/xbase.h xbase.h)
+
+libxbase_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp 	html.cpp lock.cpp memo.cpp ndx.cpp stack.cpp xbase.cpp xdate.cpp 	xbexcept.cpp xbstring.cpp index.cpp ntx.cpp xbfilter.cpp 
+
+
+EXTRA_DIST =  	xbase.h 	xbconfigw32.h 	makefile.g95 	xbase.ide
+
+
 libxbase_la_LDFLAGS = -version-info 0:0:0 -release 2.1
 libxbase_la_LIBADD = 
+
 MAINTAINERCLEANFILES = Makefile.in stamp-h.in xbconfig.h.in
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = xbconfig.h
@@ -152,7 +165,9 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 libxbase_la_DEPENDENCIES = 
-libxbase_la_OBJECTS =  dbf.lo exp.lo expfunc.lo expproc.lo fields.lo
+libxbase_la_OBJECTS =  dbf.lo exp.lo expfunc.lo expproc.lo fields.lo \
+html.lo lock.lo memo.lo ndx.lo stack.lo xbase.lo xdate.lo xbexcept.lo \
+xbstring.lo index.lo ntx.lo xbfilter.lo
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -166,10 +181,12 @@ xbconfig.h.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/dbf.P .deps/exp.P .deps/expfunc.P .deps/expproc.P \
-.deps/fields.P
+.deps/fields.P .deps/html.P .deps/index.P .deps/lock.P .deps/memo.P \
+.deps/ndx.P .deps/ntx.P .deps/stack.P .deps/xbase.P .deps/xbexcept.P \
+.deps/xbfilter.P .deps/xbstring.P .deps/xdate.P
 SOURCES = $(libxbase_la_SOURCES)
 OBJECTS = $(libxbase_la_OBJECTS)
 
@@ -335,7 +352,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pr $$/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
@@ -476,25 +493,6 @@ install-exec-am install-exec install-data-am install-data install-am \
 install uninstall-am uninstall all-redirect all-am all installdirs \
 mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
-
-
-
-
-
-	xdate.h xstack.h xtypes.h xbexcept.h xbstring.h index.h ntx.h   \
-        xbconfig.h xbfilter.h
-
-#install-data-hook:
-#	(cd $(includedir); rm -f xbase.h; ln -s xbase/xbase.h xbase.h)
-
-	html.cpp lock.cpp memo.cpp ndx.cpp stack.cpp xbase.cpp xdate.cpp \
-	xbexcept.cpp xbstring.cpp index.cpp ntx.cpp xbfilter.cpp 
-
-	xbase.h \
-	xbconfigw32.h \
-	makefile.g95 \
-	xbase.ide
-
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

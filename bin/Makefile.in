@@ -93,11 +93,17 @@ doxygen = @doxygen@
 topdir = @topdir@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
+
 INCLUDES = -I$(topdir) $(all_includes)
 LDADD = -L$(topdir)/xbase/.libs -lxbase
+
 INSTALL_PROGRAM = @INSTALL@
-bin_PROGRAMS = checkndx copydbf dbfxtrct deletall dumphdr dumprecs packdbf   \
+
+bin_PROGRAMS = checkndx copydbf dbfxtrct deletall dumphdr dumprecs packdbf                  reindex undelall zap dbfutil1
+
+
 noinst_PROGRAMS = dumpdbt
+
 checkndx_SOURCES = checkndx.cpp 
 copydbf_SOURCES = copydbf.cpp 
 dbfxtrct_SOURCES = dbfxtrct.cpp
@@ -110,8 +116,12 @@ packdbf_SOURCES = packdbf.cpp
 reindex_SOURCES = reindex.cpp 
 undelall_SOURCES = undelall.cpp
 zap_SOURCES = zap.cpp
+
 noinst_HEADERS = 
-EXTRA_DIST = \
+
+EXTRA_DIST =  	makefile.g95 	bin.ide
+
+
 MAINTAINERCLEANFILES = Makefile.in
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../xbase/xbconfig.h
@@ -151,11 +161,22 @@ packdbf_OBJECTS =  packdbf.o
 packdbf_LDADD = $(LDADD)
 packdbf_DEPENDENCIES = 
 packdbf_LDFLAGS = 
-__SOURCES = \.c
-__OBJECTS =  \.o
-__LDADD = $(LDADD)
-__DEPENDENCIES = 
-__LDFLAGS = 
+reindex_OBJECTS =  reindex.o
+reindex_LDADD = $(LDADD)
+reindex_DEPENDENCIES = 
+reindex_LDFLAGS = 
+undelall_OBJECTS =  undelall.o
+undelall_LDADD = $(LDADD)
+undelall_DEPENDENCIES = 
+undelall_LDFLAGS = 
+zap_OBJECTS =  zap.o
+zap_LDADD = $(LDADD)
+zap_DEPENDENCIES = 
+zap_LDFLAGS = 
+dbfutil1_OBJECTS =  dbfutil1.o
+dbfutil1_LDADD = $(LDADD)
+dbfutil1_DEPENDENCIES = 
+dbfutil1_LDFLAGS = 
 dumpdbt_OBJECTS =  dumpdbt.o
 dumpdbt_LDADD = $(LDADD)
 dumpdbt_DEPENDENCIES = 
@@ -165,11 +186,6 @@ CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
-CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 HEADERS =  $(noinst_HEADERS)
 
 DIST_COMMON =  Makefile.am Makefile.in
@@ -177,13 +193,14 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/\.P .deps/checkndx.P .deps/copydbf.P .deps/dbfxtrct.P \
-.deps/deletall.P .deps/dumpdbt.P .deps/dumphdr.P .deps/dumprecs.P \
-.deps/packdbf.P
-SOURCES = $(checkndx_SOURCES) $(copydbf_SOURCES) $(dbfxtrct_SOURCES) $(deletall_SOURCES) $(dumphdr_SOURCES) $(dumprecs_SOURCES) $(packdbf_SOURCES) \.c $(dumpdbt_SOURCES)
-OBJECTS = $(checkndx_OBJECTS) $(copydbf_OBJECTS) $(dbfxtrct_OBJECTS) $(deletall_OBJECTS) $(dumphdr_OBJECTS) $(dumprecs_OBJECTS) $(packdbf_OBJECTS) \.o $(dumpdbt_OBJECTS)
+DEP_FILES =  .deps/checkndx.P .deps/copydbf.P .deps/dbfutil1.P \
+.deps/dbfxtrct.P .deps/deletall.P .deps/dumpdbt.P .deps/dumphdr.P \
+.deps/dumprecs.P .deps/packdbf.P .deps/reindex.P .deps/undelall.P \
+.deps/zap.P
+SOURCES = $(checkndx_SOURCES) $(copydbf_SOURCES) $(dbfxtrct_SOURCES) $(deletall_SOURCES) $(dumphdr_SOURCES) $(dumprecs_SOURCES) $(packdbf_SOURCES) $(reindex_SOURCES) $(undelall_SOURCES) $(zap_SOURCES) $(dbfutil1_SOURCES) $(dumpdbt_SOURCES)
+OBJECTS = $(checkndx_OBJECTS) $(copydbf_OBJECTS) $(dbfxtrct_OBJECTS) $(deletall_OBJECTS) $(dumphdr_OBJECTS) $(dumprecs_OBJECTS) $(packdbf_OBJECTS) $(reindex_OBJECTS) $(undelall_OBJECTS) $(zap_OBJECTS) $(dbfutil1_OBJECTS) $(dumpdbt_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -290,9 +307,21 @@ packdbf: $(packdbf_OBJECTS) $(packdbf_DEPENDENCIES)
 	@rm -f packdbf
 	$(CXXLINK) $(packdbf_LDFLAGS) $(packdbf_OBJECTS) $(packdbf_LDADD) $(LIBS)
 
-@PROGRAM@@EXEEXT@: $(@XPROGRAM@_OBJECTS) $(@XPROGRAM@_DEPENDENCIES)
-	@rm -f @PROGRAM@@EXEEXT@
-	$(@XLINK@) $(@XPROGRAM@_LDFLAGS) $(@XPROGRAM@_OBJECTS) $(@XPROGRAM@_LDADD) $(LIBS)
+reindex: $(reindex_OBJECTS) $(reindex_DEPENDENCIES)
+	@rm -f reindex
+	$(CXXLINK) $(reindex_LDFLAGS) $(reindex_OBJECTS) $(reindex_LDADD) $(LIBS)
+
+undelall: $(undelall_OBJECTS) $(undelall_DEPENDENCIES)
+	@rm -f undelall
+	$(CXXLINK) $(undelall_LDFLAGS) $(undelall_OBJECTS) $(undelall_LDADD) $(LIBS)
+
+zap: $(zap_OBJECTS) $(zap_DEPENDENCIES)
+	@rm -f zap
+	$(CXXLINK) $(zap_LDFLAGS) $(zap_OBJECTS) $(zap_LDADD) $(LIBS)
+
+dbfutil1: $(dbfutil1_OBJECTS) $(dbfutil1_DEPENDENCIES)
+	@rm -f dbfutil1
+	$(CXXLINK) $(dbfutil1_LDFLAGS) $(dbfutil1_OBJECTS) $(dbfutil1_LDADD) $(LIBS)
 
 dumpdbt: $(dumpdbt_OBJECTS) $(dumpdbt_DEPENDENCIES)
 	@rm -f dumpdbt
@@ -344,7 +373,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pr $$/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
@@ -483,18 +512,6 @@ install-data-am install-data install-am install uninstall-am uninstall \
 all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
-
-
-
-
-
-               reindex undelall zap dbfutil1
-
-
-
-
-	makefile.g95 \
-	bin.ide
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -93,19 +93,28 @@ doxygen = @doxygen@
 topdir = @topdir@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
+
 INCLUDES = -I$(topdir) $(all_includes)
 LDADD = -L$(topdir)/xbase/.libs -lxbase
+
 # for shadow passwords override the value
 INSTALL_PROGRAM = @INSTALL@
-noinst_PROGRAMS = sample1 sample2 sample3 sample4 sample5 \
+
+noinst_PROGRAMS = sample1 sample2 sample3 sample4 sample5                exfilter
+
+
 exfilter_SOURCES = exfilter.cpp
 sample1_SOURCES = sample1.cpp
 sample2_SOURCES = sample2.cpp
 sample3_SOURCES = sample3.cpp
 sample4_SOURCES = sample4.cpp
 sample5_SOURCES = sample5.cpp
+
 noinst_HEADERS = 
-EXTRA_DIST = \
+
+EXTRA_DIST =  	makefile.g95 	examples.ide
+
+
 MAINTAINERCLEANFILES = Makefile.in
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../xbase/xbconfig.h
@@ -137,21 +146,15 @@ sample5_OBJECTS =  sample5.o
 sample5_LDADD = $(LDADD)
 sample5_DEPENDENCIES = 
 sample5_LDFLAGS = 
-__SOURCES = \.c
-__OBJECTS =  \.o
-__LDADD = $(LDADD)
-__DEPENDENCIES = 
-__LDFLAGS = 
+exfilter_OBJECTS =  exfilter.o
+exfilter_LDADD = $(LDADD)
+exfilter_DEPENDENCIES = 
+exfilter_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
-CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 HEADERS =  $(noinst_HEADERS)
 
 DIST_COMMON =  Makefile.am Makefile.in
@@ -159,12 +162,12 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/\.P .deps/sample1.P .deps/sample2.P .deps/sample3.P \
-.deps/sample4.P .deps/sample5.P
-SOURCES = $(sample1_SOURCES) $(sample2_SOURCES) $(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES) \.c
-OBJECTS = $(sample1_OBJECTS) $(sample2_OBJECTS) $(sample3_OBJECTS) $(sample4_OBJECTS) $(sample5_OBJECTS) \.o
+DEP_FILES =  .deps/exfilter.P .deps/sample1.P .deps/sample2.P \
+.deps/sample3.P .deps/sample4.P .deps/sample5.P
+SOURCES = $(sample1_SOURCES) $(sample2_SOURCES) $(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES) $(exfilter_SOURCES)
+OBJECTS = $(sample1_OBJECTS) $(sample2_OBJECTS) $(sample3_OBJECTS) $(sample4_OBJECTS) $(sample5_OBJECTS) $(exfilter_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -238,9 +241,9 @@ sample5: $(sample5_OBJECTS) $(sample5_DEPENDENCIES)
 	@rm -f sample5
 	$(CXXLINK) $(sample5_LDFLAGS) $(sample5_OBJECTS) $(sample5_LDADD) $(LIBS)
 
-@PROGRAM@@EXEEXT@: $(@XPROGRAM@_OBJECTS) $(@XPROGRAM@_DEPENDENCIES)
-	@rm -f @PROGRAM@@EXEEXT@
-	$(@XLINK@) $(@XPROGRAM@_LDFLAGS) $(@XPROGRAM@_OBJECTS) $(@XPROGRAM@_LDADD) $(LIBS)
+exfilter: $(exfilter_OBJECTS) $(exfilter_DEPENDENCIES)
+	@rm -f exfilter
+	$(CXXLINK) $(exfilter_LDFLAGS) $(exfilter_OBJECTS) $(exfilter_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 .cpp.lo:
@@ -288,7 +291,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pr $$/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
@@ -422,17 +425,6 @@ install-data-am install-data install-am install uninstall-am uninstall \
 all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
-
-
-
-
-
-               exfilter
-	       
-
-
-	makefile.g95 \
-	examples.ide
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
