@@ -1,4 +1,4 @@
-/*  $Id: ndx.h,v 1.8 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: ndx.h,v 1.9 2002/09/05 17:48:29 dbryson Exp $
 
     Xbase project source code
 
@@ -195,7 +195,10 @@ protected:
    xbNdxLeafNode LeafNode;
    xbLong xbNodeLinkCtr;
    xbLong ReusedxbNodeLinks;
+#if 0 // overrides IndexName in xbIndex
    xbString IndexName;
+#endif
+
 #ifndef XB_VAR_NODESIZE
    char  Node[XB_NDX_NODE_SIZE];
 #else
@@ -209,9 +212,11 @@ protected:
    xbNdxNodeLink * CurNode;       /* pointer to current node              */
    xbNdxNodeLink * DeleteChain;   /* pointer to chain to delete           */
    xbNdxNodeLink * CloneChain;    /* pointer to node chain copy (add dup) */
+#if 0 // these override those in xbIndex
    xbLong  CurDbfRec;             /* current Dbf record number */
    char  *KeyBuf;                 /* work area key buffer */
    char  *KeyBuf2;                /* work area key buffer */
+#endif
 
 /* private functions */
    xbLong     GetLeftNodeNo( xbShort, xbNdxNodeLink * );

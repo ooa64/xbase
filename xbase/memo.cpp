@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.8 2002/08/14 23:20:58 dbryson Exp $
+/*  $Id: memo.cpp,v 1.9 2002/09/05 17:48:29 dbryson Exp $
 
     Xbase project source code
 
@@ -847,8 +847,7 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
       if(( rc = UpdateHeadNextNode()) != XB_NO_ERROR )
         return rc;
       PutField( FieldNo, "          " );
-      rc = PutRecord();
-      return rc;
+      return XB_NO_ERROR;
    }
 
    /* determine if this block set should be added to the previous set */
@@ -861,8 +860,7 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
       if(( rc = WriteMemoBlock( LastFreeBlock, 2 )) != XB_NO_ERROR )
          return rc;
       PutField( FieldNo, "          " );
-      rc = PutRecord();
-      return rc;
+      return XB_NO_ERROR;
    }
 
    /* insert into the chain */
@@ -881,8 +879,7 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
    if(( rc = WriteMemoBlock( LastFreeBlock, 2 )) != XB_NO_ERROR )
       return rc;
    PutField( FieldNo, "          " );
-   rc = PutRecord();
-   return rc;
+   return XB_NO_ERROR;
 }
 /***********************************************************************/
 //! Short description
@@ -895,7 +892,7 @@ xbShort xbDbf::AddMemoData( const xbShort FieldNo, const xbLong DataLen,
      const char * Buf )
 {
    xbShort rc;
-   xbLong  BlocksNeeded, LastDataBlock; 
+   xbLong  BlocksNeeded, LastDataBlock;
    xbLong  PrevNode, HeadBlock;
    xbLong  TotalLen;       /* total length of needed area for memo field */
 
@@ -951,8 +948,7 @@ xbShort xbDbf::AddMemoData( const xbShort FieldNo, const xbLong DataLen,
       }
    }
    PutLongField( FieldNo, HeadBlock );
-   rc = PutRecord();
-   return rc;
+   return XB_NO_ERROR;
 }
 /***********************************************************************/
 //! Short description

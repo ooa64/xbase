@@ -144,7 +144,7 @@ xbShort xbFilter::GetLastFilterRec()
   if( i )
     rc = i->GetLastKey();
   else
-    rc = d->GetPrevRecord();
+    rc = d->GetLastRecord();
 
   while( rc == XB_NO_ERROR ){
     if(( rc = d->xbase->ProcessExpression( e )) != XB_NO_ERROR )

@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.16 2002/08/22 00:38:12 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.17 2002/09/05 17:48:29 dbryson Exp $
 
     Xbase project source code
    
@@ -520,8 +520,12 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 #ifdef XB_MEMO_FIELDS
           s[i].Type != 'M' &&
 #endif /* XB_MEMO_FIELDS */
-          s[i].Type != 'L' )
+          s[i].Type != 'L' ) 
+      {
+        fclose( fp );
+        InitVars();
         xb_error(XB_UNKNOWN_FIELD_TYPE);
+      }
 
 #ifdef XB_MEMO_FIELDS
       if( !MemoSw && ( s[i].Type=='M' || s[i].Type=='B' || s[i].Type=='O'))
@@ -530,7 +534,11 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 
 // check for numeric fields which are too long
       if((s[i].Type == 'N' || s[i].Type == 'F') && s[i].FieldLen > 19 )
+      {
+        fclose( fp );
+        InitVars();
         xb_error(XB_INVALID_FIELD_LEN);
+      }
 
       i++;
    }
@@ -538,12 +546,14 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 
    if(( RecBuf = (char *) malloc( RecordLen )) == NULL )
    {
+      fclose( fp );
       InitVars();
       xb_memory_error;
    }
 
    if(( RecBuf2 = (char *) malloc( RecordLen )) == NULL ){
       free( RecBuf );
+      fclose( fp );
       InitVars();
       xb_memory_error;
    }
