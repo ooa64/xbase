@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.17 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: ndx.cpp,v 1.18 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
 
@@ -310,12 +310,10 @@ xbNdx::~xbNdx()
 */
 xbShort xbNdx::OpenIndex( const char * FileName )
 {
-   int NameLen, rc;
+   int rc;
 
-   NameLen = strlen( FileName ) + 1;
    if(( rc = dbf->NameSuffixMissing( 2, FileName )) > 0 )
-     if(( rc = dbf->NameSuffixMissing( 4, FileName )) > 0 )
-       NameLen += 4;
+     rc = dbf->NameSuffixMissing( 4, FileName );
 
    IndexName = FileName;
 
@@ -731,7 +729,7 @@ xbShort xbNdx::GetNextKey( xbShort RetrieveSw )
    xbNdxNodeLink * TempxbNodeLink;
 
    xbLong TempNodeNo;
-   xbShort rc = 0;
+   xbShort rc;
     
 #ifdef XB_LOCKING_ON
    if( dbf->GetAutoLock() )
@@ -952,7 +950,7 @@ xbShort xbNdx::GetPrevKey( xbShort RetrieveSw )
    xbNdxNodeLink * TempxbNodeLink;
 
    xbLong TempNodeNo;
-   xbShort rc = 0;
+   xbShort rc;
     
    if( !IndexStatus )
    {
@@ -1144,9 +1142,7 @@ xbNdx::BSearchNode(const char *key, xbShort klen, const xbNdxNodeLink *node,
                    xbShort *comp)
 {
   xbShort
-    c = 1,
-    p = -1,
-    start = 0,
+    c, p, start = 0,
     end = node->Leaf.NoOfKeysThisNode - 1;
     
   if(start > end)
@@ -1536,7 +1532,7 @@ xbShort xbNdx::CalcKeyLen( void )
 xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
          xbShort Unique, xbShort Overlay )
 {
-   xbShort i, NameLen, KeyLen, rc;
+   xbShort i, KeyLen, rc;
 
    IndexStatus = XB_CLOSED;
    if( strlen( Exp ) > 488 )
@@ -1546,11 +1542,7 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
      xb_error(XB_NOT_OPEN);
 
    /* Get the index file name and store it in the class */
-   NameLen = strlen( IxName ) + 1;
-
-   if(( rc = dbf->NameSuffixMissing( 2, IxName )) > 0 )
-      NameLen +=4;
-
+   rc = dbf->NameSuffixMissing( 2, IxName );
    IndexName = IxName;
 
    if( rc == 1 )
@@ -2117,7 +2109,7 @@ xbShort xbNdx::AddKey( xbLong DbfRec )
    xbShort i,rc;
    xbNdxNodeLink * TempNode;   
    xbNdxNodeLink * Tparent;
-   xbLong TempNodeNo = 0L;          /* new, unattached leaf node no */
+   xbLong TempNodeNo;              /* new, unattached leaf node no */
    xbNdxNodeLink * SaveNodeChain;
    xbNdxNodeLink * SaveCurNode;
 
@@ -2798,7 +2790,7 @@ xbShort xbNdx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
    /* this method assumes the index has been locked in exclusive mode */
 
    xbLong l;
-   xbShort rc = XB_NO_ERROR, i, NameLen, saveAutoLock;
+   xbShort rc, i, saveAutoLock;
    xbNdxHeadNode TempHead;
    FILE *t;
    xbString TempName;
@@ -2809,10 +2801,7 @@ xbShort xbNdx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
    TempHead.TotalNodes = 2L;
    TempHead.StartNode = 1L;
 
-   if(( rc = dbf->xbase->DirectoryExistsInName( IndexName )) > 0 )
-      NameLen = rc + 13;
-   else
-      NameLen = 13;
+   rc = dbf->xbase->DirectoryExistsInName( IndexName );
 
    if (rc) 
    {

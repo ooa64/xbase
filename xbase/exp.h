@@ -1,4 +1,4 @@
-/*  $Id: exp.h,v 1.9 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: exp.h,v 1.10 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code 
 
@@ -183,7 +183,7 @@ public:
    /*!
      \param f
    */
-   void     SetDefaultDateFormat(const xbString f){ DefaultDateFormat = f; }
+   void     SetDefaultDateFormat(const xbString & f){ DefaultDateFormat = f; }
 
    xbString GetDefaultDateFormat() const { return DefaultDateFormat; }
    xbShort  ProcessExpression( const char *exp, xbDbf * d );

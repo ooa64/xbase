@@ -1,4 +1,4 @@
-/*  $Id: fields.cpp,v 1.9 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: fields.cpp,v 1.10 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
 
@@ -303,7 +303,7 @@ const char *xbDbf::GetField(xbShort FieldNo) const {
 xbShort xbDbf::GetField(const xbShort FieldNo, char * buf, 
          const xbShort RecBufSw) const
 {
-     xbShort length = 0;        
+     xbShort length;        
      if( FieldNo < 0 || FieldNo >= NoOfFields ) {
 #ifdef HAVE_EXCEPTIONS
        xb_error(XB_INVALID_FIELDNO);
@@ -331,7 +331,7 @@ xbShort xbDbf::GetField(const xbShort FieldNo, char * buf,
 xbShort xbDbf::GetField(const xbShort FieldNo, xbString & sf, 
          const xbShort RecBufSw) const
 {
-     xbShort length = 0;        
+     xbShort length;        
      if( FieldNo < 0 || FieldNo >= NoOfFields ) {
 #ifdef HAVE_EXCEPTIONS
        sf = "";

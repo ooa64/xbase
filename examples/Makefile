@@ -38,10 +38,10 @@ pkglibdir = $(libdir)/xbase
 pkgincludedir = $(includedir)/xbase
 top_builddir = ..
 
-ACLOCAL = ${SHELL} /mnt/vol2/xdb/missing --run aclocal-1.6
-AUTOCONF = ${SHELL} /mnt/vol2/xdb/missing --run autoconf
-AUTOMAKE = ${SHELL} /mnt/vol2/xdb/missing --run automake-1.6
-AUTOHEADER = ${SHELL} /mnt/vol2/xdb/missing --run autoheader
+ACLOCAL = ${SHELL} /mnt/vol2/xbase/missing --run aclocal-1.6
+AUTOCONF = ${SHELL} /mnt/vol2/xbase/missing --run autoconf
+AUTOMAKE = ${SHELL} /mnt/vol2/xbase/missing --run automake-1.6
+AUTOHEADER = ${SHELL} /mnt/vol2/xbase/missing --run autoheader
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = /usr/bin/install -c
@@ -67,7 +67,7 @@ PATH_SEPARATOR = :
 
 # for shadow passwords override the value
 INSTALL_PROGRAM = /usr/bin/install -c
-AMTAR = ${SHELL} /mnt/vol2/xdb/missing --run tar
+AMTAR = ${SHELL} /mnt/vol2/xbase/missing --run tar
 AS = @AS@
 AWK = gawk
 CC = gcc
@@ -86,12 +86,12 @@ RELEASE = rh8.0-gcc3.2-2.1
 RHREL = rh8.0
 STRIP = strip
 TVPROGS = 
-VERSION = 2.1.0
+VERSION = 2.1.1
 XSUBDIRS = xbase examples bin html libtest tv docs
 am__include = include
 am__quote = 
 doxygen = yes
-install_sh = /mnt/vol2/xdb/install-sh
+install_sh = /mnt/vol2/xbase/install-sh
 topdir = 
 
 INCLUDES = -I$(topdir) $(all_includes)
@@ -111,7 +111,7 @@ sample5_SOURCES = sample5.cpp
 noinst_HEADERS = 
 
 EXTRA_DIST = \
-	makefile.g95 \
+	makefile.g95 makebcc.bat \
 	examples.ide
 
 

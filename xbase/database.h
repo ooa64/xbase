@@ -1,4 +1,4 @@
-/*  $Id: database.h,v 1.5 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: database.h,v 1.6 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
 
@@ -44,9 +44,13 @@
 #ifndef __XB_DATABASE_H__
 #define __XB_DATABASE_H__
 
+#ifdef __WIN32__
+#include <xbase/xbconfigw32.h>
+#else
 #include <xbase/xbconfig.h>
-#include <xbase/xtypes.h>
-#include <xbase/xdate.h>
+#endif
+
+#include <xbase/xbase.h>
 
 #include <iostream>
 #include <stdio.h>

@@ -1,4 +1,4 @@
-/*  $Id: sample5.cpp,v 1.7 2003/08/16 19:59:38 gkunkel Exp $
+/*  $Id: sample5.cpp,v 1.8 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
 
@@ -65,39 +65,45 @@ int main()
 #endif
 
    rc = d.OpenDatabase( "MYFILE" );
-   std::cout << "OpenDatabase rc = " << rc << "\n";
+   std::cout << "OpenDatabase rc = " << rc << std::endl;
 
 
 #ifdef XB_INDEX_NDX
    rc = i1.OpenIndex( "MYINDEX1" );
-   std::cout << "OpenIndex 1 rc = " << rc << "\n";
+   std::cout << "OpenIndex 1 rc = " << rc << std::endl;
 
    rc = i2.OpenIndex( "MYINDEX2" );
-   std::cout << "OpenIndex 2 rc = " << rc << "\n";
+   std::cout << "OpenIndex 2 rc = " << rc << std::endl;
 
    rc = i3.OpenIndex( "MYINDEX3" );
-   std::cout << "OpenIndex 3 rc = " << rc << "\n";
+   std::cout << "OpenIndex 3 rc = " << rc << std::endl;
 
    rc = i4.OpenIndex( "MYINDEX4" );
-   std::cout << "OpenIndex 4 rc = " << rc << "\n";
+   std::cout << "OpenIndex 4 rc = " << rc << std::endl;
+
+   std::cout << "-114 => XB_NOT_FOUND" << std::endl;
+   std::cout << "-115 => XB_FOUND" << std::endl;
 
    rc = i1.FindKey( "Queue" );			/* alpha search   */
-   std::cout << "Find Key rc = " << rc << "\n";
+   std::cout << "Find Key rc = " << rc << std::endl;
 
    rc = i4.FindKey( (xbDouble) 77.77 );		/* numeric search */
-   std::cout << "Find Key rc = " << rc << "\n";
+   std::cout << "Find Key rc = " << rc << std::endl;
+
+   rc = i4.FindKey( (xbDouble) 76262 );		/* numeric search */
+   std::cout << "Find Key rc = " << rc << std::endl;
 
    rc = i1.GetFirstKey();
-   std::cout << "GetFirstKey rc = " << rc << "\n";
+   std::cout << "GetFirstKey rc = " << rc << std::endl;
 
    rc = i1.GetNextKey();
-   std::cout << "GetNextKey rc = " << rc << "\n";
+   std::cout << "GetNextKey rc = " << rc << std::endl;
 
    rc = i1.GetLastKey();
-   std::cout << "GetLastKey rc = " << rc << "\n";
+   std::cout << "GetLastKey rc = " << rc << std::endl;
 
    rc = i1.GetPrevKey();
-   std::cout << "GetPrevKey rc = " << rc << "\n";
+   std::cout << "GetPrevKey rc = " << rc << std::endl;
 #endif
 
    d.CloseDatabase();

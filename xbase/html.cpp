@@ -1,4 +1,4 @@
-/*  $Id: html.cpp,v 1.9 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: html.cpp,v 1.10 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
 
@@ -312,7 +312,7 @@ xbLong xbHtml::Tally( const char * File )
    fseek( f, 0L, SEEK_SET );
    fscanf( f, "%08lu", &cnt );
    fseek( f, 0L, SEEK_SET );
-   rc = fprintf( f, "%08lu\n", ++cnt );
+   fprintf( f, "%08lu\n", ++cnt );
 
 /* unlock the file */
 #if defined(HAVE_FCNTL) && defined(XB_LOCKING_ON)

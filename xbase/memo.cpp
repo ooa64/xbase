@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.13 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: memo.cpp,v 1.14 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
 
@@ -63,8 +63,7 @@
 */
 xbLong xbDbf::CalcLastDataBlock()
 {
-  xbShort rc;
-  if(( rc = fseek( mfp, 0, SEEK_END )) != 0 )
+  if( fseek( mfp, 0, SEEK_END ) != 0 )
     xb_error( XB_SEEK_ERROR );
   return ( ftell( mfp ) / MemoHeader.BlockSize );
 }
@@ -606,7 +605,6 @@ xbShort xbDbf::GetFPTField(const xbShort FieldNo, const xbLong len,
 
   return XB_NO_ERROR;
 }
-
 /***********************************************************************/
 //! Short description
 /*!
@@ -740,7 +738,7 @@ xbLong xbDbf::GetMemoFieldLen(const xbShort FieldNo) {
    else  /* version 0x03 dBASE III+ */
    {
       ByteCnt = 0L;
-      sp = spp = NULL;
+      spp = NULL;
       NotDone = 1;
       while( NotDone )
       {
@@ -782,14 +780,13 @@ xbShort xbDbf::MemoFieldsPresent( void ) const
 */
 xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
 {
-   xbLong SBlockNo, SNoOfBlocks = 0L, SNextBlock;
+   xbLong SBlockNo, SNoOfBlocks, SNextBlock;
    xbLong LastFreeBlock, LastFreeBlockCnt, LastDataBlock;
    xbShort rc;
 
    NextFreeBlock    = 0L;
    LastFreeBlockCnt = 0L;
    LastFreeBlock    = 0L;
-   SNextBlock       = 0L;
 
    if( IsType3Dbt() )    /* type III */
    {

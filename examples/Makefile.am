@@ -18,7 +18,7 @@ sample5_SOURCES  = sample5.cpp
 noinst_HEADERS =
 
 EXTRA_DIST = \
-	makefile.g95 \
+	makefile.g95 makebcc.bat \
 	examples.ide
 
 MAINTAINERCLEANFILES = Makefile.in

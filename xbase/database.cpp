@@ -1,4 +1,4 @@
-/*  $Id: database.cpp,v 1.4 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: database.cpp,v 1.5 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
    
@@ -42,7 +42,12 @@
         xdb.sourceforge.net
 */
 
+#ifdef __WIN32__
+#include <xbase/xbconfigw32.h>
+#else
 #include <xbase/xbconfig.h>
+#endif
+
 #include <xbase/xbase.h>
 
 #ifdef HAVE_IO_H
@@ -3353,8 +3358,7 @@ xbDatabase::Pack(const char *tableId,
                  void (*packStatusFunc)(xbLong itemNum, xbLong numItems),
                  void (*indexStatusFunc)(xbLong itemNum, xbLong numItems))
 {
-  xbDbf
-    *dbf = 0;
+  xbDbf *dbf;
     
   dbf = OpenDbf(tableId);
   if(dbf)
@@ -3379,16 +3383,10 @@ xbShort
 xbDatabase::ReIndex(const char *tableId, xbShort indexNum,
                     void (*statusFunc)(xbLong itemNum, xbLong numItems))
 {
-  xbShort
-    i,
-    startIndexNum,
-    endIndexNum;
+  xbShort i, startIndexNum, endIndexNum;
     
-  xbDbf
-    *dbf = 0;
-    
-  xbIndex
-    *index = 0;
+  xbDbf *dbf;
+  xbIndex *index;
     
   if(indexNum == -1)
   {
@@ -3424,8 +3422,7 @@ xbDatabase::ReIndex(const char *tableId, xbShort indexNum,
 xbShort 
 xbDatabase::Zap(const char *tableId)
 {
-  xbDbf
-    *dbf = 0;
+  xbDbf *dbf;
 
   RemoveTableFiles(tableId);    
   if(m_rc)

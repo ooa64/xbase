@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.14 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: ntx.cpp,v 1.15 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
 
@@ -340,12 +340,9 @@ xbNtx::AllocKeyBufs(void)
 */
 xbShort xbNtx::OpenIndex( const char * FileName )
 {
-   int NameLen, rc;
+   int rc;
 
-   NameLen = strlen( FileName ) + 1;
-   if (( rc = dbf->NameSuffixMissing( 4, FileName )) > 0)
-       NameLen += 4;
-
+   rc = dbf->NameSuffixMissing( 4, FileName );
    IndexName = FileName;
    
    if( rc == 1 )
@@ -485,7 +482,8 @@ xbShort xbNtx::GetHeadNode( void )
    HeadNode.KeysPerNode = dbf->xbase->GetShort( p ); p += sizeof(xbUShort);
    HeadNode.HalfKeysPerNode = dbf->xbase->GetShort( p ); p += sizeof(xbUShort);
    strncpy(HeadNode.KeyExpression, p, 256); p+= 256;
-   HeadNode.Unique = *p++;
+//   HeadNode.Unique = *p++;    ++ is unused code 8/19/03 - gkunkel
+   HeadNode.Unique = *p;
 
    p = HeadNode.KeyExpression;
    while (*p)
@@ -1601,30 +1599,14 @@ xbShort xbNtx::CalcKeyLen( void )
 */
 xbShort xbNtx::CreateIndex(const char * IxName, const char * Exp, xbShort Unique, xbShort Overlay )
 {
-   xbShort i, NameLen, KeyLen, rc;
-
+   xbShort i, KeyLen, rc;
 
    IndexStatus = XB_CLOSED;
    if( strlen( Exp ) > 255 ) xb_error( XB_INVALID_KEY_EXPRESSION);
    if( dbf->GetDbfStatus() == 0 ) xb_error( XB_NOT_OPEN);
 
    /* Get the index file name and store it in the class */
-   NameLen = strlen( IxName ) + 1;
-
-   if(( rc = dbf->NameSuffixMissing( 4, IxName )) > 0 )
-      NameLen +=4;
-
-/*
-   if(( IndexName = (char *) malloc( NameLen )) == NULL )
-   {
-#ifdef HAVE_EXCEPTIONS
-       throw xbOutOfMemoryException();
-#else
-      return XB_NO_MEMORY;
-#endif
-   }
-*/           
-               
+   rc = dbf->NameSuffixMissing( 4, IxName );
 
    /* copy the name to the class variable */
    IndexName = IxName;
@@ -2058,12 +2040,12 @@ xbShort xbNtx::SplitLeafNode( xbNodeLink *n1, xbNodeLink *n2, xbShort pos, xbLon
    xbShort temp;
    xbShort start;
    xbShort end;
-   xbShort length;
+//   xbShort length;
 
    if( !n1 || !n2 ) xb_error( XB_INVALID_NODELINK );
    if( pos < 0 || pos > HeadNode.KeysPerNode ) xb_error( XB_INVALID_RECORD );
 
-   length = strlen(KeyBuf);
+//   length = strlen(KeyBuf);
 
    // If the new key goes in the first node.
    if (pos < HeadNode.HalfKeysPerNode)
@@ -2088,7 +2070,6 @@ xbShort xbNtx::SplitLeafNode( xbNodeLink *n1, xbNodeLink *n2, xbShort pos, xbLon
        // Insert new key
        PutKeyData( start , n1 );
        PutDbfNo  ( start , n1, d );
-
    }
    else 
    {
@@ -2105,7 +2086,7 @@ xbShort xbNtx::SplitLeafNode( xbNodeLink *n1, xbNodeLink *n2, xbShort pos, xbLon
        }
        else
        {
-           // Otherwise, the median key will be middle key becasue the
+           // Otherwise, the median key will be middle key because the
            // new key will be inserted somewhere above the middle.
            memcpy(PushItem.Key,
                   GetKeyData(HeadNode.HalfKeysPerNode,  n1),
@@ -2124,11 +2105,9 @@ xbShort xbNtx::SplitLeafNode( xbNodeLink *n1, xbNodeLink *n2, xbShort pos, xbLon
        // Insert new key
        PutKeyData( pos -1 , n1 );
        PutDbfNo  ( pos -1 , n1, d );
-
    }
    
-
-      // Dup the node data
+   // Dup the node data
    memcpy(n2->Leaf.KeyRecs, n1->Leaf.KeyRecs, XB_NTX_NODE_SIZE);
 
    // Dup the offsets
@@ -2153,7 +2132,6 @@ xbShort xbNtx::SplitLeafNode( xbNodeLink *n1, xbNodeLink *n2, xbShort pos, xbLon
    // Set the new count of both nodes
    n2->Leaf.NoOfKeysThisNode = HeadNode.HalfKeysPerNode;
    n1->Leaf.NoOfKeysThisNode = HeadNode.HalfKeysPerNode;
-
 
    if(( rc = PutLeafNode( n1->NodeNo, n1 )) != 0 )
        return rc;
@@ -2222,8 +2200,8 @@ xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong )
            PutLeftNodeNo(0, n2, oldPushItem.Node);
            // PushItem should remain the same, except for its left pointer
            PushItem.Node = n2->NodeNo;
-           start = pos;
-           end = pos;
+//           start = pos;    unused code
+//           end = pos;      unused code
        }
        else 
        {
@@ -2251,8 +2229,6 @@ xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong )
        }
    }
 
-
-
    /* restore original key */
    memcpy( KeyBuf, oldPushItem.Key, HeadNode.KeyLen + 1);
 
@@ -2261,7 +2237,6 @@ xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong )
    PutDbfNo  ( pos, n1, oldPushItem.RecordNumber);
    PutLeftNodeNo( pos, n1, GetLeftNodeNo (pos + 1, n1));
    PutLeftNodeNo( pos + 1  /* +1 ?*/, n1, oldPushItem.Node /* t */ );
-
    
    // Dup the node data into the new page
    memcpy(n2->Leaf.KeyRecs, n1->Leaf.KeyRecs, XB_NTX_NODE_SIZE);
@@ -2284,14 +2259,12 @@ xbShort xbNtx::SplitINode( xbNodeLink *n1, xbNodeLink *n2, xbLong )
    temp = n2->offsets[j];
    n2->offsets[j] = n2->offsets[HeadNode.KeysPerNode];
    n2->offsets[HeadNode.KeysPerNode] = temp;
-   
    PutLeftNodeNo(HeadNode.HalfKeysPerNode, n1, n1LastNodeNo);
 
-      // Set the new count of both nodes
+   // Set the new count of both nodes
    n2->Leaf.NoOfKeysThisNode = HeadNode.HalfKeysPerNode;
    n1->Leaf.NoOfKeysThisNode = HeadNode.HalfKeysPerNode;
 
-   
    if((rc = PutLeafNode( n1->NodeNo,n1 )) != 0) return rc;
    if((rc = PutLeafNode( n2->NodeNo,n2 )) != 0) return rc;
    return 0;
@@ -2356,7 +2329,7 @@ xbShort xbNtx::AddKey( xbLong DbfRec )
    xbShort i,rc;
    xbNodeLink * TempNode;   
    xbNodeLink * Tparent;
-   xbLong TempNodeNo = 0L;          /* new, unattached leaf node no */
+   xbLong TempNodeNo;          /* new, unattached leaf node no */
 
    /* find node key belongs in */
    rc = FindKey( KeyBuf, HeadNode.KeyLen, 0 );
@@ -2872,7 +2845,10 @@ xbShort xbNtx::DeleteKey( xbLong DbfRec )
        return rc;
 
    // Then delete it
-   rc = DeleteKeyFromNode( CurNode->CurKeyNo, CurNode );
+   // next sentence modified 8/20/03 - gkunkel
+   if(( rc = DeleteKeyFromNode( CurNode->CurKeyNo, CurNode )) != XB_NO_ERROR )
+     return rc;
+   
    
    CurDbfRec = GetDbfNo( CurNode->CurKeyNo, CurNode );
 
@@ -2926,7 +2902,7 @@ xbNtx::DeleteKeyFromNode(xbShort pos, xbNodeLink *n )
    {
        return RemoveKeyFromNode(pos, n);
    }
-   return XB_NO_ERROR;
+//   return XB_NO_ERROR;
 }
 
 //! Short description.
@@ -3070,10 +3046,8 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
 
     xbShort i, j;
 //    xbLong rightPointerOffset;
-    int totalKeys = 0;
-    int median = 0;
-
-
+    int totalKeys;
+    int median;
 
     // if n1 has exactly (it will never have less) 1/2 keys per node
     // then put everything into n1.
@@ -3088,7 +3062,6 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
         PutDbfNo ( n1->Leaf.NoOfKeysThisNode, n1, GetDbfNo( parentPos, parent ) );
         n1->Leaf.NoOfKeysThisNode++;
 
-        
         // Copy over the rest of the keys
         for (i = n1->Leaf.NoOfKeysThisNode, j = 0; j < n2->Leaf.NoOfKeysThisNode; i++, j++)
         {
@@ -3097,7 +3070,6 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
 
             PutLeftNodeNo( i, n1, GetLeftNodeNo( j, n2) );
             PutDbfNo ( i , n1, GetDbfNo( j, n2 ) );
-
         }
         n1->Leaf.NoOfKeysThisNode += j;
 
@@ -3160,7 +3132,7 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
         }
         else
         {
-            xbLong n1LastLeftNodeNo = 0;
+            xbLong n1LastLeftNodeNo;
             xbShort medianOffset = n2->Leaf.NoOfKeysThisNode - median -1;
             // Bring down the parent
             strcpy(KeyBuf, GetKeyData( parentPos, parent ));
@@ -3168,7 +3140,7 @@ xbNtx::JoinSiblings(xbNodeLink *parent, xbShort parentPos, xbNodeLink *n1, xbNod
             PutDbfNo ( n1->Leaf.NoOfKeysThisNode, n1, GetDbfNo( parentPos, parent ) );
             
             n1->Leaf.NoOfKeysThisNode++;
-            n1LastLeftNodeNo = GetLeftNodeNo(medianOffset, n2);
+// 8/20/03 gkunkel n1LastLeftNodeNo = GetLeftNodeNo(medianOffset, n2);
             PutLeftNodeNo( n1->Leaf.NoOfKeysThisNode, n1, GetLeftNodeNo(medianOffset, n2));
 
             // Moving the median to the parent may have to occur
@@ -3285,7 +3257,7 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
    /* this method assumes the index has been locked in exclusive mode */
 
    xbLong l;
-   xbShort rc, i, NameLen, saveAutoLock;
+   xbShort rc, i, saveAutoLock;
    NtxHeadNode TempHead;
    FILE *t, *temp;
    xbString TempName;
@@ -3293,11 +3265,7 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
    memcpy( &TempHead, &HeadNode, sizeof( struct NtxHeadNode ));
 
    TempHead.StartNode = 1024L;
-
-   if(( rc = dbf->xbase->DirectoryExistsInName( IndexName )) > 0 )
-       NameLen = rc + 13;
-   else
-       NameLen = 13;
+   rc = dbf->xbase->DirectoryExistsInName( IndexName );
 
    if (rc) {
        TempName.assign(IndexName, 0, rc);

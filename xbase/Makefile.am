@@ -1,4 +1,4 @@
-# $Id: Makefile.am,v 1.12 2003/08/16 19:59:38 gkunkel Exp $
+# $Id: Makefile.am,v 1.13 2003/08/20 01:53:27 gkunkel Exp $
 #
 #	This file is part of the XBase libraries
 #    Copyright (C) 1998 Denis Pershin (dyp@inetlab.com)
@@ -55,7 +55,7 @@ libxbase_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp \
 EXTRA_DIST = \
 	xbase.h \
 	xbconfigw32.h \
-	makefile.g95 \
+	makefile.g95 makebcc.bat \
 	xbase.ide
 
 

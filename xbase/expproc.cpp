@@ -1,4 +1,4 @@
-/*  $Id: expproc.cpp,v 1.9 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: expproc.cpp,v 1.10 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
 
@@ -172,7 +172,7 @@ xbShort xbExpn::ProcessExpression( xbExpNode * e )
 xbShort xbExpn::ProcessExpression( xbExpNode * Wtree, xbShort RecBufSw )
 {
    xbExpNode * WorkNode;
-   xbShort rc = 0;
+   xbShort rc;
    if( Wtree == 0 )
       Wtree = Tree;
    memset(WorkBuf, 0x00, WorkBufMaxLen+1 );

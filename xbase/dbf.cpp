@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.24 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: dbf.cpp,v 1.25 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
    
@@ -451,22 +451,17 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 {
 /* future release - add logic to check number of fields and record length */
 
-   xbShort    i, j, k, k2, NameLen, rc, count;
+   xbShort    i, j, k, k2, rc;  /* , count; */
 
 #ifdef XB_MEMO_FIELDS
    xbShort MemoSw = 0;
 #endif
 
-   i = j = 0;
    DbfStatus = XB_CLOSED;                 
 
    /* Get the datafile name and store it in the class */
-   NameLen = strlen(TableName) + 1;
-   if(( rc = NameSuffixMissing( 1, TableName )) > 0 )
-      NameLen += 4;
-
+   rc = NameSuffixMissing( 1, TableName );
    DatabaseName = TableName;
-
    if( rc == 1)
       DatabaseName +=".dbf";
    else if( rc == 2 )
@@ -517,7 +512,9 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
       }
 
 #ifdef XB_MEMO_FIELDS
-      if( !MemoSw && ( s[i].Type=='M' || s[i].Type=='B' || s[i].Type=='O'))
+//  8/18/03 types B and O dont exist - gkunkel
+//      if( !MemoSw && ( s[i].Type=='M' || s[i].Type=='B' || s[i].Type=='O'))
+      if( !MemoSw && ( s[i].Type=='M' ))
          MemoSw++;
 #endif
 
@@ -583,6 +580,9 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
       xb_error(XB_WRITE_ERROR);
    }
 
+/* the following logic was commented out 8/18/03 by gkunkel because 
+   it does not appear to do anything except generate compiler warnings
+   
    count = 20;
 #ifdef XB_REAL_DELETE
    if(RealDelete)
@@ -601,6 +601,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
       }
    }
 #endif
+*/
 
    if((SchemaPtr=(xbSchemaRec *)malloc(NoOfFields*sizeof(xbSchemaRec)))==NULL){
       free( RecBuf );
@@ -909,9 +910,7 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
      xb_error(XB_ALREADY_OPEN);
 
    /* Get the datafile name and store it in the class */
-   NameLen = strlen( TableName ) + 1;
-   if(( rc = NameSuffixMissing( 1, TableName )) > 0 )
-      NameLen += 4;
+   rc = NameSuffixMissing( 1, TableName );
 
    /* copy the file name to the class variable */
    DatabaseName = TableName;
@@ -1123,11 +1122,8 @@ xbShort xbDbf::BlankRecord( void )
 */
 xbShort xbDbf::AppendRecord( void )
 {
-   xbShort 
-      rc = 0;
-      
-   xbULong
-     nextRecNo;
+   xbShort rc;      
+   xbULong nextRecNo;
 
 #if defined(XB_INDEX_ANY)
    xbIxList *i;
@@ -1422,7 +1418,7 @@ xbShort xbDbf::GetRecord( xbULong RecNo )
 */
 xbShort xbDbf::GetFirstRecord( void )
 {
-   xbShort rc = 0;
+   xbShort rc;
    if( NoOfRecs == 0 )
      xb_error(XB_INVALID_RECORD);
 
@@ -1476,7 +1472,7 @@ xbShort xbDbf::GetFirstRecord( void )
 */
 xbShort xbDbf::GetLastRecord( void )
 {
-   xbShort rc = 0;
+   xbShort rc;
    if( NoOfRecs == 0 )
      xb_error(XB_INVALID_RECORD);
 
@@ -1530,7 +1526,7 @@ xbShort xbDbf::GetLastRecord( void )
 */
 xbShort xbDbf::GetNextRecord( void )
 {
-   xbShort rc = 0;
+   xbShort rc;
    if( NoOfRecs == 0 ) {
      xb_error(XB_INVALID_RECORD);
    } else if( CurRec >= NoOfRecs ) {
@@ -1587,7 +1583,7 @@ xbShort xbDbf::GetNextRecord( void )
 */
 xbShort xbDbf::GetPrevRecord( void )
 {
-   xbShort rc = 0;
+   xbShort rc;
    if( NoOfRecs == 0 ) {
      xb_error(XB_INVALID_RECORD);
    } else if( CurRec <= 1L ) {
@@ -2150,7 +2146,7 @@ xbShort xbDbf::RecordDeleted( void )
 */
 xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems))
 {
-   xbShort rc = 0, i, NameLen;
+   xbShort rc, i;
    FILE *t;
    xbLong l;
    char *target, *source;
@@ -2167,12 +2163,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
 #endif  /* XB_MEMO_FIELDS */
 
    xbDbf Temp( xbase );
-
-   if(( rc = xbase->DirectoryExistsInName( DatabaseName )) > 0 )
-      NameLen = rc + 13;
-   else
-      NameLen = 13;
-
+   rc = xbase->DirectoryExistsInName( DatabaseName );
    if (rc) {
       TempDbfName.assign(DatabaseName, 0, rc);
       TempDbfName += "TMPXBASE.DBF";
@@ -2261,7 +2252,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
          memcpy( target, source, GetRecordLen());
 
 #ifdef XB_MEMO_FIELDS
-         len = BufSize = 0L;
+         BufSize = 0L;
          Buf = NULL;
 
          for( i = 0; i < NoOfFields; i++ )
@@ -2417,7 +2408,7 @@ xbShort xbDbf::PackDatabase(xbShort LockWaitOption,
                             void (*packStatusFunc)(xbLong itemNum, xbLong numItems),
                             void (*indexStatusFunc)(xbLong itemNum, xbLong numItems))
 {
-   xbShort rc = 0;
+   xbShort rc;
 
    /* lock all open files and indexes */
    if(( rc = ExclusiveLock( LockWaitOption )) != XB_NO_ERROR ) return rc;
@@ -2622,7 +2613,7 @@ xbShort xbDbf::AddIndexToIxList(xbIndex * n, const char *IndexName)
 xbShort xbDbf::RebuildAllIndices(void (*statusFunc)(xbLong itemNum, xbLong numItems))
 {
 #if defined(XB_INDEX_ANY)
-  xbShort rc = 0;
+  xbShort rc;
   xbIxList *n;
 
    n = NdxList;
@@ -2644,7 +2635,7 @@ xbShort xbDbf::RebuildAllIndices(void (*statusFunc)(xbLong itemNum, xbLong numIt
 */
 xbShort xbDbf::DeleteAll( xbShort Option )
 {
-   xbShort rc = 0;
+   xbShort rc;
 
    if(( NoOfRecords()) == 0 ) 
       return XB_NO_ERROR;
@@ -2698,10 +2689,7 @@ xbShort xbDbf::Zap( xbShort WaitOption )
    xbShort NameLen, rc;
    xbString TempDbfName;
 
-   if(( rc = xbase->DirectoryExistsInName( DatabaseName )) > 0 )
-      NameLen = rc + 13;
-   else
-      NameLen = 13;
+   rc = xbase->DirectoryExistsInName( DatabaseName );
 
    if (rc) {
      TempDbfName.assign(DatabaseName, 0, rc);
@@ -2829,8 +2817,7 @@ xbShort xbDbf::RemoveIndexFromIxList(xbIndex * n) {
 xbLong    
 xbDbf::NoOfRecords(void)
 {
-  xbLong
-    numRecs = 0;
+  xbLong numRecs;
 
 /* lock the database */
 #ifdef XB_LOCKING_ON
@@ -2878,8 +2865,7 @@ xbDbf::NoOfRecords(void)
 xbLong    
 xbDbf::PhysicalNoOfRecords(void)
 {
-  xbLong
-    numRecs = 0;
+  xbLong numRecs;
     
 /* lock the database */
 #ifdef XB_LOCKING_ON

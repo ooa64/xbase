@@ -1,4 +1,4 @@
-# $Id: configure.in,v 1.17 2003/08/16 19:59:37 gkunkel Exp $
+# $Id: configure.in,v 1.18 2003/08/20 01:53:26 gkunkel Exp $
 # Created by Denis Pershin <dyp@inetlab.com>
 #
 # 8/10/03  Recreated by Gary Kunkel <gkunkel@zhsac.com> 
@@ -10,7 +10,7 @@
 
 
 
-AC_INIT(xbase,2.1.0,xdb-devel@lists.sourceforge.net) 
+AC_INIT(xbase,2.1.1,xdb-devel@lists.sourceforge.net) 
 
 
 # set variable XSUBVARS with a list of sub directories to process
@@ -52,7 +52,7 @@ AC_CONFIG_SRCDIR( examples/exfilter.cpp,
 		 )
 		  
 # init automake
-AM_INIT_AUTOMAKE(xbase, 2.1.0)
+AM_INIT_AUTOMAKE(xbase, 2.1.1)
 
 # create this header file
 AM_CONFIG_HEADER(xbase/xbconfig.h)

@@ -1,4 +1,4 @@
-/*  $Id: expfunc.cpp,v 1.8 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: expfunc.cpp,v 1.9 2003/08/20 01:53:27 gkunkel Exp $
 
     Xbase project source code
 
@@ -802,7 +802,7 @@ char * xbExpn::STR(xbDouble d, xbUShort length, xbShort numDecimals) {
   // check the length required
   sprintf(WorkBuf, "%.*f", numDecimals, d);
 
-  if (strlen(WorkBuf) > length) {
+  if ((xbUShort) strlen(WorkBuf) > length) {
     memset(WorkBuf, '*', length);
     WorkBuf[length] = 0x00;
   } else

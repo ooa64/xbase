@@ -51,7 +51,7 @@
 #include <xbase/xbconfig.h>
 #endif
 
-#include <xbase.h>
+#include <xbase/xbase.h>
 
 #include <stdlib.h>
 #include <stdio.h>
