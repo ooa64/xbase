@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.4 2000/09/27 19:19:07 dbryson Exp $
 
     Xbase project source code
 
@@ -57,7 +57,7 @@
 */
 
 /*************************************************************************/
-//! Short description.
+//! Constructor.
 /*!
 */
 xbXBase::xbXBase( void )
@@ -71,10 +71,15 @@ xbXBase::xbXBase( void )
    DbfList = NULL;
    FreeDbfList = NULL;
 }
+
 /*************************************************************************/
-//! Short description.
+//! Get pointer to named dbf.
 /*!
+  Looks up an open DBF file by Name.
+  
   \param Name
+  \returns A pointer to the xbDbf class instance if found or NULL if
+    not found.
 */
 xbDbf *xbXBase::GetDbfPtr(const char *Name) {
   xbDbList *t;
@@ -94,8 +99,9 @@ xbDbf *xbXBase::GetDbfPtr(const char *Name) {
   }
   return NULL;
 }
+
 /*************************************************************************/
-//! Short description.
+//! Destructor.
 /*!
 */
 xbXBase::~xbXBase()
@@ -110,11 +116,32 @@ xbXBase::~xbXBase()
 		i = t;
 	}
 }
+
 /*************************************************************************/
-//! Short description.
+//! Add dbf to dbf list.
 /*!
-  \param d
-  \param DatabaseName
+  Adds an xbDbf class instance to the list of dbf's.
+  
+  \param d the xbDbf instance to be added
+  \param DatabaseName name of the database
+  
+  \returns One of the following return codes:
+    \htmlonly
+      <p>
+      <table border=2><tr><th>Return Code</th><th>Description</th></tr>
+        <tr><td>XB_NO_ERROR</td><td>No error</td></tr>
+        <tr><td>XB_NO_MEMORY</td><td>Out of memory</td></tr>
+      </table>
+    \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No Error \\ \hline
+        XB\_NO\_MEMORY & Out of memory \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbXBase::AddDbfToDbfList(xbDbf *d, const char *DatabaseName) {
 	xbDbList *i, *s, *t;
@@ -143,12 +170,32 @@ xbShort xbXBase::AddDbfToDbfList(xbDbf *d, const char *DatabaseName) {
 		DbfList = i;
 	else
 		s->NextDbf = i;
+		
 	return 0;
 }
+
 /***********************************************************************/
-//! Short description.
+//!  Remove dbf from dbf list.
 /*!
-  \param d
+  Removes the specified xbDbf class instance from the list of dbf's.
+  
+  \param d xbDbf to be removed
+  
+  \returns One of the following return codes:
+    \htmlonly
+      <p>
+      <table border=2><tr><th>Return Code</th><th>Description</th></tr>
+        <tr><td>XB_NO_ERROR</td><td>No error</td></tr>
+      </table>
+    \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No Error \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbXBase::RemoveDbfFromDbfList(xbDbf *d) {
 	xbDbList *i, *s;
@@ -182,9 +229,14 @@ xbShort xbXBase::RemoveDbfFromDbfList(xbDbf *d) {
 // FIXME: byte reverse methods are awful, compared to bitwise shifts  -- willy
 
 /************************************************************************/
-//! Short description.
+//! Get a portable short value.
 /*!
-  \param p
+  Converts a short (16 bit integer) value stored at p from a portable 
+  format to the machine format.
+  
+  \param p pointer to memory containing the portable short value
+  
+  \returns the short value.
 */
 /* This routine returns a short value from a 2 byte character stream */
 xbShort xbXBase::GetShort(const char *p) {
@@ -205,9 +257,14 @@ xbShort xbXBase::GetShort(const char *p) {
    return s;
 }
 
-//! Short description.
+//! Get a portable long value.
 /*!
-  \param p
+  Converts a long (32 bit integer) value stored at p from a portable 
+  format to the machine format.
+  
+  \param p pointer to memory containing the portable long value
+  
+  \returns the long value.
 */
 /* This routine returns a long value from a 4 byte character stream */
 xbLong xbXBase::GetLong( const char *p )
@@ -229,9 +286,14 @@ xbLong xbXBase::GetLong( const char *p )
    return l;
 }
 
-//! Short description.
+//! Get a portable unsigned long value.
 /*!
-  \param p
+  Converts an unsigned long (32 bit integer) value stored at p from a portable 
+  format to the machine format.
+  
+  \param p pointer to memory containing the portable unsigned long value
+  
+  \returns the unsigned long value.
 */
 /* This routine returns a long value from a 4 byte character stream */
 xbULong xbXBase::GetULong( const char *p )
@@ -250,9 +312,14 @@ xbULong xbXBase::GetULong( const char *p )
   return l;
 }
 
-//! Short description.
+//! Get a portable double value.
 /*!
-  \param p
+  Converts a double (64 bit floating point) value stored at p from a portable 
+  format to the machine format.
+  
+  \param p pointer to memory containing the portable double value
+  
+  \returns the double value.
 */
 /* This routine returns a double value from an 8 byte character stream */
 xbDouble xbXBase::GetDouble( const char *p )
@@ -275,10 +342,14 @@ xbDouble xbXBase::GetDouble( const char *p )
    return d;
 }
 
-//! Short description.
+//! Put a portable short value.
 /*!
-  \param c
-  \param s
+  Converts a short (16 bit integer) value from machine format to a
+  portable format and stores the converted value in the memory referenced
+  by c.
+  
+  \param c pointer to memory to hold converted value
+  \param s value to be converted
 */
 /* This routine puts a short value to a 2 byte character stream */
 void xbXBase::PutShort( char * c, const xbShort s )
@@ -302,10 +373,14 @@ void xbXBase::PutShort( char * c, const xbShort s )
    return;
 }
 
-//! Short description.
+//! Put a portable long value.
 /*!
-  \param c
-  \param l
+  Converts a long (32 bit integer) value from machine format to a
+  portable format and stores the converted value in the memory referenced
+  by c.
+  
+  \param c pointer to memory to hold converted value
+  \param s value to be converted
 */
 /* This routine puts a long value to a 4 byte character stream */
 void xbXBase::PutLong( char * c, const xbLong l )
@@ -326,10 +401,14 @@ void xbXBase::PutLong( char * c, const xbLong l )
    return;
 }
 
-//! Short description.
+//! Put a portable unsigned short value.
 /*!
-  \param c
-  \param s
+  Converts an unsigned long (16 bit integer) value from machine format to a
+  portable format and stores the converted value in the memory referenced
+  by c.
+  
+  \param c pointer to memory to hold converted value
+  \param s value to be converted
 */
 /* This routine puts a short value to a 2 byte character stream */
 void xbXBase::PutUShort( char * c, const xbUShort s )
@@ -350,10 +429,14 @@ void xbXBase::PutUShort( char * c, const xbUShort s )
    return;
 }
 
-//! Short description.
+//! Put a portable unsigned long value.
 /*!
-  \param c
-  \param l
+  Converts an unsigned long (32 bit integer) value from machine format to a
+  portable format and stores the converted value in the memory referenced
+  by c.
+  
+  \param c pointer to memory to hold converted value
+  \param s value to be converted
 */
 /* This routine puts a long value to a 4 byte character stream */
 void xbXBase::PutULong( char * c, const xbULong l )
@@ -374,10 +457,14 @@ void xbXBase::PutULong( char * c, const xbULong l )
    return;
 }
 
-//! Short description.
+//! Put a portable double value.
 /*!
-  \param c
-  \param d
+  Converts a double (64 floating point) value from machine format to a
+  portable format and stores the converted value in the memory referenced
+  by c.
+  
+  \param c pointer to memory to hold converted value
+  \param s value to be converted
 */
 /* This routine puts a double value to an 8 byte character stream */
 void xbXBase::PutDouble( char * c, const xbDouble d )
@@ -397,10 +484,15 @@ void xbXBase::PutDouble( char * c, const xbDouble d )
    }
    return;
 }
+
 /************************************************************************/
-//! Short description.
+//! Get offset of last PATH_SEPARATOR in Name.
 /*!
-  \param Name
+  Scans the specified Name for the last occurance of PATH_SEPARATOR.
+  
+  \param Name string to be scanned.
+  
+  \returns offset of last occurance of PATH_SEPARATOR
 */
 xbShort xbXBase::DirectoryExistsInName( const char * Name )
 {
@@ -422,10 +514,13 @@ xbShort xbXBase::DirectoryExistsInName( const char * Name )
    }
    return Mark;
 }
+
 /************************************************************************/
-//! Short description.
+//! Display description of error code.
 /*!
-  \param ErrorNo
+  Displays a text description of an XBase error code.
+  
+  \param ErrorNo error to be displayed
 */
 void xbXBase::DisplayError( const xbShort ErrorNo ) const
 {
@@ -480,10 +575,14 @@ void xbXBase::DisplayError( const xbShort ErrorNo ) const
     default:   cout << "Unknown error code" << endl;           break;
   }
 }
+
 /************************************************************************/
-//! Short description.
+//! Get description of error code.
 /*!
-  \param ErrorNo
+  Returns a pointer to string containing a text description of an
+  error code.
+  
+  \param ErrorNo error number of description to be returned
 */
 const char* xbXBase::GetErrorMessage( const xbShort ErrorNo )
 {
