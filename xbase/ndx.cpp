@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.14 2002/08/14 23:20:58 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.15 2002/12/08 07:53:20 dbryson Exp $
 
     Xbase project source code
 
@@ -2769,7 +2769,7 @@ xbShort xbNdx::CheckIndexIntegrity( const xbShort option )
 {
    /* if option = 1, print out some stats */
 
-   xbShort rc;
+   xbShort rc = XB_NO_ERROR;
    xbLong ctr = 1L;
 
    while( ctr <= dbf->NoOfRecords() )

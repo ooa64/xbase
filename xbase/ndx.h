@@ -1,4 +1,4 @@
-/*  $Id: ndx.h,v 1.9 2002/09/05 17:48:29 dbryson Exp $
+/*  $Id: ndx.h,v 1.10 2002/12/08 07:53:20 dbryson Exp $
 
     Xbase project source code
 
@@ -150,7 +150,7 @@ public:
    xbShort  CreateIndex( const char *IxName, const char *Exp,
                          xbShort Unique, xbShort OverLay );
    xbLong   GetTotalNodes();
-   xbLong   GetCurDbfRec() { return CurDbfRec; }
+   xbULong  GetCurDbfRec() { return CurDbfRec; }
    xbShort  CreateKey( xbShort, xbShort );
    xbShort  GetCurrentKey(char *key);
    xbShort  AddKey( xbLong );

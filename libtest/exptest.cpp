@@ -133,6 +133,7 @@ xbShort ExpTestor::TestExpression( const char * Expression,
   return 0;
 }
 /*************************************************************************/
+int
 main()
 {
   xbSchema MyRecord[] =

@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.10 2002/09/06 18:04:44 dbryson Exp $
+/*  $Id: memo.cpp,v 1.11 2002/12/08 07:53:20 dbryson Exp $
 
     Xbase project source code
 
@@ -596,6 +596,7 @@ xbShort xbDbf::GetFPTField(const xbShort FieldNo, const xbLong len,
     xbULong l = (fLen < (xbULong)len) ? fLen : len;
     if ((fread(Buf, l, 1, mfp)) != 1)
      xb_error(XB_READ_ERROR);
+    Buf[l]=0;
 #ifdef XB_LOCKING_ON
   } catch (...) {
      if (LockOpt != -1)
@@ -608,7 +609,6 @@ xbShort xbDbf::GetFPTField(const xbShort FieldNo, const xbLong len,
   if (LockOpt != -1)
     LockMemoFile(F_SETLK, F_UNLCK);
 #endif
-Buf[l]=0;
 
   return XB_NO_ERROR;
 }

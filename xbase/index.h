@@ -1,4 +1,4 @@
-/*  $Id: index.h,v 1.6 2002/08/14 23:20:58 dbryson Exp $
+/*  $Id: index.h,v 1.7 2002/12/08 07:53:20 dbryson Exp $
 
     Xbase project source code
 
@@ -76,7 +76,7 @@ class XBDLLEXPORT xbIndex
 
     int IndexStatus;            /* 0 = closed, 1 = open */
 
-    xbLong  CurDbfRec;     /* current Dbf record number */
+    xbULong  CurDbfRec;     /* current Dbf record number */
     char  *KeyBuf;               /* work area key buffer */
     char  *KeyBuf2;              /* work area key buffer */
 
@@ -104,7 +104,7 @@ public:
 #endif
     virtual xbShort  CreateIndex( const char *, const char *, xbShort, xbShort ) = 0;
     virtual xbLong   GetTotalNodes() = 0;
-    virtual xbLong   GetCurDbfRec() = 0;
+    virtual xbULong   GetCurDbfRec() = 0;
     virtual xbShort  CreateKey( xbShort, xbShort ) = 0;
     virtual xbShort  GetCurrentKey(char *key) = 0;
     virtual xbShort  AddKey( xbLong ) = 0;

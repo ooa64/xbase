@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.20 2002/10/24 17:02:22 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.21 2002/12/08 07:53:20 dbryson Exp $
 
     Xbase project source code
    
@@ -2010,7 +2010,7 @@ xbShort xbDbf::DeleteRecord( void )
      while(i)
      {
         i->index->CreateKey(0, 0);      /* load key buf */
-        if(i->index->GetCurDbfRec() == (xbLong)CurRec)
+        if(i->index->GetCurDbfRec() == (xbULong)CurRec)
         {
           i->index->DeleteKey(CurRec);
           newCurRec = i->index->GetCurDbfRec();

@@ -1,4 +1,4 @@
-/*  $Id: ntx.h,v 1.7 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: ntx.h,v 1.8 2002/12/08 07:53:20 dbryson Exp $
 
     Xbase project source code
 
@@ -197,7 +197,7 @@ public:
    void   DumpNodeRec  ( xbLong );
    xbShort  CreateIndex( const char *, const char *, xbShort, xbShort );
    xbLong   GetTotalNodes( void );
-   xbLong   GetCurDbfRec( void ) { return CurDbfRec; }
+   xbULong  GetCurDbfRec( void ) { return CurDbfRec; }
    void   DumpNodeChain( void );
    xbShort  CreateKey( xbShort, xbShort );
    xbShort  GetCurrentKey(char *key);
