@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.7 2000/06/16 02:59:04 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.8 2000/06/27 06:15:47 dbryson Exp $
 
     Xbase project source code
    
@@ -69,6 +69,7 @@ xbDbf::xbDbf( xbXBase * x )
 /************************************************************************/
 //! Initialize private data members.
 /*!
+  Internal use only.
 */
 void xbDbf::InitVars( void )
 {
@@ -133,6 +134,7 @@ void xbDbf::InitVars( void )
 /************************************************************************/
 //! Calculate checksum for the current record.
 /*!
+  Internal use only.
 */
 xbLong xbDbf::CalcCheckSum()
 {
@@ -147,7 +149,9 @@ xbLong xbDbf::CalcCheckSum()
 /************************************************************************/
 //! Set dbase version for the dbf file.
 /*!
-  Set dbase version.
+  Set dbase version.  Should only be used before creating a database with
+  xbDbf::CreateDatabase().
+  
   \param v version, either 3 or 4.
 */
 xbShort xbDbf::SetVersion(xbShort v) {
@@ -175,6 +179,8 @@ xbShort xbDbf::SetVersion(xbShort v) {
 /************************************************************************/
 //! Write the dbf header
 /*!
+  Internal use only.
+  
   \param PositionOption flag that indicates whether file postition should
   be moved.  non-zero if so, zero if not.
 */
@@ -249,6 +255,8 @@ xbShort xbDbf::WriteHeader( const xbShort PositionOption )
 /************************************************************************/
 //! Read the dbf header.
 /*!
+  Internal use only.
+  
   \param PositionOption
 */
 xbShort xbDbf::ReadHeader( xbShort PositionOption )
@@ -313,6 +321,7 @@ xbShort xbDbf::ReadHeader( xbShort PositionOption )
 /************************************************************************/
 //! Determine if file name suffix is missing
 /*!
+  Internal use only.
 */
 xbShort xbDbf::NameSuffixMissing( xbShort type, const char * name )
 {
@@ -366,12 +375,12 @@ xbShort len;
 //! Create the dbf file.
 /*!
   This method attempts to create the XDB DBF file with the specified
-  name (TableName) and schema (s).  The OverLay switch is used to determine
-  if an existing file should be overwritten or an error flagged.  The
-  record buffer is blanked (set to spaces).
+  name (TableName) and schema (xbSchema s).  The OverLay switch is used to determine
+  if an existing file should be overwritten or an error flagged if the
+  file already exists.  The  record buffer is blanked (set to spaces).
   
   \param TableName name of the table
-  \param s Schema
+  \param s xbSchema
   \param Overlay One of the following:
     \htmlonly
       <p>
@@ -644,6 +653,15 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
         <tr><td>XB_NOT_OPEN</td><td>File was not open</td></tr>
       </table>
     \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Return Code} & \textbf{Description} \\ \hline \hline
+        XB\_NO\_ERROR & No Error \\ \hline
+        XB\_NOT\_OPEN\_ERROR & File was not open \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 xbShort xbDbf::CloseDatabase(bool deleteIndexes)
 {
@@ -728,6 +746,16 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
          <tr><td>3</td><td>Header and field data</td></tr>
        </table>
      \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Option} & \textbf{Description} \\ \hline \hline
+        1 & Header only \\ \hline
+        2 & Field data only \\ \hline
+        3 & Header and field data \\ \hline
+      \end{tabular}
+    \endlatexonly
 */
 #ifdef XBASE_DEBUG
 xbShort xbDbf::DumpHeader( xbShort Option )

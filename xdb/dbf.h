@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.4 2000/06/21 04:38:40 dbryson Exp $
+/*  $Id: dbf.h,v 1.5 2000/06/27 06:15:47 dbryson Exp $
 
     Xbase project source code
 
@@ -77,11 +77,40 @@
 #define XB_CHAREOF  '\x1A'         /* end of DBF        */
 #define XB_CHARHDR  '\x0D'         /* header terminator */
 
-//! xbSchema struct
+//! Used to define the fields in a database (DBF file).
 /*!
-*/
+  Generally one would define an xbSchema array to be passed
+  to xbDbf::CreateDatabase() to define the fields in the database.
 
-/* This structure is used for defining a database */
+  For example, one might create a declaration as follows:
+  
+  \code  
+  xbSchema MyRecord[] = 
+  {
+    { "FIRSTNAME", XB_CHAR_FLD,     15, 0 },
+    { "LASTNAME",  XB_CHAR_FLD,     20, 0 },
+    { "BIRTHDATE", XB_DATE_FLD,      8,  0 },
+    { "AMOUNT",    XB_NUMERIC_FLD,   9,  2 },
+    { "SWITCH",    XB_LOGICAL_FLD,   1,  0 },
+    { "FLOAT1",    XB_FLOAT_FLD,     9,  2 },
+    { "FLOAT2",    XB_FLOAT_FLD,     9,  1 },
+    { "FLOAT3",    XB_FLOAT_FLD,     9,  2 },
+    { "FLOAT4",    XB_FLOAT_FLD,     9,  3 },
+    { "MEMO1",     XB_MEMO_FLD,     10, 0 },
+    { "ZIPCODE",   XB_NUMERIC_FLD,   5,  0 },      
+    { "",0,0,0 }
+  };
+  \endcode
+  
+  Note that the last xbSchema in an array must be a "null" entry like the 
+  one above:
+  
+  \code
+    { "",0,0,0 }
+  \endcode
+  
+  To indicate the end of the array.
+*/
 struct xbSchema {
    char      FieldName[11];
    char      Type;
@@ -91,11 +120,10 @@ struct xbSchema {
    unsigned  char NoOfDecs;
 };
 
-//! xbSchemaRec struct
+//! Defines a field in an XBase file header (DBF file header)
 /*!
+  This structure is only used internally by the xbDbf class.
 */
-
-/* This structure defines field data as defined in an Xbase file header */
 struct xbSchemaRec {
    char     FieldName[11];
    char     Type;            /* field type */
@@ -112,8 +140,8 @@ struct xbSchemaRec {
 
 //! xbIxList struct
 /*!
+  Internal use only.
 */
-
 struct xbIxList {
    xbIxList * NextIx;
    xbString IxName;
@@ -126,6 +154,7 @@ struct xbIxList {
 
 //! xbMH struct
 /*!
+  Internal use only.
 */
 
 #ifdef XB_MEMO_FIELDS
@@ -142,7 +171,6 @@ struct xbMH{                      /* memo header                    */
   The xbDbf class encapsulates an xbase DBF database file.  It includes
   all dbf access, field access, and locking methods.
 */
-    
 class XBDLLEXPORT xbDbf {
 
 public:
@@ -319,14 +347,21 @@ public:
 
    //! Turn on "real" deletes
    /*!
+     This should be done before creating a database (with 
+	 xbDbf::CreateDatatabase()) and thereafter before opening
+	 a database with xbDbfCreateDatabase().
+	 
+	 You cannot "turn on" real deletes once a database has been created
+	 and records added.
    */
    void      RealDeleteOn(void) { RealDelete = 1; ReadHeader(1); }
-   //! Turn off "real" deletes
-   /*!
+   /*! Turn off "real" deletes
    */
    void      RealDeleteOff(void) { RealDelete = 0; ReadHeader(1); }
    //! Return whether "real" deletes are on or off
    /*!
+     Use this to determine if "real deletes" are being used with
+	 the database.
    */
    xbShort   GetRealDelete(void) { return RealDelete; }
 
