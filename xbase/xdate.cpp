@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: xdate.cpp,v 1.6 2000/11/08 19:53:36 dbryson Exp $
 
     Xbase project source code
 
@@ -116,7 +116,7 @@ xbDate::xbDate()
 */
 void xbDate::SetDateTables() {
  if( AggregatedDaysInMonths[1][12] != 366 ){    /* first time called ? */
-  AggregatedDaysInMonths[0][0]  = 0; 
+  AggregatedDaysInMonths[0][0]  = 0;
   AggregatedDaysInMonths[0][1]  = 31;
   AggregatedDaysInMonths[0][2]  = 59;
   AggregatedDaysInMonths[0][3]  = 90;
@@ -375,7 +375,7 @@ int xbDate::DateIsValid( const char * Date8 ) const
 
    year  = YearOf ( Date8 );
    month = MonthOf( Date8 );
-   day   = DayOf  ( XB_FMT_MONTH, Date8 );   
+   day   = DayOf  ( XB_FMT_MONTH, Date8 );
    
    /* check the basics */
    if( year == 0 || month < 1 || month > 12 || day < 1 || day > 31 )
@@ -399,6 +399,22 @@ int xbDate::DateIsValid( const char * Date8 ) const
      }
    return 1;
 }
+
+/***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
+int xbDate::SetDate( const char * Date8 )
+{
+  if( DateIsValid( Date8 ))
+  {
+    cDate8 = Date8;
+    return 1;
+  }
+  return 0;
+}
+
 /***************************************************************/
 //! Short description.
 /*!
@@ -411,8 +427,8 @@ long xbDate::JulianDays( const char * Date8 ) const
    if(( year < EPOCH_MIN ) || (year >= EPOCH_MAX))
      return XB_INVALID_DATE;
 
-/* 
-   long days = DAYS_AD(year) - DAYS_AD(EPOCH_MIN); 
+/*
+   long days = DAYS_AD(year) - DAYS_AD(EPOCH_MIN);
 */
 
    long days = 0;
@@ -520,7 +536,7 @@ xbString& xbDate::FormatDate( const char * Format, const char * Date8 )
 {
    const char *FmtPtr;     /* format pointer */
    char *BufPtr;           /* buffer pointer */
-   char type;        
+   char type;
    char cbuf[10];
    int  type_ctr, i;
    char buf[50];
@@ -612,7 +628,7 @@ xbString& xbDate::FormatDate( const char * Format, const char * Date8 )
                      if( type_ctr == 3 )
                      {
                         strncat( buf, s.getData(), 3 );
-                        BufPtr += 3;   
+                        BufPtr += 3;
                      }
                      else
                      {
@@ -744,7 +760,7 @@ long xbDate::operator-( const xbDate & d ) const
 */
 int xbDate::operator==( const xbDate & d ) const 
 {
-  if( JulianDays() == d.JulianDays() ) 
+  if( JulianDays() == d.JulianDays() )
     return 1;
   else
     return 0;
