@@ -1,4 +1,4 @@
-/*  $Id: sample3.cpp,v 1.8 2002/12/17 03:03:56 dbryson Exp $
+/*  $Id: sample3.cpp,v 1.9 2003/08/16 19:59:38 gkunkel Exp $
 
     Xbase project source code
 
@@ -9,7 +9,7 @@
     OpenDatabase, GetFieldNo, GetRecord, GetLastRecord, GetFirstRecord, 
     GetNextRecord, GetPrevRecord, NoOfRecords and CloseDatabase, FieldCount
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,18 +38,13 @@
      Email:
        
        xbase@techass.com
+       xdb-devel@lists.sourceforge.net
+       xdb-users@lists.sourceforge.net
 
      Website:
 
        xdb.sourceforge.net
 
-
-
-    V 1.0    10/10/97    - Initial release of software
-    V 1.5     1/2/98     - Added memo field support
-    V 1.6a    5/1/98     - Added expression support
-    V 1.7.4c 10/26/98    - Added some memo field logic
-    V 1.8    11/29/98    - Version 1.8 upgrade 
 */
 
 #include <xbase/xbase.h>
@@ -137,7 +132,6 @@ int main()
   rc = MyFile.GetLastRecord(); 
   while( rc == XB_NO_ERROR )
   {
-//    MyFile.GetField( lname, buf );  
     std::cout << "Last Name = " << MyFile.GetStringField( lname ) << std::endl;
     std::cout << "Logical Field = " << MyFile.GetLogicalField( "SWITCH" )
               << std::endl;

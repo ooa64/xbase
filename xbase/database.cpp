@@ -1,4 +1,4 @@
-/*  $Id: database.cpp,v 1.3 2000/09/27 17:25:08 dbryson Exp $
+/*  $Id: database.cpp,v 1.4 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
    
@@ -33,6 +33,9 @@
       Email:
 
         xbase@techass.com
+        xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
+
 
       See our website at:
 
@@ -55,8 +58,8 @@
 #include <unistd.h>
 #endif
 
-#include <xbase/xbexcept.h>
-#include <xbase/database.h>
+#include "xbexcept.h"
+#include "database.h"
 
 /*! \file database.cpp
 */

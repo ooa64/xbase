@@ -1,4 +1,4 @@
-/*  $Id: xbexcept.cpp,v 1.7 2000/11/30 22:15:24 dbryson Exp $
+/*  $Id: xbexcept.cpp,v 1.8 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
@@ -33,6 +33,8 @@
       Email:
 
         xbase@techass.com
+        xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
@@ -46,15 +48,15 @@
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>
 #else
-#include <xbase/xbconfig.h>
+#include "xbconfig.h"
 #endif
 
 #include <stdlib.h>
 
-#include <xbase/xbase.h>
-#include <xbase/retcodes.h>
-#include <xbase/xbexcept.h>
-#include <xbase/xtypes.h>
+#include "xbase.h"
+#include "retcodes.h"
+#include "xbexcept.h"
+#include "xtypes.h"
 
 /*! \file xbexcept.cpp
 */

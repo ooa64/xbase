@@ -29,6 +29,8 @@
 #      Email:
 #
 #        xbase@techass.com
+#        xdb-devel@lists.sourceforge.net
+#        xdb-users@lists.sourceforge.net
 #
 #      See our website at:
 #
@@ -71,7 +73,8 @@ STATICLIB_NAME = libxbase.a
 #
 # Directory to install DLL into
 #
-WIN32_SYSTEM_DIR = \winnt\system32
+#WIN32_SYSTEM_DIR = \winnt\system32
+WIN32_SYSTEM_DIR = \windows\system32
 
 #
 # Directory to install development libs into

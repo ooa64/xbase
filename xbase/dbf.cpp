@@ -1,11 +1,11 @@
-/*  $Id: dbf.cpp,v 1.23 2003/04/15 17:01:01 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.24 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
    
     This file contains the basic Xbase routines for reading and writing
     Xbase .DBF files.
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -34,27 +34,16 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
 
-    V 1.0   10/10/97   - Initial release of software
-    V 1.5   1/2/98     - Added memo field support
-    V 1.6a  4/1/98     - Added expression support
-    V 1.6b  4/8/98     - Numeric index keys
-    V 1.6c  4/16/98    - Big Endian support, dBASE III + memo field support
-    V 1.8   11/30/98   - Version 1.8 Upgrade
-    V 1.9.2 9/14/99    - Fix to CreateDatabase - if field name too long
-                         Updated EOR and EOF processing
-    V 1.9.2 4/16/2000  - fixed record locking logic in GetRecord reoutines
-                       - turned off buffering when locking is on
-   V 1.9.2 6/14/2000  - Fixed Version header field to match empirical
-                        values for dBASE III+ and dBASE IV.
-   V 1.9.2 6/15/2000  - Added call to InitVars() to cleanup error handling
-                        in CreateDatabase() and OpenDatabase().
-  ???      6/3/2002   - Added check for Version 0x30 - Visual Foxpro. (gsker)
+  V 1.0 10/10/97 - Initial release of software
+
 */
 
 #ifdef __GNUG__

@@ -1,10 +1,10 @@
-/*  $Id: retcodes.h,v 1.4 2000/10/31 00:59:48 dbryson Exp $
+/*  $Id: retcodes.h,v 1.5 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     This file contains a listing of all the Xbase return codes.
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -33,17 +33,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0    10/10/97   - Initial release of software
-    V 1.5    1/2/98     - Added memo field support
-    V 1.6a   4/1/98     - Added expression support
-    V 1.6b   4/8/98     - Numeric index keys
-    V 1.8.0a 1/27/99    - Changed return codes to negative values
 */
 
 /*! \file retcodes.h

@@ -1,10 +1,10 @@
-/*  $Id: index.cpp,v 1.6 2002/08/14 23:20:58 dbryson Exp $
+/*  $Id: index.cpp,v 1.7 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
    
     This file contains the implementation of the xbIndex class.
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -33,6 +33,8 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 

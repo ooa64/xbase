@@ -4,9 +4,7 @@
 
     This program tests the Xbase expression logic
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
-    email - xbase@startech.keller.tx.us
-    www   - http://www.startech.keller.tx.us/xbase.html
+    Copyright (C) 1997  Gary A. Kunkel   
     
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,11 +19,9 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
-    V 1.8   4/29/99  - Initial creation of this program 
 */
 
-#include "xbase/xbase.h"
+#include "xbase.h"
 
 class ExpTestor{
  public:

@@ -1,11 +1,11 @@
-/*  $Id: copydbf.cpp,v 1.7 2002/12/17 03:03:55 dbryson Exp $
+/*  $Id: copydbf.cpp,v 1.8 2003/08/16 19:59:38 gkunkel Exp $
 
     Xbase project source code
 
     This sample program copies the structure of one dbf to another
     dbf file
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,11 +34,12 @@
      Email:
        
        xbase@techass.com
+       xdb-devel@lists.sourceforge.net
+       xdb-users@lists.sourceforge.net
 
      Website:
 
        xdb.sourceforge.net
-
 
 */
 

@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.11 2002/08/14 23:20:58 dbryson Exp $
+/*  $Id: xdate.cpp,v 1.12 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
@@ -6,7 +6,7 @@
     All functions assume a standard date format of CCYYMMDD
     for Century,Year,Month and Day
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -35,20 +35,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0     10/10/97   - Initial release of software
-    V 1.2     11/30/97   - Updated leap-year processing logic
-    V 1.5     1/2/98     - Added memo field support
-    V 1.6a    4/1/98     - Added expression support
-    V 1.6b    4/8/98     - Numeric index keys 
-    V 1.7.1   5/25/98    - Enhancements/bug fixes from eljorgo@fontun.com 
-    V 1.8.0.a 1/27/99    - Added default date format processing
-    V 1.9     6/29/99    - CPP ified, minor bug fixes
 */
 
 #ifdef __GNUG__

@@ -26,3 +26,13 @@ _$*
 *.ln
 core
 # CVS default ignores end
+autom4te*
+*.gz
+config.log
+config.status
+Makefile
+aclocal.m4
+config.cache
+libtool
+xbase-config
+xbase.spec

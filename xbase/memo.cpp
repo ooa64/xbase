@@ -1,11 +1,11 @@
-/*  $Id: memo.cpp,v 1.12 2002/12/17 03:03:56 dbryson Exp $
+/*  $Id: memo.cpp,v 1.13 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     This file contains the basic Xbase routines for handling
     dBASE III+ and dBASE IV style memo .dbt files
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -39,13 +39,6 @@
 
         xdb.sourceforge.net
 
-
-    V 1.0   10/10/97   - Initial release of software
-    V 1.5   1/2/98     - Added memo field support
-    V 1.6a  4/1/98     - Added expression support
-    V 1.6b  4/8/98     - Numeric index keys
-    V 1.7.1 5/25/98    - Added support for dBase III+ type memo files
-            6/3/02     - More support for Visual Foxpro memo files (gsker)
 */
 
 #ifdef __WIN32__
@@ -59,6 +52,7 @@
 
 #include <stdio.h>
 #include <xbase/xbexcept.h>
+
 
 /*! \file memo.cpp
 */

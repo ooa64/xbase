@@ -3,7 +3,7 @@
 
     This file contains the xbString object methods
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -32,20 +32,18 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.9.2  9/14/99    - misc user supplied updates
 */
 
 #ifdef __GNUG__
   #pragma implementation "xbstring.h"
 #endif
-
-#include <xbase/xbase.h>
 
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>
@@ -53,7 +51,7 @@
 #include <xbase/xbconfig.h>
 #endif
 
-#include <xbase/xbase.h>
+#include <xbase.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -66,7 +64,7 @@
 #include <strings.h>
 #endif
 
-#ifdef HAVE_STDARG_H
+#ifdef STDC_HEADERS
 #include <stdarg.h>
 #endif
 

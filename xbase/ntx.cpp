@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.13 2002/12/17 03:03:56 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.14 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
@@ -34,12 +34,13 @@
       Email:
 
         xbase@techass.com
+        xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-    V 1.0   10/10/97   - Initial release of software
 */
 
 #ifdef __GNUG__

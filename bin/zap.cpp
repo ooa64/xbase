@@ -1,4 +1,4 @@
-/*  $Id: zap.cpp,v 1.7 2002/12/17 03:03:55 dbryson Exp $
+/*  $Id: zap.cpp,v 1.8 2003/08/16 19:59:38 gkunkel Exp $
 
     Xbase project source code
 
@@ -33,14 +33,13 @@
      Email:
        
        xbase@techass.com
+       xdb-devel@lists.sourceforge.net
+       xdb-users@lists.sourceforge.net
 
      Website:
 
        xdb.sourceforge.net
 
-
-    V 1.0   10/10/97   - Initial release of software
-    V 1.8   11/29/98   - Version 1.8 upgrade
 */
 
 #include <xbase/xbase.h>

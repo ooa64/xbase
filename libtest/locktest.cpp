@@ -1,9 +1,9 @@
-/*  $Id: locktest.cpp,v 1.4 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: locktest.cpp,v 1.5 2003/08/16 19:59:38 gkunkel Exp $
 
     this debugging program tests Xbase locking functions
 */
 
-#include "xbase/xbase.h"
+#include "xbase.h"
 #include <stdlib.h>
 #include <stdio.h>
 

@@ -1,10 +1,10 @@
-/*  $Id: testhtml.cpp,v 1.1 2000/11/10 19:27:00 dbryson Exp $
+/*  $Id: testhtml.cpp,v 1.2 2003/08/16 19:59:38 gkunkel Exp $
 
     Xbase project source code
 
     This sample program demonstrates the use of the HTML class
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,20 +33,18 @@
      Email:
        
        xbase@techass.com
+       xdb-devel@lists.sourceforge.net
+       xdb-users@lists.sourceforge.net
 
      Website:
 
        xdb.sourceforge.net
 
-
-    V 1.2   11/20/97   -  Initial creation of program
-    V 1.5   1/2/98     -  Added memo field support
-    V 1.6a  5/1/98     -  Added expression support
 */
 
 #define HTML_PAGE 
 
-#include <xbase/xbase.h>
+#include "xbase.h"
 
 int main()
 {

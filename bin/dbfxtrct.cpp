@@ -36,16 +36,16 @@
      Email:
        
        xbase@techass.com
+       xdb-devel@lists.sourceforge.net
+       xdb-users@lists.sourceforge.net
 
      Website:
 
        xdb.sourceforge.net
 
-
-    V 1.8   4/15/99    - Initial creation of this program
 */
 
-#include "xbase/xbase.h"
+#include <xbase/xbase.h>
 
 /*************************************************************************/
 void Usage();

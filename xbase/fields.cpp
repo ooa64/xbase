@@ -1,11 +1,11 @@
-/*  $Id: fields.cpp,v 1.8 2001/01/27 05:00:32 dbryson Exp $
+/*  $Id: fields.cpp,v 1.9 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     This file contains the basic X-Base routines for reading and writing
     Xbase fields.
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -34,20 +34,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0    10/10/97   - Initial release of software
-    V 1.5    1/2/98     - Added Dbase IV Memo field support
-    V 1.6a   4/1/98     - Added expression support
-    V 1.6b   4/8/98     - Numeric index keys
-    V 1.7.4b 7/2/98     - Changed gcvt to sprintf for portability reasons - PS
-             9/29/98    - Added GetLogicalField()
-             10/7/98    - Modified PutFloatField - was broke
-    V 1.8    11/30/98   - Version 1.8 upgrade - additional PutFloat Field fix
 */
 
 #ifdef __WIN32__

@@ -1,4 +1,4 @@
-/*  $Id: tvxbase.cpp,v 1.2 2000/09/20 20:34:02 dbryson Exp $
+/*  $Id: tvxbase.cpp,v 1.3 2003/08/16 19:59:38 gkunkel Exp $
 
     Xbase project source code
 
@@ -6,7 +6,6 @@
     for Xbase DBMS library.
 
     Copyright (C) 1998,1999 Vitaly Fedrushkov <fedrushkov@acm.org>
-    www   - http://www.startech.keller.tx.us/xbase.html
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -144,8 +143,8 @@ xbTvApp::DialogHelpAbout()
 		r.grow(-3, -2);
 		r.b.y = r.a.y + 4;
 		pd->insert(new TStaticText(r, "\03Xbase DBMS library\n \n"
-			"Copyright (C) 1997  StarTech, Gary A. Kunkel\n"
-			"Please visit http://www.startech.keller.tx.us/xbase/"));
+			"Copyright (C) 1997  Gary A. Kunkel\n"
+			"Please visit http://xdb.sourceforge.net/"));
 		r.move(0,5);
 		pd->insert(new TStaticText(r, 
 			"Turbo Vision interface classes for Xbase\n"

@@ -4,7 +4,7 @@
 
     This file contains the Class definition for a xbString object.
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -33,13 +33,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.9.2  9/14/99    - Misc user supplied updates 
 */
 
 #ifndef __XBSTRING_H__

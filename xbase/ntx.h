@@ -1,11 +1,11 @@
-/*  $Id: ntx.h,v 1.8 2002/12/08 07:53:20 dbryson Exp $
+/*  $Id: ntx.h,v 1.9 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     This file contains a header file for the xbNdx object, which is used
     for handling xbNdx type indices.
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -34,13 +34,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0   10/10/97   - Initial release of software
 */
 
 #ifndef __XB_NTX_H__

@@ -1,4 +1,4 @@
-/*  $Id: dbfutil1.cpp,v 1.7 2002/12/17 03:03:55 dbryson Exp $
+/*  $Id: dbfutil1.cpp,v 1.8 2003/08/16 19:59:38 gkunkel Exp $
 
     dbf utility program
 
@@ -32,11 +32,12 @@
      Email:
        
        xbase@techass.com
+       xdb-devel@lists.sourceforge.net
+       xdb-users@lists.sourceforge.net
 
      Website:
 
        xdb.sourceforge.net
-
 
 */
 
@@ -88,6 +89,7 @@ class MyClass {
     void DumpIndexNodes();
 };
 /************************************************************************/
+#ifdef XBASE_DEBUG
 void MyClass::DumpIndexNodes()
 {
   xbLong NodeCnt = ix->GetTotalNodes();
@@ -98,6 +100,7 @@ void MyClass::DumpIndexNodes()
     for( xbLong l = 1L; l <= NodeCnt-1; l++ )
       ix->DumpNodeRec( l );
 }
+#endif
 /************************************************************************/
 void MyClass::OpenIndex()
 {
@@ -413,7 +416,11 @@ void MyClass::DumpDbtHeader()
 /* FIXME?	Gary, do you mean header or free page list? */
 
 /* - This was a hack to peek in the file for debugging purposes
-     probably not to useful for anything else - Gary */
+     probably not to useful for anything else - Gary
+     
+     8/13/03 - gkunkel - above assumption is correct, not really useful
+     for any application level code     
+*/
 
   rc = d.DumpMemoFreeChain();
   std::cout << "\nFuncion Return Code = " << rc << std::endl;

@@ -1,4 +1,4 @@
-/*  $Id: sample4.cpp,v 1.7 2002/12/17 03:03:56 dbryson Exp $
+/*  $Id: sample4.cpp,v 1.8 2003/08/16 19:59:38 gkunkel Exp $
 
     Xbase project source code
 
@@ -8,7 +8,7 @@
     This program demonstrates the use of the following functions/methods
     DeleteRecord, UndeleteRecord, RecordDeleted
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,16 +37,13 @@
      Email:
        
        xbase@techass.com
+       xdb-devel@lists.sourceforge.net
+       xdb-users@lists.sourceforge.net
 
      Website:
 
        xdb.sourceforge.net
 
-
-    V 1.0   10/10/97   - Initial release of software
-    V 1.5   1/2/97     - Added memo field support
-    V 1.6a  5/1/98     - Added expression support
-    V 1.8   11/29/98   - Version 1.8 upgrade
 */
 
 #include <xbase/xbase.h>
@@ -61,16 +58,21 @@ int main()
   xbShort rc;
   xbXBase x;
   xbDbf MyFile( &x );
+
+#ifdef XB_INDEX_NDX
   xbNdx MyIndex1( &MyFile );
   xbNdx MyIndex2( &MyFile );
   xbNdx MyIndex3( &MyFile );
   xbNdx MyIndex4( &MyFile );
+#endif
 
   if(( rc = MyFile.OpenDatabase( "MYFILE.DBF" )) != XB_NO_ERROR )
   {
      std::cout << "\nError opening file rc = " << rc << "\n";
      exit(1);
   }
+  
+#ifdef XB_INDEX_NDX
   if(( rc = MyIndex1.OpenIndex( "MYINDEX1.NDX" )) != XB_NO_ERROR )
   {
      std::cout << "\nError opening index1 rc = " << rc << "\n";
@@ -92,7 +94,7 @@ int main()
      std::cout << "\nError opening index4 rc = " << rc << "\n";
      exit(1);
   }
-
+#endif
 
   std::cout << "Sample GetRecord\n"; 
 

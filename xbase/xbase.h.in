@@ -1,11 +1,11 @@
-/*  $Id: xbase.h.in,v 1.10 2002/12/23 18:48:57 dbryson Exp $
+/*  $Id: xbase.h.in,v 1.11 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     This file contains a header file for the xbXBase class, which is the
     base class for using the Xbase DBMS library.
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -34,17 +34,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0    10/10/97   - Initial release of software
-    V 1.5    1/2/98     - Added memo field support
-    V 1.6a   4/1/98     - Added expression support
-    V 1.6b   4/8/98     - Numeric index keys
-    V 1.8.0a 1/27/99    - Added DisplayError method
 */
 
 #ifndef __XB_XBASE_H__
@@ -55,9 +51,9 @@
 #endif
 
 #ifdef __WIN32__
-#include "xbase/xbconfigw32.h"
+#include <xbase/xbconfigw32.h>
 #else
-#include "xbase/xbconfig.h"
+#include <xbase/xbconfig.h>
 #endif
 
 //
@@ -103,14 +99,14 @@
 #  define XBDLLEXPORT_CTORFN
 #endif // Win/!Win
 
-#include <xbase/xtypes.h>
-#include <xbase/retcodes.h>
-#include <xbase/xdate.h>
+#include "xtypes.h"
+#include "retcodes.h"
+#include "xdate.h"
 
-#include <xbase/xbstring.h>
+#include "xbstring.h"
 
 #if defined(XB_EXPRESSIONS)
-#include <xbase/exp.h>
+#include "exp.h"
 #endif
 
 #ifndef XB_MIN
@@ -179,24 +175,24 @@ public:
    xbShort  RemoveDbfFromDbfList( xbDbf * );
 };
 
-#include <xbase/dbf.h>
+#include "dbf.h"
 
 #if defined(XB_INDEX_ANY)
-#include <xbase/index.h>
+#include "index.h"
 #endif
 
 #ifdef XB_INDEX_NDX
-#include <xbase/ndx.h>
+#include "ndx.h"
 #endif
 
 #ifdef XB_INDEX_NTX
-#include <xbase/ntx.h>
+#include "ntx.h"
 #endif
 
 #if defined(XB_FILTERS) && !defined(XB_INDEX_ANY)
 #error XB_FILTERS cant be used without index support
 #elif defined(XB_FILTERS)
-#include <xbase/xbfilter.h>
+#include "xbfilter.h"
 #endif
 
 //
@@ -228,7 +224,7 @@ enum { F_SETLKW = 0, F_WRLCK = 0 };
 #endif
 
 #ifdef XB_HTML
-#include <xbase/html.h>
+#include "html.h"
 #endif
 
 #endif		// __XB_XBASE_H__

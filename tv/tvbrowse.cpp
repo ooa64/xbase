@@ -1,4 +1,4 @@
-/*  $Id: tvbrowse.cpp,v 1.2 2000/09/20 20:34:02 dbryson Exp $
+/*  $Id: tvbrowse.cpp,v 1.3 2003/08/16 19:59:38 gkunkel Exp $
 
     Xbase project source code
 
@@ -6,7 +6,6 @@
     Xbase DBMS library.
 
     Copyright (C) 1998,1999 Vitaly Fedrushkov <fedrushkov@acm.org>
-    www   - http://www.startech.keller.tx.us/xbase.html
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

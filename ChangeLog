@@ -1,3 +1,12 @@
+2002-08-10 Gary Kunkel <gkunkel@zhsac.com>
+
+        * started development release 2.1.x
+          - updates to cvs configuration files
+	  - updates to automake/autoconf configuration files configure.in
+	  - cleaned up some of the "old style", pre doxygen web pages to
+	    link to xdb.sourceforge.net	 
+
+
 2000-11-10 Derry Bryson <derry@techass.com>
 
 	* Fixed memory leak caused by some calling xbString::ctor().
@@ -27,7 +36,7 @@ Fri Mar 19 15:25:43 1999  Vitaly V. Fedrushkov  <willy@apex.csu.ac.ru>
 
 	* xbase/xbexcept.cpp (xbStrError): unreachable return fixed
 
-1999-02-27  Gary Kunkel  <gkunkel@startech.keller.tx.us>
+1999-02-27  Gary Kunkel  <gkunkel@zhsac.com>
 
         * created release 1.8.0b,  mainly 
 

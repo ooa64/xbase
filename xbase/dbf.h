@@ -1,10 +1,10 @@
-/*  $Id: dbf.h,v 1.14 2002/12/17 03:03:56 dbryson Exp $
+/*  $Id: dbf.h,v 1.15 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     This file contains the Class definition for a xbDBF object.
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -33,19 +33,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0    10/10/97   - Initial release of software
-    V 1.3    11/30/97   - Added memo field processing
-    V 1.6a   4/1/98     - Added expression support
-    V 1.6b   4/8/98     - Numeric index keys
-    V 1.7.4d 10/28/98   - Added support for OS2/DOS/Win/NT locking
-    V 1.8    11/29/98   - New class names and types 
-    V 1.9.2  9/14/99    - Updated EOR and EOF processing
 */
 
 

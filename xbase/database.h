@@ -1,4 +1,4 @@
-/*  $Id: database.h,v 1.4 2002/12/17 03:03:56 dbryson Exp $
+/*  $Id: database.h,v 1.5 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
@@ -33,6 +33,8 @@
       Email:
 
         xbase@techass.com
+        xdb-devel@lists.sourceforge.net
+	xdb-user@lists.sourceforge.net
 
       See our website at:
 

@@ -1,10 +1,10 @@
-/*  $Id: lock.cpp,v 1.7 2002/12/23 18:48:56 dbryson Exp $
+/*  $Id: lock.cpp,v 1.8 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     This file contains the basic Xbase routines for locking Xbase files
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -33,18 +33,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0    10/10/97   - Initial release of software
-    V 1.5    1/2/98     - Added memo field support
-    V 1.6a   4/1/98     - Added expression support
-    V 1.6b   4/8/98     - Numeric index keys
-    V 1.7.4b 7/3/98     - Modified Exclusive Lock to conditionally lock memo file
-    V 1.7.4d 10/28/98   - Added OS2/DOS/Windows/NT Locking support, added const
 */
 
 #ifdef __WIN32__

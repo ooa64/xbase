@@ -5,7 +5,7 @@
     This file conatains a header file for the xbFilter object which
     is used for filtering data.
 
-    Copyright (C) 1997  Startech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -34,16 +34,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0   10/10/97   - Initial release of software
-    V 1.5   1/2/97     - Added memo field support
-    V 1.6a  4/1/98     - Added expression support
-    V 1.6b  4/8/98     - Numeric index keys 
 */
 
 /*! \file xbfilter.h

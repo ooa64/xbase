@@ -1,10 +1,10 @@
-/*  $Id: xbexcept.h,v 1.6 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: xbexcept.h,v 1.7 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     This file contains definitions for xbase exceptions.
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -33,6 +33,8 @@
       Email:
 
         xbase@techass.com
+        xdb-devel@lits.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 

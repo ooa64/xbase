@@ -1,4 +1,4 @@
-/*  $Id: index.h,v 1.7 2002/12/08 07:53:20 dbryson Exp $
+/*  $Id: index.h,v 1.8 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
@@ -40,8 +40,6 @@
 
         xdb.sourceforge.net
 
-
-    V 1.0   9/1/98   - Initial release of software
 */
 
 #ifndef __XB_INDEX_H__

@@ -1,10 +1,10 @@
-/*  $Id: xbase.cpp,v 1.11 2003/03/08 17:56:07 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.12 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     This file contains logic for the basic Xbase class.
 
-    Copyright (C) 1997  Startech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -33,17 +33,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0   10/10/97   - Initial release of software
-    V 1.5   1/2/97     - Added memo field support
-    V 1.6a  4/1/98     - Added expression support
-    V 1.6b  4/8/98     - Numeric index keys
-    V 1.7.1 5/25/98    - Big Endian support
 */
 
 #ifdef __GNUG__

@@ -1,4 +1,4 @@
-/*  $Id: sample2-ntx.cpp,v 1.5 2000/09/27 17:25:08 dbryson Exp $
+/*  $Id: sample2-ntx.cpp,v 1.6 2003/08/16 19:59:38 gkunkel Exp $
 
     Xbase project source code
 
@@ -9,7 +9,7 @@
     OpenDatabase, GetFieldNo, BlankRecord, AppendRecord, 
     PutField and CloseDatabase 
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,16 +38,13 @@
      Email:
        
        xbase@techass.com
+       xdb-devel@lists.sourceforge.net
+       xdb-users@lists.sourceforge.net
 
      Website:
 
        xdb.sourceforge.net
 
-
-    V 1.0   10/10/97   - Initial release of software
-    V 1.5   1/2/98     - Added memo field support
-    V 1.6a  5/1/98     - Added expression support
-    V 1.8   11/29/98   - Version 1.8 upgrade
 */
 
 #include <xbase/xbase.h>
@@ -66,12 +63,17 @@ main()
 
   xbXBase x;
   xbDbf MyFile( &x );
+  
+#ifdef XB_INDEX_NTX
   xbNtx MyIndex1( &MyFile );
   xbNtx MyIndex2( &MyFile );
   xbNtx MyIndex3( &MyFile );
   xbNtx MyIndex4( &MyFile );
+#endif
 
   MyFile.OpenDatabase( "MYFILE.DBF" );
+  
+#ifdef XB_INDEX_NTX
   if(( rc = MyIndex1.OpenIndex( "MYINDEX1.NTX" )) != XB_NO_ERROR )
      cout << "\nError opening index1 rc=" << rc;
   if(( rc = MyIndex2.OpenIndex( "MYINDEX2.NTX" )) != XB_NO_ERROR )
@@ -80,6 +82,7 @@ main()
      cout << "\nError opening index3 rc=" << rc;
   if(( rc = MyIndex4.OpenIndex( "MYINDEX4.NTX" )) != XB_NO_ERROR )
      cout << "\nError opening index4 rc=" << rc;
+#endif
 
   lname     = MyFile.GetFieldNo( "LASTNAME" );
   fname     = MyFile.GetFieldNo( "FIRSTNAME" ); 
@@ -90,7 +93,9 @@ main()
   f2        = MyFile.GetFieldNo( "FLOAT2" );
   f3        = MyFile.GetFieldNo( "FLOAT3" );
   f4        = MyFile.GetFieldNo( "FLOAT4" );
+#ifdef XB_MEMO_FIELDS
   m1        = MyFile.GetFieldNo( "MEMO1" );
+#endif
   z         = MyFile.GetFieldNo( "ZIPCODE" );
 
   cout << "\nLast Name Id  = " << lname;
@@ -102,7 +107,9 @@ main()
   cout << "\nFloat 2 Id    = " << f2;
   cout << "\nFloat 3 Id    = " << f3;
   cout << "\nFloat 4 Id    = " << f4;
+#ifdef XB_MEMO_FIELDS
   cout << "\nMemo1 Id      = " << m1;
+#endif
   cout << "\nZipcode Id    = " << z << "\n";
 
   /* build record one */
@@ -174,7 +181,11 @@ main()
   MyFile.PutField( f3, "4.321" );
   MyFile.PutField( f4, "4.321" );
   MyFile.PutField( z, "76260" );
+  
+#ifdef XB_MEMO_FIELDS
   MyFile.UpdateMemoData( m1, 20, "Sample memo field 4", F_SETLKW );
+#endif
+
   if(( rc = MyFile.AppendRecord()) != XB_NO_ERROR )       /* write it */
      cout << "\nError " << rc << " appending data record.";
 

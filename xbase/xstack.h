@@ -1,11 +1,11 @@
-/*  $Id: xstack.h,v 1.6 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: xstack.h,v 1.7 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     This file conatains a header file for the xbStack object which
     is used for handling expressions.
 
-    Copyright (C) 1997  Startech, Gary A. Kunkel
+    Copyright (C) 1997  Gary A. Kunkel
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -34,16 +34,13 @@
       Email:
 
         xbase@techass.com
+        xdb-devel@lists.sourceforge.net
+        xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0   10/10/97   - Initial release of software
-    V 1.5   1/2/97     - Added memo field support
-    V 1.6a  4/1/98     - Added expression support
-    V 1.6b  4/8/98     - Numeric index keys
 */
 
 /*! \file xstack.h

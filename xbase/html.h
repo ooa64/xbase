@@ -1,11 +1,11 @@
-/*  $Id: html.h,v 1.9 2002/12/17 03:03:56 dbryson Exp $
+/*  $Id: html.h,v 1.10 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
  
     This file contains a header file for the HTML object which is used
     for HTML generation.
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -34,18 +34,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0    10/10/97   - Initial release of software
-    V 1.5    1/2/98     - Added memo field support
-    V 1.6a   4/1/98     - Added expression support
-    V 1.6b   4/8/98     - Numeric index keys
-    V 1.7.4c 10/26/98   - Added GenFormFields, SetCookie, GetCookie
-    V 1.8    11/29/98   - Version 1.8 upgrade
 */
 
 #ifndef __XB_HTML_H__

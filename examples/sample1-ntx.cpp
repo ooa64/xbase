@@ -1,10 +1,10 @@
-/*  $Id: sample1-ntx.cpp,v 1.5 2000/09/27 17:25:08 dbryson Exp $
+/*  $Id: sample1-ntx.cpp,v 1.6 2003/08/16 19:59:38 gkunkel Exp $
 
     Xbase project source code
 
     This program creates a sample database and two indexes
 
-    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    Copyright (C) 1997  Gary A. Kunkel   
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,16 +33,13 @@
      Email:
        
        xbase@techass.com
+       xdb-devel@lists.sourceforge.net
+       xdb-users@lists.sourceforge.net
 
      Website:
 
        xdb.sourceforge.net
 
-
-    V 1.0   10/10/97   - Initial release of software
-    V 1.5   1/2/98     - Added memo field support
-    V 1.6a  5/1/98     - Added expression support
-    V 1.8   11/29/98   - Version 1.8 upgrade 
 */
 
 #include <xbase/xbase.h>
@@ -67,7 +64,9 @@ main()
     { "FLOAT2",    XB_FLOAT_FLD,     9,  1 },
     { "FLOAT3",    XB_FLOAT_FLD,     9,  2 },
     { "FLOAT4",    XB_FLOAT_FLD,     9,  3 },
-    { "MEMO1",     XB_MEMO_FLD,     10, 0 },
+#ifdef XB_MEMO_FIELDS
+    { "MEMO1",     XB_MEMO_FLD,     10,  0 },
+#endif
     { "ZIPCODE",   XB_NUMERIC_FLD,   5,  0 },      
     { "",0,0,0 }
   };
@@ -75,11 +74,13 @@ main()
   /* define the classes */
   xbXBase x;			/* initialize xbase  */
   xbDbf MyFile( &x );		/* class for table   */
+  
+#ifdef XB_INDEX_NTX
   xbNtx MyIndex1( &MyFile );	/* class for index 1 */
   xbNtx MyIndex2( &MyFile );	/* class for index 2 */
   xbNtx MyIndex3( &MyFile );	/* class for index 3 */
   xbNtx MyIndex4( &MyFile );	/* class for index 4 */
-
+#endif
 
   xbShort rc;
   MyFile.SetVersion( 4 );   /* create dbase IV style files */
@@ -87,6 +88,8 @@ main()
   if(( rc = MyFile.CreateDatabase( "MYFILE.DBF", MyRecord, XB_OVERLAY )) 
         != XB_NO_ERROR )
      cout << "\nError creating database = " << rc << "\n";
+
+#ifdef XB_INDEX_NTX
   else
   {
      /* define a simple index */
@@ -110,6 +113,7 @@ main()
        "MYINDEX4.NTX", "ZIPCODE", 0, 1 )) != XB_NO_ERROR )
         cout << "\nError creating index 4 = " << rc << "\n";
   }
+#endif
 
   MyFile.CloseDatabase();   /* Close database and associated indexes */
   return 0;

@@ -7,7 +7,6 @@ XDB TODO's (not necessarily in this order!)
 4) Safe update/modification support
 5) Enhance performance
 6) Add client/server support
-7) Get this thing into CVS
 
 ------------------------------------------------------------------------------
 The following is the contents of the TODO file from the original xBase library
@@ -37,7 +36,7 @@ Proposed Version Release Plan and Schedule
     - Other code contributions as donated
     - Develop Regresion testing scenarios and programs
 
-      Willy's comments on testingg:  "I started thinking of a test suite.
+      Willy's comments on testing:  "I started thinking of a test suite.
       DejaGNU looks like an overkill.  Instead I thought of record-by-line
       dump utility and diff.
 
@@ -48,7 +47,10 @@ Proposed Version Release Plan and Schedule
 
 3)  2.1  Next Development release - post 2.0 
 
-    
+    8/13/03 - gkunkel started this release
+            - updated configure.in for latest version of autoconf/automake
+            - cleaned up some of the older documentation, started referencing
+	      sourceforge.net in the page links
 
 -----------------------------------------------------------------------------
 
@@ -159,7 +161,6 @@ This email lists things that need worked on during development version 1.9
 From paulf@quillandmouse.com Sun Feb 14 16:06:20 1999
 Date: Fri, 12 Feb 1999 19:09:53 -0500 (EST)
 From: "Paul M. Foster" <paulf@quillandmouse.com>
-Reply-To: xbase@startech.keller.tx.us
 Subject: Re: Interface backwards compatibility?
 
 <snip>

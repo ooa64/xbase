@@ -1,10 +1,10 @@
-/*  $Id: ndx.cpp,v 1.16 2002/12/17 03:03:56 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.17 2003/08/16 19:59:39 gkunkel Exp $
 
     Xbase project source code
 
     NDX indexing routines for X-Base
 
-    Copyright (C) 1997 StarTech, Gary A. Kunkel   
+    Copyright (C) 1997 Gary A. Kunkel   
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -33,26 +33,13 @@
       Email:
 
         xbase@techass.com
+	xdb-devel@lists.sourceforge.net
+	xdb-users@lists.sourceforge.net
 
       See our website at:
 
         xdb.sourceforge.net
 
-
-    V 1.0     10/10/97   - Initial release of software
-    V 1.3     11/30/97   - Moved GetLong and GetShort to DBF class
-    V 1.5     1/2/98     - Added Dbase IV memo field support
-    V 1.6a    4/1/98     - Added expression support
-    V 1.6b    4/8/98     - Numeric index keys
-    V 1.7.4b  6/2/98     - Big Endian fix in PutLeafNode - JAM
-                         - Fix in Reindex  - PS
-                         - Fix in Findkey( Tkey, DbfRec )
-              9/29/98    - Fix in CreateIndex to calculate KeyLen & size 
-                           Paul Koufalis pkoufalis@cogicom.com
-                         - sequence duplicate keys in dbf# order
-    V 1.8     11/30/98   - Version 1.8 upgrade
-    V 1.9      4/12/99   - Added fix to AddKey routine for dup keys 
-                         - Modified CreateIndex logic - KeySize field 
 */
 
 #ifdef __GNUG__
