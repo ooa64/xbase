@@ -41,3 +41,8 @@ T6      8Bh     10001011        DBF with memo file and indexes
 :-)
 
 Erik Bachmann
+
+Just an added note:
+
+The files in the t1-t3 directories where created by dBASE III+ and
+the files in the t4-t6 directories where created by dBASEE IV.
