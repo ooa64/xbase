@@ -1,4 +1,4 @@
-/*  $Id: fields.cpp,v 1.1 2000/06/01 06:04:16 dbryson Exp $
+/*  $Id: fields.cpp,v 1.2 2000/06/06 22:35:05 dbryson Exp $
 
     Xbase project source code
 
@@ -296,6 +296,34 @@ xbShort xbDbf::GetField(const xbShort FieldNo, char * buf,
    return( length ); 
 }
 /************************************************************************/
+
+xbShort xbDbf::GetField(const xbShort FieldNo, xbString & sf, 
+			const xbShort RecBufSw) const
+{
+     xbShort length = 0;        
+     if( FieldNo < 0 || FieldNo >= NoOfFields ) {
+#ifdef HAVE_EXCEPTIONS
+       sf = "";
+       xb_error(XB_INVALID_FIELDNO);
+#else 
+       sf = "";
+       return 0;
+#endif
+      }
+
+   // Check for existence of a long field length
+   if( SchemaPtr[FieldNo].Type == 'C' && SchemaPtr[FieldNo].NoOfDecs > 0 )
+     length = SchemaPtr[FieldNo].LongFieldLen;
+   else
+     length = SchemaPtr[FieldNo].FieldLen;
+
+   if( RecBufSw )
+     sf.ctor( SchemaPtr[FieldNo].Address2, length );
+   else
+     sf.ctor( SchemaPtr[FieldNo].Address, length );
+   return( length ); 
+}
+/************************************************************************/
 /* This function fills a field in the record buffer with data from
    a buffer for a particular field.
 
@@ -342,8 +370,11 @@ xbShort xbDbf::PutField(const xbShort FieldNo, const char *buf) {
         && !ValidNumericData( buf )) 
      xb_error(XB_INVALID_DATA)
 
-   else if( SchemaPtr[FieldNo].Type == 'D' && !xbase->DateIsValid( buf ))
-     xb_error(XB_INVALID_DATA);
+   else if( SchemaPtr[FieldNo].Type == 'D' ){
+    xbDate d;
+    if( !d.DateIsValid( buf ))
+      xb_error(XB_INVALID_DATA);
+   }
 
    if( SchemaPtr[FieldNo].Type == 'C' && SchemaPtr[FieldNo].NoOfDecs > 0 )
      memset( SchemaPtr[FieldNo].Address, 0x20, SchemaPtr[FieldNo].LongFieldLen );
