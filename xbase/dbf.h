@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.11 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: dbf.h,v 1.12 2002/08/14 23:20:58 dbryson Exp $
 
     Xbase project source code
 
@@ -404,6 +404,8 @@ public:
    xbShort   IndexCount(void);
    xbIndex   *GetIndex(xbShort indexNum);
 #endif
+
+   void      Flush();
 
 protected:
    xbString DatabaseName;

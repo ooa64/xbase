@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.13 2002/05/09 01:40:30 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.14 2002/08/14 23:20:58 dbryson Exp $
 
     Xbase project source code
 
@@ -340,7 +340,13 @@ xbShort xbNdx::OpenIndex( const char * FileName )
 
    /* open the file */
    if(( indexfp = fopen( IndexName, "r+b" )) == NULL )
-     xb_open_error(IndexName);
+   {
+     //
+     //  Try to open read only if can't open read/write
+     //
+     if(( indexfp = fopen( IndexName, "rb" )) == NULL )
+        xb_open_error(IndexName);
+   }
 
 #ifdef XB_LOCKING_ON
    /*
@@ -1540,7 +1546,7 @@ xbShort xbNdx::CalcKeyLen( void )
   \param Unique
   \param Overlay
 */
-xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp, 
+xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
          xbShort Unique, xbShort Overlay )
 {
    xbShort i, NameLen, KeyLen, rc;
@@ -1559,7 +1565,7 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
       NameLen +=4;
 
    IndexName = IxName;
-   
+
    if( rc == 1 )
      IndexName += ".ndx";
    else if( rc == 2 )
@@ -1577,7 +1583,7 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
    if(( indexfp = fopen( IndexName, "w+b" )) == NULL )
        xb_open_error(IndexName);
 
-#ifdef XB_LOCKING_ON   
+#ifdef XB_LOCKING_ON
    /*
    **  Must turn off buffering when multiple programs may be accessing
    **  index files.

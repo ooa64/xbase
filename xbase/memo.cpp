@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.7 2002/05/09 18:53:31 dbryson Exp $
+/*  $Id: memo.cpp,v 1.8 2002/08/14 23:20:58 dbryson Exp $
 
     Xbase project source code
 
@@ -247,7 +247,7 @@ xbShort xbDbf::GetDbtHeader( const xbShort Option )
      MemoHeader.FileName[i] = *p;
    MemoHeader.Version  = *p;
    p+=4;
-   MemoHeader.BlockSize = xbase->GetShort( p ); 
+   MemoHeader.BlockSize = xbase->GetShort( p );
    return XB_NO_ERROR;
 }
 
@@ -266,7 +266,13 @@ xbShort xbDbf::OpenFPTFile(void) {
     else
       xb_error(XB_INVALID_NAME);
   if ((mfp = fopen(memofile, "r+b" )) == NULL)
-    xb_open_error(memofile);
+  {
+    //
+    //  Try to open read only if can't open read/write
+    //
+    if ((mfp = fopen(memofile, "rb" )) == NULL)
+      xb_open_error(memofile);
+  }
   char header[8];
   if ((fread(header, 8, 1, mfp)) != 1)
     xb_error(XB_READ_ERROR);
@@ -300,9 +306,16 @@ xbShort xbDbf::OpenMemoFile( void )
    else
      xb_error(XB_INVALID_NAME);
 
-   if(( mfp = fopen( DatabaseName, "r+b" )) == NULL ){
-     DatabaseName.putAt(len, lb);
-     xb_open_error(DatabaseName);
+   if(( mfp = fopen( DatabaseName, "r+b" )) == NULL )
+   {
+     //
+     //  Try to open read only if can't open read/write
+     //
+     if(( mfp = fopen( DatabaseName, "rb" )) == NULL )
+     {
+       DatabaseName.putAt(len, lb);
+       xb_open_error(DatabaseName);
+     }
    }
 #ifdef XB_LOCKING_ON
    setbuf( mfp, NULL );

@@ -1,4 +1,4 @@
-/*  $Id: index.h,v 1.5 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: index.h,v 1.6 2002/08/14 23:20:58 dbryson Exp $
 
     Xbase project source code
 
@@ -134,6 +134,8 @@ public:
     virtual xbShort GetNodeSize(void) { return NodeSize; }
 
     virtual void    GetExpression(char *buf, int len) = 0;
+
+    virtual void    Flush();
 };
 
 

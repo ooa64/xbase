@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.14 2002/05/09 18:53:30 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.15 2002/08/14 23:20:58 dbryson Exp $
 
     Xbase project source code
    
@@ -921,11 +921,17 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
       DatabaseName += ".dbf";
    else if( rc == 2 )
       DatabaseName += ".DBF";
-   
+
    /* open the file */
    if(( fp = fopen(DatabaseName, "r+b")) == NULL )
-      xb_open_error(DatabaseName);
-      
+   {
+      //
+      //  Try to open read only if failed to open read/write
+      //
+      if(( fp = fopen(DatabaseName, "rb")) == NULL )
+         xb_open_error(DatabaseName);
+   }
+
 #ifdef XB_LOCKING_ON
    /* no buffering in multi user mode - may not see what others have updated */
    setbuf( fp, NULL );
@@ -933,17 +939,17 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
 
 #ifdef XB_LOCKING_ON
    if( AutoLock )
-      if(( rc = LockDatabase( F_SETLKW, F_RDLCK, 0L )) != XB_NO_ERROR) 
+      if(( rc = LockDatabase( F_SETLKW, F_RDLCK, 0L )) != XB_NO_ERROR)
          return rc;
 #endif
 
    /* copy the header into memory */
    if(( rc = ReadHeader( 1 )) != XB_NO_ERROR )
    {
-      InitVars(); 
+      InitVars();
       return rc;
    }
-   
+
    /* check the version */
    if( Version == 3 || Version == (char)0x83 )     /* dBASE III+ */
    {
@@ -2177,7 +2183,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
       TempDbtName.putAt(TempDbtName.len()-1, 'T');
 
       if ((t = fopen( TempDbtName, "w+b" )) == NULL)
-   xb_open_error(TempDbtName);
+         xb_open_error(TempDbtName);
 
       l = 1L;
       memset( tbuf, 0x00, 4 );
@@ -2327,10 +2333,10 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
 /************************************************************************/
 //! Pack the database
 /*!
-  This method removes all records marked for deletion from an Xbase (.DBF) 
+  This method removes all records marked for deletion from an Xbase (.DBF)
   file, reindexes any open index files, and also reorganizes any memo fields
-  stored in a .DBT memo file. 
-  
+  stored in a .DBT memo file.
+
   \param LockWaitOption One of the following:
     \htmlonly
       <p>
@@ -2892,11 +2898,11 @@ xbDbf::IndexCount(void)
     
   xbIxList
     *i;
-    
+
   for(count = 0, i = NdxList; i; i = i->NextIx, count++)
     ;
-    
-  return count; 
+
+  return count;
 }
 
 //! Get a specific index
@@ -2907,17 +2913,42 @@ xbDbf::GetIndex(xbShort indexNum)
 {
   xbIxList
     *i;
-    
+
   i = NdxList;
   while(indexNum && i)
   {
     indexNum--;
     i = i->NextIx;
   }
-    
+
   if(i)
     return i->index;
-    
+
   return 0;
 }
 #endif // XB_INDEX_ANY
+
+void
+xbDbf::Flush()
+{
+  if(fp)
+    fflush(fp);
+
+#ifdef XB_MEMO_FIELDS
+  if(mfp)
+    fflush(mfp);
+#endif
+
+#if defined(XB_INDEX_ANY)
+  xbIxList
+    *i;
+
+  i = NdxList;
+  while(i)
+  {
+    i->index->Flush();
+    i = i->NextIx;
+  }
+#endif
+}
+

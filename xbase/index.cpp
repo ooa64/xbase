@@ -1,4 +1,4 @@
-/*  $Id: index.cpp,v 1.5 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: index.cpp,v 1.6 2002/08/14 23:20:58 dbryson Exp $
 
     Xbase project source code
    
@@ -77,5 +77,13 @@ xbIndex::xbIndex(xbDbf * pdbf)
   CurLockType    = -1;
 #endif // XB_LOCKING_ON
 }
+
+void
+xbIndex::Flush()
+{
+  if(indexfp)
+    fflush(indexfp);
+}
+
 #endif // XB_INDEX_ANY
 

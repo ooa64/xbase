@@ -77,5 +77,9 @@ libtest_install :
 bin_install :
 	cd bin && $(MAKE) -f makefile.g95 install
 
+docs :
+	cd docs && $(MAKE) -f makefile.g95 docs
 
+.PHONY : docs        
+        
 

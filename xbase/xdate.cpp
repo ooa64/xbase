@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.10 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: xdate.cpp,v 1.11 2002/08/14 23:20:58 dbryson Exp $
 
     Xbase project source code
 
@@ -218,7 +218,7 @@ Gary  -  gkunkelstartech.keller.tx.us
   Days[3]    = new CONSTMOD xbString( "Miercoles" );
   Days[4]    = new CONSTMOD xbString( "Jueves" );
   Days[5]    = new CONSTMOD xbString( "Viernes" );
-  Days[6]    = new CONSTMOD xbStirng( "Sabado" );
+  Days[6]    = new CONSTMOD xbString( "Sabado" );
   Months[0]  = new CONSTMOD xbString( "Enero" );
   Months[1]  = new CONSTMOD xbString( "Febrero" );
   Months[2]  = new CONSTMOD xbString( "Marzo" );

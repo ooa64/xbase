@@ -80,5 +80,7 @@ libtest_install :
 bin_install :
 	cd bin && $(MAKE) -f makefile.cyg install
 
+docs :
+	cd docs && $(MAKE) -f makefile.cyg docs
 
-
+.PHONY : docs

@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.11 2002/04/05 18:53:08 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.12 2002/08/14 23:20:58 dbryson Exp $
 
     Xbase project source code
 
@@ -353,8 +353,13 @@ xbShort xbNtx::OpenIndex( const char * FileName )
        IndexName += ".NTX";
 
    /* open the file */
-   if(( indexfp = fopen( IndexName, "r+b" )) == NULL ){
-     xb_open_error(IndexName);
+   if(( indexfp = fopen( IndexName, "r+b" )) == NULL )
+   {
+     //
+     //  Try to open read only if can't open read/write
+     //
+     if(( indexfp = fopen( IndexName, "rb" )) == NULL)
+        xb_open_error(IndexName);
    }
    
 #ifdef XB_LOCKING_ON   
