@@ -14,8 +14,10 @@ xbIndex::xbIndex(xbDbf * pdbf)
   CurDbfRec      = 0L;
   KeyBuf         = NULL;
   KeyBuf2        = NULL;
+#ifdef XB_LOCKING_ON
   CurLockCount   = 0;
   CurLockType    = -1;
+#endif // XB_LOCKING_ON
 }
 #endif // XB_INDEX_ANY
 

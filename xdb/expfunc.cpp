@@ -1,4 +1,4 @@
-/*  $Id: expfunc.cpp,v 1.2 2000/06/06 22:23:49 dbryson Exp $
+/*  $Id: expfunc.cpp,v 1.3 2000/06/13 04:20:36 dbryson Exp $
 
     Xbase project source code
 
@@ -378,7 +378,7 @@ xbLong xbExpn::AT( const char * s1, const char *s2 )
 {
    /* looks for s1 in s2 */
    xbLong cnt;
-   char *p;
+   const char *p;
    if( strlen( s1 ) > strlen( s2 )) return 0;
    if(( p = strstr( s2, s1 )) == NULL )
       return 0;
