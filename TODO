@@ -13,7 +13,6 @@ XDB TODO's (not necessarily in this order!)
 The following is the contents of the TODO file from the original xBase library
 ------------------------------------------------------------------------------
 
-2/12/99 - Gary Kunkel updated TODO list based on input from xbase group emails
 
 Please feel free to put your name next to any item or category of items
 that you would like to work on.  Then we will know who to keep asking if 
@@ -25,17 +24,7 @@ Also, if you fix anything, please update this list appropriately.
 Proposed Version Release Plan and Schedule
 ------------------------------------------
 
-1)  1.8.0c
-
-    - Good test of new NTX index logic
-    - Modify sample/example programs to support either index type
-    - Other misc bug fixes as submitted
-    
-    1.8.1
-    
-    - Next stable release
-    
-2)  1.9 - Next development release
+1)  1.9.x - Development release
 
     - ANSI C++ where possible
     - General code cleanup
@@ -55,7 +44,11 @@ Proposed Version Release Plan and Schedule
     - Other misc bug fixes as submitted
     - Additional Makefiles
     
-3)  2.0  Stable release
+2)  2.0  Next Stable release
+
+3)  2.1  Next Development release - post 2.0 
+
+    
 
 -----------------------------------------------------------------------------
 
@@ -63,10 +56,16 @@ Specific Items on the TODO list
 ------------------------------- 
 
 
-I. General code cleanup, minor bugs, and ansi code usage things]
+I. General code cleanup, minor bugs, and ansi code usage things
 
 -  Replace malloc/free with new/delete where possible
 -  Replace string usage with xbString usage
+-  Expression functions in need of fixing
+   1) RECNO is broke
+   2) STR( "ccc", 2 ) -> returns "ccc" even though length is 2
+   3) STR( -52.345, 3 ) -> return -52.345 even though length is 3 
+   4) DESCEND does not work, not sure what is should do
+   5) DTOC function in testdate program does not work
 
 II. Design
 
@@ -91,6 +90,8 @@ II. Design
 III. Enhancements.cheap
 
    A)  i18n: get rid of XB_CASTELLANO and use static xbDate members instead;
+        release 2.1
+
    B)  i18n: same for xbStrError.  Make it xbXBase member;
 
    C)  Date: Wed, 10 Feb 1999 16:10:41 +0500 (YEKT)
@@ -136,7 +137,7 @@ VI. Docs
 -  Create Xbase HACKING
 -  Update xbString documentation chapter
 -  Update Turbo Vision documentation chapter
-
+-  Expand expression processing documentation
 
 VII. Wish list
  
