@@ -1,4 +1,4 @@
-/*  $Id: reindex.cpp,v 1.6 2000/09/27 17:25:07 dbryson Exp $
+/*  $Id: reindex.cpp,v 1.7 2001/01/27 04:58:47 dbryson Exp $
 
     Xbase project source code
 
@@ -47,6 +47,13 @@
 
 #include <xbase/xbase.h>
 
+static void
+showStatus(xbLong itemNum, xbLong numItems)
+{
+  printf("indexing record %ld of %ld\r", itemNum, numItems);
+  fflush(stdout);
+}
+
 int main(int ac,char** av)
 {
     if (3 != ac) {
@@ -72,7 +79,8 @@ int main(int ac,char** av)
       return 0;
    }
 
-    xbShort rc = MyIndex.ReIndex();
+    xbShort rc = MyIndex.ReIndex(showStatus);
+    printf("\n");
     if( rc != XB_NO_ERROR ) {
       cout << "\nError reindexing index ==> " << filename2;
       cout << " Return Code = " << rc;
