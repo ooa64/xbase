@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.12 2002/08/14 23:20:58 dbryson Exp $
+/*  $Id: dbf.h,v 1.13 2002/10/24 17:02:22 dbryson Exp $
 
     Xbase project source code
 
@@ -501,4 +501,5 @@ protected:
 #endif
 };
 #endif      // __XB_DBF_H__
+
 

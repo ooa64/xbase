@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.19 2002/09/11 02:04:48 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.20 2002/10/24 17:02:22 dbryson Exp $
 
     Xbase project source code
    
@@ -218,7 +218,7 @@ xbShort xbDbf::SetVersion(xbShort v) {
 //! Write the dbf header
 /*!
   Internal use only.
-  
+
   \param PositionOption flag that indicates whether file postition should
   be moved.  non-zero if so, zero if not.
 */
@@ -226,7 +226,7 @@ xbShort xbDbf::WriteHeader( const xbShort PositionOption )
 {
 #if 0
    char buf[4];
-   
+
    if (PositionOption)
       rewind( fp );
    if(fwrite(&Version, 4, 1, fp) != 1)
@@ -244,12 +244,12 @@ xbShort xbDbf::WriteHeader( const xbShort PositionOption )
    xbase->PutShort( buf, HeaderLen );
    if (fwrite(buf, 2, 1, fp) != 1)
      xb_error(XB_WRITE_ERROR);
-   
+
    memset( buf, 0x00, 4 );
    xbase->PutShort( buf, RecordLen );
    if (fwrite(buf, 2, 1, fp) != 1)
      xb_error(XB_WRITE_ERROR);
-   
+
 #ifdef XB_REAL_DELETE
    if(RealDelete)
    {
@@ -257,7 +257,7 @@ xbShort xbDbf::WriteHeader( const xbShort PositionOption )
      xbase->PutULong(buf, FirstFreeRec);
      if (fwrite(buf, 4, 1, fp) != 1)
        xb_error(XB_WRITE_ERROR);
-       
+
      memset(buf, 0x00, 4);
      xbase->PutULong(buf, RealNumRecs);
      if (fwrite(buf, 4, 1, fp) != 1)
@@ -266,17 +266,17 @@ xbShort xbDbf::WriteHeader( const xbShort PositionOption )
 #endif
 #else
    char buf[32];
-   
+
    memset(buf, 0, 32);
-   
+
    if(PositionOption)
      rewind(fp);
 
-   memcpy(&buf[0], &Version, 4); 
+   memcpy(&buf[0], &Version, 4);
    xbase->PutLong(&buf[4], NoOfRecs);
    xbase->PutShort(&buf[8], HeaderLen );
    xbase->PutShort(&buf[10], RecordLen );
-   
+
 #ifdef XB_REAL_DELETE
    if(RealDelete)
    {
@@ -284,17 +284,16 @@ xbShort xbDbf::WriteHeader( const xbShort PositionOption )
      xbase->PutULong(&buf[16], RealNumRecs);
    }
 #endif
-#endif   
    if(fwrite(buf, 32, 1, fp) != 1)
      xb_error(XB_WRITE_ERROR);
-     
+#endif
    return XB_NO_ERROR;
 }
 /************************************************************************/
 //! Read the dbf header.
 /*!
   Internal use only.
-  
+
   \param PositionOption
 */
 xbShort xbDbf::ReadHeader( xbShort PositionOption )
@@ -318,7 +317,7 @@ xbShort xbDbf::ReadHeader( xbShort PositionOption )
      xb_error(XB_READ_ERROR);
 
    RecordLen = xbase->GetShort(buf);
-   
+
 #ifdef XB_REAL_DELETE
    if(RealDelete)
    {
@@ -333,18 +332,18 @@ xbShort xbDbf::ReadHeader( xbShort PositionOption )
 #endif
 #else
    char buf[32];
-   
+
    if(PositionOption)
      rewind(fp);
-     
+
    if(fread(buf, 32, 1, fp) != 1)
      xb_error(XB_READ_ERROR);
-  
+
    memcpy(&Version, buf, 4);
    NoOfRecs = xbase->GetLong(&buf[4]);
    HeaderLen = xbase->GetShort(&buf[8]);
    RecordLen = xbase->GetShort(&buf[10]);
-   
+
 #ifdef XB_REAL_DELETE
    if(RealDelete)
    {
@@ -374,7 +373,7 @@ xbShort xbDbf::NameSuffixMissing( xbShort type, const char * name )
 */
 
 xbShort len;
-  
+
    len = strlen( name );
    if( len <= 4 )
      if( name[len-1] >= 'A' && name[len-1] <= 'Z' )
@@ -521,7 +520,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 #ifdef XB_MEMO_FIELDS
           s[i].Type != 'M' &&
 #endif /* XB_MEMO_FIELDS */
-          s[i].Type != 'L' ) 
+          s[i].Type != 'L' )
       {
         fclose( fp );
         InitVars();
@@ -567,11 +566,11 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 
    Version = XFV & 0x7;            // file version - bit 0-2
 #ifdef XB_MEMO_FIELDS
-   if (MemoSw) 
+   if (MemoSw)
    {
      if(XFV & 0x7 == 3)
       Version |= 0x80;    // memo presence - bit 7
-    else 
+    else
       Version = 0x8b;
    }
 #endif
@@ -582,19 +581,19 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    UpdateYY = (d.YearOf() - 1900);
    if(XFV & 0x7 == 3)
      UpdateYY %= 100;   // dBASE III seems to do this, but IV does not.  DTB
-   
+
    UpdateMM = d.MonthOf();
    UpdateDD = d.DayOf( XB_FMT_MONTH );
 
    /* write the header prolog */
-   if(( rc = WriteHeader( 0 )) != XB_NO_ERROR ){  
+   if(( rc = WriteHeader( 0 )) != XB_NO_ERROR ){
       free( RecBuf );
       free( RecBuf2 );
       fclose( fp );
-      InitVars(); 
+      InitVars();
       xb_error(XB_WRITE_ERROR);
    }
-   
+
    count = 20;
 #ifdef XB_REAL_DELETE
    if(RealDelete)
@@ -608,17 +607,17 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
          free( RecBuf );
          free( RecBuf2 );
          fclose( fp );
-         InitVars(); 
+         InitVars();
          xb_error(XB_WRITE_ERROR);
       }
    }
 #endif
 
    if((SchemaPtr=(xbSchemaRec *)malloc(NoOfFields*sizeof(xbSchemaRec)))==NULL){
-      free( RecBuf ); 
+      free( RecBuf );
       free( RecBuf2 );
       fclose( fp );
-      InitVars(); 
+      InitVars();
       xb_memory_error;
    }
    memset( SchemaPtr, 0x00, ( NoOfFields * sizeof(xbSchemaRec)));
@@ -629,7 +628,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 // if field name too long ( > 10 bytes ) then  SIGSEGV errors
       memset( SchemaPtr[i].FieldName, 0x00, 11 );
       strncpy( SchemaPtr[i].FieldName, s[i].FieldName, 10 );
-      
+
       SchemaPtr[i].Type = s[i].Type;
       if( s[i].Type == 'M' || s[i].Type == 'B' || s[i].Type == 'O' ) {
         /* memo fields are always 10 bytes */
@@ -846,7 +845,7 @@ xbShort xbDbf::DumpHeader( xbShort Option )
          cout << "Dbase III file" << endl;
       else if ( Version == 83 )
          cout << "Dbase III file with memo fields" << endl << endl;
-   
+
       cout << "Last update date = " 
           << (int) UpdateMM << "/" << (int) UpdateDD << "/" << (int) UpdateYY % 100 << endl;  
 
@@ -992,16 +991,16 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
 	}
    else
    {
-     InitVars(); 
+     InitVars();
      xb_error(XB_NOT_XBASE);
    }
 
    // it would seem that dBASE III+ generates an UpdateYY value
    // of 0 for 2000 and dBASE IV uses 100, so I have removed the
-   // check for UpdateYY being 0 (which might be valid).  DTB      
+   // check for UpdateYY being 0 (which might be valid).  DTB
    if (/*UpdateYY == 0 ||*/ UpdateMM == 0 || UpdateDD == 0 )
    {
-     InitVars(); 
+     InitVars();
      xb_error(XB_NOT_XBASE);
    }
 
@@ -1014,20 +1013,20 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
 
    if(( RecBuf = (char *) malloc( RecordLen )) == NULL ) {
       fclose( fp );
-      InitVars(); 
+      InitVars();
       xb_memory_error;
    }
    if(( RecBuf2 = (char *) malloc( RecordLen )) == NULL ) {
       fclose( fp );
       free( RecBuf );
-      InitVars(); 
+      InitVars();
       xb_memory_error;
    }
    if((SchemaPtr=(xbSchemaRec *)malloc(NoOfFields*sizeof(xbSchemaRec)))==NULL){
       free( RecBuf );
       free( RecBuf2 );
       fclose( fp );
-      InitVars(); 
+      InitVars();
       xb_memory_error;
    }
    memset( SchemaPtr, 0x00, ( NoOfFields * sizeof(xbSchemaRec)));
@@ -1035,7 +1034,7 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
    /* copy field info into memory */
    for( i = 0, j = 1; i < NoOfFields; i++ ){
       fseek( fp, i*32+32, 0 );
-      
+
 //      fread( &SchemaPtr[i].FieldName, 1, 18, fp );
       fread( &buf, 1, 32, fp );
       p = buf;
@@ -1045,10 +1044,10 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
 
       SchemaPtr[i].Address  = RecBuf + j;
       SchemaPtr[i].Address2 = RecBuf2 + j;
-      
+
       SchemaPtr[i].FieldLen = *( p + 4 );
       SchemaPtr[i].NoOfDecs = *( p + 5 );
-      
+
       if( SchemaPtr[i].Type == 'C' && SchemaPtr[i].NoOfDecs > 0 )
       {
         SchemaPtr[i].LongFieldLen = xbase->GetShort( p + 4 );
@@ -1997,7 +1996,7 @@ xbShort xbDbf::DeleteRecord( void )
    i = NdxList;
    while( i && AutoLock )
    {
-      if(( rc = i->index->LockIndex( F_SETLKW, F_WRLCK )) != XB_NO_ERROR ) 
+      if(( rc = i->index->LockIndex( F_SETLKW, F_WRLCK )) != XB_NO_ERROR )
         return rc;
       i = i->NextIx;
    }
@@ -2025,18 +2024,26 @@ xbShort xbDbf::DeleteRecord( void )
 #endif
 
    RecBuf[0] = 0x2a;
-   
+
 #ifdef XB_REAL_DELETE
 //fprintf(stderr, "DeleteRecord() -> RealDelete = %d\n", RealDelete);
    if(RealDelete)
    {
+#ifdef XB_MEMO_FIELDS
+     //
+     //  Delete memo data for memo fields.
+     //
+     for(int f = 0; f < NoOfFields; f++ )
+       if(GetFieldType(f) == 'M' && MemoFieldExists(f))
+         UpdateMemoData(f, 0, 0, F_SETLKW);
+#endif
       xbase->PutULong(&RecBuf[1], FirstFreeRec);
       FirstFreeRec = CurRec;
       RealNumRecs--;
       WriteHeader(1);
    }
 #endif
-      
+
    if(!RealDelete)
    {
       if( DbfStatus != XB_UPDATED )
@@ -2044,7 +2051,7 @@ xbShort xbDbf::DeleteRecord( void )
          DbfStatus = XB_UPDATED;
          memcpy( RecBuf2, RecBuf, RecordLen );
       }
-  
+
       rc = PutRecord( CurRec );
    }
    else
@@ -2054,7 +2061,7 @@ xbShort xbDbf::DeleteRecord( void )
 
       if(fwrite( RecBuf, RecordLen, 1, fp ) != 1 )
          xb_error(XB_WRITE_ERROR);
-     
+
       //
       //  Attempt to read in the record for the current location
       //  in the active index.
@@ -2241,12 +2248,18 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
    if(( rc = Temp.OpenDatabase( TempDbfName )) != XB_NO_ERROR )
      return rc;
 
+#ifdef XB_REAL_DELETE
+   if(RealDelete)
+     Temp.RealDeleteOn();
+   Temp.FirstFreeRec = 0;
+   Temp.RealNumRecs = 0;
+#endif   
    Temp.ResetNoOfRecs();
    Temp.WriteHeader(2);          // flush NoOfRecs=0 to disk
    target = Temp.GetRecordBuf();
    source = GetRecordBuf();
 
-   for( l = 1; l <= NoOfRecords(); l++ )
+   for( l = 1; l <= PhysicalNoOfRecords(); l++ )
    {
       if(statusFunc && (l == 1 || !(l % 100) || l == PhysicalNoOfRecords()))
          statusFunc(l, PhysicalNoOfRecords());
@@ -2256,7 +2269,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
 
       if( !RecordDeleted())
       {
-         strncpy( target, source, GetRecordLen());
+         memcpy( target, source, GetRecordLen());
 
 #ifdef XB_MEMO_FIELDS
          len = BufSize = 0L;
