@@ -40,4 +40,7 @@ SUBDIRS = xbase examples bin html tv
 
 MAINTAINERCLEANFILES = Makefile.in configure aclocal.m4 libtool
 
+EXTRA_DIST = \
+	makefile.g95
+
 bin_SCRIPTS = xbase-config

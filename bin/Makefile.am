@@ -22,8 +22,10 @@ reindex_SOURCES   = reindex.cpp
 undelall_SOURCES  = undelall.cpp
 zap_SOURCES       = zap.cpp
 
-
-
 noinst_HEADERS =
+
+EXTRA_DIST = \
+	makefile.g95 \
+	bin.ide
 
 MAINTAINERCLEANFILES = Makefile.in
