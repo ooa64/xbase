@@ -1,4 +1,4 @@
-/*  $Id: sample3.cpp,v 1.6 2000/09/27 17:25:08 dbryson Exp $
+/*  $Id: sample3.cpp,v 1.7 2002/04/04 23:11:14 dbryson Exp $
 
     Xbase project source code
 
@@ -94,7 +94,9 @@ int main()
   cout << "\nAMOUNT     is type: " << MyFile.GetFieldType( amount )
    << " length: " << MyFile.GetFieldLen( amount );
   cout << "\nSWITCH     is type: " << MyFile.GetFieldType( sw )
-   << " length: " << MyFile.GetFieldLen( sw ) << "\n\n";
+   << " length: " << MyFile.GetFieldLen( sw );
+  cout << "\nMEMO1      is type: " << MyFile.GetFieldType( memo )
+   << " length: " << MyFile.GetFieldLen( memo ) << "\n\n";
 
   cout << "Sample GetRecord" << endl; 
   MyFile.GetRecord( 1L );

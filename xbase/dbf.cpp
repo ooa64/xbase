@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.10 2002/03/19 18:30:51 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.11 2002/04/04 23:11:14 dbryson Exp $
 
     Xbase project source code
    
@@ -497,13 +497,23 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    /* no buffering in multi user mode */
    setbuf( fp, NULL );
 #endif
- 
+
    /* count the number of fields and check paramaters */
    i = 0;
-   while( s[i].Type != 0 ){
+   while( s[i].Type != 0 )
+   {
       NoOfFields++;
+
+#ifdef XB_MEMO_FIELDS
+      //  Make sure memo fields are 10 bytes long.  04/04/2002 dtb
+      //
+      if(s[i].Type == 'M')
+        s[i].FieldLen = 10;
+#endif /* XB_MEMO_FIELDS */
+
       RecordLen += s[i].FieldLen;
-      if( s[i].Type != 'C' && 
+
+      if( s[i].Type != 'C' &&
           s[i].Type != 'N' &&
           s[i].Type != 'F' &&
           s[i].Type != 'D' &&
@@ -528,13 +538,13 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
 
    if(( RecBuf = (char *) malloc( RecordLen )) == NULL )
    {
-      InitVars(); 
+      InitVars();
       xb_memory_error;
    }
-  
-   if(( RecBuf2 = (char *) malloc( RecordLen )) == NULL ){ 
+
+   if(( RecBuf2 = (char *) malloc( RecordLen )) == NULL ){
       free( RecBuf );
-      InitVars(); 
+      InitVars();
       xb_memory_error;
    }
 
