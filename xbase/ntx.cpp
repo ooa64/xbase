@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.10 2002/04/04 22:58:42 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.11 2002/04/05 18:53:08 dbryson Exp $
 
     Xbase project source code
 
@@ -3326,6 +3326,7 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
            2 + (2 * (HeadNode.KeysPerNode + 1));
    }
 
+   HeadNode.StartNode = TempHead.StartNode;
 
    if ((rc = PutLeafNode(TempHead.StartNode, CurNode )) != 0)
        return rc;
