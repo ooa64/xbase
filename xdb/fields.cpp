@@ -1,4 +1,4 @@
-/*  $Id: fields.cpp,v 1.2 2000/06/06 22:35:05 dbryson Exp $
+/*  $Id: fields.cpp,v 1.3 2000/08/11 19:34:32 dbryson Exp $
 
     Xbase project source code
 
@@ -33,6 +33,7 @@
     V 1.8    11/30/98   - Version 1.8 upgrade - additional PutFloat Field fix
 */
 
+#include <xdb/xbconfig.h>
 #include <xdb/xbase.h>
 
 #include <stdlib.h>

@@ -1,4 +1,4 @@
-/*  $Id: xbexcept.cpp,v 1.3 2000/06/27 04:44:07 dbryson Exp $
+/*  $Id: xbexcept.cpp,v 1.4 2000/08/11 19:34:32 dbryson Exp $
 
     Xbase project source code
 
@@ -22,6 +22,7 @@
     - Suite 330, Boston, MA 02111-1307, USA.
 
 */
+
 #include <xdb/xbconfig.h>
 
 #include <stdlib.h>

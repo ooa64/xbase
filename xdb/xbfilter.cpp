@@ -30,6 +30,7 @@
     V 1.8.x 3/29/99    - Initial support for filters added
 */
 
+#include <xdb/xbconfig.h>
 #include <xdb/xbase.h>
 #include <xdb/xbexcept.h>
 

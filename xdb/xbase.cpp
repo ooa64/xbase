@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.4 2000/06/27 04:44:07 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.5 2000/08/11 19:34:32 dbryson Exp $
 
     Xbase project source code
 
@@ -29,6 +29,7 @@
     V 1.7.1 5/25/98    - Big Endian support
 */
 
+#include <xdb/xbconfig.h>
 #include <xdb/xbase.h>
 #include <ctype.h>
 #include <string.h>

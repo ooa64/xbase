@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.9 2000/08/11 19:08:56 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.10 2000/08/11 19:34:32 dbryson Exp $
 
     Xbase project source code
    
@@ -39,6 +39,7 @@
 	                     in CreateDatabase() and OpenDatabase().
 */
 
+#include <xdb/xbconfig.h>
 #include <xdb/xbase.h>
 
 #ifdef HAVE_IO_H

@@ -1,4 +1,4 @@
-/*  $Id: html.cpp,v 1.3 2000/06/21 04:38:40 dbryson Exp $
+/*  $Id: html.cpp,v 1.4 2000/08/11 19:34:32 dbryson Exp $
 
     Xbase project source code
 
@@ -29,6 +29,7 @@
     V 1.7.4.c  7/7/98     - Continued development on GenFormFields method
 */
 
+#include <xdb/xbconfig.h>
 #include <xdb/xbase.h>
 #ifdef XB_HTML
 

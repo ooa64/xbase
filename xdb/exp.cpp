@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.5 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: exp.cpp,v 1.6 2000/08/11 19:34:32 dbryson Exp $
 
     Xbase project source code
 
@@ -31,6 +31,7 @@
     V 1.8.0a 1/27/99    - Release v1.8 upgrade
 */
 
+#include <xdb/xbconfig.h>
 #include <xdb/xbase.h>
 #ifdef XB_EXPRESSIONS
 #include <ctype.h>

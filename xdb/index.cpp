@@ -1,3 +1,4 @@
+#include <xdb/xbconfig.h>
 #include <xdb/xbase.h>
 
 #include <stdio.h>

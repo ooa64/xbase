@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.6 2000/07/28 23:02:59 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.7 2000/08/11 19:34:32 dbryson Exp $
 
     Xbase project source code
 
@@ -38,6 +38,7 @@
                          - Modified CreateIndex logic - KeySize field 
 */
 
+#include <xdb/xbconfig.h>
 #include <xdb/xbase.h>
 #include <iostream.h>
 

@@ -1,3 +1,4 @@
+#include <xdb/xbconfig.h>
 #include <xdb/xbase.h>
 
 #ifdef HAVE_IO_H

@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.4 2000/06/21 04:38:40 dbryson Exp $
+/*  $Id: memo.cpp,v 1.5 2000/08/11 19:34:32 dbryson Exp $
 
     Xbase project source code
 
@@ -30,6 +30,7 @@
     V 1.7.1 5/25/98    - Added support for dBase III+ type memo files
 */
 
+#include <xdb/xbconfig.h>
 #include <xdb/xbase.h>
 #ifdef XB_MEMO_FIELDS
 
