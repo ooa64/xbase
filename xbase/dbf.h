@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.7 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: dbf.h,v 1.8 2001/01/13 20:20:53 dbryson Exp $
 
     Xbase project source code
 
@@ -319,7 +319,7 @@ public:
    xbShort   PutFloatField( const xbShort, const xbFloat);
 
    xbDouble  GetDoubleField(const char *);
-   xbDouble  GetDoubleField(const xbShort);
+   xbDouble  GetDoubleField(const xbShort, xbShort RecBufSw = 0);
    xbShort   PutDoubleField(const char *, const xbDouble);
    xbShort   PutDoubleField(const xbShort, const xbDouble);
 

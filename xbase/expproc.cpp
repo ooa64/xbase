@@ -1,4 +1,4 @@
-/*  $Id: expproc.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: expproc.cpp,v 1.6 2001/01/13 20:20:53 dbryson Exp $
 
     Xbase project source code
 
@@ -194,7 +194,7 @@ xbShort xbExpn::ProcessExpression( xbExpNode * Wtree, xbShort RecBufSw )
          WorkNode->dbf->GetField( WorkNode->FieldNo, WorkNode->StringResult, RecBufSw );
          if( WorkNode->dbf->GetFieldType( WorkNode->FieldNo ) == 'N' || 
             WorkNode->dbf->GetFieldType( WorkNode->FieldNo ) == 'F' )
-            WorkNode->DoubResult = WorkNode->dbf->GetDoubleField( WorkNode->FieldNo );
+            WorkNode->DoubResult = WorkNode->dbf->GetDoubleField( WorkNode->FieldNo, RecBufSw );
       }
       else if( WorkNode->Type == 'O' ) {
          if(( rc = ProcessOperator( RecBufSw )) != XB_NO_ERROR )

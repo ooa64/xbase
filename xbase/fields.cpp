@@ -1,4 +1,4 @@
-/*  $Id: fields.cpp,v 1.6 2000/11/07 23:31:49 dbryson Exp $
+/*  $Id: fields.cpp,v 1.7 2001/01/13 20:20:53 dbryson Exp $
 
     Xbase project source code
 
@@ -608,11 +608,11 @@ xbShort xbDbf::PutFloatField(const char *FieldName, const xbFloat f) {
 //! Get the double value of the specified field.
 /*!
 */
-xbDouble xbDbf::GetDoubleField( const xbShort FieldNo )
+xbDouble xbDbf::GetDoubleField( const xbShort FieldNo, xbShort RecBufSw )
 {
    char buf[21];
    memset( buf, 0x00, 21 );
-   if( GetField( FieldNo, buf ) != 0 )
+   if( GetField( FieldNo, buf, RecBufSw ) != 0 )
       return strtod( buf, NULL );
    else
       return 0;

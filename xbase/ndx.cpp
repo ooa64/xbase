@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.7 2000/12/18 17:58:52 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.8 2001/01/13 20:20:53 dbryson Exp $
 
     Xbase project source code
 
@@ -2636,8 +2636,13 @@ xbShort xbNdx::DeleteKey( xbLong DbfRec )
    xbNdxNodeLink * TempNode;
    xbShort rc;
 
+#if 0
+   //  Not sure why this check is here, but it prevents numeric keys
+   //  from being deleted (and thus index updates will also fail).
+   //  I have removed it for now.  Derry Bryson
    if( HeadNode.KeyType != 0x00 )
      xb_error(XB_INVALID_KEY_TYPE);
+#endif     
 
    if(( rc = FindKey( KeyBuf, DbfRec )) != XB_FOUND )
       return rc;

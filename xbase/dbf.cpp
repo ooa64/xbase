@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.6 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.7 2001/01/13 20:20:53 dbryson Exp $
 
     Xbase project source code
    
@@ -1738,11 +1738,47 @@ perror("failed index lock");
       if( i->KeyUpdated )
       {
          i->index->CreateKey( 1, 0 );      /* load key buf w/ old values */
-         i->index->DeleteKey( CurRec );
+         if((rc = i->index->DeleteKey( CurRec )) != XB_NO_ERROR)
+         {
+#ifdef XB_LOCKING_ON
+           if( AutoLock )
+           {
+             LockDatabase( F_SETLK, F_UNLCK, RecNo );
+             LockDatabase( F_SETLK, F_UNLCK, 0L );
+           }
+#if defined(XB_INDEX_ANY)
+           i = NdxList;
+           while( i && AutoLock )
+           {
+             i->index->LockIndex( F_SETLK, F_UNLCK );
+             i = i->NextIx;
+           }
+#endif               /* XB_INDEX_ANY  */
+#endif               /* XB_LOCKING_ON */
+           return rc;
+         }
 
          i->index->CreateKey( 0, 0 );
-    if(( rc = i->index->AddKey(CurRec)) != XB_NO_ERROR ) return rc;
-    i->index->TouchIndex();
+         if(( rc = i->index->AddKey(CurRec)) != XB_NO_ERROR ) 
+         {
+#ifdef XB_LOCKING_ON
+           if( AutoLock )
+           {
+             LockDatabase( F_SETLK, F_UNLCK, RecNo );
+             LockDatabase( F_SETLK, F_UNLCK, 0L );
+           }
+#if defined(XB_INDEX_ANY)
+           i = NdxList;
+           while( i && AutoLock )
+           {
+             i->index->LockIndex( F_SETLK, F_UNLCK );
+             i = i->NextIx;
+           }
+#endif               /* XB_INDEX_ANY  */
+#endif               /* XB_LOCKING_ON */
+           return rc;
+         }
+         i->index->TouchIndex();
       }
       i = i->NextIx;
    }
