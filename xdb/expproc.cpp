@@ -1,8 +1,8 @@
-/*  $Id: expproc.cpp,v 1.1 2000/06/01 06:04:10 dbryson Exp $
+/*  $Id: expproc.cpp,v 1.2 2000/06/06 22:31:31 dbryson Exp $
 
     Xbase project source code
 
-    Copyright (C) 1997  Crypton Technologies, Gary A. Kunkel   
+    Copyright (C) 1997  Startech, Gary A. Kunkel   
     email - xbase@startech.keller.tx.us
     www   - http://www.startech.keller.tx.us/xbase.html
 
@@ -71,15 +71,13 @@ xbShort xbExpn::ValidOperation( char * Operand, char Op1, char Op2 )
    if( Operand[0] == '*' && Operand[1] == '*' && Op1 == 'N' && Op2 == 'N' )
       return 1;
 
-   switch( Operand[0] )
-   {
+   switch( Operand[0] ) {
       case '*': 
       case '/':
          if( Op1 == 'N' && Op2 == 'N' ) 
             return 1; 
          else 
             return 0;
-//         break;
 
       case '+':
       case '-':
@@ -129,35 +127,27 @@ xbShort xbExpn::ProcessExpression( xbExpNode * Wtree, xbShort RecBufSw )
 {
    xbExpNode * WorkNode;
    xbShort rc = 0;
-
    if( Wtree == 0 )
       Wtree = Tree;
-
    memset(WorkBuf, 0x00, WorkBufMaxLen+1 );
    /* initialize the stack - free any expnodes */
-   while( GetStackDepth() > 0 )
-   {
+   while( GetStackDepth() > 0 ) {
       WorkNode = (xbExpNode *) Pop();
       if( !WorkNode->InTree )
-         FreeExpNode( WorkNode );
+         delete WorkNode;
    }   
-
    if(( WorkNode = GetFirstTreeNode( Wtree )) == NULL )
-		 xb_error(XB_NO_DATA);
+     xb_error(XB_NO_DATA);
 
-   while( WorkNode )
-   {
-//printf("WorkNode->Type = %c\n", WorkNode->Type);
+   while( WorkNode ) {
       Push( (void *) WorkNode );
-      if( WorkNode->Type == 'D' && WorkNode->dbf )
-      {
-         WorkNode->dbf->GetField( WorkNode->FieldNo, (char *) WorkNode->Result, RecBufSw );
+      if( WorkNode->Type == 'D' && WorkNode->dbf ) {
+         WorkNode->dbf->GetField( WorkNode->FieldNo, WorkNode->StringResult, RecBufSw );
          if( WorkNode->dbf->GetFieldType( WorkNode->FieldNo ) == 'N' || 
             WorkNode->dbf->GetFieldType( WorkNode->FieldNo ) == 'F' )
             WorkNode->DoubResult = WorkNode->dbf->GetDoubleField( WorkNode->FieldNo );
       }
-      else if( WorkNode->Type == 'O' )
-      {
+      else if( WorkNode->Type == 'O' ) {
          if(( rc = ProcessOperator( RecBufSw )) != XB_NO_ERROR )
            return rc;
       }
@@ -167,8 +157,7 @@ xbShort xbExpn::ProcessExpression( xbExpNode * Wtree, xbShort RecBufSw )
       WorkNode = GetNextTreeNode( WorkNode );
    }
    if( GetStackDepth() != 1 )    /* should only have result left in stack */
-		 xb_error(XB_PARSE_ERROR);
-
+     xb_error(XB_PARSE_ERROR);
    return XB_NO_ERROR;
 }
 /*************************************************************************/
@@ -180,17 +169,11 @@ char xbExpn::GetOperandType( xbExpNode * e )
          C - Character
          0 - error
    */
- 
    char WorkType;
-
-//printf("e->Type = '%c'\n", e->Type);
-
    if( e->Type == 'd' || e->Type == 'N' || e->Type == 'i' ) return 'N';
    if( e->Type == 'l' ) return 'L';
    if( e->Type == 's' ) return 'C';
-
-   if( e->Type == 'C' )
-   {
+   if( e->Type == 'C' ) {
       if(e->NodeText[0]=='-' || e->NodeText[0]=='+' || 
          (isdigit(e->NodeText[0]) &&
 	  !(e->NodeText[e->DataLen] == '\'' || e->NodeText[e->DataLen] == '"'))
@@ -199,10 +182,8 @@ char xbExpn::GetOperandType( xbExpNode * e )
       else
         return 'C';
    }
-   else if( e->Type == 'D' && e->dbf )
-   {
+   else if( e->Type == 'D' && e->dbf ) {
       WorkType = e->dbf->GetFieldType( e->FieldNo );
-
       if( WorkType == 'C' ) return 'C';
       else if( WorkType == 'F' || WorkType == 'N' ) return 'N';
       else if( WorkType == 'L' ) return 'L';
@@ -217,13 +198,8 @@ xbShort xbExpn::ProcessOperator( xbShort RecBufSw )
    xbExpNode * WorkNode;
    char Operator[6 /*3*/];  // changed for logical ops 3/26/00 dtb
    char t;
-
    if( GetStackDepth() < 3 ) 
-{
-//printf("stack depth < 3\n");   
-		 xb_error(XB_PARSE_ERROR);
-}
-
+     xb_error(XB_PARSE_ERROR);
    WorkNode = (xbExpNode *) Pop();
    if( WorkNode->Len > 5 /*2*/) // changed for logical ops 3/26/00 dtb
 {
@@ -235,16 +211,14 @@ xbShort xbExpn::ProcessOperator( xbShort RecBufSw )
    strncpy( Operator, WorkNode->NodeText, WorkNode->Len );
 //printf("Operator = '%s'\n", Operator);
    if( !WorkNode->InTree ) 
-      FreeExpNode( WorkNode );
-
+      delete WorkNode;
    /* load up operand 1 */
    WorkNode = (xbExpNode *) Pop();
 //printf("Operand 1 WorkNode->Type = '%c'\n", WorkNode->Type);
    if(( OpType1 = GetOperandType( WorkNode )) == 0 )
-		 xb_error(XB_PARSE_ERROR);
+     xb_error(XB_PARSE_ERROR);
 
-   if( OpLen1 < WorkNode->DataLen+1 && WorkNode->Type != 'd' )
-   {
+   if( OpLen1 < WorkNode->DataLen+1 && WorkNode->Type != 'd' ) {
       if( OpLen1 > 0 ) free( Op1 );
       if(( Op1 = (char *) malloc( WorkNode->DataLen+1 )) == NULL ) {
 	      xb_memory_error;
@@ -253,68 +227,60 @@ xbShort xbExpn::ProcessOperator( xbShort RecBufSw )
    }
    OpDataLen1 = WorkNode->DataLen;
    memset( Op1, 0x00, WorkNode->DataLen+1 );
-   if( WorkNode->Type == 'D' && WorkNode->dbf )     /* database field  */
-   {
+   if( WorkNode->Type == 'D' && WorkNode->dbf ) {    /* database field  */
       WorkNode->dbf->GetField( WorkNode->FieldNo, Op1, RecBufSw );
       t = WorkNode->dbf->GetFieldType( WorkNode->FieldNo );
       if( t == 'N' || t == 'F' )
-         Opd1 = strtod( WorkNode->Result, 0 );
+         Opd1 = strtod( WorkNode->StringResult, 0 );
    }
    else if( WorkNode->Type == 'C' )     /* constant        */
       memcpy( Op1, WorkNode->NodeText, WorkNode->DataLen );
    else if( WorkNode->Type == 's' )     /* previous result */
-      memcpy( Op1, WorkNode->Result, WorkNode->DataLen+1 );
+      memcpy( Op1, WorkNode->StringResult, WorkNode->DataLen+1 );
    else if( WorkNode->Type == 'd' )     /* previous numeric result */   
       Opd1 = WorkNode->DoubResult;
    else if( WorkNode->Type == 'N' )     /* previous numeric result */   
-      Opd1 = strtod( WorkNode->Result, 0 );
+      Opd1 = strtod( WorkNode->StringResult, 0 );
    else if(WorkNode->Type == 'l')       /* previous logical result 3/26/00 dtb */
       Opd1 = WorkNode->IntResult;
    if( !WorkNode->InTree ) 
-      FreeExpNode( WorkNode );
+      delete WorkNode;
 
    /* load up operand 2 */
    WorkNode = (xbExpNode *) Pop();
 //printf("Operand 2 WorkNode->Type = '%c'\n", WorkNode->Type);
    if(( OpType2 = GetOperandType( WorkNode )) == 0 )
-		 xb_error(XB_PARSE_ERROR);
+     xb_error(XB_PARSE_ERROR);
 
-   if( OpLen2 < WorkNode->DataLen+1 && WorkNode->Type != 'd' )
-   {
+   if( OpLen2 < WorkNode->DataLen+1 && WorkNode->Type != 'd' ) {
       if( OpLen2 > 0 ) free( Op2 );
       if(( Op2 = (char *) malloc( WorkNode->DataLen+1 )) == NULL ) {
-	      xb_memory_error;
+        xb_memory_error;
       }
       OpLen2 = WorkNode->DataLen+1;
    }
    OpDataLen2 = WorkNode->DataLen;
    memset( Op2, 0x00, WorkNode->DataLen+1 );
-   if( WorkNode->Type == 'D' && WorkNode->dbf )      /* database field  */
-   {
+   if( WorkNode->Type == 'D' && WorkNode->dbf ) {    /* database field  */
       WorkNode->dbf->GetField( WorkNode->FieldNo, Op2, RecBufSw );
       t = WorkNode->dbf->GetFieldType( WorkNode->FieldNo );
       if( t == 'N' || t == 'F' )
-         Opd2 = strtod( WorkNode->Result, 0 );
+         Opd2 = strtod( WorkNode->StringResult, 0 );
    }
    else if( WorkNode->Type == 'C' )     /* constant        */
       memcpy( Op2, WorkNode->NodeText, WorkNode->DataLen );
    else if( WorkNode->Type == 's' )     /* previous result */
-      memcpy( Op2, WorkNode->Result, WorkNode->DataLen+1 );
+      memcpy( Op2, WorkNode->StringResult, WorkNode->DataLen+1 );
    else if( WorkNode->Type == 'd' )     /* previous numeric result */
       Opd2 = WorkNode->DoubResult;
    else if( WorkNode->Type == 'N' )     /* previous numeric result */   
-      Opd2 = strtod( WorkNode->Result, 0 );
+      Opd2 = strtod( WorkNode->StringResult, 0 );
    else if(WorkNode->Type == 'l')       /* previous logical result 3/26/00 dtb*/
       Opd2 = WorkNode->IntResult;
    if( !WorkNode->InTree )
-      FreeExpNode( WorkNode );
-
-//printf("Operator '%s', OpType1 = '%c', OpType2 = '%c'\n", Operator, OpType1, OpType2);
+      delete WorkNode;
    if( !ValidOperation( Operator, OpType1, OpType2 ))
-   {
-//printf("Invalid operator '%s', OpType1 = '%c', OpType2 = '%c'\n", Operator, OpType1, OpType2);
       xb_error(XB_PARSE_ERROR);
-   }
 
    if( OpType1 == 'N' || OpType1 == 'L')    /* numeric procesing */
    {
@@ -329,8 +295,7 @@ xbShort xbExpn::NumericOperation( char * Operator )
    xbDouble  Operand1, Operand2;
    xbExpNode * WorkNode;
    xbShort   ResultLen;
-   char    SaveType;
-
+   char      SaveType;
    ResultLen = 0;
 
 //printf("NumericOperation(%s)\n", Operator);
@@ -343,7 +308,7 @@ xbShort xbExpn::NumericOperation( char * Operator )
       SaveType = 'd';
 
    if(( WorkNode = GetExpNode( ResultLen )) == NULL )
-		 xb_error(XB_PARSE_ERROR);
+     xb_error(XB_PARSE_ERROR);
 
    WorkNode->Type = SaveType;
    WorkNode->DataLen = ResultLen;
@@ -375,24 +340,21 @@ xbShort xbExpn::NumericOperation( char * Operator )
    else if( Operator[0] == '=' )
       WorkNode->IntResult = 0;
    /* not = */
-   else if((Operator[0] == '<' && Operator[1] == '>')||Operator[0] == '#')
-   {
+   else if((Operator[0] == '<' && Operator[1] == '>')||Operator[0] == '#') {
       if( Operand1 != Operand2 )
          WorkNode->IntResult = 1;
       else
          WorkNode->IntResult = 0;
    }
    /* less than */
-   else if( Operator[0] == '<' )
-   {
+   else if( Operator[0] == '<' ) {
       if( Operand2 < Operand1 )
          WorkNode->IntResult = 1;
       else
          WorkNode->IntResult = 0;
    }
    /* greater than */
-   else if( Operator[0] == '>' )
-   {
+   else if( Operator[0] == '>' ) {
       if( Operand2 > Operand1 )
          WorkNode->IntResult = 1;
       else
@@ -429,7 +391,7 @@ xbShort xbExpn::NumericOperation( char * Operator )
 xbShort xbExpn::AlphaOperation( char * Operator )
 {
    xbShort ResultLen, i;
-   char *p, SaveType;
+   char SaveType;
    xbExpNode * WorkNode;
 
 //printf("AlphaOperation(%s): Op1 = '%*s', Op2 = '%*s'\n", Operator,
@@ -442,47 +404,29 @@ xbShort xbExpn::AlphaOperation( char * Operator )
       ResultLen = 0;
       SaveType = 'l';
    }
-   else
-   {
+   else {
       ResultLen = OpDataLen1 + OpDataLen2 + 1;
       SaveType = 's';
    }
    if(( WorkNode = GetExpNode( ResultLen )) == NULL )
-		 xb_error(XB_PARSE_ERROR);
+     xb_error(XB_PARSE_ERROR);
 
-   memset( WorkNode->Result, 0x00, ResultLen );
    WorkNode->Type = SaveType;
    if( WorkNode->Type == 'l' )
       WorkNode->DataLen = 0;
    else
       WorkNode->DataLen = ResultLen - 1;
 
-   if( Operator[0] == '+' )
-   {
-      strncpy( WorkNode->Result, Op2, OpDataLen2 );
-      strncat( WorkNode->Result, Op1, OpDataLen1 );
+   if( Operator[0] == '+' ) {
+     WorkNode->StringResult = Op2;
+     WorkNode->StringResult += Op1;
    }
-   else if( Operator[0] == '-' )
-   {
-      strncpy( WorkNode->Result, Op2, OpDataLen2 );
-      p =  WorkNode->Result;
-      p += OpDataLen2-1;
-      i =  OpDataLen2-1;
-      while( *p == 0x20 && i > 0 )
-      {
-         *p = 0x00;
-         p--;
-         i--;
-      }
-      strncat( WorkNode->Result, Op1, OpDataLen1 );
-      p =  WorkNode->Result;
-      i = strlen( WorkNode->Result );
-      p += i; 
+   else if( Operator[0] == '-' ) {
+      WorkNode->StringResult = LTRIM( Op2 );
+      WorkNode->StringResult += Op1;
+      i = WorkNode->StringResult.len();
       for( ; i < ResultLen-1; i++)
-      {
-         *p = 0x20;   /* pad with spaces */
-         p++;
-      }
+         WorkNode->StringResult += " ";
    }
    /* = */
    else if((Operator[0]== '=' || Operator[1]== '=' ) && strcmp(Op1,Op2) == 0)
@@ -490,8 +434,7 @@ xbShort xbExpn::AlphaOperation( char * Operator )
    else if( Operator[0] == '=' )
       WorkNode->IntResult = 0;
    /* not = */
-   else if((Operator[0] == '<' && Operator[1] == '>')||Operator[0] == '#')
-   {
+   else if((Operator[0] == '<' && Operator[1] == '>')||Operator[0] == '#') {
       if( strcmp( Op1, Op2 ) != 0 )
          WorkNode->IntResult = 1;
       else
