@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.1 2000/06/01 06:04:37 dbryson Exp $
+/*  $Id: memo.cpp,v 1.2 2000/06/06 22:43:11 dbryson Exp $
 
     Xbase project source code
 
@@ -208,21 +208,23 @@ xbShort xbDbf::OpenMemoFile( void )
    xbShort len, rc;
 
    len = DatabaseName.len() - 1;
-   char lb = DatabaseName.get_character( len );
+   char lb = DatabaseName.getCharacter( len );
    if( lb == 'F' )
-     DatabaseName.put_at(len, 'T');
+     DatabaseName.putAt(len, 'T');
    else if( lb == 'f' )
-     DatabaseName.put_at(len, 't');
+     DatabaseName.putAt(len, 't');
    else
      xb_error(XB_INVALID_NAME);
 
-   if(( mfp = fopen( DatabaseName, "r+b" )) == NULL )
-   {
-     DatabaseName.put_at(len, lb);
+   if(( mfp = fopen( DatabaseName, "r+b" )) == NULL ){
+     DatabaseName.putAt(len, lb);
      xb_open_error(DatabaseName);
    }
+#ifdef XB_LOCKING_ON
+   setbuf( mfp, NULL );
+#endif
 
-   DatabaseName.put_at(len, lb);
+   DatabaseName.putAt(len, lb);
    if(( rc = GetDbtHeader(1)) != 0 )
    {
      fclose( mfp );
@@ -281,11 +283,11 @@ xbShort xbDbf::CreateMemoFile( void )
      MemoHeader.FileName[i] = *sp++;
 
    len = DatabaseName.len() - 1;
-   char lb = DatabaseName.get_character( len );
+   char lb = DatabaseName.getCharacter( len );
    if( lb == 'F' )
-     DatabaseName.put_at(len, 'T');
+     DatabaseName.putAt(len, 'T');
    else if( lb == 'f' )
-     DatabaseName.put_at(len, 't');
+     DatabaseName.putAt(len, 't');
    else
      xb_io_error(XB_INVALID_NAME, DatabaseName);
 
@@ -294,10 +296,14 @@ xbShort xbDbf::CreateMemoFile( void )
 
    if(( mfp = fopen( DatabaseName, "w+b" )) == NULL )
    {
-     DatabaseName.put_at(len, lb);
+     DatabaseName.putAt(len, lb);
      xb_open_error(DatabaseName);
    }
-   DatabaseName.put_at(len, lb);
+#ifdef XB_LOCKING_ON
+   setbuf( mfp, NULL );
+#endif
+
+   DatabaseName.putAt(len, lb);
 
    if(( fseek( mfp, 0L, SEEK_SET )) != 0 )
    {
@@ -550,7 +556,7 @@ xbLong xbDbf::GetMemoFieldLen( const xbShort FieldNo )
 xbShort xbDbf::MemoFieldsPresent( void ) const
 {
    xbShort i;
-   for( i = 1; i < NoOfFields; i++ )
+   for( i = 0; i < NoOfFields; i++ )
       if( GetFieldType( i ) == 'M' ) 
          return 1;
 

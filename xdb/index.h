@@ -1,4 +1,4 @@
-/*  $Id: index.h,v 1.1 2000/06/01 06:06:05 dbryson Exp $
+/*  $Id: index.h,v 1.2 2000/06/06 22:40:34 dbryson Exp $
 
     Xbase project source code
 
@@ -39,7 +39,6 @@
 class XBDLLEXPORT xbIndex
 {
  public:
-// protected:
     xbIndex *index;
     xbDbf *dbf;
     xbExpNode *ExpressionTree;
@@ -65,29 +64,29 @@ public:
     xbIndex(xbDbf *);
 
     virtual xbShort  OpenIndex ( const char * ) = 0;
-    virtual xbShort  CloseIndex( void ) = 0;
+    virtual xbShort  CloseIndex() = 0;
 #ifdef XBASE_DEBUG
-    virtual void     DumpHdrNode  ( void ) = 0;
-    virtual void     DumpNodeRec  ( xbLong ) = 0;
-    virtual void     DumpNodeChain( void ) = 0;
+    virtual void     DumpHdrNode() = 0;
+    virtual void     DumpNodeRec( xbLong ) = 0; 
+    virtual void     DumpNodeChain() = 0;
     virtual xbShort  CheckIndexIntegrity( const xbShort ) = 0;
 #endif
     virtual xbShort  CreateIndex( const char *, const char *, xbShort, xbShort ) = 0;
-//   virtual xbLong   GetTotalNodes( void ) = 0;
-    virtual xbLong   GetCurDbfRec( void ) = 0;
+    virtual xbLong   GetTotalNodes() = 0;
+    virtual xbLong   GetCurDbfRec() = 0;
     virtual xbShort  CreateKey( xbShort, xbShort ) = 0;
     virtual xbShort  GetCurrentKey(char *key) = 0;
     virtual xbShort  AddKey( xbLong ) = 0;
-    virtual xbShort  UniqueIndex( void ) = 0;
-    virtual xbShort  DeleteKey( xbLong DbfRec ) = 0;
-    virtual xbShort  KeyWasChanged( void ) = 0;
+    virtual xbShort  UniqueIndex() = 0;
+    virtual xbShort  DeleteKey( xbLong ) = 0;
+    virtual xbShort  KeyWasChanged() = 0;
     virtual xbShort  FindKey( const char * ) = 0;
-    virtual xbShort  FindKey( void ) = 0;
+    virtual xbShort  FindKey() = 0;
     virtual xbShort  FindKey( xbDouble ) = 0;
-    virtual xbShort  GetNextKey( void ) = 0;
-    virtual xbShort  GetLastKey( void ) = 0;
-    virtual xbShort  GetFirstKey( void ) = 0;
-    virtual xbShort  GetPrevKey( void ) = 0;
+    virtual xbShort  GetNextKey() = 0;
+    virtual xbShort  GetLastKey() = 0;
+    virtual xbShort  GetFirstKey() = 0;
+    virtual xbShort  GetPrevKey() = 0;
     virtual xbShort  ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems) = 0) = 0;
 //   virtual xbShort  KeyExists( char * Key ) { return FindKey( Key, strlen( Key ), 0 ); }
     virtual xbShort  KeyExists( xbDouble ) = 0;
