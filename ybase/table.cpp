@@ -1,4 +1,4 @@
-/*  $Id: table.cpp,v 1.1 2000/06/07 00:03:49 dbryson Exp $
+/*  $Id: table.cpp,v 1.2 2000/06/07 18:00:35 dbryson Exp $
 
     yBase project source code
 
@@ -28,7 +28,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <ctype.h>
-#include <xbase/xbexcept.h>
+#include <xdb/xbexcept.h>
 #include "lang.h"
 #include "table.h"
 
