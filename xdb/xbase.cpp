@@ -1,10 +1,10 @@
-/*  $Id: xbase.cpp,v 1.1 2000/06/01 06:05:06 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.2 2000/06/06 23:24:52 dbryson Exp $
 
     Xbase project source code
 
     This file contains logic for the basic Xbase class.
 
-    Copyright (C) 1997  Crypton Technologies, Gary A. Kunkel   
+    Copyright (C) 1997  Startech, Gary A. Kunkel   
     email - xbase@startech.keller.tx.us
     www   - http://www.startech.keller.tx.us/xbase.html
 
@@ -49,26 +49,32 @@ xbXBase::xbXBase( void )
 }
 /*************************************************************************/
 xbDbf *xbXBase::GetDbfPtr(const char *Name) {
-	xbDbList *t;
-	xbShort len;
-	t = DbfList;
-	len = strlen(Name);
-	while (t) {
-		if (strncmp(Name, t->DbfName, len) == 0 )
-			return t->dbf;
-		t = t->NextDbf;
-	}
-	return NULL;
+  xbDbList *t;
+
+  t = DbfList;
+  xbShort len = strlen(Name);
+
+  /* check for -> embedded in the name */
+  for( xbShort i = 0; i < (len-1); i++ )
+    if( Name[i] == '-' && Name[i+1] == '>' )
+      len = i-1;
+
+  while (t) {
+    if (strncmp(Name, t->DbfName, len) == 0 )
+      return t->dbf;
+    t = t->NextDbf;
+  }
+  return NULL;
 }
 /*************************************************************************/
 xbXBase::~xbXBase()
 {
 	xbDbList *i = FreeDbfList;
-	while( 1 ) {
-		if (!i) {
-			break;
-		}
+	while (i) {
 		xbDbList *t = i->NextDbf;
+		if (i->DbfName) {
+			free(i->DbfName);
+		}
 		free(i);
 		i = t;
 	}
@@ -121,6 +127,7 @@ xbShort xbXBase::RemoveDbfFromDbfList(xbDbf *d) {
 			/* add i to the current free chain */
 			i->NextDbf = FreeDbfList;
 			FreeDbfList = i;
+			free(FreeDbfList->DbfName);
 			FreeDbfList->DbfName = NULL;
 			FreeDbfList->NextDbf = NULL; 
 			break;
@@ -131,6 +138,8 @@ xbShort xbXBase::RemoveDbfFromDbfList(xbDbf *d) {
 	}
 	return XB_NO_ERROR;
 } 
+
+// FIXME: byte reverse methods are awful, compared to bitwise shifts  -- willy
 
 /************************************************************************/
 /* This routine returns a short value from a 2 byte character stream */
@@ -176,16 +185,15 @@ xbLong xbXBase::GetLong( const char *p )
 xbULong xbXBase::GetULong( const char *p )
 {
   xbULong l;
-  char *sp, *tp;
+  char *tp;
   xbShort i;
   
   tp = (char *) &l;
-  sp = (char *) p;
   if( EndianType == 'L' )
-    for( i = 0; i < 4; i++ ) *tp++ = *sp++;
+    for( i = 0; i < 4; i++ ) *tp++ = *p++;
   else{
-    sp+=3;
-    for( i = 0; i < 4; i++ ) *tp++ = *sp--;
+    p+=3;
+    for( i = 0; i < 4; i++ ) *tp++ = *p--;
   }
   return l;
 }
@@ -214,11 +222,12 @@ xbDouble xbXBase::GetDouble( const char *p )
 /* This routine puts a short value to a 2 byte character stream */
 void xbXBase::PutShort( char * c, const xbShort s )
 {
-   char *sp, *tp;
+   const char *sp;
+   char *tp;
    xbShort i;
 
    tp = c;
-   sp = (char *) &s;
+   sp = (const char *) &s;
 
    if( EndianType == 'L' )
    {
@@ -235,11 +244,12 @@ void xbXBase::PutShort( char * c, const xbShort s )
 /* This routine puts a long value to a 4 byte character stream */
 void xbXBase::PutLong( char * c, const xbLong l )
 {
-   char *sp, *tp;
+   const char *sp;
+   char *tp;
    xbShort i;
 
    tp = c;
-   sp = (char *) &l;
+   sp = (const char *) &l;
    if( EndianType == 'L' )
       for( i = 0; i < 4; i++ ) *tp++ = *sp++;
    else
@@ -253,11 +263,12 @@ void xbXBase::PutLong( char * c, const xbLong l )
 /* This routine puts a short value to a 2 byte character stream */
 void xbXBase::PutUShort( char * c, const xbUShort s )
 {
-   char *sp, *tp;
+   const char *sp;
+   char *tp;
    xbShort i;
 
    tp = c;
-   sp = (char *) &s;
+   sp = (const char *) &s;
    if( EndianType == 'L' )
       for( i = 0; i < 2; i++ ) *tp++ = *sp++;
    else
@@ -271,11 +282,12 @@ void xbXBase::PutUShort( char * c, const xbUShort s )
 /* This routine puts a long value to a 4 byte character stream */
 void xbXBase::PutULong( char * c, const xbULong l )
 {
-   char *sp, *tp;
+   const char *sp;
+   char *tp;
    xbShort i;
 
    tp = c;
-   sp = (char *) &l;
+   sp = (const char *) &l;
    if( EndianType == 'L' )
       for( i = 0; i < 4; i++ ) *tp++ = *sp++;
    else
@@ -289,11 +301,12 @@ void xbXBase::PutULong( char * c, const xbULong l )
 /* This routine puts a double value to an 8 byte character stream */
 void xbXBase::PutDouble( char * c, const xbDouble d )
 {
-   char *sp, *tp;
+   const char *sp;
+   char *tp;
    xbShort i;
 
    tp = c;
-   sp = (char *) &d;
+   sp = (const char *) &d;
    if( EndianType == 'L' )
       for( i = 0; i < 8; i++ ) *tp++ = *sp++;
    else
@@ -373,6 +386,8 @@ void xbXBase::DisplayError( const xbShort ErrorNo ) const
     case -141: cout << "Insufficient Parms" << endl;           break;
     case -142: cout << "Invalid Function" << endl;             break;
     case -143: cout << "Invalid Field Length" << endl;         break;
+    case -144: cout << "Harvest Node Error" << endl;           break;
+    case -145: cout << "Invalid Date" << endl;                 break;
     default:   cout << "Unknown error code" << endl;           break;
   }
 }

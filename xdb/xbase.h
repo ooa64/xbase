@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.1 2000/06/01 06:06:00 dbryson Exp $
+/*  $Id: xbase.h,v 1.2 2000/06/06 23:26:33 dbryson Exp $
 
     Xbase project source code
 
@@ -152,6 +152,12 @@ public:
 
 #ifdef XB_INDEX_NTX
 #include <xdb/ntx.h>
+#endif
+
+#if defined(XB_FILTERS) && !defined(XB_INDEX_ANY)
+#error XB_FILTERS cant be used without index support
+#elif defined(XB_FILTERS)
+#include <xdb/xbfilter.h>
 #endif
 
 #ifdef XB_LOCKING_ON

@@ -1,5 +1,30 @@
-#include <xdb/xbase.h>
-#include <xdb/xbconfig.h>
+/* 
+    Xbase project source code
+
+    This file contains the xbString object methods
+
+    Copyright (C) 1997  StarTech, Gary A. Kunkel   
+    email - xbase@startech.keller.tx.us
+    www   - http://www.startech.keller.tx.us/xbase.html
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+    V 1.9.2  9/14/99    - misc user supplied updates
+*/
+
+#include <xbase/xbconfig.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -21,6 +46,9 @@
 #endif
 
 #include <xdb/xbstring.h>
+#include <xdb/xbexcept.h>
+
+const char * xbString::NullString = "";
 
 xbString::xbString() {
   ctor(NULL);
@@ -72,6 +100,25 @@ void xbString::ctor(const char *s) {
 
   data = (char *)malloc(size);
   strcpy(data, s);
+}
+
+void xbString::ctor(const char *s,size_t maxlen) {
+
+  if (s == NULL) {
+    data = NULL;
+    size =0;
+    return;
+  }
+
+  size_t len = strlen(s);
+  
+  if (maxlen<len)
+    maxlen = len;
+
+  size = maxlen+1;
+  data = (char *)malloc(size);
+  strncpy(data, s, maxlen);
+	data[maxlen] = 0;
 }
 
 xbString &xbString::operator=(char c) {
@@ -147,6 +194,10 @@ size_t xbString::len() const {
   return ((data == NULL)?0:strlen(data));
 }
 
+size_t xbString::length() const {
+  return len();
+}
+
 xbString xbString::copy() const {
   return (*this);
 }
@@ -158,13 +209,17 @@ xbString &xbString::sprintf(const char *format, ...) {
   if (size < 256)
     resize(256);              // make string big enough
 
-#ifdef HAVE_VSPRINTF
-  vsprintf(data, format, ap);
-#elif HAVE_VSNPRINTF
+#ifdef HAVE_VSNPRINTF
   if (vsnprintf(data, size, format, ap) == -1)
     data[size-1] = 0;
 #else
-#  error "You have neither vsprintf nor vsnprintf!!!"
+#  if HAVE_VSPRINTF
+  vsprintf(data, format, ap);
+#  else
+#    if
+#      error "You have neither vsprintf nor vsnprintf!!!"
+#    endif
+#  endif
 #endif
 
   resize(strlen(data)+1);               // truncate
@@ -173,7 +228,30 @@ xbString &xbString::sprintf(const char *format, ...) {
 }
 
 xbString::operator const char *() const {
-  return data;
+//  return data;
+  return (data != NULL) ? data : NullString;
+}
+
+xbString &xbString::operator-=(const char *s) {
+  if( s == NULL ) return (*this);
+  int len = strlen(s);
+  int oldlen = this->len();
+
+  data = (char *)realloc(data, oldlen+len+1);
+  if( oldlen == 0 ) data[0] = 0;
+
+  // looking for an occurence of space in the first string
+  char *lftspc = strchr(data,' ');
+  if( lftspc==NULL ) { // left string has no spaces
+    strcat(data,s);
+  } else { // left string has one or more spaces
+    int numspc = strlen(lftspc);
+    strcpy(lftspc,s);
+    while( numspc-- > 0 ) strcat(lftspc," ");
+  }
+
+  size += len;
+  return (*this);
 }
 
 xbString &xbString::operator+=(const char *s) {
@@ -205,6 +283,10 @@ xbString &xbString::operator+=(char c) {
 }
 
 const char *xbString::getData() const {
+  return (data != NULL) ? data : NullString;
+}
+
+const char *xbString::c_str() const {
   return data;
 }
 
@@ -214,15 +296,23 @@ void xbString::toLowerCase() {
     data[i] = (char)tolower(data[i]);
 }
 
-const char *xbString::c_str() const {
-  return data;
-}
-
 int xbString::pos(char c) {
   if (data == NULL)
     return (-1);
 
   const char *p = strchr(data, c);
+
+  if (p == NULL)
+    return (-1);
+
+  return p-data;
+}
+
+int xbString::pos(const char* s) {
+  if (data == NULL)
+    return (-1);
+
+  const char *p = strstr(data, s);
 
   if (p == NULL)
     return (-1);
@@ -266,6 +356,76 @@ bool operator!=(const xbString &s1, const char *s2) {
   return (strcmp(s1, s2) != 0);
 }
 
+bool xbString::operator==( const xbString &s2 ) const {
+  if( data == NULL || data[0] == 0 ) {
+    if( s2.data == NULL || s2.data[0] == 0 ) return true; // NULL == NULL
+    return false; // NULL == !NULL
+  } else {
+    if( s2.data == NULL || s2.data[0] == 0 ) return false; // !NULL == NULL
+    return strcmp(data,s2.data) == 0; //!NULL == !NULL
+  }
+}
+
+bool xbString::operator!=( const xbString &s2 ) const {
+  if( data == NULL || data[0] == 0 ) {
+    if( s2.data == NULL || s2.data[0] == 0 ) return false; // NULL != NULL
+    return true; // NULL != !NULL
+  } else {
+    if( s2.data == NULL || s2.data[0] == 0 ) return true; // !NULL != NULL
+    return strcmp(data,s2.data) != 0; //!NULL != !NULL
+  }
+}
+
+bool xbString::operator< ( const xbString &s2 ) const {
+  if( data == NULL || data[0] == 0 ) {
+    if( s2.data == NULL || s2.data[0] == 0 ) return false; // NULL < NULL
+    return true; // NULL < !NULL
+  } else {
+    if( s2.data == NULL || s2.data[0] == 0 ) return false; // !NULL < NULL
+    return strcmp(data,s2.data) < 0; //!NULL < !NULL
+  }
+}
+
+bool xbString::operator> ( const xbString &s2 ) const {
+  if( data == NULL || data[0] == 0 ) {
+    if( s2.data == NULL || s2.data[0] == 0 ) return false; // NULL > NULL
+    return false; // NULL > !NULL
+  } else {
+    if( s2.data == NULL || s2.data[0] == 0 ) return true; // !NULL > NULL
+    return strcmp(data,s2.data) > 0; //!NULL > !NULL
+  }
+}
+
+bool xbString::operator<=( const xbString &s2 ) const {
+  if( data == NULL || data[0] == 0 ) {
+    if( s2.data == NULL || s2.data[0] == 0 ) return true; // NULL <= NULL
+    return true; // NULL <= !NULL
+  } else {
+    if( s2.data == NULL || s2.data[0] == 0 ) return false; // !NULL <= NULL
+    return strcmp(data,s2.data) <= 0; //!NULL <= !NULL
+  }
+}
+
+bool xbString::operator>=( const xbString &s2 ) const {
+  if( data == NULL || data[0] == 0 ) {
+    if( s2.data == NULL || s2.data[0] == 0 ) return true; // NULL >= NULL
+    return false; // NULL >= !NULL
+  } else {
+    if( s2.data == NULL || s2.data[0] == 0 ) return true; // !NULL >= NULL
+    return strcmp(data,s2.data) >= 0; //!NULL >= !NULL
+  }
+}
+
+ostream& operator << ( ostream& os, const xbString& xbs ) {
+  return os << xbs.data;
+}
+
+xbString operator-(const xbString &s1, const xbString &s2) {
+	xbString tmp(s1.getData());
+	tmp -= s2;
+	return tmp;
+}
+
 xbString operator+(const xbString &s1, const xbString &s2) {
 	xbString tmp(s1.getData());
 	tmp += s2;
@@ -296,7 +456,7 @@ xbString operator+(char c1, const xbString &s2) {
 	return tmp;
 }
 
-void xbString::put_at(size_t pos, char c) {
+void xbString::putAt(size_t pos, char c) {
 	if (pos>len())
 		return;
 
@@ -319,13 +479,16 @@ xbString& xbString::assign(const xbString& str, size_t pos, int n) {
 	const char *d = str;
 		
 	if (n == -1) {
-		data = (char *)malloc(str.len()-pos+1);
-		strcpy(data, d+pos);
-		size = str.len()-pos+1;
+//        data = (char *)malloc(str.len()-pos+1); ms win/nt bug fix
+          data = (char *)calloc(str.len()-pos+1, sizeof( char ));
+	  strcpy(data, d+pos);
+	  size = str.len()-pos+1;
 	} else {
-		data = (char *)malloc(n);
-		strncpy(data, d+pos, n);
-		size = n+1;
+//	  data = (char *)malloc(n);  ms win/nt bug fix
+          data = (char *)calloc( n+1, sizeof(char));
+	  strncpy(data, d+pos, n);
+	  data[n] = '\0';
+	  size = n+1;
 	}
 
 	return (*this);
@@ -343,3 +506,50 @@ void xbString::trim() {
 		l--;
 	}
 }
+
+xbString &xbString::remove(size_t pos, int n) {
+  if (data == NULL)
+    return (*this);
+  if (data[0] == 0)
+    return (*this);
+
+  size_t l = len();
+
+  if (pos>l)
+    return (*this);
+  if (n == 0)
+    return (*this);
+  if (n > int(l-pos))
+    n = l-pos;
+  if (n<0)
+    n = l-pos;
+  memcpy(data+pos, data+pos+n, l-pos-n+1);
+
+  return (*this);
+}
+
+xbString xbString::mid(size_t pos, int n) const {
+  if (data == NULL)
+    return (*this);
+  if (data[0] == 0)
+    return (*this);
+
+  size_t l = len();
+
+  if (pos>l)
+    return (*this);
+  if (n == 0)
+    return (*this);
+  if (n > int(l-pos))
+    n = l-pos;
+  if (n<0)
+    n = l-pos;
+
+  xbString s;
+  s.data = (char *)malloc(n+1);
+  strncpy(s.data, data+pos, n);
+  s.data[n] = 0;
+
+  return s;
+}
+
