@@ -56,8 +56,7 @@ EXTRA_DIST = \
 	makefile.g95 \
 	xbase.ide
 
-libxbase_la_LDFLAGS = -version-info 2:0:0
-#libxbase_la_LDFLAGS = -release 2.0.0
+libxbase_la_LDFLAGS = -version-info 0:0:0 -release 2.0
 libxbase_la_LIBADD = 
 
 MAINTAINERCLEANFILES = Makefile.in stamp-h.in xbconfig.h.in

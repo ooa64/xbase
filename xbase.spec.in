@@ -51,7 +51,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 /usr/lib/libxbase.la
 /usr/lib/libxbase.a
 /usr/lib/libxbase.so
-/usr/lib/libxbase-%{xbase_ver}.so
+/usr/lib/libxbase-2.0.so.*
 
 %doc NEWS README TODO AUTHORS COPYING ChangeLog
 
