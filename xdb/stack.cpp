@@ -1,10 +1,10 @@
-/*  $Id: stack.cpp,v 1.1 2000/06/01 06:05:00 dbryson Exp $
+/*  $Id: stack.cpp,v 1.2 2000/06/06 23:23:27 dbryson Exp $
 
     Xbase project source code
 
     This file contains logic for handling basic stack functions.
 
-    Copyright (C) 1997  Crypton Technologies, Gary A. Kunkel   
+    Copyright (C) 1997 Startech, Gary A. Kunkel   
     email - xbase@startech.keller.tx.us
     www   - http://www.startech.keller.tx.us/xbase.html
 

@@ -1,4 +1,4 @@
-/*  $Id: retcodes.h,v 1.1 2000/06/01 06:06:00 dbryson Exp $
+/*  $Id: retcodes.h,v 1.2 2000/06/06 23:22:50 dbryson Exp $
 
     Xbase project source code
 
@@ -79,4 +79,6 @@
 #define XB_INSUFFICIENT_PARMS     -141
 #define XB_INVALID_FUNCTION       -142
 #define XB_INVALID_FIELD_LEN      -143
+#define XB_HARVEST_NODE           -144
+#define XB_INVALID_DATE           -145
 #endif	/* __XB_RETCODES_H__ */
