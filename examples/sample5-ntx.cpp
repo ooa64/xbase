@@ -1,4 +1,4 @@
-/*  $Id: sample5-ntx.cpp,v 1.3 2000/09/20 23:11:48 dbryson Exp $
+/*  $Id: sample5-ntx.cpp,v 1.4 2000/09/27 17:25:08 dbryson Exp $
 
     Xbase project source code
 
@@ -34,8 +34,7 @@
 
      Website:
 
-       linux.techass.com
-
+       xdb.sourceforge.net
 
 
     V 1.0   10/10/97   - Initial release of software

@@ -1,4 +1,4 @@
-/*  $Id: index.h,v 1.2 2000/09/20 23:11:48 dbryson Exp $
+/*  $Id: index.h,v 1.3 2000/09/27 17:25:09 dbryson Exp $
 
     Xbase project source code
 
@@ -38,7 +38,7 @@
 
       See our website at:
 
-        linux.techass.com
+        xdb.sourceforge.net
 
 
     V 1.0   9/1/98   - Initial release of software

@@ -1,4 +1,4 @@
-/*  $Id: dbfutil1.cpp,v 1.5 2000/09/20 23:11:47 dbryson Exp $
+/*  $Id: dbfutil1.cpp,v 1.6 2000/09/27 17:25:07 dbryson Exp $
 
     dbf utility program
 
@@ -35,7 +35,7 @@
 
      Website:
 
-       linux.techass.com
+       xdb.sourceforge.net
 
 
 */

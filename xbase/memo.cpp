@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.2 2000/09/20 23:11:48 dbryson Exp $
+/*  $Id: memo.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
 
     Xbase project source code
 
@@ -37,7 +37,7 @@
 
       See our website at:
 
-        linux.techass.com
+        xdb.sourceforge.net
 
 
     V 1.0   10/10/97   - Initial release of software

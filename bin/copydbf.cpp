@@ -1,4 +1,4 @@
-/*  $Id: copydbf.cpp,v 1.5 2000/09/20 23:11:47 dbryson Exp $
+/*  $Id: copydbf.cpp,v 1.6 2000/09/27 17:25:07 dbryson Exp $
 
     Xbase project source code
 
@@ -37,7 +37,7 @@
 
      Website:
 
-       linux.techass.com
+       xdb.sourceforge.net
 
 
 */

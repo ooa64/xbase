@@ -1,4 +1,4 @@
-/*  $Id: sample3.cpp,v 1.5 2000/09/20 23:11:48 dbryson Exp $
+/*  $Id: sample3.cpp,v 1.6 2000/09/27 17:25:08 dbryson Exp $
 
     Xbase project source code
 
@@ -6,8 +6,8 @@
     and sample2 program
 
     This program demonstrates the use of the following functions/methods
-       OpenDatabase, GetFieldNo, GetRecord, GetLastRecord, GetFirstRecord, 
-       GetNextRecord, GetPrevRecord, NoOfRecords and CloseDatabase, FieldCount
+    OpenDatabase, GetFieldNo, GetRecord, GetLastRecord, GetFirstRecord, 
+    GetNextRecord, GetPrevRecord, NoOfRecords and CloseDatabase, FieldCount
 
     Copyright (C) 1997  StarTech, Gary A. Kunkel   
 
@@ -41,7 +41,7 @@
 
      Website:
 
-       linux.techass.com
+       xdb.sourceforge.net
 
 
 

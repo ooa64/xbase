@@ -36,7 +36,7 @@
 
       See our website at:
 
-        linux.techass.com
+        xdb.sourceforge.net
 
 
     V 1.9.2  9/14/99    - Misc user supplied updates 

@@ -37,7 +37,7 @@
 
       See our website at:
 
-        linux.techass.com
+        xdb.sourceforge.net
 
 
     V 1.0   10/10/97   - Initial release of software

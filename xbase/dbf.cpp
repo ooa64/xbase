@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.2 2000/09/20 23:11:48 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.3 2000/09/27 17:25:08 dbryson Exp $
 
     Xbase project source code
    
@@ -37,7 +37,8 @@
 
       See our website at:
 
-        linux.techass.com
+        xdb.sourceforge.net
+
 
     V 1.0   10/10/97   - Initial release of software
     V 1.5   1/2/98     - Added memo field support
