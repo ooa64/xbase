@@ -24,6 +24,6 @@ noinst_PROGRAMS = @TVPROGS@
 EXTRA_PROGRAMS = tvxbase
 
 tvxbase_SOURCES = tvxbase.cpp tvbrowse.cpp tvbrowse.h
-tvxbase_LDADD = -L$(topdir)/xbase/.libs -lxbase -ltvision -lgpm
+tvxbase_LDADD = -L$(topdir)/xdb/.libs -lxdb -ltvision -lgpm
 
 MAINTAINERCLEANFILES = Makefile.in
