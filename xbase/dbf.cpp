@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.22 2002/12/17 03:03:56 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.23 2003/04/15 17:01:01 dbryson Exp $
 
     Xbase project source code
    
@@ -2279,6 +2279,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
          {
             if( GetFieldType( i ) == 'M' && MemoFieldExists( i ))
             {
+               Temp.PutLongField(i, 0L);
                len = GetMemoFieldLen( i );
                if( len > BufSize )
                {
