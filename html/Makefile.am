@@ -23,7 +23,8 @@ EXTRA_DIST = COPYING.LIB Xb2cpp.html cvsdoc xbase.html xbase.jpg	      \
 	xbase_c1.html xbase_c10.html xbase_c11.html xbase_c12.html	      \
 	xbase_c13.html xbase_c14.html xbase_c15.html xbase_c16.html	      \
 	xbase_c17.html xbase_c18.html xbase_c19.html xbase_c2.html	      \
-	xbase_c3.html xbase_c4.html xbase_c5.html xbase_c6.html xbase_c8.html \
+	xbase_c3.html xbase_c4.html xbase_c5.html xbase_c6.html xbase_c7.html \
+        xbase_c8.html \
 	xbase_c9.html xbase_download.html xbase_help.html xbase_links.html    \
 	xbase_locking.html xbase_mail.html xbase_order.html xbase_port.html   \
 	xbase_preamble.html xbase_probs.html xbase_toc.html zipflow.gif
