@@ -1,4 +1,4 @@
-/*  $Id: ntx.h,v 1.2 2000/06/06 23:10:09 dbryson Exp $
+/*  $Id: ntx.h,v 1.3 2000/06/15 06:01:26 dbryson Exp $
 
     Xbase project source code
 
@@ -173,6 +173,8 @@ class XBDLLEXPORT xbNtx : public xbIndex  {
    xbShort  ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems) = 0) ;
    xbShort  KeyExists( char * Key ) { return FindKey( Key, strlen( Key ), 0 ); }
    xbShort  KeyExists( xbDouble );
+
+	xbShort xbNtx::AllocKeyBufs(void);
 
    virtual void GetExpression(char *buf, int len);
 };

@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.3 2000/06/07 03:25:39 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.4 2000/06/15 06:01:26 dbryson Exp $
 
     Xbase project source code
 
@@ -183,8 +183,14 @@ xbNodeLink * xbNtx::GetNodeMemory( void )
    else
    {
       temp = (xbNodeLink *) malloc( sizeof( xbNodeLink ));
+      if(temp==NULL) return NULL;
+
       memset( temp, 0x00, sizeof( xbNodeLink ));
       temp->offsets = (xbUShort *)malloc( (HeadNode.KeysPerNode + 1) * sizeof(xbUShort));
+	  if (temp->offsets==NULL) {
+		free(temp);
+		return NULL;
+	  };
       NodeLinkCtr++;
    }
    return temp;
@@ -219,6 +225,25 @@ xbNtx::xbNtx( xbDbf * pdbf )  : xbIndex (pdbf)
    CurNode         = NULL;
    NodeLinkCtr     = 0L;
    ReusedNodeLinks = 0L;
+}
+
+/***********************************************************************/
+xbShort
+xbNtx::AllocKeyBufs(void)
+{
+	KeyBuf  = (char *) malloc( HeadNode.KeyLen + 1 ); 
+	if(KeyBuf==NULL) { 
+		return XB_NO_MEMORY;		
+	};
+	KeyBuf2 = (char *) malloc( HeadNode.KeyLen + 1);
+	if(KeyBuf2==NULL) {
+		free(KeyBuf);
+		return XB_NO_MEMORY;		
+	};
+	memset( KeyBuf,  0x00, HeadNode.KeyLen + 1 );
+	memset( KeyBuf2, 0x00, HeadNode.KeyLen + 1 );
+
+	return XB_NO_ERROR;
 }
 /***********************************************************************/
 xbShort xbNtx::OpenIndex( const char * FileName )
@@ -279,10 +304,11 @@ xbShort xbNtx::OpenIndex( const char * FileName )
     ExpressionTree = dbf->xbase->GetTree();
     dbf->xbase->SetTreeToNull(); 
 
-   KeyBuf  = (char *) malloc( HeadNode.KeyLen + 1 ); 
-   KeyBuf2 = (char *) malloc( HeadNode.KeyLen + 1);
-   memset( KeyBuf,  0x00, HeadNode.KeyLen + 1 );
-   memset( KeyBuf2, 0x00, HeadNode.KeyLen + 1 );
+	rc=AllocKeyBufs();
+	if(rc) {
+		fclose(indexfp);
+		return rc;		
+	};
 
 #ifdef XBASE_DEBUG
 //   CheckIndexIntegrity( 0 );
@@ -1432,10 +1458,12 @@ xbShort xbNtx::CreateIndex(const char * IxName, const char * Exp, xbShort Unique
 //   while(( HeadNode.KeySize % 4 ) != 0 ) HeadNode.KeySize++;  /* multiple of 4*/
    HeadNode.Unique = Unique;
    strncpy( HeadNode.KeyExpression, Exp, 255 );
-   KeyBuf  = (char *) malloc( HeadNode.KeyLen + 1 ); 
-   KeyBuf2 = (char *) malloc( HeadNode.KeyLen + 1 ); 
-   memset( KeyBuf,  0x00, HeadNode.KeyLen + 1 );
-   memset( KeyBuf2, 0x00, HeadNode.KeyLen + 1 );
+
+	rc=AllocKeyBufs();
+	if(rc) {
+		fclose(indexfp);
+		return rc;		
+	};
 
    if(( rc = PutHeadNode( &HeadNode, indexfp, 0 )) != 0 )
    {

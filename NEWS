@@ -45,6 +45,11 @@ correctly.
 ------------------------------------------------------------------------------
 The following is the NEWS file from the original xBase1.8.1 release
 ------------------------------------------------------------------------------
+
+Release 1.8.1 created 3/31/99 - in preperation for next wave of development 
+code as discussed in the mailing list
+
+
 All includes moved to xbase/ directory.  From now on, use:
 
 	#include <xbase/xbase.h>
@@ -54,8 +59,7 @@ Release 1.8.0b release 2/27/99
 Has some misc bug fixes from release 1.8.0a, mainly includes a missing
 configure script.  
 
-1.8.0b was released to address misc 1.8.0a distribution problems,
-because applying additional mods to the code base.
+1.8.0b was released to address misc 1.8.0a distribution problems.
 
 The NTX index logic is still in alpha.  It does not appear to generate
 correct indices in all circumstances.  So for now, you may want to 
