@@ -1,4 +1,4 @@
-/*  $Id: sample2.cpp,v 1.7 2000/11/10 19:28:38 dbryson Exp $
+/*  $Id: sample2.cpp,v 1.8 2000/11/10 19:40:16 dbryson Exp $
 
     Xbase project source code
 
@@ -76,14 +76,12 @@ int main()
 
   if(( rc = MyFile.OpenDatabase( "MYFILE.DBF" )) != XB_NO_ERROR )
      cout << "\nError opening MYFILE.DBF rc=" << rc;
-#if 1
   if(( rc = MyIndex1.OpenIndex( "MYINDEX1.NDX" )) != XB_NO_ERROR )
      cout << "\nError opening index1 rc=" << rc;
   if(( rc = MyIndex2.OpenIndex( "MYINDEX2.NDX" )) != XB_NO_ERROR )
      cout << "\nError opening index2 rc=" << rc;
   if(( rc = MyIndex3.OpenIndex( "MYINDEX3.NDX" )) != XB_NO_ERROR )
      cout << "\nError opening index3 rc=" << rc;
-#endif
   if(( rc = MyIndex4.OpenIndex( "MYINDEX4.NDX" )) != XB_NO_ERROR )
      cout << "\nError opening index4 rc=" << rc;
 
@@ -171,8 +169,6 @@ int main()
   if(( rc = MyFile.AppendRecord()) != XB_NO_ERROR )       /* write it */
      cout << "\nError " << rc << " appending data record.";
 
-while(1)
-{
   /* build record four */
   MyFile.BlankRecord();			/* blank out the record buffer */
   MyFile.PutField( lname, "Lucas" );			/* a name */
@@ -180,7 +176,7 @@ while(1)
   MyFile.PutField( birthdate, "19470406" );		/* a date */
   MyFile.PutField( amount, "77.77" );			/* an amount */
   MyFile.PutField( sw, "T" );				/* a switch */
-  f = 4.321f; 
+  f = 4.321f;
   MyFile.PutFloatField( f1, f );
   MyFile.PutFloatField( "FLOAT2", 4.321f );
   MyFile.PutField( f1, "4.321" );
@@ -193,9 +189,7 @@ while(1)
 #endif
   if(( rc = MyFile.AppendRecord()) != XB_NO_ERROR )       /* write it */
      cout << "\nError " << rc << " appending data record.";
-     
-}
 
   MyFile.CloseDatabase();				/* close database */
   return 0;
-}     
+}
