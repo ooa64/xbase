@@ -77,6 +77,8 @@
 #include <xbase/xbstring.h>
 #include <xbase/xbexcept.h>
 
+//#define free(x)
+
 /*! \file xbstring.cpp
 */
 
@@ -94,7 +96,7 @@ xbString::xbString() {
   \param size
 */
 xbString::xbString(size_t size) {
-  data = (char *)malloc(size);
+  data = (char *)calloc(1, size);
   this->size = size;
 }
 
@@ -131,13 +133,13 @@ xbString::xbString(const xbString &s) {
 xbString::xbString(const char *s, size_t maxlen) {
   size_t len = strlen(s);
   
-  if (maxlen<len)
+  if(len < maxlen)
     maxlen = len;
 
-  size = maxlen+1;
-  data = (char *)malloc(size);
-  strncpy(data, s, maxlen);
-   data[maxlen] = 0;
+  size = maxlen + 1;
+  data = (char *)calloc(1, size);
+  memcpy(data, s, maxlen);
+  data[maxlen] = 0;
 }
 
 //! Short description.
@@ -155,13 +157,13 @@ xbString::~xbString() {
 void xbString::ctor(const char *s) {
   if (s == NULL) {
     data = NULL;
-    size =0;
+    size = 0;
     return;
   }
 
-  size = strlen(s)+1;
+  size = strlen(s) + 1;
 
-  data = (char *)malloc(size);
+  data = (char *)calloc(1, size);
   strcpy(data, s);
 }
 
@@ -170,7 +172,7 @@ void xbString::ctor(const char *s) {
   \param s
   \param maxlen
 */
-void xbString::ctor(const char *s,size_t maxlen) {
+void xbString::ctor(const char *s, size_t maxlen) {
 
   if (s == NULL) {
     data = NULL;
@@ -180,13 +182,13 @@ void xbString::ctor(const char *s,size_t maxlen) {
 
   size_t len = strlen(s);
   
-  if (maxlen<len)
+  if (len < maxlen)
     maxlen = len;
 
-  size = maxlen+1;
-  data = (char *)malloc(size);
-  strncpy(data, s, maxlen);
-   data[maxlen] = 0;
+  size = maxlen + 1;
+  data = (char *)calloc(1, size);
+  memcpy(data, s, maxlen);
+  data[maxlen] = 0;
 }
 
 //! Short description.
@@ -196,7 +198,7 @@ xbString &xbString::operator=(char c) {
   if (data != NULL)
     free(data);
 
-  data = (char *)malloc(2);
+  data = (char *)calloc(1, 2);
   data[0] = c;
   data[1] = 0;
 
@@ -219,7 +221,7 @@ xbString &xbString::operator=(const xbString &s) {
     return (*this);
   }
 
-  data = (char *)malloc(strlen(s)+1);
+  data = (char *)calloc(1, strlen(s) + 1);
   strcpy(data, s);
 
   size = strlen(data)+1;
@@ -240,10 +242,10 @@ xbString &xbString::operator=(const char *s) {
       return (*this);
    }
 
-  data = (char *)malloc(strlen(s)+1);
+  data = (char *)calloc(1, strlen(s) + 1);
   strcpy(data, s);
 
-  size = strlen(data)+1;
+  size = strlen(data) + 1;
   
   return (*this);
 }
@@ -281,7 +283,7 @@ bool xbString::isEmpty() const {
 /*!
 */
 size_t xbString::len() const {
-  return ((data == NULL)?0:strlen(data));
+  return (data ? 0 : strlen(data));
 }
 
 //! Short description.
@@ -398,14 +400,14 @@ xbString &xbString::operator+=(char c) {
 /*!
 */
 const char *xbString::getData() const {
-  return (data != NULL) ? data : NullString;
+  return data ? data : NullString;
 }
 
 //! Short description.
 /*!
 */
 const char *xbString::c_str() const {
-  return data;
+  return data ? data : NullString;
 }
 
 //! Short description.
@@ -652,35 +654,66 @@ void xbString::putAt(size_t pos, char c) {
   \param pos
   \param n
 */
-xbString& xbString::assign(const xbString& str, size_t pos, int n) {
-   if (data != NULL)
-      free(data);
+xbString& xbString::assign(const xbString& str, size_t pos, int n) 
+{
+  if(data)
+  {
+    free(data);
+    data = 0;
+  }    
 
-   if (str.len() <= pos) {
-      size = 0;
-      return (*this);
-   }
+  if(str.len() <= pos) 
+  {
+    size = 0;
+    return (*this);
+  }
 
-   if (str.len() < pos+n) {
-      n = str.len()-pos;
-   }
+  if(str.len() < pos + n) 
+  {
+    n = str.len() - pos;
+  }
 
-   const char *d = str;
+  const char *d = str;
       
-   if (n == -1) {
+  if (n == -1) 
+  {
 //        data = (char *)malloc(str.len()-pos+1); ms win/nt bug fix
-          data = (char *)calloc(str.len()-pos+1, sizeof( char ));
-     strcpy(data, d+pos);
-     size = str.len()-pos+1;
-   } else {
+    data = (char *)calloc(str.len()-pos+1, sizeof( char ));
+    strcpy(data, d+pos);
+    size = str.len()-pos+1;
+  } 
+  else 
+  {
 //   data = (char *)malloc(n);  ms win/nt bug fix
-          data = (char *)calloc( n+1, sizeof(char));
-     strncpy(data, d+pos, n);
-     data[n] = '\0';
-     size = n+1;
-   }
+    data = (char *)calloc(n + 1, sizeof(char));
+    memcpy(data, d + pos, n);
+    data[n] = '\0';
+    size = n + 1;
+  }
 
-   return (*this);
+  return (*this);
+}
+
+//! Short description.
+/*!
+  \param str
+  \param pos
+  \param n
+*/
+xbString& xbString::assign(char* str, int n) 
+{
+  if(data)
+  {
+    free(data);
+    data = 0;
+  }
+  
+  data = (char *)calloc(n + 1, sizeof(char));
+  memcpy(data, str, n);
+  data[n] = 0;
+  size = n + 1;
+
+  return (*this);
 }
 
 //! Short description.

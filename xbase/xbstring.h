@@ -94,6 +94,7 @@ public:
   void setNum(long num);
   
   xbString& assign(const xbString& str, size_t pos = 0, int n = npos);
+  xbString& assign(char* str, int n);
   char operator[](int n) { return data[n]; }
   char getCharacter( int n ) const { return data[n]; }
   operator const char *() const;
