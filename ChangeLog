@@ -1,3 +1,16 @@
+2000-11-10 Derry Bryson <derry@techass.com>
+
+	* Fixed memory leak caused by some calling xbString::ctor().
+	  xbString::ctor() is now protected so this shouldn't happen
+          in the future :)
+
+	* Fixed error in expression processing where a node was being
+	  used after being deleted!
+
+	* Many changes and additions to support compilation under Windows
+
+-------------------------------------------------------------------------------
+
 Fri May 29, 2000
 
 See NEWS file for changes.
