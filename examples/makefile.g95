@@ -1,0 +1,76 @@
+#    This file is part of the XBase libraries
+#    Copyright (C) 2000 Derry Bryson
+#
+#
+#    This library is free software; you can redistribute it and/or
+#    modify it under the terms of the GNU Lesser General Public
+#    License as published by the Free Software Foundation; either
+#    version 2.1 of the License, or (at your option) any later version.
+#
+#    This library is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#    Lesser General Public License for more details.
+#
+#    You should have received a copy of the GNU Lesser General Public
+#    License along with this library; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#    Contact:
+#
+#      Mail:
+#
+#        Technology Associates, Inc.
+#        XBase Project
+#        1455 Deming Way #11
+#        Sparks, NV 89434
+#        USA
+#
+#      Email:
+#
+#        xbase@techass.com
+#
+#      See our website at:
+#
+#        xdb.sourceforge.net
+#
+
+# Mingw32/Cygwin make file
+
+CPPFLAGS = -I..
+
+# uncomment the following to generate debug code
+#DEBUG = -g
+
+# Note, if linking to the dll, you need to define XBUSINGDLL
+CXXFLAGS = -O2 $(DEBUG) -DXBUSINGDLL --pipe -Wall -fvtable-thunks
+#CXXFLAGS = -O2 $(DEBUG) -Wall --pipe -fvtable-thunks
+CFLAGS = -02 $(DEBUG) -DXBUSINGDLL -Wall --pipe
+#CFLAGS = -02 $(DEBUG) -Wall --pipe
+
+LDFLAGS = -L../xbase
+
+LIBS = -lxbasedll -lstdc++
+#LIBS = -lxbase
+
+all : sample1.exe sample2.exe sample3.exe sample4.exe sample5.exe
+
+sample1.exe : sample1.o
+	$(CXX) -o $@ $(CXXFLAGS) sample1.o $(LDFLAGS) $(LIBS)
+
+sample2.exe : sample2.o
+	$(CXX) -o $@ $(CXXFLAGS) sample2.o $(LDFLAGS) $(LIBS)
+
+sample3.exe : sample3.o
+	$(CXX) -o $@ $(CXXFLAGS) sample3.o $(LDFLAGS) $(LIBS)
+
+sample4.exe : sample4.o
+	$(CXX) -o $@ $(CXXFLAGS) sample4.o $(LDFLAGS) $(LIBS)
+
+sample5.exe : sample5.o
+	$(CXX) -o $@ $(CXXFLAGS) sample5.o $(LDFLAGS) $(LIBS)
+
+clean :
+	-rm *.o *.exe
+
+

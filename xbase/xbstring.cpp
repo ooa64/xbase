@@ -41,6 +41,10 @@
     V 1.9.2  9/14/99    - misc user supplied updates
 */
 
+#ifdef __GNUG__
+  #pragma implementation "xbstring.h"
+#endif
+
 #include <xbase/xbase.h>
 
 #ifdef __WIN32__
@@ -48,6 +52,8 @@
 #else
 #include <xbase/xbconfig.h>
 #endif
+
+#include <xbase/xbase.h>
 
 #include <stdlib.h>
 #include <stdio.h>

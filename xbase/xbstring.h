@@ -45,6 +45,10 @@
 #ifndef __XBSTRING_H__
 #define __XBSTRING_H__
 
+#ifdef __GNUG__
+#pragma interface
+#endif
+
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>
 #else

@@ -1,4 +1,4 @@
-/*  $Id: checkndx.cpp,v 1.6 2000/09/27 17:25:07 dbryson Exp $
+/*  $Id: checkndx.cpp,v 1.7 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -43,7 +43,7 @@
     V 1.8   11/29/98   - Version 1.8 upgrade
 */
 
-#include <xbase/xbase.h>
+#include "xbase/xbase.h"
 
 int main(int ac,char** av)
 {
@@ -53,12 +53,13 @@ int main(int ac,char** av)
    xbNdx i( &d );
    xbShort rc;
 
+#if 0
    if( 3 != ac ){
-     cout << 
+     cout <<
        "\nUsage: checkndx dbf_file index_file\n";
        return 1;
    }
- 
+
    if(( rc = d.OpenDatabase( av[1] )) != XB_NO_ERROR )
    {
       cout << "\nCould not open file " << av[1] << " rc = " << rc << "\n";
@@ -73,11 +74,12 @@ int main(int ac,char** av)
 
    cout << "\nRunning...\n";
    rc = i.CheckIndexIntegrity( 1 );
-   cout << "\nNdx integrity check = " << rc << "\n"; 
+   cout << "\nNdx integrity check = " << rc << "\n";
 
    i.DumpHdrNode();
 
    d.CloseDatabase();
+#endif
 #else
    cout << "\nXBASE_DEBUG is not compiled in\n";
 #endif

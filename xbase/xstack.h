@@ -1,4 +1,4 @@
-/*  $Id: xstack.h,v 1.4 2000/09/28 17:34:29 dbryson Exp $
+/*  $Id: xstack.h,v 1.5 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
   
@@ -51,6 +51,10 @@
 
 #ifndef __XB_STACK_H__
 #define __XB_STACK_H__
+
+#ifdef __GNUG__
+#pragma interface
+#endif
 
 #include <xbase/xtypes.h>
 

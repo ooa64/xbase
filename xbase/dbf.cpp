@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.6 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
    
@@ -55,6 +55,10 @@
    V 1.9.2 6/15/2000  - Added call to InitVars() to cleanup error handling
                         in CreateDatabase() and OpenDatabase().
 */
+
+#ifdef __GNUG__
+  #pragma implementation "dbf.h"
+#endif
 
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>
@@ -2681,21 +2685,21 @@ xbShort xbDbf::RemoveIndexFromIxList(xbIndex * n) {
 xbLong    
 xbDbf::NoOfRecords(void)
 {
-  xbShort
-    rc;
-    
   xbLong
     numRecs = 0;
-    
+
 /* lock the database */
 #ifdef XB_LOCKING_ON
+  xbShort
+    rc;
+
    if( AutoLock )
    {
       if(( rc = LockDatabase( F_SETLKW, F_RDLCK, 0L )) != XB_NO_ERROR )
       {
          return 0;
       }
-      
+
       if((rc = ReadHeader(1)) != XB_NO_ERROR)
       {
          if(AutoLock)
@@ -2730,14 +2734,14 @@ xbDbf::NoOfRecords(void)
 xbLong    
 xbDbf::PhysicalNoOfRecords(void)
 {
-  xbShort
-    rc;
-    
   xbLong
     numRecs = 0;
     
 /* lock the database */
 #ifdef XB_LOCKING_ON
+  xbShort
+    rc;
+    
    if( AutoLock )
    {
       if(( rc = LockDatabase( F_SETLKW, F_RDLCK, 0L )) != XB_NO_ERROR )

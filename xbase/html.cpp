@@ -1,4 +1,4 @@
-/*  $Id: html.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: html.cpp,v 1.6 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -45,6 +45,10 @@
     V 1.6b     4/8/98     - Numeric index keys
     V 1.7.4.c  7/7/98     - Continued development on GenFormFields method
 */
+
+#ifdef __GNUG__
+  #pragma implementation "html.h"
+#endif
 
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>

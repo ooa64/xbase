@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.6 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -54,6 +54,10 @@
     V 1.9      4/12/99   - Added fix to AddKey routine for dup keys 
                          - Modified CreateIndex logic - KeySize field 
 */
+
+#ifdef __GNUG__
+  #pragma implementation "ndx.h"
+#endif
 
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>
@@ -526,7 +530,7 @@ void xbNdx::DumpNodeRec( xbLong n )
 }
 #endif
 /***********************************************************************/
-#if 0
+#ifndef XB_INLINE_GETDBFNO
 xbLong xbNdx::GetDbfNo( xbShort RecNo, xbNdxNodeLink * n )
 {
    xbNdxLeafNode *temp;
@@ -995,7 +999,7 @@ xbShort xbNdx::GetPrevKey( xbShort RetrieveSw )
 /* traverse down the right side of the tree */
    while( GetLeftNodeNo( 0, CurNode ))    /* while interior node */
    {
-      TempNodeNo = GetLeftNodeNo( CurNode->Leaf.NoOfKeysThisNode, CurNode );     
+      TempNodeNo = GetLeftNodeNo( CurNode->Leaf.NoOfKeysThisNode, CurNode );
       if(( rc = GetLeafNode( TempNodeNo, 1 )) != 0 )
       {
          CurDbfRec = 0L;
@@ -1017,7 +1021,7 @@ xbShort xbNdx::GetPrevKey( xbShort RetrieveSw )
       return XB_NO_ERROR;
 }
 
-#if 0
+#ifndef XB_INLINE_COMPAREKEY
 /***********************************************************************/
 //! Short description
 /*!

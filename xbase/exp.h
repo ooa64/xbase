@@ -1,4 +1,4 @@
-/*  $Id: exp.h,v 1.5 2000/10/31 00:59:48 dbryson Exp $
+/*  $Id: exp.h,v 1.6 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code 
 
@@ -50,6 +50,10 @@
 #ifndef __XB_EXP_H__
 #define __XB_EXP_H__
 
+#ifdef __GNUG__
+#pragma interface
+#endif
+
 #include <xbase/xbase.h>
 
 #ifdef XB_EXPRESSIONS             /* compile if expression logic on */
@@ -72,7 +76,7 @@ class XBDLLEXPORT xbDbf;
 /*!
 */
 
-struct xbFuncDtl {
+struct XBDLLEXPORT xbFuncDtl {
    const char * FuncName;     /* function name               */
    xbShort ParmCnt;                  /* no of parms it needs        */
    char    ReturnType;               /* return type of function     */
@@ -83,7 +87,8 @@ struct xbFuncDtl {
 /*!
 */
 
-struct xbExpNode {
+class XBDLLEXPORT xbExpNode {
+public:
    char * NodeText;           /* expression text                 */
    char Type;                 /* same as TokenType below         */
    xbShort Len;                 /* length of expression text       */
@@ -124,10 +129,10 @@ struct xbExpNode {
     ExpressionType(0)
     {}
    ~xbExpNode(){
-     if( Sibling1 ) delete Sibling1; 
-     if( Sibling2 ) delete Sibling2; 
-     if( Sibling3 ) delete Sibling3; 
-   } 
+     if( Sibling1 ) delete Sibling1;
+     if( Sibling2 ) delete Sibling2;
+     if( Sibling3 ) delete Sibling3;
+   }
 };
 
 //! xbExpn class
@@ -152,7 +157,7 @@ public:
    xbLong   AT( const char *, const char * );
    char *   CDOW( const char * );
    char *   CHR( xbLong );
-   char *   CMONTH( const char * ); 
+   char *   CMONTH( const char * );
    char *   DATE();
    xbLong   DAY( const char * );
    xbLong   DESCEND( const char * );
@@ -222,7 +227,7 @@ public:
 
 protected:
    xbFuncDtl *XbaseFuncList;    /* pointer to list of Xbase functions    */
-//   xbExpNode *NextFreeExpNode;  /* pointer to chain of free nodes        */ 
+//   xbExpNode *NextFreeExpNode;  /* pointer to chain of free nodes        */
    xbExpNode *Tree;
    xbShort LogicalType;         /* set to 1 for logical type nodes       */
 

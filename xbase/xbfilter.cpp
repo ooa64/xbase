@@ -47,6 +47,10 @@
     V 1.8.x 3/29/99    - Initial support for filters added
 */
 
+#ifdef __GNUG__
+  #pragma implementation "xbfilter.h"
+#endif
+
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>
 #else

@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.8 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: xbase.h,v 1.9 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -50,6 +50,16 @@
 #ifndef __XB_XBASE_H__
 #define __XB_XBASE_H__
 
+#ifdef __GNUG__
+#pragma interface
+#endif
+
+#ifdef __WIN32__
+#include "xbase/xbconfigw32.h"
+#else
+#include "xbase/xbconfig.h"
+#endif
+
 //
 //  Identify ourselves
 //
@@ -65,23 +75,7 @@
 // ripped from wxWindows
 
 // _declspec works in BC++ 5 and later, as well as VC++
-#if defined(__VISUALC__) || defined(__BORLANDC__)
-#  ifdef XBMAKINGDLL
-#    define XBDLLEXPORT __declspec( dllexport )
-#    define XBDLLEXPORT_DATA(type) __declspec( dllexport ) type
-#    define XBDLLEXPORT_CTORFN
-#  elif defined(XBUSINGDLL)
-#    define XBDLLEXPORT __declspec( dllimport )
-#    define XBDLLEXPORT_DATA(type) __declspec( dllimport ) type
-#    define XBDLLEXPORT_CTORFN
-#  else
-#    define XBDLLEXPORT
-#    define XBDLLEXPORT_DATA(type) type
-#    define XBDLLEXPORT_CTORFN
-#  endif
-
-#elif defined(__GNUC__)
-
+#if defined(__VISUALC__) || defined(__BORLANDC__) || defined(__GNUC__)
 #  ifdef XBMAKINGDLL
 #    define XBDLLEXPORT __declspec( dllexport )
 #    define XBDLLEXPORT_DATA(type) __declspec( dllexport ) type

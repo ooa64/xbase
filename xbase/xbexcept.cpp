@@ -1,4 +1,4 @@
-/*  $Id: xbexcept.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: xbexcept.cpp,v 1.6 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -38,6 +38,10 @@
 
         xdb.sourceforge.net
 */
+
+#ifdef __GNUG__
+  #pragma implementation "xbexcept.h"
+#endif
 
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>

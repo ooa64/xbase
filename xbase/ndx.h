@@ -1,4 +1,4 @@
-/*  $Id: ndx.h,v 1.5 2000/10/31 00:59:48 dbryson Exp $
+/*  $Id: ndx.h,v 1.6 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -52,11 +52,21 @@
 #ifndef __XB_NDX_H__
 #define __XB_NDX_H__
 
+#ifdef __GNUG__
+#pragma interface
+#endif
+
 #include <xbase/xbase.h>
 #include <string.h>
 
 /*! \file ndx.h
 */
+
+//
+// Define the following to use inline versions of the respective methods.
+//
+#define XB_INLINE_COMPAREKEY
+#define XB_INLINE_GETDBFNO
 
 #define XB_NDX_NODE_BASESIZE            24      // size of base header data
 
@@ -76,7 +86,7 @@
 /*!
 */
 
-struct xbNdxHeadNode {        /* ndx header on disk */
+struct XBDLLEXPORT xbNdxHeadNode {        /* ndx header on disk */
    xbLong   StartNode;                    /* header node is node 0 */
    xbLong   TotalNodes;                   /* includes header node */
    xbLong   NoOfKeys;                     /* actual count + 1 */
@@ -98,7 +108,7 @@ struct xbNdxHeadNode {        /* ndx header on disk */
 /*!
 */
 
-struct xbNdxLeafNode {        /* ndx node on disk */
+struct XBDLLEXPORT xbNdxLeafNode {        /* ndx node on disk */
    xbLong   NoOfKeysThisNode;
 #ifndef XB_VAR_NODESIZE
    char   KeyRecs[XB_NDX_NODE_SIZE-4];
@@ -111,7 +121,7 @@ struct xbNdxLeafNode {        /* ndx node on disk */
 /*!
 */
 
-struct xbNdxNodeLink {        /* ndx node memory */
+struct XBDLLEXPORT xbNdxNodeLink {        /* ndx node memory */
    xbNdxNodeLink * PrevNode;
    xbNdxNodeLink * NextNode;
    xbLong       CurKeyNo;                 /* 0 - KeysPerNode-1 */
@@ -123,11 +133,15 @@ struct xbNdxNodeLink {        /* ndx node memory */
 /*!
 */
 
-class XBDLLEXPORT xbNdx : public xbIndex{
+class XBDLLEXPORT xbNdx : public xbIndex
+{
 //   xbExpNode * ExpressionTree;    /* Expression tree for index */
 
 public:
-   xbNdx      ( xbDbf * );
+   xbNdx() : xbIndex() {}
+   xbNdx( xbDbf * );
+
+   ~xbNdx() {}
 
 /* don't uncomment next line - it causes seg faults for some undiagnosed reason*/
 //   ~NDX() { if( NdxStatus ) CloseIndex(); }  
@@ -202,7 +216,7 @@ protected:
 
 /* private functions */
    xbLong     GetLeftNodeNo( xbShort, xbNdxNodeLink * );
-#if 0   
+#ifndef XB_INLINE_COMPAREKEY
    xbShort    CompareKey( const char *Key1, const char *Key2, xbShort Klen );
 #else
    //! Short description.
@@ -239,8 +253,8 @@ protected:
         else return 2;
      }
    }
-#endif   
-#if 0
+#endif
+#ifndef XB_INLINE_GETDBFNO
    xbLong     GetDbfNo( xbShort, xbNdxNodeLink * );
 #else
    //! Short description.
@@ -257,15 +271,15 @@ protected:
      p += RecNo * ( 8 + HeadNode.KeyLen );
      return( dbf->xbase->GetLong( p ));
    }
-#endif   
+#endif
    char *     GetKeyData( xbShort, xbNdxNodeLink * );
    xbUShort   GetKeysPerNode();
-   xbShort    GetHeadNode();    
+   xbShort    GetHeadNode();
    xbShort    GetLeafNode( xbLong, xbShort );
    xbNdxNodeLink * GetNodeMemory();
    void       ReleaseNodeMemory( xbNdxNodeLink * );
-   xbShort    BSearchNode(const char *key, xbShort klen, 
-                          const xbNdxNodeLink *node, 
+   xbShort    BSearchNode(const char *key, xbShort klen,
+                          const xbNdxNodeLink *node,
                           xbShort *comp);
    xbLong     GetLeafFromInteriorNode( const char *Tkey, xbShort Klen );
    xbShort    CalcKeyLen();

@@ -1,4 +1,4 @@
-/*  $Id: stack.cpp,v 1.4 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: stack.cpp,v 1.5 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -44,6 +44,10 @@
     V 1.6a  4/1/98     - Added expression support
     V 1.6b  4/8/98     - Added expression support
 */
+
+#ifdef __GNUG__
+  #pragma implementation "xstack.h"
+#endif
 
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>

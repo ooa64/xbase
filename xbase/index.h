@@ -1,4 +1,4 @@
-/*  $Id: index.h,v 1.4 2000/10/31 00:59:48 dbryson Exp $
+/*  $Id: index.h,v 1.5 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -47,6 +47,10 @@
 #ifndef __XB_INDEX_H__
 #define __XB_INDEX_H__
 
+#ifdef __GNUG__
+#pragma interface
+#endif
+
 #include <xbase/xbase.h>
 #include <string.h>
 
@@ -85,13 +89,16 @@ protected:
     xbShort NodeSize;
 
 public:
+    xbIndex() {}
     xbIndex(xbDbf *);
+
+    virtual ~xbIndex() {}
 
     virtual xbShort  OpenIndex ( const char * ) = 0;
     virtual xbShort  CloseIndex() = 0;
 #ifdef XBASE_DEBUG
     virtual void     DumpHdrNode() = 0;
-    virtual void     DumpNodeRec( xbLong ) = 0; 
+    virtual void     DumpNodeRec( xbLong ) = 0;
     virtual void     DumpNodeChain() = 0;
     virtual xbShort  CheckIndexIntegrity( const xbShort ) = 0;
 #endif
@@ -127,8 +134,6 @@ public:
     virtual xbShort GetNodeSize(void) { return NodeSize; }
 
     virtual void    GetExpression(char *buf, int len) = 0;
-
-    virtual ~xbIndex(){};
 };
 
 

@@ -67,6 +67,7 @@ int main(int ac,char** av)
    xbDbf d( &x );
    xbShort rc, FieldOption = 0;
    xbIndex *ix = 0;
+   xbNdx z(&d);
 
    char *dbfname = NULL;
    char *ixname  = NULL;

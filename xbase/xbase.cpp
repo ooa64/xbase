@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.7 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.8 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -45,6 +45,10 @@
     V 1.6b  4/8/98     - Numeric index keys
     V 1.7.1 5/25/98    - Big Endian support
 */
+
+#ifdef __GNUG__
+  #pragma implementation "xbase.h"
+#endif
 
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>

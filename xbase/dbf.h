@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.6 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: dbf.h,v 1.7 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -52,6 +52,10 @@
 #ifndef __XB_DBF_H__
 #define __XB_DBF_H__
 
+#ifdef __GNUG__
+#pragma interface
+#endif
+
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>
 #else
@@ -68,9 +72,9 @@
 */
 
 #if defined(XB_INDEX_ANY)
-   class xbIndex;
-   class xbNdx;
-   class xbNtx;
+   class XBDLLEXPORT xbIndex;
+   class XBDLLEXPORT xbNdx;
+   class XBDLLEXPORT xbNtx;
 #endif
 
 /*****************************/
@@ -93,7 +97,7 @@
 /*****************************/
 /* Other defines             */
 
-#define XB_OVERLAY     1    
+#define XB_OVERLAY     1
 #define XB_DONTOVERLAY 0
 
 #define XB_CHAREOF  '\x1A'         /* end of DBF        */
@@ -133,7 +137,7 @@
   
   To indicate the end of the array.
 */
-struct xbSchema {
+struct XBDLLEXPORT xbSchema {
    char      FieldName[11];
    char      Type;
 // xbUShort  FieldLen;       /* does not work */
@@ -146,7 +150,7 @@ struct xbSchema {
 /*!
   This structure is only used internally by the xbDbf class.
 */
-struct xbSchemaRec {
+struct XBDLLEXPORT xbSchemaRec {
    char     FieldName[11];
    char     Type;            /* field type */
    char     *Address;        /* pointer to field in record buffer 1 */
@@ -164,7 +168,7 @@ struct xbSchemaRec {
 /*!
   Internal use only.
 */
-struct xbIxList {
+struct XBDLLEXPORT xbIxList {
    xbIxList * NextIx;
    xbString IxName;
 #if defined(XB_INDEX_ANY)
@@ -180,7 +184,7 @@ struct xbIxList {
 */
 
 #ifdef XB_MEMO_FIELDS
-struct xbMH{                      /* memo header                    */
+struct XBDLLEXPORT xbMH{                      /* memo header                    */
    xbLong  NextBlock;             /* pointer to next block to write */
    char    FileName[8];           /* name of dbt file               */
    char    Version;               /* not sure                       */

@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.6 2000/11/08 19:53:36 dbryson Exp $
+/*  $Id: xdate.cpp,v 1.7 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -50,6 +50,10 @@
     V 1.8.0.a 1/27/99    - Added default date format processing
     V 1.9     6/29/99    - CPP ified, minor bug fixes
 */
+
+#ifdef __GNUG__
+  #pragma implementation "xdate.h"
+#endif
 
 #include <ctype.h>
 #include <stdio.h>

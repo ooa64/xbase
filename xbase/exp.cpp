@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.8 2000/11/08 02:56:55 dbryson Exp $
+/*  $Id: exp.cpp,v 1.9 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
 
@@ -46,6 +46,10 @@
     V 1.7.1  5/25/98    - Enhanced expression support
     V 1.8.0a 1/27/99    - Release v1.8 upgrade
 */
+
+#ifdef __GNUG__
+  #pragma implementation "exp.h"
+#endif
 
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>

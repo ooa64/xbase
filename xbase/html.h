@@ -1,4 +1,4 @@
-/*  $Id: html.h,v 1.6 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: html.h,v 1.7 2000/11/10 19:04:17 dbryson Exp $
 
     Xbase project source code
  
@@ -50,6 +50,10 @@
 
 #ifndef __XB_HTML_H__
 #define __XB_HTML_H__
+
+#ifdef __GNUG__
+#pragma interface
+#endif
 
 #ifdef __WIN32__
 #include <xbase/xbconfigw32.h>

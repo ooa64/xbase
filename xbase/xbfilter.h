@@ -52,6 +52,10 @@
 #ifndef __XB_FILTER_H__
 #define __XB_FILTER_H__
 
+#ifdef __GNUG__
+#pragma interface
+#endif
+
 //! xbFilter class
 /*!
 */
