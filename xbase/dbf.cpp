@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.12 2002/05/09 01:40:30 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.13 2002/05/09 01:49:04 dbryson Exp $
 
     Xbase project source code
    
@@ -1068,13 +1068,11 @@ xbShort xbDbf::BlankRecord( void )
    if( DbfStatus == XB_CLOSED ) 
      xb_error(XB_NOT_OPEN);
 
-#if 1
    if( DbfStatus != XB_UPDATED )
    {
       DbfStatus = XB_UPDATED;
       memcpy( RecBuf2, RecBuf, RecordLen );
    }
-#endif   
   
    memset( RecBuf, 0x20, RecordLen );
    return XB_NO_ERROR;
