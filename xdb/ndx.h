@@ -1,4 +1,4 @@
-/*  $Id: ndx.h,v 1.2 2000/06/06 23:03:17 dbryson Exp $
+/*  $Id: ndx.h,v 1.3 2000/06/07 02:09:01 dbryson Exp $
 
     Xbase project source code
 
@@ -99,8 +99,8 @@ public:
 
    xbShort  OpenIndex ( const char * FileName );
    xbShort  CloseIndex();
-   xbShort  CreateIndex( const char *IxName, const char *Exp, 
-          xbShort Unique, xbShort OverLay );
+   xbShort  CreateIndex( const char *IxName, const char *Exp,
+                         xbShort Unique, xbShort OverLay );
    xbLong   GetTotalNodes();
    xbLong   GetCurDbfRec() { return CurDbfRec; }
    xbShort  CreateKey( xbShort, xbShort );
@@ -121,10 +121,13 @@ public:
    xbShort  GetLastKey()  { return GetLastKey( 0, 1 ); }
    xbShort  GetFirstKey() { return GetFirstKey( 1 ); }
    xbShort  GetPrevKey()  { return GetPrevKey( 1 ); }
-   xbShort  ReIndex();
+   xbShort  ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems) = 0);
    xbShort  KeyExists( const char * Key ) { return FindKey( Key, strlen( Key ), 0 ); }
    xbShort  KeyExists( xbDouble );
 
+   virtual void SetNodeSize(xbShort size);
+
+   virtual void GetExpression(char *buf, int len);
 
 private:
    xbNdxHeadNode HeadNode;
@@ -240,50 +243,11 @@ private:
    xbShort    CloneNodeChain();          
    xbShort    UncloneNodeChain();        
    
-public:
-   xbNdx      ( xbDbf * );
-
-/* don't uncomment next line - it causes seg faults for some undiagnosed reason*/
-//   ~NDX() { if( NdxStatus ) CloseIndex(); }  
-
-   xbShort  OpenIndex ( const char * FileName );
-   xbShort  CloseIndex( void );
-   void   DumpHdrNode  ( void );
-   void   DumpNodeRec  ( xbLong ); 
-   xbShort  CreateIndex( const char *IxName, const char *Exp, 
-          xbShort Unique, xbShort OverLay );
-   xbLong   GetTotalNodes( void );
-   xbLong   GetCurDbfRec( void ) { return CurDbfRec; }
-   void   DumpNodeChain( void );
-   xbShort  CreateKey( xbShort, xbShort );
-   xbShort  GetCurrentKey(char *key);
-   xbShort  AddKey( xbLong );
-   xbShort  UniqueIndex( void ) { return HeadNode.Unique; }
-   xbShort  DeleteKey( xbLong RecNo );
-   xbShort  KeyWasChanged( void );
-   xbShort  FindKey( const char *Key );
-   xbShort  FindKey( void );
-   xbShort  FindKey( xbDouble );
-   xbShort  FindKey( const char *Tkey, xbLong DbfRec );   /* for a specific dbf no */
-#ifdef XBASE_DEBUG
-   xbShort  CheckIndexIntegrity( const xbShort Option );
-#endif
-   xbShort  GetNextKey( void )  { return GetNextKey( 1 ); }
-   xbShort  GetLastKey( void )  { return GetLastKey( 0, 1 ); }
-   xbShort  GetFirstKey( void ) { return GetFirstKey( 1 ); }
-   xbShort  GetPrevKey( void )  { return GetPrevKey( 1 ); }
-   xbShort  ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems) = 0);
-   xbShort  KeyExists( const char * Key ) { return FindKey( Key, strlen( Key ), 0 ); }
-   xbShort  KeyExists( xbDouble );
-
 //#ifdef XB_LOCKING_ON
 //   xbShort  LockIndex( const xbShort, const xbShort ) const;
 //#else
 //   xbShort  LockIndex( const xbShort, const xbShort ) const { return NO_ERROR; }
 //#endif
 
-   virtual void SetNodeSize(xbShort size);
-
-   virtual void GetExpression(char *buf, int len);
 };
 #endif		/* __XB_NDX_H__ */

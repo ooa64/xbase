@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.2 2000/06/06 22:17:50 dbryson Exp $
+/*  $Id: exp.cpp,v 1.3 2000/06/07 02:09:01 dbryson Exp $
 
     Xbase project source code
 
@@ -197,18 +197,12 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
                return XB_NO_ERROR;
             }
          }
-         else if(( *s == '(' && Wtype == 1 ) || (*s == '{' && Wtype == 0 ))
-         {
-            Wctr++;
-            EmptyCtr++;
+         else if(( *s == '(' && Wtype == 1 ) || (*s == '{' && Wtype == 0 )){
+           Wctr++;
+           EmptyCtr++;
          }
-       }
-       else if(( *s == '(' && Wtype == 1 ) || (*s == '{' && Wtype == 0 )){
-         Wctr++;
-         EmptyCtr++;
-       }
-       else if( *s != ' ' )
-         EmptyCtr++;
+         else if( *s != ' ' )
+           EmptyCtr++;
        s++;
        TokenLen++;
        MaxCtr++;

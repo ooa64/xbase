@@ -1,4 +1,4 @@
-/*  $Id: exp.h,v 1.2 2000/06/06 22:19:21 dbryson Exp $
+/*  $Id: exp.h,v 1.3 2000/06/07 02:09:01 dbryson Exp $
 
     Xbase project source code 
 
@@ -120,16 +120,6 @@ public:
    xbLong   AT( const char *, const char * );
    char *   CDOW( const char * );
    char *   CHR( xbLong );
-<<<<<<< exp.h
-   char *   CMONTH( char * );
-   char *   DATE( void );
-   xbLong   DAY( char * );
-   xbLong   DESCEND( char * );
-   xbLong   DOW( char * );
-   char *   DTOC( char * );
-   char *   DTOS( char * );
-   xbDouble EXP( xbDouble );
-=======
    char *   CMONTH( const char * ); 
    char *   DATE();
    xbLong   DAY( const char * );
@@ -138,7 +128,6 @@ public:
    char *   DTOC( const char * );
    char *   DTOS( const char * );
    xbDouble EXP( xbDouble );   
->>>>>>> ../../xbase/xbase/exp.h
    xbLong   INT( xbDouble );
    xbLong   ISALPHA( const char * );
    xbLong   ISLOWER( const char * );
@@ -153,17 +142,10 @@ public:
    xbDouble MIN( xbDouble, xbDouble );
    char *   RECNO( xbULong );
    xbLong   RECNO( xbDbf * );
-<<<<<<< exp.h
-   char *   REPLICATE( char *, xbShort );
-   char *   RIGHT( char *, xbShort );
-   char *   RTRIM( char * );
-   char *   SPACE( xbShort );
-=======
    char *   REPLICATE( const char *, xbShort );
    char *   RIGHT( const char *, xbShort );
    char *   RTRIM( const char * );
    char *   SPACE( xbShort );   
->>>>>>> ../../xbase/xbase/exp.h
    xbDouble SQRT( xbDouble );
    char *   STR( const char * );
    char *   STR( const char *, xbShort );
@@ -177,19 +159,11 @@ public:
    char *   STRZERO( xbDouble );
    char *   STRZERO( xbDouble, xbShort );
    char *   STRZERO( xbDouble, xbShort, xbShort );
-<<<<<<< exp.h
-   char *   SUBSTR( char *, xbShort, xbShort );
-   char *   TRIM( char * );
-   char *   UPPER( char * );
-   xbLong   VAL( char * );
-   xbLong   YEAR( char * );
-=======
    char *   SUBSTR( const char *, xbShort, xbShort );
    char *   TRIM( const char * );
    char *   UPPER( const char * );
    xbLong   VAL( const char * );
    xbLong   YEAR( const char * );  
->>>>>>> ../../xbase/xbase/exp.h
    void     SetDefaultDateFormat(const xbString f){ DefaultDateFormat = f; }
 
    xbString GetDefaultDateFormat() const { return DefaultDateFormat; }

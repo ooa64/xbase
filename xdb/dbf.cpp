@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.2 2000/06/06 22:04:08 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.3 2000/06/07 02:09:00 dbryson Exp $
 
     Xbase project source code
    
@@ -1058,7 +1058,8 @@ xbShort xbDbf::AppendRecord( void )
    */
    if(nextRecNo == NoOfRecs + 1)
    {
-     if(fwrite( EofChar, 1, 1, fp ) != 1 )
+//     if(fwrite( EofChar, 1, 1, fp ) != 1 )
+     if( fputc( XB_CHAREOF, fp ) != XB_CHAREOF )
        xb_error(XB_WRITE_ERROR);
    }
 #else
@@ -1734,7 +1735,6 @@ xbShort xbDbf::UndeleteRecord( void )
       RecBuf[0] = 0x20;
       if(( rc = PutRecord( CurRec )) != 0 )
          return rc;
-      return XB_NO_ERROR;
    }
    else
      xb_error(XB_INVALID_RECORD);

@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.2 2000/06/06 22:58:32 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.3 2000/06/07 02:09:01 dbryson Exp $
 
     Xbase project source code
 
@@ -177,7 +177,6 @@ xbNdxNodeLink * xbNdx::GetNodeMemory( void )
 #ifdef XBASE_DEBUG
 void xbNdx::DumpHdrNode()
 {
-<<<<<<< ndx.cpp
    cout << "\nStart node    = " << HeadNode.StartNode;
    cout << "\nTotal nodes   = " << HeadNode.TotalNodes;
    cout << "\nNo of keys    = " << HeadNode.NoOfKeys;
@@ -192,7 +191,8 @@ void xbNdx::DumpHdrNode()
    cout << "\nNodeSize      = " << NodeSize;
 #endif // XB_VAR_NODESIZE
    cout << "\n";
-=======
+
+#if 0
    FILE * log;
    if(( log = fopen( "xbase.log", "a+t" )) == NULL ) return;
    fprintf( log, "\n-------------------" );
@@ -207,7 +207,7 @@ void xbNdx::DumpHdrNode()
    fprintf( log, "\nUnique        =%d ",   HeadNode.Unique );
    fprintf( log, "\nKeyExpression =%s \n", HeadNode.KeyExpression );
    fclose( log );
->>>>>>> ../../xbase/xbase/ndx.cpp
+#endif
 }
 #endif
 /***********************************************************************/
