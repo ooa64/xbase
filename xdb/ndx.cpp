@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.5 2000/06/21 04:38:40 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.6 2000/07/28 23:02:59 dbryson Exp $
 
     Xbase project source code
 
@@ -1050,7 +1050,7 @@ xbShort xbNdx::CompareKey( const char * Key1, const char * Key2, xbShort Klen )
 }
 #endif
 
-/*************************************************************************
+/**************************************************************************/
 //! Short description
 /*!
   \param key
@@ -1058,7 +1058,7 @@ xbShort xbNdx::CompareKey( const char * Key1, const char * Key2, xbShort Klen )
   \param node
   \param comp
 */
-**
+/*
 **  This is a pretty basic binary search with two exceptions:  1) it will
 **  find the first of duplicate key values and 2) will return the index
 **  and the value of the last comparision even if it doesn't find a 
