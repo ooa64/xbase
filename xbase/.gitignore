@@ -1,4 +1,6 @@
 Makefile
 stamp*
 .deps
-
+*.lo
+*.o
+*.obj

@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.12 2003/08/16 19:59:39 gkunkel Exp $
+/*  $Id: xdate.cpp,v 1.13 2003/08/21 18:40:49 gkunkel Exp $
 
     Xbase project source code
 
@@ -186,13 +186,13 @@ days and abbreviations,  printing the date should lookup the locale.
 However, I didn't know how to do this and didn't (yet) find any documentation
 on how to do this...
 
-This should work for unices, ms dos/win, os390 (is this unix?) and VAX.
+This should work for unices, ms dos/win, os390 (is this unix? - no) and VAX.
 those are the platforms that xbase is being used on.
 
 If you know how,  please let me know how - or make the changes to this code
 and send it to me..
 
-Gary  -  gkunkelstartech.keller.tx.us
+Gary  -  gkunkelzhsac.com
 */
 
 //
@@ -357,7 +357,7 @@ int xbDate::DayOf( int Format, const char * Date8 ) const
 //! Short description.
 /*!
 */
-/* this method sets the class date & returns a pointer to system date */
+/* this method sets the class date & returns the system date */
 
 xbString& xbDate::Sysdate()
 {
@@ -436,16 +436,12 @@ int xbDate::SetDate( const char * Date8 )
 /*!
   \param Date8
 */
-/* this returns the number of days since 1/1/1900              */
+/* this returns the number of days since 1/1/EPOCH_MIN        */
 long xbDate::JulianDays( const char * Date8 ) const
 {
    int year = YearOf( Date8 );
    if(( year < EPOCH_MIN ) || (year >= EPOCH_MAX))
      return XB_INVALID_DATE;
-
-/*
-   long days = DAYS_AD(year) - DAYS_AD(EPOCH_MIN);
-*/
 
    long days = 0;
    for (long y = EPOCH_MIN; y < year; y++ )

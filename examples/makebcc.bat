@@ -12,4 +12,5 @@ bcc32 -I.. -L../xbase sample3.cpp xbase.lib
 bcc32 -I.. -L../xbase sample4.cpp xbase.lib
 bcc32 -I.. -L../xbase sample5.cpp xbase.lib
 bcc32 -I.. -L../xbase exfilter.cpp xbase.lib
+bcc32 -I.. -L../xbase string.cpp xbase.lib
 
