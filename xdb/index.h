@@ -1,4 +1,4 @@
-/*  $Id: index.h,v 1.2 2000/06/06 22:40:34 dbryson Exp $
+/*  $Id: index.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -33,8 +33,15 @@
 #include <xdb/xbase.h>
 #include <string.h>
 
+/*! \file index.h
+*/
+
 #define XB_UNIQUE     1
 #define XB_NOT_UNIQUE 0
+
+//! xbIndex class
+/*!
+*/
 
 class XBDLLEXPORT xbIndex
 {

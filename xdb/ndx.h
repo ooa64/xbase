@@ -1,4 +1,4 @@
-/*  $Id: ndx.h,v 1.4 2000/06/07 03:25:39 dbryson Exp $
+/*  $Id: ndx.h,v 1.5 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -39,6 +39,9 @@
 #include <xdb/xbase.h>
 #include <string.h>
 
+/*! \file ndx.h
+*/
+
 #define XB_NDX_NODE_BASESIZE            24      // size of base header data
 
 #define XB_VAR_NODESIZE                 // define to enable variable node sizes
@@ -52,6 +55,10 @@
 #define XB_NDX_NODE_SIZE                NodeSize
 #define XB_NDX_NODE_MULTIPLE            512
 #endif // XB_VAR_NODESIZE
+
+//! xbNdxHeadnode struct
+/*!
+*/
 
 struct xbNdxHeadNode {			/* ndx header on disk */
    xbLong   StartNode;                    /* header node is node 0 */
@@ -71,6 +78,10 @@ struct xbNdxHeadNode {			/* ndx header on disk */
 #endif // XB_VAR_NODESIZE
 };
 
+//! xbNdxLeafNode struct
+/*!
+*/
+
 struct xbNdxLeafNode {			/* ndx node on disk */
    xbLong   NoOfKeysThisNode;
 #ifndef XB_VAR_NODESIZE
@@ -80,6 +91,10 @@ struct xbNdxLeafNode {			/* ndx node on disk */
 #endif // XB_VAR_NODESIZE
 };
 
+//! xbNdxNodeLink struct
+/*!
+*/
+
 struct xbNdxNodeLink {			/* ndx node memory */
    xbNdxNodeLink * PrevNode;
    xbNdxNodeLink * NextNode;
@@ -87,6 +102,10 @@ struct xbNdxNodeLink {			/* ndx node memory */
    xbLong       NodeNo;
    struct xbNdxLeafNode Leaf;
 };
+
+//! xbNdx class
+/*!
+*/
 
 class XBDLLEXPORT xbNdx : public xbIndex{
 //   xbExpNode * ExpressionTree;    /* Expression tree for index */

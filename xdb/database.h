@@ -56,6 +56,13 @@
 #define XBDB_INDEXTYPE_NDX           "D"
 #define XBDB_INDEXTYPE_NTX           "T"
 
+/*! \file database.h
+*/
+
+//! xbDatabase class
+/*!
+*/
+
 class XBDLLEXPORT xbDatabase
 {
   xbXBase

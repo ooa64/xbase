@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*! \file index.cpp
+*/
+
 #ifdef XB_INDEX_ANY
 xbIndex::xbIndex(xbDbf * pdbf)
 {

@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.2 2000/06/06 23:26:33 dbryson Exp $
+/*  $Id: xbase.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -98,13 +98,24 @@
 #include <xdb/exp.h>
 #endif
 
+/*! \file xbase.h
+*/
+
 class XBDLLEXPORT xbDbf;
+
+//! xbDbList struct
+/*!
+*/
 
 struct XBDLLEXPORT xbDbList{
    xbDbList * NextDbf;
    char * DbfName;
    xbDbf  * dbf;
 };
+
+//! xbXBase class
+/*!
+*/
 
 #if defined(XB_EXPRESSIONS)
 class XBDLLEXPORT xbXBase : public xbExpn {

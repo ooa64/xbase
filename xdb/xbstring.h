@@ -32,6 +32,13 @@
 #include <stdlib.h>
 #include <iostream.h>
 
+/*! \file xbstring.h
+*/
+
+//! xbString class
+/*!
+*/
+
 class XBDLLEXPORT xbString {
 public:
   enum {npos = -1};

@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.2 2000/06/06 22:43:11 dbryson Exp $
+/*  $Id: memo.cpp,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -36,6 +36,8 @@
 #include <stdio.h>
 #include <xdb/xbexcept.h>
 
+/*! \file memo.cpp
+*/
 
 /************************************************************************/
 xbLong xbDbf::CalcLastDataBlock()

@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.2 2000/06/06 23:24:52 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -34,6 +34,9 @@
 #include <string.h>
 
 #include <xdb/xbexcept.h>
+
+/*! \file xbase.cpp
+*/
 
 /*************************************************************************/
 xbXBase::xbXBase( void )

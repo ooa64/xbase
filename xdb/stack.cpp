@@ -1,4 +1,4 @@
-/*  $Id: stack.cpp,v 1.2 2000/06/06 23:23:27 dbryson Exp $
+/*  $Id: stack.cpp,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -36,6 +36,9 @@
 #include <iostream.h>
 
 #include <xdb/xstack.h>
+
+/*! \file stack.cpp
+*/
 
 /*************************************************************************/
 xbStack::xbStack( void )

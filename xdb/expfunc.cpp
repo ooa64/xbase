@@ -1,4 +1,4 @@
-/*  $Id: expfunc.cpp,v 1.3 2000/06/13 04:20:36 dbryson Exp $
+/*  $Id: expfunc.cpp,v 1.4 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -41,6 +41,9 @@
 #include <xdb/exp.h>
 #include <xdb/xbexcept.h>
 
+
+/*! \file expfunc.cpp
+*/
 
 /*************************************************************************/
 xbShort xbExpn::ProcessFunction( char * Func )

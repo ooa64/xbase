@@ -49,6 +49,9 @@
 #include <xdb/xbstring.h>
 #include <xdb/xbexcept.h>
 
+/*! \file xbstring.cpp
+*/
+
 const char * xbString::NullString = "";
 
 xbString::xbString() {

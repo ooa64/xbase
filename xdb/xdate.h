@@ -1,4 +1,4 @@
-/*  $Id: xdate.h,v 1.2 2000/06/06 23:36:46 dbryson Exp $
+/*  $Id: xdate.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -33,6 +33,9 @@
     V 1.9.0  6/23/99    - CPP ified and minor bug fixes
 */
 
+/*! \file xbdate.h
+*/
+
 #ifndef __XB_XDATE_H__
 #define __XB_XDATE_H__
 
@@ -42,6 +45,10 @@
 #define XB_FMT_WEEK   1
 #define XB_FMT_MONTH  2
 #define XB_FMT_YEAR   3
+
+//! xbDate class
+/*!
+*/
 
 class XBDLLEXPORT xbDate {
   public:

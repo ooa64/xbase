@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.4 2000/06/20 03:25:15 dbryson Exp $
+/*  $Id: exp.cpp,v 1.5 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -37,6 +37,9 @@
 #include <string.h>
 
 #include <xdb/xbexcept.h>
+
+/*! \file exp.cpp
+*/
 
 // set the default date format
 xbString xbExpn::DefaultDateFormat = "MM/DD/YY";

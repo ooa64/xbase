@@ -4,6 +4,9 @@
 #include <xdb/xbconfig.h>
 #include <xdb/xtypes.h>
 
+/*! \file xbexcept.h
+*/
+
 const char *xbStrError(xbShort err);
 
 #ifndef HAVE_EXCEPTIONS
@@ -30,6 +33,10 @@ using std::exception;
 #define XB_THROW
 #endif
 
+//! xbException class
+/*!
+*/
+
 /* FIXME:	class exception is member of <stdexcept.h> -- willy */
 class XBDLLEXPORT xbException : public exception {
 public:
@@ -43,6 +50,10 @@ private:
 };
 
 #define xb_error(code) {throw xbException(code);return (code);}
+
+//! xbIOException class
+/*!
+*/
 
 class XBDLLEXPORT xbIOException : public xbException {
 public:
@@ -58,6 +69,10 @@ protected:
 
 #define xb_io_error(code, name) {throw xbIOException(code,name);return (code);}
 
+//! xbOpenException class
+/*!
+*/
+
 class XBDLLEXPORT xbOpenException : public xbIOException {
 public:
   xbOpenException ();
@@ -68,6 +83,10 @@ public:
 
 #define xb_open_error(name) { throw xbOpenException(name); return 0;}
 
+//! xbOutOfMemoryException class
+/*!
+*/
+
 class XBDLLEXPORT xbOutOfMemoryException : public xbException {
 public:
   xbOutOfMemoryException ();
@@ -76,6 +95,10 @@ public:
 };
 
 #define xb_memory_error {throw xbOutOfMemoryException();return 0;}
+
+//! xbEofException class
+/*!
+*/
 
 class XBDLLEXPORT xbEoFException : public xbIOException {
 public:

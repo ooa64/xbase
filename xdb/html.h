@@ -1,4 +1,4 @@
-/*  $Id: html.h,v 1.1 2000/06/01 06:05:58 dbryson Exp $
+/*  $Id: html.h,v 1.2 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
  
@@ -41,6 +41,13 @@
 
 #include <xdb/xtypes.h>
 
+/*! \file html.h
+*/
+
+//! xbFieldList struct
+/*!
+*/
+
 struct xbFieldList{
    char * Label;                     /* field label on form */
    char * FieldName;                 /* form field name     */
@@ -51,6 +58,9 @@ struct xbFieldList{
 
 typedef char **xbArrayPtr;
 
+//! xbHtml class
+/*!
+*/
 class XBDLLEXPORT xbHtml {
 public:
    xbHtml  ( void );

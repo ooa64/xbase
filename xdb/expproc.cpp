@@ -1,4 +1,4 @@
-/*  $Id: expproc.cpp,v 1.2 2000/06/06 22:31:31 dbryson Exp $
+/*  $Id: expproc.cpp,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -35,6 +35,9 @@
 #include <string.h>
 
 #include <xdb/xbexcept.h>
+
+/*! \file expproc.cpp
+*/
 
 /*************************************************************************/
 xbExpNode * xbExpn::GetFirstTreeNode( xbExpNode * e )

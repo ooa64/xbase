@@ -1,4 +1,4 @@
-/*  $Id: lock.cpp,v 1.1 2000/06/01 06:04:26 dbryson Exp $
+/*  $Id: lock.cpp,v 1.2 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -51,6 +51,9 @@
 #include <xdb/xbexcept.h>
 
 #include <errno.h>
+
+/*! \file lock.cpp
+*/
 
 /************************************************************************/
 #ifndef HAVE_FCNTL

@@ -1,4 +1,4 @@
-/*  $Id: retcodes.h,v 1.2 2000/06/06 23:22:50 dbryson Exp $
+/*  $Id: retcodes.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -27,6 +27,9 @@
     V 1.6a   4/1/98     - Added expression support
     V 1.6b   4/8/98     - Numeric index keys
     V 1.8.0a 1/27/99    - Changed return codes to negative values
+*/
+
+/*! \file retcodes.h
 */
 
 #ifndef __XB_RETCODES_H__

@@ -16,6 +16,9 @@
 #include <xdb/xbexcept.h>
 #include <xdb/database.h>
 
+/*! \file database.cpp
+*/
+
 #define NOTOPENERROR    XB_INVALID_RECORD
 
 #ifdef XB_INDEX_ANY

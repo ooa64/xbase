@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.2 2000/06/06 22:06:39 dbryson Exp $
+/*  $Id: dbf.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -77,6 +77,10 @@
 #define XB_CHAREOF  '\x1A'         /* end of DBF        */
 #define XB_CHARHDR  '\x0D'         /* header terminator */
 
+//! xbSchema struct
+/*!
+*/
+
 /* This structure is used for defining a database */
 struct xbSchema {
    char      FieldName[11];
@@ -86,6 +90,10 @@ struct xbSchema {
    unsigned  char FieldLen;  /* fields are stored as one byte on record*/
    unsigned  char NoOfDecs;
 };
+
+//! xbSchemaRec struct
+/*!
+*/
 
 /* This structure defines field data as defined in an Xbase file header */
 struct xbSchemaRec {
@@ -102,6 +110,10 @@ struct xbSchemaRec {
    xbShort  LongFieldLen;    /* to handle long field lengths */
 };
 
+//! xbIxList struct
+/*!
+*/
+
 struct xbIxList {
    xbIxList * NextIx;
    xbString IxName;
@@ -111,6 +123,10 @@ struct xbIxList {
    xbShort  KeyUpdated;
 #endif
 };
+
+//! xbMH struct
+/*!
+*/
 
 #ifdef XB_MEMO_FIELDS
 struct xbMH{                      /* memo header                    */

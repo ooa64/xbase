@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.3 2000/06/07 03:25:39 dbryson Exp $
+/*  $Id: xdate.cpp,v 1.4 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -43,6 +43,9 @@
 #include <xdb/xbase.h>
 #include <xdb/xdate.h>
 #include <xdb/retcodes.h>
+
+/*! \file xdata.cpp
+*/
 
 int xbDate::DaysInMonths[2][13];
 int xbDate::AggregatedDaysInMonths[2][13];

@@ -1,4 +1,4 @@
-/*  $Id: xstack.h,v 1.2 2000/06/06 23:36:46 dbryson Exp $
+/*  $Id: xstack.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
   
@@ -29,16 +29,27 @@
     V 1.6b  4/8/98     - Numeric index keys 
 */
 
+/*! \file xstack.h
+*/
+
 #ifndef __XB_STACK_H__
 #define __XB_STACK_H__
 
 #include <xdb/xtypes.h>
+
+//! xbStackElement struct
+/*!
+*/
 
 struct xbStackElement{
    xbStackElement * Previous;
    xbStackElement * Next;
    void * UserPtr;
 };
+
+//! xbStack class
+/*!
+*/
 
 class XBDLLEXPORT xbStack{
 

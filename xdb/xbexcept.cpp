@@ -1,4 +1,4 @@
-/*  $Id: xbexcept.cpp,v 1.1 2000/06/01 06:05:12 dbryson Exp $
+/*  $Id: xbexcept.cpp,v 1.2 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -29,6 +29,9 @@
 #include <xdb/retcodes.h>
 #include <xdb/xbexcept.h>
 #include <xdb/xtypes.h>
+
+/*! \file xbexcept.cpp
+*/
 
 const char *xbStrError(xbShort err)
 {

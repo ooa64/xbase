@@ -1,4 +1,4 @@
-/*  $Id: ntx.h,v 1.3 2000/06/15 06:01:26 dbryson Exp $
+/*  $Id: ntx.h,v 1.4 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -32,7 +32,14 @@
 #include <xdb/xbase.h>
 #include <string.h>
 
+/*! \file ntx.h
+*/
+
 #define XB_NTX_NODE_SIZE 1024
+
+//! xbNtxHeadNode struct
+/*!
+*/
 
 struct NtxHeadNode {			/* ntx header on disk */
     xbUShort Signature;           /* Clipper 5.x or Clipper 87 */
@@ -50,11 +57,19 @@ struct NtxHeadNode {			/* ntx header on disk */
     char NotUsed[745];
 };
 
+//! xbNtxLeafNode struct
+/*!
+*/
+
 struct NtxLeafNode {			/* ndx node on disk */
     xbUShort NoOfKeysThisNode;
     char     KeyRecs[XB_NTX_NODE_SIZE];
 };
 
+
+//! xbNtxItem struct
+/*!
+*/
 
 struct NtxItem
 {
@@ -62,6 +77,10 @@ struct NtxItem
     xbULong RecordNumber;
     char Key[256];
 };
+
+//! xbNtxNodeLink struct
+/*!
+*/
 
 struct xbNodeLink {			/* ndx node memory */
    xbNodeLink * PrevNode;
@@ -71,6 +90,10 @@ struct xbNodeLink {			/* ndx node memory */
    struct NtxLeafNode Leaf;
     xbUShort *offsets;
 };
+
+//! xbNtx class
+/*!
+*/
 
 class XBDLLEXPORT xbNtx : public xbIndex  {
  public:

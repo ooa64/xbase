@@ -1,4 +1,4 @@
-/*  $Id: html.cpp,v 1.1 2000/06/01 06:04:20 dbryson Exp $
+/*  $Id: html.cpp,v 1.2 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -40,6 +40,9 @@
 #include <sys/types.h>             /* BSDI BSD/OS 3.1 */
 
 #include <xdb/xbexcept.h>
+
+/*! \file html.cpp
+*/
 
 /************************************************************************/
 void xbHtml::TextOut( const char * String )

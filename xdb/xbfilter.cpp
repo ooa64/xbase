@@ -33,6 +33,9 @@
 #include <xdb/xbase.h>
 #include <xdb/xbexcept.h>
 
+/*! \file xbfilter.cpp
+*/
+
 #ifdef XB_FILTERS
 /************************************************************************/
 xbFilter::xbFilter( xbDbf * dbf, xbIndex * index, char * exp )

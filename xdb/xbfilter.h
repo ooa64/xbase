@@ -29,8 +29,15 @@
     V 1.6b  4/8/98     - Numeric index keys 
 */
 
+/*! \file xbfilter.h
+*/
+
 #ifndef __XB_FILTER_H__
 #define __XB_FILTER_H__
+
+//! xbFilter class
+/*!
+*/
 
 class XBDLLEXPORT xbFilter {
   public:

@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.3 2000/06/07 02:09:01 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.4 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -52,6 +52,9 @@
 #include <string.h>
 
 #include <xdb/xbexcept.h>
+
+/*! \file ndx.cpp
+*/
 
 #define USE_BSEARCH
 

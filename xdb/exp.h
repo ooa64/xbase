@@ -1,4 +1,4 @@
-/*  $Id: exp.h,v 1.3 2000/06/07 02:09:01 dbryson Exp $
+/*  $Id: exp.h,v 1.4 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code 
 
@@ -42,11 +42,18 @@
 #include <xdb/xtypes.h>
 #include <xdb/xstack.h>
 
+/*! \file exp.h
+*/
+
 #undef ABS
 #undef MIN
 #undef MAX
 
 class XBDLLEXPORT xbDbf;
+
+//! xbFuncDtl struct
+/*!
+*/
 
 struct xbFuncDtl {
    const char * FuncName;		/* function name               */
@@ -54,6 +61,10 @@ struct xbFuncDtl {
    char    ReturnType;               /* return type of function     */
    void    (*ExpFuncPtr)();          /* pointer to function routine */
 };
+
+//! xbExpNode struct
+/*!
+*/
 
 struct xbExpNode {
    char * NodeText;           /* expression text                 */
@@ -101,6 +112,10 @@ struct xbExpNode {
      if( Sibling3 ) delete Sibling3; 
    } 
 };
+
+//! xbExpn class
+/*!
+*/
 
 /* Expression handler */
 

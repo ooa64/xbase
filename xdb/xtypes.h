@@ -1,4 +1,4 @@
-/*  $Id: xtypes.h,v 1.2 2000/06/06 23:36:46 dbryson Exp $
+/*  $Id: xtypes.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
 
     Xbase project source code
 
@@ -30,6 +30,9 @@
 #define __XB_XTYPES_H__
 
 #include <stdio.h>
+
+/*! \file xtypes.h
+*/
 
 typedef unsigned long  int xbULong;
 typedef unsigned short int xbUShort;
