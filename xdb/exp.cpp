@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.3 2000/06/07 02:09:01 dbryson Exp $
+/*  $Id: exp.cpp,v 1.4 2000/06/20 03:25:15 dbryson Exp $
 
     Xbase project source code
 
@@ -90,6 +90,9 @@ static xbFuncDtl FuncList[] =
    { 0, 0, 0 },
 };
 /*************************************************************************/
+//! Constructor
+/*!
+*/
 xbExpn::xbExpn( void )
 {
    TokenType       = 0x00;
@@ -105,6 +108,9 @@ xbExpn::xbExpn( void )
    memset( WorkBuf, 0x00, WorkBufMaxLen+1 );
 }
 /*************************************************************************/
+//! GetFuncInfo
+/*!
+*/
 xbShort xbExpn::GetFuncInfo( const char * Function, xbShort Option )
 {
 /*  Option =
@@ -132,11 +138,17 @@ xbShort xbExpn::GetFuncInfo( const char * Function, xbShort Option )
    return -1;
 }
 /*************************************************************************/
+//! IsWhiteSpace
+/*!
+*/
 xbShort xbExpn::IsWhiteSpace( char c )
 {
    return(( c == 0x20 )? 1 : 0 ); 
 }
 /*************************************************************************/
+//! GetNextToken
+/*!
+*/
 xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
 {
    /* TreeResultType Settings 
@@ -486,6 +498,9 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
    return XB_NO_ERROR;
 }
 /*************************************************************************/
+//! IsSeparator
+/*!
+*/
 char xbExpn::IsSeparator( char c )
 {
    if( c == '-' || c == '+' || c == '*' || c == '/' || c == '$' ||
@@ -496,6 +511,9 @@ char xbExpn::IsSeparator( char c )
       return 0;
 }
 /*************************************************************************/
+//! GetExpNode
+/*!
+*/
 xbExpNode * xbExpn::GetExpNode(xbShort Len) {
    xbExpNode * Temp;
 
@@ -505,6 +523,9 @@ xbExpNode * xbExpn::GetExpNode(xbShort Len) {
    return Temp;
 }
 /*************************************************************************/
+//! LoadExpNode
+/*!
+*/
 xbExpNode * xbExpn::LoadExpNode( 
          const char *ENodeText,    /* pointer to text data       */
          const char EType,         /* Operand type               */
@@ -522,6 +543,9 @@ xbExpNode * xbExpn::LoadExpNode(
    return CurNode;
 }
 /*************************************************************************/
+//! BuildExpressionTree
+/*!
+*/
 xbShort xbExpn::BuildExpressionTree( const char * Expression, 
           xbShort MaxTokenLen, xbDbf * d )
 {
@@ -705,6 +729,9 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
    return XB_NO_ERROR;
 }
 /*************************************************************************/
+//! GetExpressionResultType
+/*!
+*/
 char xbExpn::GetExpressionResultType( XB_EXPRESSION * e ) {
    xbExpNode * Temp = 0;
    if( e )
@@ -724,6 +751,9 @@ char xbExpn::GetExpressionResultType( XB_EXPRESSION * e ) {
    return Temp->ExpressionType;
 }
 /*************************************************************************/
+//! GetExpressionHandle
+/*!
+*/
 XB_EXPRESSION * xbExpn::GetExpressionHandle( void ) {
    XB_EXPRESSION * e;
    e = Tree;
@@ -731,6 +761,9 @@ XB_EXPRESSION * xbExpn::GetExpressionHandle( void ) {
    return e;
 }
 /*************************************************************************/
+//! OperatorWeight
+/*!
+*/
 xbShort xbExpn::OperatorWeight( const char * Oper, xbShort len )
 {
    if( len < 1 || len > 5 ) return 0;
@@ -741,6 +774,9 @@ xbShort xbExpn::OperatorWeight( const char * Oper, xbShort len )
    return 0;
 }
 /*************************************************************************/
+//! ReduceComplexExpression
+/*!
+*/
 xbShort xbExpn::ReduceComplexExpression(const char *NextToken, xbShort Len, 
 																				xbExpNode *cn, xbDbf *d) {
    const char *p;
@@ -768,6 +804,9 @@ xbShort xbExpn::ReduceComplexExpression(const char *NextToken, xbShort Len,
    return XB_NO_ERROR;
 }
 /*************************************************************************/
+//! GetFunctionTokenLen
+/*!
+*/
 xbShort xbExpn::GetFunctionTokenLen( const char * s )
 {
    xbShort cnt, LeftParenCtr;
@@ -788,6 +827,9 @@ xbShort xbExpn::GetFunctionTokenLen( const char * s )
    return cnt;
 }
 /*************************************************************************/
+//! ReduceFunction
+/*!
+*/
 xbShort xbExpn::ReduceFunction(const char *NextToken, xbExpNode *cn, xbDbf *d) 
 {
    const char *p;
@@ -858,10 +900,16 @@ xbShort xbExpn::ReduceFunction(const char *NextToken, xbExpNode *cn, xbDbf *d)
    return XB_NO_ERROR;
 }
 /*************************************************************************/
+//! ParseExpression
+/*!
+*/
 xbShort xbExpn::ParseExpression(const char *exp, xbDbf *d) {
    return BuildExpressionTree(exp, strlen(exp), d);
 }
 /*************************************************************************/
+//! ProcessExpression
+/*!
+*/
 xbShort xbExpn::ProcessExpression(const char *e, xbDbf *d) {
    xbShort rc;
    if(( rc = BuildExpressionTree( e, strlen( e ), d )) != XB_NO_ERROR )
@@ -872,6 +920,9 @@ xbShort xbExpn::ProcessExpression(const char *e, xbDbf *d) {
 }
 /*************************************************************************/
 #ifdef XBASE_DEBUG
+//! DumpExpressionTree
+/*!
+*/
 void xbExpn::DumpExpressionTree( xbExpNode * E )
 {
    if( !E ) E = Tree;
@@ -884,6 +935,9 @@ void xbExpn::DumpExpressionTree( xbExpNode * E )
    return;
 }
 /*************************************************************************/
+//! DumpExpNode
+/*!
+*/
 void xbExpn::DumpExpNode(xbExpNode *e) {
    cout << "\n\n****** Exp Node ******";
    cout << "\nExp Node Address " << e;

@@ -115,13 +115,13 @@ INCLUDES = -I$(topdir)
 
 lib_LTLIBRARIES = libxdb.la
 
-pkginclude_HEADERS = dbf.h exp.h html.h ndx.h options.h retcodes.h xbase.h 	xdate.h xstack.h xtypes.h xbexcept.h xbstring.h index.h ntx.h           xbconfig.h xbfilter.h
+pkginclude_HEADERS = dbf.h exp.h html.h ndx.h options.h retcodes.h xbase.h 	xdate.h xstack.h xtypes.h xbexcept.h xbstring.h index.h ntx.h           xbconfig.h xbfilter.h database.h
 
 
 #install-data-hook:
 #	(cd $(includedir); rm -f xbase.h; ln -s xbase/xbase.h xbase.h)
 
-libxdb_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp 	html.cpp lock.cpp memo.cpp ndx.cpp stack.cpp xbase.cpp xdate.cpp 	xbexcept.cpp xbstring.cpp index.cpp ntx.cpp xbfilter.cpp
+libxdb_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp 	html.cpp lock.cpp memo.cpp ndx.cpp stack.cpp xbase.cpp xdate.cpp 	xbexcept.cpp xbstring.cpp index.cpp ntx.cpp xbfilter.cpp 	database.cpp
 
 
 #libxdb_la_LDFLAGS = -version-info 0:0:0
@@ -142,7 +142,7 @@ LIBS = @LIBS@
 libxdb_la_DEPENDENCIES = 
 libxdb_la_OBJECTS =  dbf.lo exp.lo expfunc.lo expproc.lo fields.lo \
 html.lo lock.lo memo.lo ndx.lo stack.lo xbase.lo xdate.lo xbexcept.lo \
-xbstring.lo index.lo ntx.lo xbfilter.lo
+xbstring.lo index.lo ntx.lo xbfilter.lo database.lo
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -157,10 +157,10 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/dbf.P .deps/exp.P .deps/expfunc.P .deps/expproc.P \
-.deps/fields.P .deps/html.P .deps/index.P .deps/lock.P .deps/memo.P \
-.deps/ndx.P .deps/ntx.P .deps/stack.P .deps/xbase.P .deps/xbexcept.P \
-.deps/xbfilter.P .deps/xbstring.P .deps/xdate.P
+DEP_FILES =  .deps/database.P .deps/dbf.P .deps/exp.P .deps/expfunc.P \
+.deps/expproc.P .deps/fields.P .deps/html.P .deps/index.P .deps/lock.P \
+.deps/memo.P .deps/ndx.P .deps/ntx.P .deps/stack.P .deps/xbase.P \
+.deps/xbexcept.P .deps/xbfilter.P .deps/xbstring.P .deps/xdate.P
 SOURCES = $(libxdb_la_SOURCES)
 OBJECTS = $(libxdb_la_OBJECTS)
 
