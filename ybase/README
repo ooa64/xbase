@@ -1,0 +1,77 @@
+  
+                            #####     ##     ####  ######
+                             #   #   #  #   #       #
+                      #  #   ####   #    #   ###    ####
+                      #  #   #   #  ######      #   #
+                      ####  #####   #    #  ####   ######
+                         #  Command processing enviroment
+                     ####
+
+   This directory contains the germ of an command processing enviroment. yBase
+ will be a FoxPro-like command enviroment. For now yBase can only execute
+ a small subset of FoxBase programs.
+
+
+ What is necessary to compile yBase?
+ -----------------------------------
+
+ To compile the source code you will need:
+   - C++ compiler with accessories (for example GCC)
+   - the xBase library (version 1.9.3 or newer)
+ Both analyzers (lexical and syntactic) are already genereated. But if you
+ want to generate the analyzers yourself, you will need:
+   - FLEX (the GNU lexical analyzer generator)
+   - BISON (the GNU parser generator)
+
+
+ Usage:
+ ------
+
+ ./ybase -[vh] file
+
+   -v    display version number
+   -h    show help
+   file  file to be processed (obligatory)
+
+
+ What is aready done?
+ --------------------
+
+   - user guide
+   - type Logical, Date, Numeric and Character
+   - operators ( + - * / % < > <= >= <> # $ )
+   - variables + system constants (PI,E)
+   - some system functions
+   - some database commands
+   - assignments from/to variable/database
+   - WHILE and IF commands
+
+
+ What will be done in next versions?
+ -----------------------------------
+
+   - indexes and memo support
+   - testing, code cleanup
+   - more commands and functions
+   - interactive mode (like FoxBase)
+   - compiler mode (like FoxPro)
+
+
+ And what will never be done?
+ ----------------------------
+
+   - & macros (it's practically impossible to implement this)
+
+
+ What is new in this version?
+ ----------------------------
+
+   V 0.1.1   18/10/99   - xbDate and xbString support
+                        - first database commands and functions
+                        - more system functions
+                        - first user guide
+   V 0.1     20/09/99   - pre-prerelease
+
+
+<end of file README>
+

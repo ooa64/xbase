@@ -1,0 +1,615 @@
+ 
+                            #####     ##     ####  ######
+                             #   #   #  #   #       #
+                      #  #   ####   #    #   ###    ####
+                      #  #   #   #  ######      #   #
+                      ####  #####   #    #  ####   ######
+                         #  Command processing enviroment
+                     ####
+
+ ==============================================================================
+  Types and operators
+ ==============================================================================
+
+  Character ('C')
+    A string of characters in the ASCII code. Maximal length of the string
+    is unlimited.
+    Character constants must be enclosed by " ", ' ', or [ ].
+
+  Numeric ('N')
+    A floating point number with a double precision ( 8 byte ). Values must
+    be within a range 1.7e-308 till 1.7e+308.
+    Numeric constants can be integer or real numbers with a decimal point.
+
+  Logical ('L')
+    Discerns only two values. Logical "zero" (false) and logical
+    "one" (true).
+    Logical constants can be letters .T., .t., .Y. or .y. for true
+    and .F., .f., .N. or .n. for false values.
+
+  Date ('D')
+    Is used for handling dates. Dates can be from 1/1/100 to 12/31/2999.
+    Date constants must be enclosed by { }, you can also use the
+    function CTOD().
+
+  Undefined ('U')
+    Also known as a NaN (Not a Number) value. When an error occures and
+    the expression can't be evaluated, the undefined value is returned.
+
+ ------------------------------------------------------------------------------
+
+  Expressions are made up of operators and operands. Most of yBase
+  operators are binary, that is, they take two operands. The rest are
+  unary and take only one operand.
+
+  + <expN>
+    returns <expN>, sign identity
+
+  - <expN>
+    returns <expN>, sign negation
+
+  .NOT. <expL>
+    returns <expL>, logical negation
+
+  <expN> + <expN>
+    returns <expN>, addition
+
+  <expN> - <expN>
+    returns <expN>, subtraction
+
+  <expN> * <expN>
+    returns <expN>, multiplication
+
+  <expN> / <expN>
+    returns <expN>, division
+
+  <expN> % <expN>
+    returns <expN>, modulo
+
+  <expC> + <expC>
+    returns <expC>, string concatenation
+
+  <expC> - <expC>
+    returns <expC>, string concatenation
+    trailing blanks are concatenated at the end
+
+  <expC> $ <expC>
+    returns <expL>, substring presence
+
+  <expL> .AND. <expL>
+    returns <expL>, logical and
+
+  <expL> .OR. <expL>
+    returns <expL>, logical or
+
+  <expD> - <expD>
+    returns <expN>, count of days between given dates
+
+  <expD> + <expN>
+    returns <expD>, date increase
+
+  <expD> - <expN>
+    returns <expD>, date decrease
+
+
+
+  <exp> = <exp>
+    returns <expL>, equal
+
+  <exp> <> <exp>
+  <exp> # <exp>
+    returns <expL>, not equal
+
+  <exp> < <exp>
+    returns <expL>, less than
+
+  <exp> > <exp>
+    returns <expL>, greater than
+
+  <exp> <= <exp>
+    returns <expL>, less or equal
+
+  <exp> >= <exp>
+    returns <expL>, greater or equal
+
+ ------------------------------------------------------------------------------
+
+    In more complex expressions, rules of precedence clarify the order in
+  which operators are performed.
+    Operations with equal precedence are performed according to their
+  associativity, from left to right (left associativity) or from right to
+  left (right associativity).
+
+    signs ( + - )                                highest   right
+    multiplication, division ( * / % )             .       left
+    addition, subtraction ( + - )                  .       left
+    relational operators ( = <> < > <= >= $ )      .       none
+    negation ( .NOT. )                             .       right
+    logical and ( .AND. )                          .       left
+    logical or ( .OR. )                          lowest    left
+
+  There are three basic rules of precedence:
+
+  1. An operator between two operands of diffrent precedence is bound to
+     the operator with higher precedence.
+  2. An operand between two equal operators is bound to one on its left.
+  3. Expressions within parentness ( ) are evaluated prior to being
+     treated as a single operand.
+
+ ==============================================================================
+  Commands
+ ==============================================================================
+
+  ? | ?? <expr1> [, <expr2> ... ]
+                                                                               
+  Evaluate expressions and display the results.
+                                                                               
+  ?
+  Causes a line feed (or carriage return and line feed pair) to be sent
+  before the results of the expression.
+                                                                               
+  ??
+  Displays the results on the current line at the current position of the
+  screen. No carriage return or line feed pair is sent.
+
+ ------------------------------------------------------------------------------
+
+  GO <expN1>
+  GOTO <expN1>
+
+  GO TOP | BOTTOM
+  GOTO TOP | BOTTOM
+
+  Positions the record pointer.
+
+  <expN1>
+    Moves record pointer on physical record number <expN1>.
+
+  TOP | BOTTOM
+    Moves record pointer on first and last records, respectively in
+  selected database.
+                                                                               
+ ------------------------------------------------------------------------------
+
+  IF <expL>
+    <statements1>
+  [ELSE
+    <statements2>]
+  ENDIF
+
+  Processes commands based on a condition.
+
+    In this structured programming command, <expL> is evaluated. If <expL>
+  is true (.T.), then any statements following the IF and prior to either
+  a matching ELSE or ENDIF (whichever occurs first) will be executed.
+
+    If <expL> is false (.F.) and ELSE has been included, then any
+  statements after the ELSE and before the ENDIF are executed. If <expL> is
+  false (.F.) and ELSE has not been included then all statements between
+  the IF and the ENDIF are ignored. In this case, the program will continue
+  with the first statement following ENDIF.
+                                                                               
+    IFs may be nested within one another provided that each IF has a
+  matching ENDIF.
+
+  <expL>
+    If <expL> is .T., <statements1> is processed. Otherwise, <statements2>
+  is processed.
+
+ ------------------------------------------------------------------------------
+
+  SELECT <expN> | <expC>
+
+  Activates a work area, chooses the active work area.
+                                                                               
+  <expN> | <expC>
+    Work area 1 is active by default when yBase is started. You can
+  select a specific work area by including the work area number <expN>.
+                                                                               
+    SELECT also permits 0 as an argument. If 0 is specified, the
+  lowest-numbered unused work area is selected. Once a database is opened
+  in a work area, you can also select its work area by specifying the
+  alias <expC> of the database.
+
+ ------------------------------------------------------------------------------
+
+  SKIP [<expN1>]
+
+  Moves database record pointer.
+
+  <expN1>
+    Issuing SKIP without <expN1> advances record pointer to next record.
+  If <expN1> is a positive number, record pointer moves towards end of
+  file <expN1> records. If <expN1> is a negative number, record pointer
+  moves towards beginning of file <expN1> records.
+
+ ------------------------------------------------------------------------------
+
+  USE <expC>
+
+  Opens a database in the selected work area.
+                                                                               
+  <expC>
+    <expC> is the database filename to be opened.
+
+ ------------------------------------------------------------------------------
+
+  DO WHILE <expL>
+    <statements>
+  ENDDO
+
+  Executes commands inside loop while logical condition remains true.
+
+    In this structured programming command, a logical expression <expL> is
+  evaluated. As long as <expL> remains true the set of commands <statements>
+  placed between DO WHILE and its matching ENDDO are executed. Note that
+  each DO WHILE must have a corresponding ENDDO statement.
+
+  <expL>
+    As long as <expL> remains true, statements between DO WHILE and its
+  matching ENDDO are executed.
+                                                                               
+  <statements>
+    yBase commands to be executed.
+
+ ==============================================================================
+  Functions
+ ==============================================================================
+
+  ABS(<expN>)
+
+  Returns the absolute value of a numeric expression.
+  Return value - Numeric
+
+  <expN>
+    The absolute value of <expN> is returned by ABS().
+
+ ------------------------------------------------------------------------------
+
+  ALIAS([<expN>])
+
+  Returns alias of specified work area.
+  Return value - Character
+
+  <expN>
+    Work area number or database alias. Defaults to the current work area
+  if <expN> is not included. Returns the null string if no database is open
+  in the specified work area.
+
+ ------------------------------------------------------------------------------
+
+  ASC(<expC>)
+
+  Returns ASCII code equivalent of first character in <expC>.
+  Return value - Numeric
+
+ ------------------------------------------------------------------------------
+
+  AT(<expC1>, <expC2>)
+
+  Returns position of one character expression within another.
+  Return value - Numeric
+
+  <expC1>
+    Expression to search for.
+                                                                               
+  <expC2>
+    Expression to be searched.
+
+ ------------------------------------------------------------------------------
+
+  CDOW(<expD>)
+
+  Returns day of week from <expD>.
+  Return value - Character
+
+ ------------------------------------------------------------------------------
+
+  CHR(<expN>)
+
+  Returns ASCII character of a <expN>.
+  Return value - Character
+
+ ------------------------------------------------------------------------------
+
+  CMONTH(<expD>)
+
+  Returns name of month from <expD>.
+  Return value - Character
+
+ ------------------------------------------------------------------------------
+
+  CTOD(<expC>)
+
+  Converts <expC> to date expression.
+  Return value - Date
+
+  <expC>
+    The date in 'yyyymmdd' format. <expC> must contain a valid date
+  from '1/1/100' to '12/31/2999.'
+
+ ------------------------------------------------------------------------------
+
+  DATE()
+
+  Returns current system date.
+  Return value - Date
+
+    The operating system controls the system date. There are no yBase
+  commands or functions that can directly change it.
+
+ ------------------------------------------------------------------------------
+
+  DAY(<expD>)
+
+  Returns day of month from <expD>.
+  Return value - Numeric
+
+ ------------------------------------------------------------------------------
+
+  DOW(<expD>)
+
+  Returns numeric day of week corresponding to <expD>.
+  Return value - Numeric
+
+    DOW(), the day of week function, returns the numeric day of the week
+  corresponding to <expD>. This is a number ranging from 1 (for Sunday)
+  to 7 (for Saturday).
+
+ ------------------------------------------------------------------------------
+
+  GETENV(<expC>)
+
+  Returns contents of specified environmental variable.
+  Return value - Character
+
+    The null string will be returned if the specified environmental variable
+  does not exist. See documentation of your operating system for additional
+  information on environmental variables.
+                                                                               
+  <expC>
+    Name of environmental variable.
+                                                                               
+ ------------------------------------------------------------------------------
+
+  IFF(<expL><expr1><expr2>)
+
+  According to <expL> returns either <expr1> or <expr2>.
+  Return value - Character, Date or Numeric
+
+  <expL>
+    Decisive condition. If this expression is true (.T.), the function
+  returns <expr1>, in the other case (.F.) it returns <expr2>.
+
+  <expr1>, <expr2>
+    Expressions to be returned. Both expressions can have arbitrary, but
+  the same types.
+
+ ------------------------------------------------------------------------------
+
+  INT(<expN>)
+
+  Returns integer portion of <expN>.
+  Return value - Numeric
+
+ ------------------------------------------------------------------------------
+
+  ISALPHA(<expC>)
+
+  Returns true if <expC> begins with an alphabetic character.
+  Return value - Logical
+
+    ISALPHA() returns true (.T.) if the first character is a-z or A-Z;
+  false (.F.) is returned if the expression begins with a non-alphabetic
+  or a numeric character.
+
+ ------------------------------------------------------------------------------
+
+  ISLOWER(<expC>)
+
+  Returns true if <expC> begins with a lower-case alphabetic character.
+  Return value - Logical
+
+ ------------------------------------------------------------------------------
+
+  ISUPPER(<expC>)
+
+  Returns true if <expC> begins with a upper-case alphabetic character.
+  Return value - Logical
+
+ ------------------------------------------------------------------------------
+
+  LEN(<expC>)
+
+  Returns length of <expC>.
+  Return value - Numeric
+
+    This function returns the length of the character string expression
+  <expC>. The character expression may be a character string, a memo or a
+  character field name. If <expC> is a memo field name, the length of the
+  memo field is returned.
+    If the expression contains the null string, LEN() returns a value of 0.
+
+ ------------------------------------------------------------------------------
+
+  LOG(<expN>)
+
+  Returns natural logarithm (base e) of <expN>.
+  Return value - Numeric
+
+    The mathematical function LOG() returns the natural logarithm of <expN>.
+  The base for the natural logarithm is the constant e; the LOG() function
+  returns the value of x in the equation e^x = <expN>. <expN> must be greater
+  than 0.
+                                                                               
+ ------------------------------------------------------------------------------
+
+  MAX(<expr1>, <expr2>)
+
+  Returns largest expression from list of expressions.
+  Return value - Character, Date or Numeric
+
+  <expr1>, <expr2>
+    Expressions of same type to be evaluated.
+
+ ------------------------------------------------------------------------------
+
+  MAX(<expr1>, <expr2>)
+
+  Returns smallest expression from list of expressions.
+  Return value - Character, Date or Numeric
+
+  <expr1>, <expr2>
+    Expressions of same type to be evaluated.
+
+ ------------------------------------------------------------------------------
+
+  MOD(<expN1>, <expN2>)
+
+  Returns remainder obtained by dividing numeric expression by another
+  numeric expression.
+  Return value - Numeric
+
+  <expN1>
+    Dividend (number being divided). The number of decimal places in
+  <expN1> determines the number of decimals places in the result.
+
+  <expN2>
+    Divisor (number dividend is divided by). A positive number is returned
+  if <expN2> is positive and a negative number is returned if <expN2> is
+  negative.
+
+ ------------------------------------------------------------------------------
+
+  MONTH(<expD>)
+
+  Returns numeric month number (1-12) from <expD>.
+  Return value - Numeric
+
+ ------------------------------------------------------------------------------
+
+  OS()
+
+  Returns name of operating system for that was yBase compiled.
+  Return value - Character.
+
+ ------------------------------------------------------------------------------
+
+  RECCOUNT()
+
+  Returns number of records in database.
+  Return value - Numeric
+
+ ------------------------------------------------------------------------------
+                                                                               
+  RECNO()
+
+  Returns current record number.
+  Return value - Numeric
+
+    RECNO() returns the current record number. The current record is the
+  record where the record pointer is positioned.
+    RECNO() returns a value that's one greater than the number of records in
+  the file if the record pointer is positioned beyond the last record in the
+  file. RECNO() returns 1 if the record pointer is positioned before the
+  first record in the file.
+    If the database is empty, RECNO() returns 1. If a database isn't open in
+  the work area you specify, RECNO() returns zero.
+                                                                               
+ ------------------------------------------------------------------------------
+
+  ROUND(<expN1>, <expN2>)
+
+  Rounds numeric expression to specified number of decimal places.
+  Return value - Numeric
+
+  <expN1>
+    Numeric expression to be rounded.
+
+  <expN2>
+    Number of decimals places to round <expN1> to.
+
+    If <expN2> is negative, the rounded number returned is a whole number
+  containing <expN2> trailing zeros.  For instance, if <expN2> is -2, the
+  result is rounded to even hundreds.
+
+ ------------------------------------------------------------------------------
+
+  SELECT()
+
+  Returns number of currently selected work area.
+  Return value - Numeric
+
+ ------------------------------------------------------------------------------
+
+  SQRT(<expN>)
+
+  Returns square root of numeric expression.
+  Return value - Numeric
+
+  <expN>
+    Include a numeric expression <expN> in SQRT(). The numeric expression
+  must be non-negative (zero or greater).
+
+ ------------------------------------------------------------------------------
+
+  STR(<expN1> [, <expN2> [,<expN3>]])
+
+  Returns character string from a numeric expression.
+  Return value - Character
+
+  <expN1>
+    Numeric expression evaluated by STR().
+
+  <expN2>
+    Length of the character string returned by STR(). Length includes
+  decimal point and digits to the right of decimal point. If larger than the
+  number of digits left of the decimal position, STR() pads its output with
+  leading spaces. If smaller than the number of digits left of the decimal
+  position, STR() returns a string of asterisks, indicating numeric overflow.
+
+  <expN3>
+    Number of decimal places. You must include a length <expN2> if you
+  want to specify the number of decimal places.
+
+ ------------------------------------------------------------------------------
+
+  TIME()
+
+  Returns current system time in a 24 hour format as an eight character
+  string (HH:MM:SS).
+  Return value - Character
+
+ ------------------------------------------------------------------------------
+
+  VAL(<expC>)
+
+  Returns numeric value of <expC> composed of digits.
+  Return value - Numeric
+
+    VAL() returns a numeric value that corresponds to the value of the digits
+  contained in a character expression.  Moving from left to right, VAL()
+  processes the digits in the character expression until a non-numeric
+  character is encountered (leading blanks are ignored). If the first
+  character of the character expression is not a digit, VAL() returns 0.
+                                                                               
+  <expC>
+    Include a character expression <expC> composed of digits in VAL(). The
+  corresponding numeric value is returned.
+
+ ------------------------------------------------------------------------------
+
+  VERSION()
+
+  Returns the xBase and yBase version numbers.
+  Return value - Character
+
+ ------------------------------------------------------------------------------
+
+  YEAR(<expD>)
+
+  Returns year from <expD>. The year is returned as a four digit number.
+  Return value - Numeric
+
+ ==============================================================================
+ <end of file MANUAL>
