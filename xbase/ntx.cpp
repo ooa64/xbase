@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.8 2002/03/19 19:17:08 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.9 2002/04/04 18:29:11 dbryson Exp $
 
     Xbase project source code
 
@@ -445,7 +445,8 @@ xbShort xbNtx::CloseIndex( void )
   ReleaseNodeMemory(DeleteChain, true);
   DeleteChain = 0;
 
-  fclose( indexfp );
+  if(indexfp)
+    fclose( indexfp );
   IndexStatus = 0;
   return 0;
 }
