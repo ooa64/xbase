@@ -1,4 +1,4 @@
-/*  $Id: exp.h,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: exp.h,v 1.4 2000/09/28 17:34:29 dbryson Exp $
 
     Xbase project source code 
 
@@ -220,7 +220,7 @@ public:
    void DumpExpNode( xbExpNode * );
 #endif
 
-private:
+protected:
    xbFuncDtl *XbaseFuncList;    /* pointer to list of Xbase functions    */
 //   xbExpNode *NextFreeExpNode;  /* pointer to chain of free nodes        */ 
    xbExpNode *Tree;

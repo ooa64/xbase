@@ -63,7 +63,7 @@ class XBDLLEXPORT xbFilter {
    xbShort GetLastFilterRec();
    xbShort GetNextFilterRec();
    xbShort GetPrevFilterRec();
-  private:
+  protected:
    xbULong CurFilterRecNo;
    xbShort Status;
    xbExpNode *e;

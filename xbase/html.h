@@ -1,4 +1,4 @@
-/*  $Id: html.h,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: html.h,v 1.4 2000/09/28 17:34:29 dbryson Exp $
 
     Xbase project source code
  
@@ -166,7 +166,7 @@ public:
    void   PlusToSpace( char * );
    void   SendRedirect( char * ) const;
 
-private:
+protected:
    xbArrayPtr FieldNameArray;
    xbArrayPtr DataValueArray;
    xbShort    NoOfDataFields;

@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.4 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: xbase.h,v 1.5 2000/09/28 17:34:29 dbryson Exp $
 
     Xbase project source code
 
@@ -144,6 +144,7 @@ class XBDLLEXPORT xbXBase : public xbExpn {
 class XBDLLEXPORT xbXBase : public xbDate {
 #endif
 
+protected:
    xbDbList * DbfList;
    xbDbList * FreeDbfList;
    xbShort EndianType;                     /* B = Big Endian, L = Little Endian */

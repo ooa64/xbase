@@ -1,4 +1,4 @@
-/*  $Id: ndx.h,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: ndx.h,v 1.4 2000/09/28 17:34:29 dbryson Exp $
 
     Xbase project source code
 
@@ -177,7 +177,7 @@ public:
 
    virtual void GetExpression(char *buf, int len);
 
-private:
+protected:
    xbNdxHeadNode HeadNode;
    xbNdxLeafNode LeafNode;
    xbLong xbNodeLinkCtr;
