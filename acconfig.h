@@ -1,11 +1,7 @@
-/* $Id: acconfig.h,v 1.1 2000/06/07 02:09:00 dbryson Exp $ */
+/* $Id: acconfig.h,v 1.2 2001/06/26 19:38:28 dbryson Exp $ */
 
 /* Define if the C++ compiler supports BOOL */
 #undef HAVE_BOOL
-
-#undef VERSION
-
-#undef PACKAGE
 
 /* defines if having libgif (always 1) */
 #undef HAVE_LIBGIF

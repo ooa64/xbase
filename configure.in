@@ -5,8 +5,8 @@ AC_INIT(acinclude.m4) dnl a source file from your sub dir, but acinclude.m4 does
 AC_CANONICAL_SYSTEM
 AC_ARG_PROGRAM
 
-SUBDIRS="xbase examples bin html libtest"
-AC_SUBST(SUBDIRS)
+XSUBDIRS="xbase examples bin html libtest"
+AC_SUBST(XSUBDIRS)
 
 dnl You have to change this
 AM_INIT_AUTOMAKE(xbase, 2.0.0) dnl searches for some needed programs
@@ -20,7 +20,7 @@ KDE_PROG_LIBTOOL
 
 AC_CHECK_PROG(doxygen, doxygen, yes, no)
 if test "$doxygen" = "yes"; then
-  SUBDIRS="$SUBDIRS docs"
+  XSUBDIRS="$XSUBDIRS docs"
 fi
 
 dnl find out some variables 

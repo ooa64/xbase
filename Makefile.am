@@ -36,7 +36,7 @@
 #        linux.techass.com
 #
 
-SUBDIRS = @SUBDIRS@
+SUBDIRS = @XSUBDIRS@
 
 MAINTAINERCLEANFILES = Makefile.in configure aclocal.m4 libtool
 

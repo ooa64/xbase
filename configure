@@ -678,7 +678,7 @@ test "$program_suffix" != NONE &&
 test "$program_transform_name" = "" && program_transform_name="s,x,x,"
 
 
-SUBDIRS="xbase examples bin html libtest"
+XSUBDIRS="xbase examples bin html libtest"
 
 
 # Find a good install program.  We prefer a C program (faster),
@@ -1734,7 +1734,7 @@ else
 fi
 
 if test "$doxygen" = "yes"; then
-  SUBDIRS="$SUBDIRS docs"
+  XSUBDIRS="$XSUBDIRS docs"
 fi
 
 echo $ac_n "checking for AIX""... $ac_c" 1>&6
@@ -3113,7 +3113,7 @@ s%@build_alias@%$build_alias%g
 s%@build_cpu@%$build_cpu%g
 s%@build_vendor@%$build_vendor%g
 s%@build_os@%$build_os%g
-s%@SUBDIRS@%$SUBDIRS%g
+s%@XSUBDIRS@%$XSUBDIRS%g
 s%@INSTALL_PROGRAM@%$INSTALL_PROGRAM%g
 s%@INSTALL_SCRIPT@%$INSTALL_SCRIPT%g
 s%@INSTALL_DATA@%$INSTALL_DATA%g
