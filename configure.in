@@ -129,6 +129,7 @@ dnl add here all your Makefiles
 AC_OUTPUT(
 	Makefile
 	xdb/Makefile
+	xdb/xbase.h
 	examples/Makefile
     bin/Makefile
 	html/Makefile
