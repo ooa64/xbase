@@ -1,4 +1,4 @@
-/*  $Id: exp.h,v 1.1 2000/06/01 06:05:58 dbryson Exp $
+/*  $Id: exp.h,v 1.2 2000/06/06 22:19:21 dbryson Exp $
 
     Xbase project source code 
 
@@ -49,10 +49,10 @@
 class XBDLLEXPORT xbDbf;
 
 struct xbFuncDtl {
-   char * FuncName;                 /* function name               */
-   xbShort  ParmCnt;                  /* no of parms it needs        */
-   char   ReturnType;               /* return type of function     */
-   void   (*ExpFuncPtr)();          /* pointer to function routine */
+   const char * FuncName;		/* function name               */
+   xbShort ParmCnt;                  /* no of parms it needs        */
+   char    ReturnType;               /* return type of function     */
+   void    (*ExpFuncPtr)();          /* pointer to function routine */
 };
 
 struct xbExpNode {
@@ -67,20 +67,45 @@ struct xbExpNode {
 
    xbShort  DataLen;            /* length of data in result buffer */
    xbShort  ResultLen;          /* length of result buffer         */
-   char * Result;             /* result buffer - ptr to result   */
+//   char * Result;             /* result buffer - ptr to result   */
+   xbString StringResult;
    xbDouble DoubResult;         /* Numeric Result                  */
    xbShort  IntResult;          /* logical result                  */
 
    xbDbf *  dbf;                /* pointer to datafile             */
    xbShort  FieldNo;            /* field no if DBF field           */
    char   ExpressionType;     /* used in head node C,N,L or D    */
+
+
+  public:
+   xbExpNode() :
+    NodeText(0),
+    Type(0),
+    Len(0),
+    InTree(0),
+    Node(0),
+    Sibling1(0),
+    Sibling2(0),
+    Sibling3(0),
+    DataLen(0),
+    ResultLen(0),
+    DoubResult(0),
+    IntResult(0),
+    dbf(0),
+    FieldNo(-1),
+    ExpressionType(0)
+    {}
+   ~xbExpNode(){
+     if( Sibling1 ) delete Sibling1; 
+     if( Sibling2 ) delete Sibling2; 
+     if( Sibling3 ) delete Sibling3; 
+   } 
 };
 
 /* Expression handler */
 
 class XBDLLEXPORT xbExpn : public xbStack, public xbDate {
 public:
-   void  FreeExpNode( xbExpNode * );
    xbShort ProcessExpression( xbExpNode *, xbShort );
    xbExpNode * GetTree( void ) { return Tree; }
    void SetTreeToNull( void ) { Tree = NULL; }
@@ -91,10 +116,11 @@ public:
 
    /* expression methods */
    xbDouble ABS( xbDouble );
-   xbLong   ASC( char * );
-   xbLong   AT( char *, char * );
-   char *   CDOW( char * );
+   xbLong   ASC( const char * );
+   xbLong   AT( const char *, const char * );
+   char *   CDOW( const char * );
    char *   CHR( xbLong );
+<<<<<<< exp.h
    char *   CMONTH( char * );
    char *   DATE( void );
    xbLong   DAY( char * );
@@ -103,66 +129,90 @@ public:
    char *   DTOC( char * );
    char *   DTOS( char * );
    xbDouble EXP( xbDouble );
+=======
+   char *   CMONTH( const char * ); 
+   char *   DATE();
+   xbLong   DAY( const char * );
+   xbLong   DESCEND( const char * );
+   xbLong   DOW( const char * );
+   char *   DTOC( const char * );
+   char *   DTOS( const char * );
+   xbDouble EXP( xbDouble );   
+>>>>>>> ../../xbase/xbase/exp.h
    xbLong   INT( xbDouble );
-   xbLong   ISALPHA( char * );
-   xbLong   ISLOWER( char * );
-   xbLong   ISUPPER( char * );
-   char *   LEFT( char *, xbShort );
-   xbLong   LEN( char * );
+   xbLong   ISALPHA( const char * );
+   xbLong   ISLOWER( const char * );
+   xbLong   ISUPPER( const char * );
+   char *   LEFT( const char *, xbShort );
+   xbLong   LEN( const char * );
    xbDouble LOG( xbDouble );
-   char *   LOWER( char * );
-   char *   LTRIM( char * );
+   char *   LOWER( const char * );
+   char *   LTRIM( const char * );
    xbDouble MAX( xbDouble, xbDouble );
-   xbLong   MONTH( char * );         /* MONTH() */
+   xbLong   MONTH( const char * );         /* MONTH() */
    xbDouble MIN( xbDouble, xbDouble );
    char *   RECNO( xbULong );
    xbLong   RECNO( xbDbf * );
+<<<<<<< exp.h
    char *   REPLICATE( char *, xbShort );
    char *   RIGHT( char *, xbShort );
    char *   RTRIM( char * );
    char *   SPACE( xbShort );
+=======
+   char *   REPLICATE( const char *, xbShort );
+   char *   RIGHT( const char *, xbShort );
+   char *   RTRIM( const char * );
+   char *   SPACE( xbShort );   
+>>>>>>> ../../xbase/xbase/exp.h
    xbDouble SQRT( xbDouble );
-   char *   STR( char * );
-   char *   STR( char *, xbShort );
-   char *   STR( char *, xbShort, xbShort );
+   char *   STR( const char * );
+   char *   STR( const char *, xbShort );
+   char *   STR( const char *, xbShort, xbShort );
    char *   STR( xbDouble );
    char *   STR( xbDouble, xbShort );
    char *   STR(xbDouble, xbUShort length, xbShort numDecimals );
-   char *   STRZERO( char * );
-   char *   STRZERO( char *, xbShort );
-   char *   STRZERO( char *, xbShort, xbShort );
+   char *   STRZERO( const char * );
+   char *   STRZERO( const char *, xbShort );
+   char *   STRZERO( const char *, xbShort, xbShort );
    char *   STRZERO( xbDouble );
    char *   STRZERO( xbDouble, xbShort );
    char *   STRZERO( xbDouble, xbShort, xbShort );
+<<<<<<< exp.h
    char *   SUBSTR( char *, xbShort, xbShort );
    char *   TRIM( char * );
    char *   UPPER( char * );
    xbLong   VAL( char * );
    xbLong   YEAR( char * );
+=======
+   char *   SUBSTR( const char *, xbShort, xbShort );
+   char *   TRIM( const char * );
+   char *   UPPER( const char * );
+   xbLong   VAL( const char * );
+   xbLong   YEAR( const char * );  
+>>>>>>> ../../xbase/xbase/exp.h
    void     SetDefaultDateFormat(const xbString f){ DefaultDateFormat = f; }
 
    xbString GetDefaultDateFormat() const { return DefaultDateFormat; }
    xbShort  ProcessExpression( const char *exp, xbDbf * d );
    xbShort  ParseExpression( const char *exp, xbDbf * d );
-   XB_EXPRESSION * GetExpressionHandle( void );
-   char   GetExpressionResultType(XB_EXPRESSION * );
-   char * GetCharResult( void );
-   xbDouble GetDoubleResult( void );
-   xbLong   GetIntResult( void );
+   XB_EXPRESSION * GetExpressionHandle();
+   char     GetExpressionResultType(XB_EXPRESSION * );
+   char *   GetCharResult();
+   xbString & GetStringResult();
+   xbDouble GetDoubleResult();
+   xbLong   GetIntResult();
    xbShort  ProcessExpression( xbExpNode * );
    xbShort  BuildExpressionTree( const char * Expression, xbShort MaxTokenLen,
             xbDbf *d );
 
-
 #ifdef XBASE_DEBUG
    void DumpExpressionTree( xbExpNode * );
-   void DumpExpFreeChain( void );
    void DumpExpNode( xbExpNode * );
 #endif
 
 private:
    xbFuncDtl *XbaseFuncList;    /* pointer to list of Xbase functions    */
-   xbExpNode *NextFreeExpNode;  /* pointer to chain of free nodes        */
+//   xbExpNode *NextFreeExpNode;  /* pointer to chain of free nodes        */ 
    xbExpNode *Tree;
    xbShort LogicalType;         /* set to 1 for logical type nodes       */
 
@@ -196,9 +246,9 @@ private:
    char  WorkBuf[WorkBufMaxLen+1];
 
    xbShort  IsWhiteSpace( char );
-   char   IsSeparator( char );
+   char     IsSeparator( char );
    xbExpNode * LoadExpNode( const char * ENodeText, const char EType,
-           const xbShort ELen, const xbShort BufLen );
+            const xbShort ELen, const xbShort BufLen );
    xbShort  OperatorWeight( const char *Oper, xbShort len );
    xbShort  ReduceComplexExpression( const char * NextToken, xbShort Len,
             xbExpNode * cn, xbDbf *d );
@@ -208,7 +258,7 @@ private:
    xbShort  ProcessOperator( xbShort );
    xbShort  ProcessFunction( char * );
    xbShort  ValidOperation( char *, char, char );
-   char   GetOperandType( xbExpNode * );
+   char     GetOperandType( xbExpNode * );
    xbShort  AlphaOperation( char * );
    xbShort  NumericOperation( char * );
    xbExpNode * GetExpNode( xbShort );
