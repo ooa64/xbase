@@ -9,4 +9,6 @@ clean :
 	-rm -r man
 
 EXTRA_DIST = \
+	Makefile.am \
+	Makefile.in \
 	doxygen.cfg.in
