@@ -1,4 +1,4 @@
-/*  $Id: expfunc.cpp,v 1.6 2000/08/11 19:34:32 dbryson Exp $
+/*  $Id: expfunc.cpp,v 1.7 2000/08/11 19:55:42 dbryson Exp $
 
     Xbase project source code
 
@@ -857,7 +857,8 @@ char * xbExpn::STR( const char * String )
 char * xbExpn::STRZERO( xbDouble d, xbShort length, xbShort )
 {
   xbShort len,i;
-  gcvt( d, length, WorkBuf );
+  sprintf(WorkBuf, "%*.*g", length, length, d);
+//  gcvt( d, length, WorkBuf );
   len = strlen( WorkBuf );
   if( len > length )
     strcpy( WorkBuf, "**********" );
