@@ -1,4 +1,4 @@
-/*  $Id: checkndx.cpp,v 1.7 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: checkndx.cpp,v 1.8 2000/12/18 17:58:52 dbryson Exp $
 
     Xbase project source code
 
@@ -53,7 +53,6 @@ int main(int ac,char** av)
    xbNdx i( &d );
    xbShort rc;
 
-#if 0
    if( 3 != ac ){
      cout <<
        "\nUsage: checkndx dbf_file index_file\n";
@@ -79,7 +78,6 @@ int main(int ac,char** av)
    i.DumpHdrNode();
 
    d.CloseDatabase();
-#endif
 #else
    cout << "\nXBASE_DEBUG is not compiled in\n";
 #endif

@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.6 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.7 2000/12/18 17:58:52 dbryson Exp $
 
     Xbase project source code
 
@@ -2672,7 +2672,10 @@ xbShort xbNdx::DeleteKey( xbLong DbfRec )
       }
    }
    
-   CurDbfRec = GetDbfNo( CurNode->CurKeyNo, CurNode );
+   if(CurNode)
+     CurDbfRec = GetDbfNo( CurNode->CurKeyNo, CurNode );
+   else
+     CurDbfRec = 0;
 
    if(( rc = PutHeadNode( &HeadNode, indexfp, 1 )) != 0 )
       return rc;
