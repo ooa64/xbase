@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: exp.cpp,v 1.4 2000/09/28 16:55:13 dbryson Exp $
 
     Xbase project source code
 
@@ -109,6 +109,7 @@ static xbFuncDtl FuncList[] =
    { "YEAR",      1,    'N' },
    { 0, 0, 0 },
 };
+
 /*************************************************************************/
 //! Constructor
 /*!
@@ -127,9 +128,34 @@ xbExpn::xbExpn( void )
    XbaseFuncList   = FuncList;
    memset( WorkBuf, 0x00, WorkBufMaxLen+1 );
 }
+
 /*************************************************************************/
-//! GetFuncInfo
+//! Get information on a function.
 /*!
+  Returns the information specifed (Option) for the specified function.
+  
+  \param Function name of function to get information about
+  \param Option One of the following:
+    \htmlonly
+      <p>
+      <table border=2><tr><th>Option</th><th>Description</th></tr>
+        <tr><td>1</td><td>Return minimum number of parms</td></tr>
+        <tr><td>2</td><td>Return function result type</td></tr>
+		<tr><td>?</td><td>Return 0 if valid function</td></tr>
+      </table>
+    \endhtmlonly
+    \latexonly
+      \\
+      \\
+      \begin{tabular}{|l|l|} \hline
+        \textbf{Option} & \textbf{Description} \\ \hline \hline
+        1 & Return minimum number of parms \\ \hline
+        2 & Return function result type \\ \hline
+		? & Return 0 if valid function \\ \hline
+      \end{tabular}
+    \endlatexonly
+  
+  \returns requested information or -1 on failure.
 */
 xbShort xbExpn::GetFuncInfo( const char * Function, xbShort Option )
 {
@@ -157,6 +183,7 @@ xbShort xbExpn::GetFuncInfo( const char * Function, xbShort Option )
    }
    return -1;
 }
+
 /*************************************************************************/
 //! IsWhiteSpace
 /*!
@@ -165,6 +192,7 @@ xbShort xbExpn::IsWhiteSpace( char c )
 {
    return(( c == 0x20 )? 1 : 0 ); 
 }
+
 /*************************************************************************/
 //! GetNextToken
 /*!
@@ -517,6 +545,7 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
    }
    return XB_NO_ERROR;
 }
+
 /*************************************************************************/
 //! IsSeparator
 /*!
@@ -530,6 +559,7 @@ char xbExpn::IsSeparator( char c )
    else
       return 0;
 }
+
 /*************************************************************************/
 //! GetExpNode
 /*!
@@ -542,6 +572,7 @@ xbExpNode * xbExpn::GetExpNode(xbShort Len) {
       Temp->ResultLen = Len;
    return Temp;
 }
+
 /*************************************************************************/
 //! LoadExpNode
 /*!
@@ -562,6 +593,7 @@ xbExpNode * xbExpn::LoadExpNode(
    CurNode->ResultLen      = BufLen;
    return CurNode;
 }
+
 /*************************************************************************/
 //! BuildExpressionTree
 /*!
@@ -748,6 +780,7 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
    }
    return XB_NO_ERROR;
 }
+
 /*************************************************************************/
 //! GetExpressionResultType
 /*!
@@ -770,6 +803,7 @@ char xbExpn::GetExpressionResultType( XB_EXPRESSION * e ) {
       Temp = Temp->Sibling1;
    return Temp->ExpressionType;
 }
+
 /*************************************************************************/
 //! GetExpressionHandle
 /*!
@@ -780,6 +814,7 @@ XB_EXPRESSION * xbExpn::GetExpressionHandle( void ) {
    Tree = NULL;
    return e;
 }
+
 /*************************************************************************/
 //! OperatorWeight
 /*!
@@ -793,6 +828,7 @@ xbShort xbExpn::OperatorWeight( const char * Oper, xbShort len )
    if(Oper[0] == '.') return 1;
    return 0;
 }
+
 /*************************************************************************/
 //! ReduceComplexExpression
 /*!
@@ -823,6 +859,7 @@ xbShort xbExpn::ReduceComplexExpression(const char *NextToken, xbShort Len,
 
    return XB_NO_ERROR;
 }
+
 /*************************************************************************/
 //! GetFunctionTokenLen
 /*!
@@ -846,6 +883,7 @@ xbShort xbExpn::GetFunctionTokenLen( const char * s )
    }
    return cnt;
 }
+
 /*************************************************************************/
 //! ReduceFunction
 /*!
@@ -919,6 +957,7 @@ xbShort xbExpn::ReduceFunction(const char *NextToken, xbExpNode *cn, xbDbf *d)
 
    return XB_NO_ERROR;
 }
+
 /*************************************************************************/
 //! ParseExpression
 /*!
@@ -926,6 +965,7 @@ xbShort xbExpn::ReduceFunction(const char *NextToken, xbExpNode *cn, xbDbf *d)
 xbShort xbExpn::ParseExpression(const char *exp, xbDbf *d) {
    return BuildExpressionTree(exp, strlen(exp), d);
 }
+
 /*************************************************************************/
 //! ProcessExpression
 /*!
@@ -938,6 +978,7 @@ xbShort xbExpn::ProcessExpression(const char *e, xbDbf *d) {
      return rc;
    return XB_NO_ERROR;
 }
+
 /*************************************************************************/
 #ifdef XBASE_DEBUG
 //! DumpExpressionTree
@@ -954,6 +995,7 @@ void xbExpn::DumpExpressionTree( xbExpNode * E )
    if( E->Sibling3 ) DumpExpressionTree( E->Sibling3 );
    return;
 }
+
 /*************************************************************************/
 //! DumpExpNode
 /*!
@@ -978,7 +1020,9 @@ void xbExpn::DumpExpNode(xbExpNode *e) {
    if( e->Sibling3 ) cout << " Sibling3 = " << e->Sibling3;
    return;
 }
+
 #endif
 #endif     // XB_EXPRESSIONS
+
 /*************************************************************************/
 
