@@ -1,4 +1,4 @@
-/*  $Id: ndx.h,v 1.5 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: ndx.h,v 1.6 2000/06/27 04:44:07 dbryson Exp $
 
     Xbase project source code
 
@@ -137,9 +137,21 @@ public:
    void     DumpNodeChain();
    xbShort  CheckIndexIntegrity( const xbShort Option );
 #endif
+   //! Short description.
+   /*!
+   */
    xbShort  GetNextKey()  { return GetNextKey( 1 ); }
+   //! Short description.
+   /*!
+   */
    xbShort  GetLastKey()  { return GetLastKey( 0, 1 ); }
+   //! Short description.
+   /*!
+   */
    xbShort  GetFirstKey() { return GetFirstKey( 1 ); }
+   //! Short description.
+   /*!
+   */
    xbShort  GetPrevKey()  { return GetPrevKey( 1 ); }
    xbShort  ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems) = 0);
    xbShort  KeyExists( const char * Key ) { return FindKey( Key, strlen( Key ), 0 ); }
@@ -177,6 +189,9 @@ private:
 #if 0   
    xbShort    CompareKey( const char *Key1, const char *Key2, xbShort Klen );
 #else
+   //! Short description.
+   /*!
+   */
    inline xbShort    CompareKey( const char *Key1, const char *Key2, xbShort Klen )
    {
 #if 0
@@ -212,6 +227,9 @@ private:
 #if 0
    xbLong     GetDbfNo( xbShort, xbNdxNodeLink * );
 #else
+   //! Short description.
+   /*!
+   */
    inline xbLong     GetDbfNo( xbShort RecNo, xbNdxNodeLink *n )
    {
      xbNdxLeafNode *temp;

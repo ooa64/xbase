@@ -1,4 +1,4 @@
-/*  $Id: xstack.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: xstack.h,v 1.4 2000/06/27 04:44:07 dbryson Exp $
 
     Xbase project source code
   
@@ -58,6 +58,9 @@ class XBDLLEXPORT xbStack{
    void    InitStack( void );
    void *  Pop( void );
    xbShort Push( void * );
+   //! Short description.
+   /*!
+   */
    xbShort GetStackDepth( void ) { return StackDepth; }
    void    DumpStack( void );
 

@@ -1,4 +1,4 @@
-/*  $Id: xbexcept.cpp,v 1.2 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: xbexcept.cpp,v 1.3 2000/06/27 04:44:07 dbryson Exp $
 
     Xbase project source code
 
@@ -33,6 +33,10 @@
 /*! \file xbexcept.cpp
 */
 
+//! Short description.
+/*!
+  \param err
+*/
 const char *xbStrError(xbShort err)
 {
   switch (err) {
@@ -134,75 +138,140 @@ const char *xbStrError(xbShort err)
 #include <string.h>
 #include <errno.h>
 
+//! Short description.
+/*!
+  \param err
+*/
 xbException::xbException (int err) {
     this->err = err;
 }
 
+//! Short description.
+/*!
+*/
 xbException::~xbException () XB_THROW {
 }
 
+//! Short description.
+/*!
+*/
 const char* xbException::what() const XB_THROW {
   return "xbException"; 
 };
 
+//! Short description.
+/*!
+*/
 int xbException::getErr() {
   return err;
 };
 
+//! Short description.
+/*!
+*/
 const char *xbException::error() {
   return xbStrError(err);
 }
 
+//! Short description.
+/*!
+  \param err
+*/
 xbIOException::xbIOException (int err) : xbException(err) {
 	m_errno = errno;
   name = NULL;
 }
 
+//! Short description.
+/*!
+  \param err
+  \param n
+*/
 xbIOException::xbIOException (int err, const char *n) : xbException(err) {
 	name = n;
 	m_errno = errno;
 }
 
+//! Short description.
+/*!
+*/
 xbIOException::~xbIOException () XB_THROW {
 }
 
+//! Short description.
+/*!
+*/
 const char* xbIOException::what() const XB_THROW {
   return "xbIOException"; 
 };
 
+//! Short description.
+/*!
+*/
 const char *xbIOException::_errno() const {
 	return (strerror(m_errno));
 }
 
+//! Short description.
+/*!
+*/
 xbOpenException::xbOpenException () : xbIOException(XB_OPEN_ERROR) {
 }
 
+//! Short description.
+/*!
+  \param n
+*/
 xbOpenException::xbOpenException (const char *n) : xbIOException(XB_OPEN_ERROR, n) {
 }
 
+//! Short description.
+/*!
+*/
 xbOpenException::~xbOpenException () XB_THROW {
 }
 
+//! Short description.
+/*!
+*/
 const char* xbOpenException::what() const XB_THROW {
   return "xbOpenException"; 
 };
 
+//! Short description.
+/*!
+*/
 xbEoFException::xbEoFException () : xbIOException(XB_EOF) {
 }
 
+//! Short description.
+/*!
+*/
 xbEoFException::~xbEoFException () XB_THROW {
 }
 
+//! Short description.
+/*!
+*/
 const char* xbEoFException::what() const XB_THROW {
   return "xbEoFException"; 
 };
 
+//! Short description.
+/*!
+*/
 xbOutOfMemoryException::xbOutOfMemoryException () : xbException(XB_NO_MEMORY) {
 }
 
+//! Short description.
+/*!
+*/
 xbOutOfMemoryException::~xbOutOfMemoryException () XB_THROW {
 }
 
+//! Short description.
+/*!
+*/
 const char* xbOutOfMemoryException::what() const XB_THROW {
   return "xbOutOfMemoryException"; 
 };

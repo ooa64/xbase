@@ -1,4 +1,4 @@
-/*  $Id: html.h,v 1.2 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: html.h,v 1.3 2000/06/27 04:44:07 dbryson Exp $
 
     Xbase project source code
  
@@ -64,12 +64,30 @@ typedef char **xbArrayPtr;
 class XBDLLEXPORT xbHtml {
 public:
    xbHtml  ( void );
+   //! Short description.
+   /*!
+   */
    void   BoldOff( void ) { cout << "</b>\n"; };
+   //! Short description.
+   /*!
+   */
    void   BoldOn( void ) { cout << "<b>"; };
+   //! Short description.
+   /*!
+   */
    void   Bullet( void ) { cout << "<li>"; };
    void   DumpArray( void );
+   //! Short description.
+   /*!
+   */
    void   EmphasizeOff( void ) { cout << "</em>\n"; };
+   //! Short description.
+   /*!
+   */
    void   EmphasizeOn( void ) { cout << "<em>"; };
+   //! Short description.
+   /*!
+   */
    void   EndHtmlPage( void ) { cout << "</BODY>\n</HTML>\n"; }
    xbShort  GenFormFields(xbDbf *d, xbShort Option,const char * Title,xbFieldList *fl);
    xbShort  GetArrayNo( const char * FieldName );
@@ -78,19 +96,49 @@ public:
    char * GetDataForField( const char *FieldName );
    char * GetEnv( char * s ){ return getenv( s ); }
    xbShort  GetMethod( void );
+   //! Short description.
+   /*!
+   */
    void   HeaderOff( xbShort i ){ cout << "</h" << i << ">\n"; };
+   //! Short description.
+   /*!
+   */
    void   HeaderOn( xbShort i ){ cout << "<h" << i << ">\n"; };
+   //! Short description.
+   /*!
+   */
    void   ItalicOff( void ) { cout << "</i>\n"; };
+   //! Short description.
+   /*!
+   */
    void   ItalicOn( void ) { cout << "<i>"; };
+   //! Short description.
+   /*!
+   */
    void   NewLine( void ) { cout << "<br>"; }
    xbShort  PostMethod( void );
    void   PrintEncodedChar( char );
    void   PrintEncodedString( const char *s );
+   //! Short description.
+   /*!
+   */
    void   PrintHtml( char * s ) { cout << s; };
+   //! Short description.
+   /*!
+   */
    void   PrintHtml( xbLong l ) { cout << l; };
+   //! Short description.
+   /*!
+   */
    void   PrintHtml( xbShort i ) { cout << i; };
+   //! Short description.
+   /*!
+   */
    void   PrintHtml( int i ) { cout << i; };
    void   StartHtmlPage( const char *Title );
+   //! Short description.
+   /*!
+   */
    void   StartTextPage( void ) { cout << "Content-type: text/plain\n\n"; }
    void   TextOut( const char *String );
    xbLong   Tally( const char *FileName );

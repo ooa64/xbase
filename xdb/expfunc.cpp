@@ -1,4 +1,4 @@
-/*  $Id: expfunc.cpp,v 1.4 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: expfunc.cpp,v 1.5 2000/06/27 04:44:07 dbryson Exp $
 
     Xbase project source code
 
@@ -46,6 +46,10 @@
 */
 
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Func
+*/
 xbShort xbExpn::ProcessFunction( char * Func )
 {
 /* 1 - pop function from stack
@@ -307,6 +311,9 @@ xbShort xbExpn::ProcessFunction( char * Func )
    return XB_NO_ERROR;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 xbString & xbExpn::GetStringResult()
 {
   xbString *s = 0;
@@ -318,6 +325,9 @@ xbString & xbExpn::GetStringResult()
   return *s;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 xbLong xbExpn::GetIntResult( void )
 {
    xbLong l;
@@ -329,6 +339,9 @@ xbLong xbExpn::GetIntResult( void )
    return l;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 xbDouble xbExpn::GetDoubleResult( void )
 {
    xbDouble d;
@@ -340,6 +353,10 @@ xbDouble xbExpn::GetDoubleResult( void )
    return d;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param p
+*/
 xbDouble xbExpn::GetDoub( xbExpNode * p )
 {
    if( p->Type == 'd' )
@@ -352,6 +369,10 @@ xbDouble xbExpn::GetDoub( xbExpNode * p )
       return 0;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param p
+*/
 xbLong xbExpn::GetInt( xbExpNode *p )
 {
    if( p->Type == 'l' || p->Type == 'i' )
@@ -364,6 +385,10 @@ xbLong xbExpn::GetInt( xbExpNode *p )
       return 0L;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+*/
 xbDouble xbExpn::ABS( xbDouble d )
 {
    if( d < (xbDouble) 0 )
@@ -372,11 +397,20 @@ xbDouble xbExpn::ABS( xbDouble d )
       return d;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 xbLong xbExpn::ASC( const char * String )
 {
    return *String;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param s1
+  \param s2
+*/
 xbLong xbExpn::AT( const char * s1, const char *s2 )
 {
    /* looks for s1 in s2 */
@@ -390,6 +424,10 @@ xbLong xbExpn::AT( const char * s1, const char *s2 )
    return cnt;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 char * xbExpn::CDOW( const char * Date8 )
 {
    static char buf[10];
@@ -401,6 +439,10 @@ char * xbExpn::CDOW( const char * Date8 )
    return buf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param l
+*/
 char * xbExpn::CHR( xbLong l )
 {
    static char buf[2];
@@ -411,6 +453,10 @@ char * xbExpn::CHR( xbLong l )
    return buf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 char * xbExpn::CMONTH( const char * Date8 )
 {
    static char buf[10];
@@ -422,11 +468,19 @@ char * xbExpn::CMONTH( const char * Date8 )
    return buf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 xbLong xbExpn::DAY( const char * Date8 )
 {
    return DayOf( XB_FMT_MONTH, Date8 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 xbLong xbExpn::DESCEND( const char * Date8 )
 {
 
@@ -446,51 +500,87 @@ xbLong xbExpn::DESCEND( const char * Date8 )
 //   return DayOf( XB_FMT_MONTH, Date8 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 xbLong xbExpn::DOW( const char * Date8 )
 {
    return DayOf( XB_FMT_WEEK, Date8 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 char * xbExpn::DTOC( const char * Date8 )
 {
    strcpy( WorkBuf, FormatDate( GetDefaultDateFormat(), Date8 ));
    return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 char * xbExpn::DTOS( const char * Date8 )
 {
    strcpy( WorkBuf, FormatDate( "YYYYMMDD", Date8 ));
    return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+*/
 xbDouble xbExpn::EXP( xbDouble d )
 {
    return exp( d );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+*/
 xbLong xbExpn::INT( xbDouble d )
 {
    return (xbLong) d;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 xbLong xbExpn::ISALPHA( const char * String )
 {
    if( isalpha(*String) ) return 1;
    else return 0;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 xbLong xbExpn::ISLOWER( const char * String )
 {
    if( islower(*String) ) return 1;
    else return 0;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 xbLong xbExpn::ISUPPER( const char * String )
 {
    if( isupper(*String) ) return 1;
    else return 0;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 xbLong xbExpn::LEN( const char * String )
 {
    xbLong len;
@@ -500,6 +590,11 @@ xbLong xbExpn::LEN( const char * String )
    return ++len;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+  \param Len
+*/
 char * xbExpn::LEFT( const char * String, xbShort Len )
 {
    xbShort i;
@@ -509,6 +604,10 @@ char * xbExpn::LEFT( const char * String, xbShort Len )
    return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 /* This method removes any leading spaces from String */
 char * xbExpn::LTRIM( const char *String) {
   WorkBuf[0] = 0x00;
@@ -526,11 +625,19 @@ char * xbExpn::LTRIM( const char *String) {
   return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+*/
 xbDouble xbExpn::LOG( xbDouble d )
 {
    return log( d );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 char *xbExpn::LOWER( const char *String ) 
 {
   WorkBuf[0] = 0x00;
@@ -545,6 +652,11 @@ char *xbExpn::LOWER( const char *String )
   return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d1
+  \param d2
+*/
 xbDouble xbExpn::MAX( xbDouble d1, xbDouble d2 )
 {
    if( d1 > d2 ) 
@@ -553,6 +665,11 @@ xbDouble xbExpn::MAX( xbDouble d1, xbDouble d2 )
       return d2;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d1
+  \param d2
+*/
 xbDouble xbExpn::MIN( xbDouble d1, xbDouble d2 )
 {
    if( d1 < d2 ) 
@@ -561,20 +678,37 @@ xbDouble xbExpn::MIN( xbDouble d1, xbDouble d2 )
       return d2;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 xbLong xbExpn::MONTH( const char * Date8 )
 {
    return MonthOf( Date8 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+*/
 xbLong xbExpn::RECNO( xbDbf * d ) {
    return d->GetCurRecNo();
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param CurRec
+*/
 char * xbExpn::RECNO( xbULong CurRec ) {
    sprintf( WorkBuf, "%ld%c", CurRec, 0 );
    return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+  \param Cnt
+*/
 char * xbExpn::REPLICATE( const char * String, xbShort Cnt )
 {
    xbShort len, i;
@@ -586,6 +720,11 @@ char * xbExpn::REPLICATE( const char * String, xbShort Cnt )
    return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+  \paran cnt
+*/
 char * xbExpn::RIGHT( const char * String, xbShort cnt )
 {
    xbShort len;
@@ -598,11 +737,19 @@ char * xbExpn::RIGHT( const char * String, xbShort cnt )
    return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 char * xbExpn::RTRIM( const char * String )
 {
    return TRIM( String );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Cnt
+*/
 char * xbExpn::SPACE( xbShort Cnt )
 { 
    if( Cnt > 100 ) return NULL;
@@ -611,11 +758,21 @@ char * xbExpn::SPACE( xbShort Cnt )
    return WorkBuf;
 } 
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+*/
 xbDouble xbExpn::SQRT( xbDouble d )
 {
    return sqrt( d );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+  \param length
+  \param numDecimals
+*/
 char * xbExpn::STR(xbDouble d, xbUShort length, xbShort numDecimals) {
   // sanity check for length arg
   if (length > WorkBufMaxLen) 
@@ -635,16 +792,31 @@ char * xbExpn::STR(xbDouble d, xbUShort length, xbShort numDecimals) {
   return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+  \param length
+*/
 char * xbExpn::STR( xbDouble d, xbShort length )
 {
   return STR( d, length, 0 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+*/
 char * xbExpn::STR( xbDouble d )
 {
   return STR( d, 10, 0 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+  \param length
+  \param
+*/
 char * xbExpn::STR( const char * String, xbShort length, xbShort )
 {
   xbShort len, i;
@@ -656,16 +828,31 @@ char * xbExpn::STR( const char * String, xbShort length, xbShort )
   return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+  \param length
+*/
 char * xbExpn::STR( const char *String, xbShort length )
 {
   return STR( String, length, 0 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 char * xbExpn::STR( const char * String )
 {
   return STR( String, 10, 0 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+  \param length
+  \param 
+*/
 char * xbExpn::STRZERO( xbDouble d, xbShort length, xbShort )
 {
   xbShort len,i;
@@ -682,16 +869,31 @@ char * xbExpn::STRZERO( xbDouble d, xbShort length, xbShort )
   return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+  \param length
+*/
 char * xbExpn::STRZERO( xbDouble d, xbShort length )
 {
   return STRZERO( d, length, 0 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+*/
 char * xbExpn::STRZERO( xbDouble d )
 {
   return STRZERO( d, 10, 0 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+  \param length
+  \param
+*/
 char * xbExpn::STRZERO( const char * String, xbShort length, xbShort )
 {
   xbShort i, len ;
@@ -704,16 +906,31 @@ char * xbExpn::STRZERO( const char * String, xbShort length, xbShort )
   return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+  \param length
+*/
 char * xbExpn::STRZERO( const char * String, xbShort length )
 {
   return STRZERO( String, length, 0 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 char * xbExpn::STRZERO( const char * String )
 {
   return STRZERO( String, 10, 0 );
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+  \param StartPos
+  \param Len
+*/
 char * xbExpn::SUBSTR( const char * String, xbShort StartPos, xbShort Len )
 {
    xbShort i;
@@ -725,6 +942,9 @@ char * xbExpn::SUBSTR( const char * String, xbShort StartPos, xbShort Len )
    return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 char * xbExpn::DATE()
 {
    xbDate d;
@@ -732,6 +952,10 @@ char * xbExpn::DATE()
    return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 char * xbExpn::TRIM( const char * String )
 {
    WorkBuf[0] = 0x00;
@@ -756,6 +980,10 @@ char * xbExpn::TRIM( const char * String )
    return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 char *xbExpn::UPPER( const char *String )
 {
   WorkBuf[0] = 0x00;
@@ -771,6 +999,10 @@ char *xbExpn::UPPER( const char *String )
   return WorkBuf;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param String
+*/
 xbLong xbExpn::VAL( const char * String )
 {
   if( String )
@@ -779,6 +1011,10 @@ xbLong xbExpn::VAL( const char * String )
    return 0;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 xbLong xbExpn::YEAR( const char * Date8 ){
    return YearOf( Date8 );
 }

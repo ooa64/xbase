@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.3 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.4 2000/06/27 04:44:07 dbryson Exp $
 
     Xbase project source code
 
@@ -39,6 +39,9 @@
 */
 
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 xbXBase::xbXBase( void )
 {
    xbShort e = 1;
@@ -51,6 +54,10 @@ xbXBase::xbXBase( void )
    FreeDbfList = NULL;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param Name
+*/
 xbDbf *xbXBase::GetDbfPtr(const char *Name) {
   xbDbList *t;
 
@@ -70,6 +77,9 @@ xbDbf *xbXBase::GetDbfPtr(const char *Name) {
   return NULL;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 xbXBase::~xbXBase()
 {
 	xbDbList *i = FreeDbfList;
@@ -83,6 +93,11 @@ xbXBase::~xbXBase()
 	}
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param d
+  \param DatabaseName
+*/
 xbShort xbXBase::AddDbfToDbfList(xbDbf *d, const char *DatabaseName) {
 	xbDbList *i, *s, *t;
 
@@ -113,6 +128,10 @@ xbShort xbXBase::AddDbfToDbfList(xbDbf *d, const char *DatabaseName) {
 	return 0;
 }
 /***********************************************************************/
+//! Short description.
+/*!
+  \param d
+*/
 xbShort xbXBase::RemoveDbfFromDbfList(xbDbf *d) {
 	xbDbList *i, *s;
 
@@ -145,6 +164,10 @@ xbShort xbXBase::RemoveDbfFromDbfList(xbDbf *d) {
 // FIXME: byte reverse methods are awful, compared to bitwise shifts  -- willy
 
 /************************************************************************/
+//! Short description.
+/*!
+  \param p
+*/
 /* This routine returns a short value from a 2 byte character stream */
 xbShort xbXBase::GetShort(const char *p) {
    xbShort s, i;
@@ -164,6 +187,10 @@ xbShort xbXBase::GetShort(const char *p) {
    return s;
 }
 
+//! Short description.
+/*!
+  \param p
+*/
 /* This routine returns a long value from a 4 byte character stream */
 xbLong xbXBase::GetLong( const char *p )
 {
@@ -184,6 +211,10 @@ xbLong xbXBase::GetLong( const char *p )
    return l;
 }
 
+//! Short description.
+/*!
+  \param p
+*/
 /* This routine returns a long value from a 4 byte character stream */
 xbULong xbXBase::GetULong( const char *p )
 {
@@ -201,6 +232,10 @@ xbULong xbXBase::GetULong( const char *p )
   return l;
 }
 
+//! Short description.
+/*!
+  \param p
+*/
 /* This routine returns a double value from an 8 byte character stream */
 xbDouble xbXBase::GetDouble( const char *p )
 {
@@ -222,6 +257,11 @@ xbDouble xbXBase::GetDouble( const char *p )
    return d;
 }
 
+//! Short description.
+/*!
+  \param c
+  \param s
+*/
 /* This routine puts a short value to a 2 byte character stream */
 void xbXBase::PutShort( char * c, const xbShort s )
 {
@@ -244,6 +284,11 @@ void xbXBase::PutShort( char * c, const xbShort s )
    return;
 }
 
+//! Short description.
+/*!
+  \param c
+  \param l
+*/
 /* This routine puts a long value to a 4 byte character stream */
 void xbXBase::PutLong( char * c, const xbLong l )
 {
@@ -263,6 +308,11 @@ void xbXBase::PutLong( char * c, const xbLong l )
    return;
 }
 
+//! Short description.
+/*!
+  \param c
+  \param s
+*/
 /* This routine puts a short value to a 2 byte character stream */
 void xbXBase::PutUShort( char * c, const xbUShort s )
 {
@@ -282,6 +332,11 @@ void xbXBase::PutUShort( char * c, const xbUShort s )
    return;
 }
 
+//! Short description.
+/*!
+  \param c
+  \param l
+*/
 /* This routine puts a long value to a 4 byte character stream */
 void xbXBase::PutULong( char * c, const xbULong l )
 {
@@ -301,6 +356,11 @@ void xbXBase::PutULong( char * c, const xbULong l )
    return;
 }
 
+//! Short description.
+/*!
+  \param c
+  \param d
+*/
 /* This routine puts a double value to an 8 byte character stream */
 void xbXBase::PutDouble( char * c, const xbDouble d )
 {
@@ -320,6 +380,10 @@ void xbXBase::PutDouble( char * c, const xbDouble d )
    return;
 }
 /************************************************************************/
+//! Short description.
+/*!
+  \param Name
+*/
 xbShort xbXBase::DirectoryExistsInName( const char * Name )
 {
    /* returns the offset in the string of the last directory slash */
@@ -341,6 +405,10 @@ xbShort xbXBase::DirectoryExistsInName( const char * Name )
    return Mark;
 }
 /************************************************************************/
+//! Short description.
+/*!
+  \param ErrorNo
+*/
 void xbXBase::DisplayError( const xbShort ErrorNo ) const
 {
   switch( ErrorNo ) {
@@ -395,6 +463,10 @@ void xbXBase::DisplayError( const xbShort ErrorNo ) const
   }
 }
 /************************************************************************/
+//! Short description.
+/*!
+  \param ErrorNo
+*/
 const char* xbXBase::GetErrorMessage( const xbShort ErrorNo )
 {
   switch( ErrorNo ) {

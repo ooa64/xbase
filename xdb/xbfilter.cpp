@@ -38,6 +38,12 @@
 
 #ifdef XB_FILTERS
 /************************************************************************/
+//! Short description.
+/*!
+  \param dbf
+  \param index
+  \param exp
+*/
 xbFilter::xbFilter( xbDbf * dbf, xbIndex * index, char * exp )
 {
   xbShort rc;
@@ -55,6 +61,9 @@ xbFilter::xbFilter( xbDbf * dbf, xbIndex * index, char * exp )
   }
 }
 /***********************************************************************/
+//! Short description.
+/*!
+*/
 xbShort xbFilter::GetFirstFilterRec()
 {
   xbShort rc;
@@ -84,6 +93,9 @@ xbShort xbFilter::GetFirstFilterRec()
   return rc;
 }
 /***********************************************************************/
+//! Short description.
+/*!
+*/
 xbShort xbFilter::GetLastFilterRec()
 {
   xbShort rc;
@@ -113,6 +125,9 @@ cout << "xbfilter fixme" << endl;
   return rc;
 }
 /***********************************************************************/
+//! Short description.
+/*!
+*/
 xbShort xbFilter::GetNextFilterRec()
 {
   xbShort rc;
@@ -146,6 +161,9 @@ xbShort xbFilter::GetNextFilterRec()
   return rc;
 } 
 /***********************************************************************/
+//! Short description.
+/*!
+*/
 xbShort xbFilter::GetPrevFilterRec()
 {
   xbShort rc;

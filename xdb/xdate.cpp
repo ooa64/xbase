@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.4 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: xdate.cpp,v 1.5 2000/06/27 04:44:07 dbryson Exp $
 
     Xbase project source code
 
@@ -57,6 +57,10 @@ const xbString *xbDate::Months[12];
 #define DAYS_AD(year) ((year) *365L + (year) / 4 - (year) / 100 + (year) / 400)
 
 /***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 xbDate::xbDate( const xbString & Date8 ) {
   if( DateIsValid( Date8 ))
     cDate8 = Date8;
@@ -65,6 +69,10 @@ xbDate::xbDate( const xbString & Date8 ) {
   SetDateTables();
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 xbDate::xbDate( const char * Date8 ) {
   if( DateIsValid( Date8 ))
     cDate8 = Date8;
@@ -73,12 +81,18 @@ xbDate::xbDate( const char * Date8 ) {
   SetDateTables();
 }
 /***************************************************************/
+//! Short description.
+/*!
+*/
 xbDate::xbDate() 
 {
   Sysdate();
   SetDateTables();
 }
 /***************************************************************/
+//! Short description.
+/*!
+*/
 void xbDate::SetDateTables() {
  if( AggregatedDaysInMonths[1][12] != 366 ){    /* first time called ? */
   AggregatedDaysInMonths[0][0]  = 0; 
@@ -198,6 +212,10 @@ Gary  -  gkunkelstartech.keller.tx.us
  }
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 /* this function returns century and year from a CCYYMMDD date */
 int xbDate::YearOf( const char * Date8 ) const
 {
@@ -210,6 +228,10 @@ int xbDate::YearOf( const char * Date8 ) const
   return( atoi( year ));
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 /* this function returns the month from a CCYYMMDD date        */
 int xbDate::MonthOf( const char * Date8 ) const
 {
@@ -220,6 +242,10 @@ int xbDate::MonthOf( const char * Date8 ) const
    return( atoi( month ));
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 /* this function returns TRUE if a CCYYMMDD date is a leap year*/
 
 int xbDate::IsLeapYear( const char * Date8 ) const
@@ -232,6 +258,11 @@ int xbDate::IsLeapYear( const char * Date8 ) const
       return 0;
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Format
+  \param Date8
+*/
 /* this function returns the "day of" from a CCYYMMDD date     */
 
 /*  format = XB_FMT_WEEK       Number of day in WEEK  0-6 ( Sun - Sat )
@@ -286,6 +317,9 @@ int xbDate::DayOf( int Format, const char * Date8 ) const
       DayOf(XB_FMT_MONTH, Date8));
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 /* this method sets the class date & returns a pointer to system date */
 
 xbString& xbDate::Sysdate()
@@ -303,6 +337,10 @@ xbString& xbDate::Sysdate()
    return cDate8;
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 /* this function checks a date for validity - returns 1 if OK  */
 
 int xbDate::DateIsValid( const char * Date8 ) const
@@ -341,6 +379,10 @@ int xbDate::DateIsValid( const char * Date8 ) const
    return 1;
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 /* this returns the number of days since 1/1/1900              */
 long xbDate::JulianDays( const char * Date8 ) const
 {
@@ -361,6 +403,10 @@ long xbDate::JulianDays( const char * Date8 ) const
    return days;
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param days
+*/
 /* this function does the opposite of the JulianDays function  */
 /* it converts a julian based date into a Date8 format         */
 
@@ -418,6 +464,10 @@ xbString& xbDate::JulToDate8( long days )
    return cDate8;
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 /* this routine returns a pointer to the day of the week(Sun-Sat)*/
 xbString& xbDate::CharDayOf( const char * Date8 )
 {
@@ -425,6 +475,10 @@ xbString& xbDate::CharDayOf( const char * Date8 )
   return fDate;
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 /* this routine returns a pointer to the month                 */
 
 xbString& xbDate::CharMonthOf( const char * Date8 )
@@ -433,6 +487,11 @@ xbString& xbDate::CharMonthOf( const char * Date8 )
   return( fDate );
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Format
+  \param Date8
+*/
 /* This function formats a date and returns a pointer to a     */
 /* static buffer containing the date                           */
 
@@ -576,6 +635,10 @@ xbString& xbDate::FormatDate( const char * Format, const char * Date8 )
    return fDate;
 }
 /***************************************************************/
+//! Short description.
+/*!
+  \param Date8
+*/
 /* this routine returns the Date8 format of the last day of the
    month for the given input Date8 */
  
@@ -589,30 +652,45 @@ xbString & xbDate::LastDayOfMonth( const char * Date8 )
   return cDate8;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 xbString &xbDate::operator+=( int count )
 {
   JulToDate8( JulianDays() + count );
   return cDate8;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 xbString &xbDate::operator-=( int count )
 {
   JulToDate8( JulianDays() - count );
   return cDate8;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 xbString &xbDate::operator++( int )
 {
   *this+=1;
   return cDate8;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 xbString &xbDate::operator--( int )
 {
   *this-=1;
   return cDate8;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 xbString &xbDate::operator+( int count )
 {
   xbDate d( GetDate() );
@@ -621,6 +699,9 @@ xbString &xbDate::operator+( int count )
   return fDate;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 xbString &xbDate::operator-( int count )
 {
   xbDate d( GetDate() );
@@ -629,11 +710,17 @@ xbString &xbDate::operator-( int count )
   return fDate;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 long xbDate::operator-( const xbDate & d ) const 
 {
   return JulianDays() - d.JulianDays();
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 int xbDate::operator==( const xbDate & d ) const 
 {
   if( JulianDays() == d.JulianDays() ) 
@@ -642,6 +729,9 @@ int xbDate::operator==( const xbDate & d ) const
     return 0;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 int xbDate::operator!=( const xbDate & d ) const 
 {
   if( JulianDays() != d.JulianDays() ) 
@@ -650,6 +740,9 @@ int xbDate::operator!=( const xbDate & d ) const
     return 0;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 int xbDate::operator<( const xbDate & d ) const 
 {
   if( JulianDays() < d.JulianDays() ) 
@@ -658,6 +751,9 @@ int xbDate::operator<( const xbDate & d ) const
     return 0;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 int xbDate::operator>( const xbDate & d ) const 
 {
   if( JulianDays() > d.JulianDays() ) 
@@ -666,6 +762,9 @@ int xbDate::operator>( const xbDate & d ) const
     return 0;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 int xbDate::operator<=( const xbDate & d ) const 
 {
   if( JulianDays() <= d.JulianDays() ) 
@@ -674,6 +773,9 @@ int xbDate::operator<=( const xbDate & d ) const
     return 0;
 }
 /**********************************************************************/
+//! Short description.
+/*!
+*/
 int xbDate::operator>=( const xbDate & d ) const 
 {
   if( JulianDays() >= d.JulianDays() ) 

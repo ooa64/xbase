@@ -1,4 +1,4 @@
-/*  $Id: stack.cpp,v 1.3 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: stack.cpp,v 1.4 2000/06/27 04:44:07 dbryson Exp $
 
     Xbase project source code
 
@@ -41,6 +41,9 @@
 */
 
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 xbStack::xbStack( void )
 {
    First      = NULL;
@@ -49,6 +52,9 @@ xbStack::xbStack( void )
    StackDepth = 0;;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 void xbStack::InitStack( void )
 {
    if( !First || !Last ) return;
@@ -64,6 +70,9 @@ void xbStack::InitStack( void )
    return;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 xbStackElement * xbStack::GetStackElement( void )
 {
    xbStackElement * Temp;
@@ -85,6 +94,10 @@ xbStackElement * xbStack::GetStackElement( void )
    return Temp;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param e
+*/
 void xbStack::FreeStackElement( xbStackElement * e )
 {
    e->Previous = NULL;
@@ -93,6 +106,10 @@ void xbStack::FreeStackElement( xbStackElement * e )
    Free = e;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+  \param p
+*/
 xbShort xbStack::Push( void * p )
 {
    xbStackElement * Temp;
@@ -116,6 +133,9 @@ xbShort xbStack::Push( void * p )
    return 0;
 }
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 void * xbStack::Pop( void )
 {
    void * p;
@@ -144,6 +164,9 @@ void * xbStack::Pop( void )
    }
 }
 /*************************************************************************/
+//! Short description.
+/*!
+*/
 #ifdef XBASE_DEBUG
 void xbStack::DumpStack( void )
 {

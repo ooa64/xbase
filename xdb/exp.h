@@ -1,4 +1,4 @@
-/*  $Id: exp.h,v 1.4 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: exp.h,v 1.5 2000/06/27 04:44:07 dbryson Exp $
 
     Xbase project source code 
 
@@ -179,6 +179,10 @@ public:
    char *   UPPER( const char * );
    xbLong   VAL( const char * );
    xbLong   YEAR( const char * );  
+   //! Short description.
+   /*!
+     \param f
+   */
    void     SetDefaultDateFormat(const xbString f){ DefaultDateFormat = f; }
 
    xbString GetDefaultDateFormat() const { return DefaultDateFormat; }

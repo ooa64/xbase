@@ -54,28 +54,52 @@
 
 const char * xbString::NullString = "";
 
+//! Short description.
+/*!
+*/
 xbString::xbString() {
   ctor(NULL);
 }
 
+//! Short description.
+/*!
+  \param size
+*/
 xbString::xbString(size_t size) {
   data = (char *)malloc(size);
   this->size = size;
 }
 
+//! Short description.
+/*!
+  \param c
+*/
 xbString::xbString(char c) {
   ctor(NULL);
   *this = c;
 }
 
+//! Short description.
+/*!
+  \param s
+*/
 xbString::xbString(const char *s) {
   ctor(s);
 }
 
+//! Short description.
+/*!
+  \param s
+*/
 xbString::xbString(const xbString &s) {
   ctor((const char *)s);
 }
 
+//! Short description.
+/*!
+  \param s
+  \param maxlen
+*/
 xbString::xbString(const char *s, size_t maxlen) {
   size_t len = strlen(s);
   
@@ -88,11 +112,18 @@ xbString::xbString(const char *s, size_t maxlen) {
 	data[maxlen] = 0;
 }
 
+//! Short description.
+/*!
+*/
 xbString::~xbString() {
   if (data != NULL)
     free(data);
 }
 
+//! Short description.
+/*!
+  \param s
+*/
 void xbString::ctor(const char *s) {
   if (s == NULL) {
     data = NULL;
@@ -106,6 +137,11 @@ void xbString::ctor(const char *s) {
   strcpy(data, s);
 }
 
+//! Short description.
+/*!
+  \param s
+  \param maxlen
+*/
 void xbString::ctor(const char *s,size_t maxlen) {
 
   if (s == NULL) {
@@ -125,6 +161,9 @@ void xbString::ctor(const char *s,size_t maxlen) {
 	data[maxlen] = 0;
 }
 
+//! Short description.
+/*!
+*/
 xbString &xbString::operator=(char c) {
   if (data != NULL)
     free(data);
@@ -138,6 +177,9 @@ xbString &xbString::operator=(char c) {
   return (*this);
 }
 
+//! Short description.
+/*!
+*/
 xbString &xbString::operator=(const xbString &s) {
   if (data != NULL)
     free(data);
@@ -157,6 +199,9 @@ xbString &xbString::operator=(const xbString &s) {
   return (*this);
 }
 
+//! Short description.
+/*!
+*/
 xbString &xbString::operator=(const char *s) {
   if (data != NULL)
     free(data);
@@ -175,6 +220,10 @@ xbString &xbString::operator=(const char *s) {
   return (*this);
 }
 
+//! Short description.
+/*!
+  \param size
+*/
 void xbString::resize(size_t size) {
   data = (char *)realloc(data, size);
   if (size>0)
@@ -182,10 +231,16 @@ void xbString::resize(size_t size) {
   this->size = size;
 }
      
+//! Short description.
+/*!
+*/
 bool xbString::isNull() const {
   return (data == NULL);
 }
 
+//! Short description.
+/*!
+*/
 bool xbString::isEmpty() const {
   if (data == NULL)
     return true;
@@ -194,18 +249,31 @@ bool xbString::isEmpty() const {
   return false;
 }
 
+//! Short description.
+/*!
+*/
 size_t xbString::len() const {
   return ((data == NULL)?0:strlen(data));
 }
 
+//! Short description.
+/*!
+*/
 size_t xbString::length() const {
   return len();
 }
 
+//! Short description.
+/*!
+*/
 xbString xbString::copy() const {
   return (*this);
 }
 
+//! Short description.
+/*!
+  \param format
+*/
 xbString &xbString::sprintf(const char *format, ...) {
   va_list ap;
   va_start(ap, format);
@@ -231,11 +299,17 @@ xbString &xbString::sprintf(const char *format, ...) {
   return (*this);
 }
 
+//! Short description.
+/*!
+*/
 xbString::operator const char *() const {
 //  return data;
   return (data != NULL) ? data : NullString;
 }
 
+//! Short description.
+/*!
+*/
 xbString &xbString::operator-=(const char *s) {
   if( s == NULL ) return (*this);
   int len = strlen(s);
@@ -258,6 +332,9 @@ xbString &xbString::operator-=(const char *s) {
   return (*this);
 }
 
+//! Short description.
+/*!
+*/
 xbString &xbString::operator+=(const char *s) {
   if (s == NULL)
     return (*this);
@@ -273,6 +350,9 @@ xbString &xbString::operator+=(const char *s) {
   return (*this);
 }
 
+//! Short description.
+/*!
+*/
 xbString &xbString::operator+=(char c) {
   int len = 1;
   int oldlen = this->len();
@@ -286,20 +366,33 @@ xbString &xbString::operator+=(char c) {
   return (*this);
 }
 
+//! Short description.
+/*!
+*/
 const char *xbString::getData() const {
   return (data != NULL) ? data : NullString;
 }
 
+//! Short description.
+/*!
+*/
 const char *xbString::c_str() const {
   return data;
 }
 
+//! Short description.
+/*!
+*/
 void xbString::toLowerCase() {
   int len = this->len();
   for (int i=0;i<len;i++)
     data[i] = (char)tolower(data[i]);
 }
 
+//! Short description.
+/*!
+  \param c
+*/
 int xbString::pos(char c) {
   if (data == NULL)
     return (-1);
@@ -312,6 +405,10 @@ int xbString::pos(char c) {
   return p-data;
 }
 
+//! Short description.
+/*!
+  \param s
+*/
 int xbString::pos(const char* s) {
   if (data == NULL)
     return (-1);
@@ -324,10 +421,17 @@ int xbString::pos(const char* s) {
   return p-data;
 }
 
+//! Short description.
+/*!
+  \param num
+*/
 void xbString::setNum(long num) {
   sprintf("%ld", num);
 }
 
+//! Short description.
+/*!
+*/
 bool operator==(const xbString &s1, const char *s2) {
   if (s2 == NULL) {
     if (s1.getData() == NULL)
@@ -344,6 +448,9 @@ bool operator==(const xbString &s1, const char *s2) {
   return (strcmp(s1, s2) == 0);
 }
 
+//! Short description.
+/*!
+*/
 bool operator!=(const xbString &s1, const char *s2) {
   if (s2 == NULL) {
     if (s1.getData() == NULL)
@@ -360,6 +467,9 @@ bool operator!=(const xbString &s1, const char *s2) {
   return (strcmp(s1, s2) != 0);
 }
 
+//! Short description.
+/*!
+*/
 bool xbString::operator==( const xbString &s2 ) const {
   if( data == NULL || data[0] == 0 ) {
     if( s2.data == NULL || s2.data[0] == 0 ) return true; // NULL == NULL
@@ -370,6 +480,9 @@ bool xbString::operator==( const xbString &s2 ) const {
   }
 }
 
+//! Short description.
+/*!
+*/
 bool xbString::operator!=( const xbString &s2 ) const {
   if( data == NULL || data[0] == 0 ) {
     if( s2.data == NULL || s2.data[0] == 0 ) return false; // NULL != NULL
@@ -380,6 +493,9 @@ bool xbString::operator!=( const xbString &s2 ) const {
   }
 }
 
+//! Short description.
+/*!
+*/
 bool xbString::operator< ( const xbString &s2 ) const {
   if( data == NULL || data[0] == 0 ) {
     if( s2.data == NULL || s2.data[0] == 0 ) return false; // NULL < NULL
@@ -390,6 +506,9 @@ bool xbString::operator< ( const xbString &s2 ) const {
   }
 }
 
+//! Short description.
+/*!
+*/
 bool xbString::operator> ( const xbString &s2 ) const {
   if( data == NULL || data[0] == 0 ) {
     if( s2.data == NULL || s2.data[0] == 0 ) return false; // NULL > NULL
@@ -400,6 +519,9 @@ bool xbString::operator> ( const xbString &s2 ) const {
   }
 }
 
+//! Short description.
+/*!
+*/
 bool xbString::operator<=( const xbString &s2 ) const {
   if( data == NULL || data[0] == 0 ) {
     if( s2.data == NULL || s2.data[0] == 0 ) return true; // NULL <= NULL
@@ -410,6 +532,9 @@ bool xbString::operator<=( const xbString &s2 ) const {
   }
 }
 
+//! Short description.
+/*!
+*/
 bool xbString::operator>=( const xbString &s2 ) const {
   if( data == NULL || data[0] == 0 ) {
     if( s2.data == NULL || s2.data[0] == 0 ) return true; // NULL >= NULL
@@ -420,46 +545,72 @@ bool xbString::operator>=( const xbString &s2 ) const {
   }
 }
 
+//! Short description.
+/*!
+*/
 ostream& operator << ( ostream& os, const xbString& xbs ) {
   return os << xbs.data;
 }
 
+//! Short description.
+/*!
+*/
 xbString operator-(const xbString &s1, const xbString &s2) {
 	xbString tmp(s1.getData());
 	tmp -= s2;
 	return tmp;
 }
 
+//! Short description.
+/*!
+*/
 xbString operator+(const xbString &s1, const xbString &s2) {
 	xbString tmp(s1.getData());
 	tmp += s2;
 	return tmp;
 }
 
+//! Short description.
+/*!
+*/
 xbString operator+(const xbString &s1, const char *s2) {
 	xbString tmp(s1.getData());
 	tmp += s2;
 	return tmp;
 }
 
+//! Short description.
+/*!
+*/
 xbString operator+(const char *s1, const xbString &s2) {
 	xbString tmp(s1);
 	tmp += s2;
 	return tmp;
 }
 
+//! Short description.
+/*!
+*/
 xbString operator+(const xbString &s1, char c2) {
 	xbString tmp(s1.getData());
 	tmp += c2;
 	return tmp;
 }
 
+//! Short description.
+/*!
+*/
 xbString operator+(char c1, const xbString &s2) {
 	xbString tmp(c1);
 	tmp += s2;
 	return tmp;
 }
 
+//! Short description.
+/*!
+  \param pos
+  \param c
+*/
 void xbString::putAt(size_t pos, char c) {
 	if (pos>len())
 		return;
@@ -467,6 +618,12 @@ void xbString::putAt(size_t pos, char c) {
 	data[pos] = c;
 }
 
+//! Short description.
+/*!
+  \param str
+  \param pos
+  \param n
+*/
 xbString& xbString::assign(const xbString& str, size_t pos, int n) {
 	if (data != NULL)
 		free(data);
@@ -498,6 +655,9 @@ xbString& xbString::assign(const xbString& str, size_t pos, int n) {
 	return (*this);
 }
 
+//! Short description.
+/*!
+*/
 void xbString::trim() {
   int l = len()-1;
 
@@ -511,6 +671,11 @@ void xbString::trim() {
 	}
 }
 
+//! Short description.
+/*!
+  \param pos
+  \param n
+*/
 xbString &xbString::remove(size_t pos, int n) {
   if (data == NULL)
     return (*this);
@@ -532,6 +697,11 @@ xbString &xbString::remove(size_t pos, int n) {
   return (*this);
 }
 
+//! Short description.
+/*!
+  \param pos
+  \param n
+*/
 xbString xbString::mid(size_t pos, int n) const {
   if (data == NULL)
     return (*this);

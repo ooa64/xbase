@@ -1,4 +1,4 @@
-/*  $Id: xdate.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: xdate.h,v 1.4 2000/06/27 04:44:07 dbryson Exp $
 
     Xbase project source code
 
@@ -56,56 +56,110 @@ class XBDLLEXPORT xbDate {
     xbDate( const char * Date8 );
     xbDate( const xbString &Date8 );
 
+    //! Short description.
+    /*!
+    */
     const xbString & GetDate() const 
       { return cDate8; };
+    //! Short description.
+    /*!
+    */
     xbString & GetDate() 
       { return cDate8; };
+    //! Short description.
+    /*!
+    */
     const xbString & GetFormattedDate() const 
       { return fDate; };
+    //! Short description.
+    /*!
+    */
     xbString & GetFormattedDate() 
       { return fDate; };
 
     int SetDate( const char * Date8 );
+    //! Short description.
+    /*!
+    */
     int SetDate( const xbString & Date8 )
          { return SetDate((const char *) Date8 ); };
 
     long JulianDays    ( const char *Date8 ) const;
+    //! Short description.
+    /*!
+    */
     long JulianDays    ( const xbString & Date8 ) const
          { return JulianDays((const char *) Date8 ); };
+    //! Short description.
+    /*!
+    */
     long JulianDays    () const
          { return JulianDays((const char *) cDate8 ); };
 
     int  YearOf        ( const char *Date8 ) const;
+    //! Short description.
+    /*!
+    */
     int  YearOf        ( const xbString & Date8 ) const
          { return YearOf((const char *) Date8 ); };
+    //! Short description.
+    /*!
+    */
     int  YearOf        () const
          { return YearOf((const char *) cDate8 ); };
 
     int  MonthOf       ( const char *Date8 ) const;
+    //! Short description.
+    /*!
+    */
     int  MonthOf       ( const xbString &Date8 ) const
          { return MonthOf((const char *) Date8 ); };
+    //! Short description.
+    /*!
+    */
     int  MonthOf       () const
          { return MonthOf(( const char *) cDate8 ); };
     
     int  DayOf         ( int Format, const char *Date8 ) const;
+    //! Short description.
+    /*!
+    */
     int  DayOf         ( int Format, const xbString &Date8 ) const
          { return DayOf( Format, (const char *) Date8 ); };
+    //! Short description.
+    /*!
+    */
     int  DayOf         ( int Format ) const
          { return DayOf( Format, (const char *) cDate8 ); };
     
     int  IsLeapYear    ( const char *Date8 ) const;
+    //! Short description.
+    /*!
+    */
     int  IsLeapYear    ( const xbString &Date8 ) const
          { return IsLeapYear((const char *) Date8 ); };
+    //! Short description.
+    /*!
+    */
     int  IsLeapYear    () const
          { return IsLeapYear((const char *) cDate8 ); };
     
     int  DateIsValid   ( const char *Date8 ) const;
+    //! Short description.
+    /*!
+    */
     int  DateIsValid   ( const xbString & Date8 ) const
          { return DateIsValid( (const char *) Date8 ); };
 	 
     xbString& LastDayOfMonth( const char *Date8 );
+    //! Short description.
+    /*!
+    */
     xbString& LastDayOfMonth( const xbString & Date8 )
          { return LastDayOfMonth((const char *) Date8 ); };
+    //! Short description.
+    /*!
+    */
     xbString& LastDayOfMonth()
          { return LastDayOfMonth((const char *) cDate8 ); };
 
@@ -113,26 +167,53 @@ class XBDLLEXPORT xbDate {
     xbString& JulToDate8( long );
   
     xbString& FormatDate( const char *Format, const char *Date8 );
+    //! Short description.
+    /*!
+    */
     xbString& FormatDate( const xbString &Format, const char *Date8 )
      { return FormatDate((const char *) Format, Date8 ); };
+    //! Short description.
+    /*!
+    */
     xbString& FormatDate( const char *Format, const xbString &Date8 )
      { return FormatDate( Format, (const char *) Date8 ); };
+    //! Short description.
+    /*!
+    */
     xbString& FormatDate( const xbString &Format, const xbString &Date8 )
      { return FormatDate((const char *) Format,(const char *) Date8 ); };
+    //! Short description.
+    /*!
+    */
     xbString& FormatDate( const char *Format )
      { return FormatDate( (const char *) Format, (const char *) cDate8 ); };
+    //! Short description.
+    /*!
+    */
     xbString& FormatDate( const xbString &Format )
      { return FormatDate((const char *) Format, (const char *) cDate8 ); };
     
     xbString& CharDayOf ( const char *Date8 );
+    //! Short description.
+    /*!
+    */
     xbString& CharDayOf ( const xbString &Date8 )
       { return CharDayOf((const char *) Date8 ); };
+    //! Short description.
+    /*!
+    */
     xbString& CharDayOf ()
       { return CharDayOf((const char *) cDate8 ); };
 
     xbString& CharMonthOf ( const char *Date8 );
+    //! Short description.
+    /*!
+    */
     xbString& CharMonthOf ( const xbString &Date8 )
       { return CharMonthOf(( const char *) Date8 ); };
+    //! Short description.
+    /*!
+    */
     xbString& CharMonthOf ()
       { return CharMonthOf(( const char *) cDate8 ); };
 
