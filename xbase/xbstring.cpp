@@ -466,7 +466,7 @@ void xbString::setNum(long num) {
 //! Short description.
 /*!
 */
-bool operator==(const xbString &s1, const char *s2) {
+XBDLLEXPORT bool operator==(const xbString &s1, const char *s2) {
   if (s2 == NULL) {
     if (s1.getData() == NULL)
       return true;
@@ -485,7 +485,7 @@ bool operator==(const xbString &s1, const char *s2) {
 //! Short description.
 /*!
 */
-bool operator!=(const xbString &s1, const char *s2) {
+XBDLLEXPORT bool operator!=(const xbString &s1, const char *s2) {
   if (s2 == NULL) {
     if (s1.getData() == NULL)
       return false;
@@ -582,14 +582,14 @@ bool xbString::operator>=( const xbString &s2 ) const {
 //! Short description.
 /*!
 */
-XBDLLEXPORT ostream& operator << ( ostream& os, const xbString& xbs ) {
+XBDLLEXPORT ostream& operator<< ( ostream& os, const xbString& xbs ) {
   return os << xbs.data;
 }
 
 //! Short description.
 /*!
 */
-xbString operator-(const xbString &s1, const xbString &s2) {
+XBDLLEXPORT xbString operator-(const xbString &s1, const xbString &s2) {
    xbString tmp(s1.getData());
    tmp -= s2;
    return tmp;
@@ -598,7 +598,7 @@ xbString operator-(const xbString &s1, const xbString &s2) {
 //! Short description.
 /*!
 */
-xbString operator+(const xbString &s1, const xbString &s2) {
+XBDLLEXPORT xbString operator+(const xbString &s1, const xbString &s2) {
    xbString tmp(s1.getData());
    tmp += s2;
    return tmp;
@@ -607,7 +607,7 @@ xbString operator+(const xbString &s1, const xbString &s2) {
 //! Short description.
 /*!
 */
-xbString operator+(const xbString &s1, const char *s2) {
+XBDLLEXPORT xbString operator+(const xbString &s1, const char *s2) {
    xbString tmp(s1.getData());
    tmp += s2;
    return tmp;
@@ -616,7 +616,7 @@ xbString operator+(const xbString &s1, const char *s2) {
 //! Short description.
 /*!
 */
-xbString operator+(const char *s1, const xbString &s2) {
+XBDLLEXPORT xbString operator+(const char *s1, const xbString &s2) {
    xbString tmp(s1);
    tmp += s2;
    return tmp;
@@ -625,7 +625,7 @@ xbString operator+(const char *s1, const xbString &s2) {
 //! Short description.
 /*!
 */
-xbString operator+(const xbString &s1, char c2) {
+XBDLLEXPORT xbString operator+(const xbString &s1, char c2) {
    xbString tmp(s1.getData());
    tmp += c2;
    return tmp;
@@ -634,7 +634,7 @@ xbString operator+(const xbString &s1, char c2) {
 //! Short description.
 /*!
 */
-xbString operator+(char c1, const xbString &s2) {
+XBDLLEXPORT xbString operator+(char c1, const xbString &s2) {
    xbString tmp(c1);
    tmp += s2;
    return tmp;
@@ -658,35 +658,35 @@ void xbString::putAt(size_t pos, char c) {
   \param pos
   \param n
 */
-xbString& xbString::assign(const xbString& str, size_t pos, int n) 
+xbString& xbString::assign(const xbString& str, size_t pos, int n)
 {
   if(data)
   {
     free(data);
     data = 0;
-  }    
+  }
 
-  if(str.len() <= pos) 
+  if(str.len() <= pos)
   {
     size = 0;
     return (*this);
   }
 
-  if(str.len() < pos + n) 
+  if(str.len() < pos + n)
   {
     n = str.len() - pos;
   }
 
   const char *d = str;
-      
-  if (n == -1) 
+
+  if (n == -1)
   {
 //        data = (char *)malloc(str.len()-pos+1); ms win/nt bug fix
     data = (char *)calloc(str.len()-pos+1, sizeof( char ));
     strcpy(data, d+pos);
     size = str.len()-pos+1;
-  } 
-  else 
+  }
+  else
   {
 //   data = (char *)malloc(n);  ms win/nt bug fix
     data = (char *)calloc(n + 1, sizeof(char));
@@ -704,14 +704,14 @@ xbString& xbString::assign(const xbString& str, size_t pos, int n)
   \param pos
   \param n
 */
-xbString& xbString::assign(char* str, int n) 
+xbString& xbString::assign(char* str, int n)
 {
   if(data)
   {
     free(data);
     data = 0;
   }
-  
+
   data = (char *)calloc(n + 1, sizeof(char));
   strncpy(data, str, n);
   data[n] = 0;

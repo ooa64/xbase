@@ -92,7 +92,7 @@ public:
   
   xbString &sprintf(const char *format, ...);
   void setNum(long num);
-  
+
   xbString& assign(const xbString& str, size_t pos = 0, int n = npos);
   xbString& assign(char* str, int n);
   char operator[](int n) { return data[n]; }
@@ -119,7 +119,7 @@ public:
   bool operator <= ( const xbString& ) const;
   bool operator >= ( const xbString& ) const;
 
-  friend ostream& operator << ( ostream&, const xbString& );
+  friend XBDLLEXPORT ostream& operator << ( ostream&, const xbString& );
 
   xbString &remove(size_t pos = 0, int n = npos);
   xbString mid(size_t pos = 0, int n = npos) const;
@@ -133,17 +133,14 @@ protected:
   static const char * NullString;
 };
 
-bool operator==(const xbString &s1, const char *s2);
-bool operator!=(const xbString &s1, const char *s2);
-bool operator==(const xbString &s1, char s2);
-bool operator!=(const xbString &s1, char s2);
-
-xbString operator+(const xbString &s1, const xbString &s2);
-xbString operator+(const xbString &s1, const char *s2);
-xbString operator+(const char *s1, const xbString &s2);
-xbString operator+(const xbString &s1, char c2);
-xbString operator+(char c1, const xbString &s2);
-xbString operator-(const xbString &s1, const xbString &s2);
+XBDLLEXPORT xbString operator-(const xbString &s1, const xbString &s2);
+XBDLLEXPORT xbString operator+(const xbString &s1, const xbString &s2);
+XBDLLEXPORT xbString operator+(const xbString &s1, const char *s2);
+XBDLLEXPORT xbString operator+(const char *s1, const xbString &s2);
+XBDLLEXPORT xbString operator+(const xbString &s1, char c2);
+XBDLLEXPORT xbString operator+(char c1, const xbString &s2);
+XBDLLEXPORT bool operator==(const xbString &s1, const char *s2);
+XBDLLEXPORT bool operator!=(const xbString &s1, const char *s2);
 
 #endif
 
