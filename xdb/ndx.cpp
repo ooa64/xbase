@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.1 2000/06/01 06:04:59 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.2 2000/06/06 22:58:32 dbryson Exp $
 
     Xbase project source code
 
@@ -34,10 +34,12 @@
                            Paul Koufalis pkoufalis@cogicom.com
                          - sequence duplicate keys in dbf# order
     V 1.8     11/30/98   - Version 1.8 upgrade
- 
+    V 1.9      4/12/99   - Added fix to AddKey routine for dup keys 
+                         - Modified CreateIndex logic - KeySize field 
 */
 
 #include <xdb/xbase.h>
+#include <iostream.h>
 
 #ifdef XB_INDEX_NDX
 
@@ -54,7 +56,7 @@
 #define USE_BSEARCH
 
 /***********************************************************************/
-xbShort xbNdx::CloneNodeChain( void )
+xbShort xbNdx::CloneNodeChain()
 {
    xbNdxNodeLink * TempNodeS;
    xbNdxNodeLink * TempNodeT;
@@ -90,7 +92,7 @@ xbShort xbNdx::CloneNodeChain( void )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
-xbShort xbNdx::UncloneNodeChain( void )
+xbShort xbNdx::UncloneNodeChain()
 {
    if( NodeChain )
       ReleaseNodeMemory( NodeChain );
@@ -104,7 +106,7 @@ xbShort xbNdx::UncloneNodeChain( void )
 /***********************************************************************/
 /* This routine dumps the node chain to stdout                         */
 #ifdef XBASE_DEBUG
-void xbNdx::DumpNodeChain( void )
+void xbNdx::DumpNodeChain()
 {
    xbNdxNodeLink  *n;
    cout << "\n*************************\n";
@@ -173,8 +175,9 @@ xbNdxNodeLink * xbNdx::GetNodeMemory( void )
 }
 /***********************************************************************/
 #ifdef XBASE_DEBUG
-void xbNdx::DumpHdrNode( void )
+void xbNdx::DumpHdrNode()
 {
+<<<<<<< ndx.cpp
    cout << "\nStart node    = " << HeadNode.StartNode;
    cout << "\nTotal nodes   = " << HeadNode.TotalNodes;
    cout << "\nNo of keys    = " << HeadNode.NoOfKeys;
@@ -189,6 +192,22 @@ void xbNdx::DumpHdrNode( void )
    cout << "\nNodeSize      = " << NodeSize;
 #endif // XB_VAR_NODESIZE
    cout << "\n";
+=======
+   FILE * log;
+   if(( log = fopen( "xbase.log", "a+t" )) == NULL ) return;
+   fprintf( log, "\n-------------------" );
+   fprintf( log, "\nStart node    =%ld ",  HeadNode.StartNode );
+   fprintf( log, "\nTotal nodes   =%ld ",  HeadNode.TotalNodes );
+   fprintf( log, "\nNo of keys    =%ld ",  HeadNode.NoOfKeys );
+   fprintf( log, "\nKey Length    =%d ",   HeadNode.KeyLen );
+   fprintf( log, "\nKeys Per Node =%d ",   HeadNode.KeysPerNode );
+   fprintf( log, "\nKey type      =%d ",   HeadNode.KeyType );
+   fprintf( log, "\nKey size      =%ld ",  HeadNode.KeySize );
+   fprintf( log, "\nUnknown 2     =%d ",   HeadNode.Unknown2 );
+   fprintf( log, "\nUnique        =%d ",   HeadNode.Unique );
+   fprintf( log, "\nKeyExpression =%s \n", HeadNode.KeyExpression );
+   fclose( log );
+>>>>>>> ../../xbase/xbase/ndx.cpp
 }
 #endif
 /***********************************************************************/
@@ -199,20 +218,13 @@ xbNdx::xbNdx(xbDbf *pdbf) : xbIndex(pdbf) {
    memset( Node, 0x00, XB_MAX_NDX_NODE_SIZE );
 #endif
    memset( &HeadNode, 0x00, sizeof( xbNdxHeadNode )); 
-//   ndxfp           = NULL;
    NodeChain       = NULL;
    CloneChain      = NULL;
    FreeNodeChain   = NULL;
    DeleteChain     = NULL;
    CurNode         = NULL;
-//   NdxStatus       = 0;
    xbNodeLinkCtr     = 0L;
    ReusedxbNodeLinks = 0L;
-//   ndx             = this;
-//   dbf             = pdbf;
-//   KeyBuf          = NULL;
-//   KeyBuf2         = NULL;
-//   IndexName       = NULL;
 #ifndef XB_VAR_NODESIZE
    NodeSize = XB_NDX_NODE_SIZE;
 #else
@@ -246,7 +258,7 @@ xbShort xbNdx::OpenIndex( const char * FileName )
    **  Must turn off buffering when multiple programs may be accessing
    **  index files.
    */
-   setvbuf(indexfp, NULL, _IONBF, 0);
+   setbuf( indexfp, NULL );
 #endif   
 
 #ifdef XB_LOCKING_ON
@@ -411,15 +423,19 @@ void xbNdx::DumpNodeRec( xbLong n )
    char *p;
    xbLong NoOfKeys, LeftBranch, RecNo;
    xbShort i,j;
+   FILE * log;
 
+   if(( log = fopen( "xbase.log", "a+t" )) == NULL ) return;
    GetLeafNode( n, 0 );
    NoOfKeys = dbf->xbase->GetLong( Node );
    p = Node + 4;			/* go past no of keys */
-   cout << "\n--------------------------------------------------------";
-   cout << "\nNode # " << n << " Number of keys = " << NoOfKeys << "\n";
+ 
+   fprintf( log, "\n--------------------------------------------------------" );
+   fprintf( log,  "\nNode # %ld", n );
+   fprintf( log,  "\nNumber of keys = %ld", NoOfKeys );
+   fprintf( log, "\n Key     Left     Rec     Key" );
+   fprintf( log, "\nNumber  Branch   Number   Data" );
 
-   cout << "\n Key     Left     Rec      Key";
-   cout << "\nNumber  Branch   Number    Data";
 
    for( i = 0; i < GetKeysPerNode() /*NoOfKeys*/; i++ )
    {
@@ -427,15 +443,18 @@ void xbNdx::DumpNodeRec( xbLong n )
       p+=4;
       RecNo = dbf->xbase->GetLong( p );
       p+=4;
-      cout << "\n" << i << "         " << LeftBranch << "          " << RecNo << "         ";
+
+      fprintf( log, "\n  %d       %ld       %ld         ", i, LeftBranch, RecNo );
+
       if( !HeadNode.KeyType )
-         for( j = 0; j < HeadNode.KeyLen; j++ ) cout << *p++;
+         for( j = 0; j < HeadNode.KeyLen; j++ ) fputc( *p++, log );
       else
       {
-         cout << dbf->xbase->GetDouble( p );
+         fprintf( log, "??????" /*, dbf->xbase->GetDouble( p )*/  );
          p += 8;
       }
    }
+   fclose( log );
 }
 #endif
 /***********************************************************************/
@@ -671,7 +690,7 @@ xbShort xbNdx::GetNextKey( xbShort RetrieveSw )
       if(( rc = GetLeafNode( TempNodeNo, 1 )) != 0 )
       {
          CurDbfRec = 0L;
-				 return rc;
+         return rc;
       }
       CurNode->CurKeyNo = 0;
    }
@@ -697,7 +716,7 @@ xbShort xbNdx::GetLastKey( xbLong NodeNo, xbShort RetrieveSw )
    xbShort rc;
   
    if( NodeNo < 0 || NodeNo > HeadNode.TotalNodes )
-		 xb_error(XB_INVALID_NODE_NO);
+      xb_error(XB_INVALID_NODE_NO);
 
    /* initialize the node chain */
    if( NodeChain )
@@ -709,7 +728,7 @@ xbShort xbNdx::GetLastKey( xbLong NodeNo, xbShort RetrieveSw )
       if(( rc = GetHeadNode()) != 0 )
       { 
          CurDbfRec = 0L;
-				 return rc;
+         return rc;
       }
 
 #ifdef XB_LOCKING_ON
@@ -1265,7 +1284,7 @@ xbShort xbNdx::CalcKeyLen( void )
    TempNode = dbf->xbase->GetFirstTreeNode( ExpressionTree );
 
    if( !TempNode )
-		 return 0;
+     return 0;
 
    if( TempNode->Type == 'd' ) return -8;
    if( TempNode->Type == 'D' )
@@ -1284,11 +1303,12 @@ xbShort xbNdx::CalcKeyLen( void )
 
    TempNode = (xbExpNode *) dbf->xbase->Pop();
    if( !TempNode )
-		 return 0;
+     return 0;
    rc = TempNode->DataLen;
 
    if( !TempNode->InTree )
-		 dbf->xbase->FreeExpNode( TempNode );
+     delete TempNode;
+//     dbf->xbase->FreeExpNode( TempNode );
 
 //printf("CalcKeyLen returning %d\n", rc);
    return rc;
@@ -1312,16 +1332,12 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
    if(( rc = dbf->NameSuffixMissing( 2, IxName )) > 0 )
       NameLen +=4;
 
-//   if(( IndexName = (char *) malloc( NameLen )) == NULL ) {
-//     xb_memory_error;
-//   }
-
    IndexName = IxName;
    
    if( rc == 1 )
-		 IndexName += ".ndx";
+     IndexName += ".ndx";
    else if( rc == 2 )
-		 IndexName += ".NDX";
+     IndexName += ".NDX";
 
    /* check if the file already exists */
    if (((indexfp = fopen( IndexName, "r" )) != NULL ) && !Overlay ) {
@@ -1340,7 +1356,7 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
    **  Must turn off buffering when multiple programs may be accessing
    **  index files.
    */
-   setvbuf(indexfp, NULL, _IONBF, 0);
+   setbuf( indexfp, NULL );
 #endif   
 
 #ifdef XB_LOCKING_ON
@@ -1371,7 +1387,7 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
    KeyLen = CalcKeyLen();
 
    if( KeyLen == 0 || KeyLen > 100 )       /* 100 byte key length limit */
-		 xb_error(XB_INVALID_KEY)
+     xb_error(XB_INVALID_KEY)
    else if( KeyLen == -8 )
    { 
       HeadNode.KeyType = 1;                /* numeric key */
@@ -1389,10 +1405,21 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
 //   while(( HeadNode.KeySize % 4 ) != 0 ) HeadNode.KeySize++;  /* multiple of 4*/
 
 /* above code replaced with following by Paul Koufalis pkoufalis@cogicom.com */
-   while(( HeadNode.KeyLen % 4 ) != 0 ) HeadNode.KeyLen++;  /* multiple of 4*/
+//   while(( HeadNode.KeyLen % 4 ) != 0 ) HeadNode.KeyLen++;  /* multiple of 4*/
+//   HeadNode.KeySize = HeadNode.KeyLen + 8;
+
+
+/* above two lines commented out by gary 4/14/99 and replaced w/ following 
+    For compatibilyt with other Xbase tools
+      KeyLen is the length of the key data
+      KeySize = KeyLen+8, rounded up until divisible by 4
+*/
+
    HeadNode.KeySize = HeadNode.KeyLen + 8;
-   HeadNode.KeysPerNode = (xbUShort) ( XB_NDX_NODE_SIZE - (2*sizeof( xbLong ))) /
-      (HeadNode.KeyLen + 8 );
+   while(( HeadNode.KeySize % 4 ) != 0 ) HeadNode.KeySize++;  /* multiple of 4*/
+
+   HeadNode.KeysPerNode = (xbUShort)
+     (XB_NDX_NODE_SIZE - (2*sizeof( xbLong ))) / HeadNode.KeySize;
 
    HeadNode.Unique = Unique;
    strncpy( HeadNode.KeyExpression, Exp, 488 );
@@ -1436,11 +1463,11 @@ xbShort xbNdx::PutLeftNodeNo( xbShort RecNo, xbNdxNodeLink *n, xbLong NodeNo )
    xbNdxLeafNode *temp;
    char *p;
    if( !n )
-		 xb_error(XB_INVALID_NODELINK);
+     xb_error(XB_INVALID_NODELINK);
 
    temp = &n->Leaf;
    if( RecNo < 0 || RecNo > HeadNode.KeysPerNode)
-		 xb_error(XB_INVALID_KEY);
+     xb_error(XB_INVALID_KEY);
 
    p = temp->KeyRecs;
    p+= RecNo * ( 8 + HeadNode.KeyLen );
@@ -1455,11 +1482,11 @@ xbShort xbNdx::PutDbfNo( xbShort RecNo, xbNdxNodeLink *n, xbLong DbfNo )
    xbNdxLeafNode *temp;
    char *p;
    if( !n )
-		 xb_error(XB_INVALID_NODELINK);
+     xb_error(XB_INVALID_NODELINK);
 
    temp = &n->Leaf;
    if( RecNo < 0 || RecNo > (HeadNode.KeysPerNode-1))
-		 xb_error(XB_INVALID_KEY);
+     xb_error(XB_INVALID_KEY);
 
    p = temp->KeyRecs + 4;
    p+= RecNo * ( 8 + HeadNode.KeyLen );
@@ -1509,15 +1536,15 @@ xbShort xbNdx::PutHeadNode( xbNdxHeadNode * Head, FILE * f, xbShort UpdateOnly )
    dbf->xbase->PutLong( buf, Head->TotalNodes );
    if(( fwrite( &buf, 4, 1, f )) != 1 )
    {
-		 fclose( f );
-		 xb_io_error(XB_WRITE_ERROR, IndexName);
+     fclose( f );
+     xb_io_error(XB_WRITE_ERROR, IndexName);
    }
    memset( buf, 0x00, 4 );
    dbf->xbase->PutLong( buf, Head->NoOfKeys );
    if(( fwrite( &buf, 4, 1, f )) != 1 )
    {
-		 fclose( f );
-		 xb_io_error(XB_WRITE_ERROR, IndexName);
+     fclose( f );
+     xb_io_error(XB_WRITE_ERROR, IndexName);
    }
    if( UpdateOnly )
       return XB_NO_ERROR;
@@ -1525,35 +1552,35 @@ xbShort xbNdx::PutHeadNode( xbNdxHeadNode * Head, FILE * f, xbShort UpdateOnly )
    dbf->xbase->PutLong( buf, Head->KeyLen );
    if(( fwrite( &buf, 2, 1, f )) != 1 )
    {
-		 fclose( f );
-		 xb_io_error(XB_WRITE_ERROR, IndexName);
+     fclose( f );
+     xb_io_error(XB_WRITE_ERROR, IndexName);
    }
    memset( buf, 0x00, 2 );
    dbf->xbase->PutLong( buf, Head->KeysPerNode );
    if(( fwrite( &buf, 2, 1, f )) != 1 )
    {
-		 fclose( f );
-		 xb_io_error(XB_WRITE_ERROR, IndexName);
+      fclose( f );
+      xb_io_error(XB_WRITE_ERROR, IndexName);
    }
    memset( buf, 0x00, 2 );
    dbf->xbase->PutLong( buf, Head->KeyType );
    if(( fwrite( &buf, 2, 1, f )) != 1 )
    {
-		 fclose( f );
-		 xb_io_error(XB_WRITE_ERROR, IndexName);
+     fclose( f );
+     xb_io_error(XB_WRITE_ERROR, IndexName);
    }
    memset( buf, 0x00, 4 );
    dbf->xbase->PutLong( buf, Head->KeySize );
    if(( fwrite( &buf, 4, 1, f )) != 1 )
    {
-		 fclose( f );
-		 xb_io_error(XB_WRITE_ERROR, IndexName);
+     fclose( f );
+     xb_io_error(XB_WRITE_ERROR, IndexName);
    }
 //   if(( fwrite( &Head->Unknown2, 490, 1, f )) != 1 )
    if(( fwrite( &Head->Unknown2, XB_NDX_NODE_SIZE - 22, 1, f )) != 1 )
    {
-		 fclose( f );
-		 xb_io_error(XB_WRITE_ERROR, IndexName);
+     fclose( f );
+     xb_io_error(XB_WRITE_ERROR, IndexName);
    }
    return 0;   
 }
@@ -1565,11 +1592,11 @@ xbShort xbNdx::PutKeyData( xbShort RecNo, xbNdxNodeLink *n )
    char *p;
    xbShort i;
    if( !n )
-		 xb_error(XB_INVALID_NODELINK);
+     xb_error(XB_INVALID_NODELINK);
 
    temp = &n->Leaf;
    if( RecNo < 0 || RecNo > (HeadNode.KeysPerNode-1))
-		 xb_error(XB_INVALID_KEY);
+     xb_error(XB_INVALID_KEY);
 
    p = temp->KeyRecs + 8;
    p+= RecNo * ( 8 + HeadNode.KeyLen );
@@ -1588,13 +1615,13 @@ xbShort xbNdx::PutKeyInNode( xbNdxNodeLink * n, xbShort pos, xbLong d,
 
    /* check the node */
    if (!n)
-		 xb_error(XB_INVALID_NODELINK);
+     xb_error(XB_INVALID_NODELINK);
 
    if(pos < 0 || pos > HeadNode.KeysPerNode)
-		 xb_error(XB_INVALID_RECORD);
+     xb_error(XB_INVALID_RECORD);
 
    if(n->Leaf.NoOfKeysThisNode >= HeadNode.KeysPerNode)
-		 xb_error(XB_NODE_FULL);
+     xb_error(XB_NODE_FULL);
 
    /* if key movement, save the original key */
    if( pos < n->Leaf.NoOfKeysThisNode )
@@ -1633,10 +1660,10 @@ xbShort xbNdx::SplitLeafNode( xbNdxNodeLink *n1, xbNdxNodeLink *n2,
    xbShort i,j,rc;
 
    if( !n1 || !n2 )
-		 xb_error(XB_INVALID_NODELINK);
+     xb_error(XB_INVALID_NODELINK);
 
    if( pos < 0 || pos > HeadNode.KeysPerNode )
-		 xb_error(XB_INVALID_NODELINK);
+     xb_error(XB_INVALID_NODELINK);
 
    if( pos < HeadNode.KeysPerNode ) /* if it belongs in node */
    {
@@ -1771,7 +1798,7 @@ xbShort xbNdx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
       else                           /* character key */
       {
          memset( KeyBuf2, 0x00, HeadNode.KeyLen + 1 );
-         memcpy( KeyBuf2, TempNode->Result, TempNode->DataLen );
+         memcpy( KeyBuf2, TempNode->StringResult, TempNode->DataLen );
       }
    }
    else
@@ -1781,10 +1808,11 @@ xbShort xbNdx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
       else                           /* character key */
       {
          memset( KeyBuf, 0x00, HeadNode.KeyLen + 1 );
-         memcpy( KeyBuf, TempNode->Result, TempNode->DataLen );
+         memcpy( KeyBuf, TempNode->StringResult, TempNode->DataLen );
       }
    }
-   if( !TempNode->InTree ) dbf->xbase->FreeExpNode( TempNode );
+//   if( !TempNode->InTree ) dbf->xbase->FreeExpNode( TempNode );
+   if( !TempNode->InTree ) delete TempNode;
    return 0;
 }
 /************************************************************************/
@@ -1803,23 +1831,20 @@ xbNdx::GetCurrentKey(char *key)
 xbShort xbNdx::AddKey( xbLong DbfRec )
 {
  /* This routine assumes KeyBuf contains the contents of the index to key */
-
+   
+   char *p;
    xbShort i,rc;
    xbNdxNodeLink * TempNode;   
    xbNdxNodeLink * Tparent;
    xbLong TempNodeNo = 0L;          /* new, unattached leaf node no */
    xbNdxNodeLink * SaveNodeChain;
    xbNdxNodeLink * SaveCurNode;
-   char * p;
 
    /* find node key belongs in */
    rc = FindKey( KeyBuf, HeadNode.KeyLen, 0 );
    if( rc == XB_FOUND && HeadNode.Unique )
-   {
-		 xb_error(XB_KEY_NOT_UNIQUE);
-   }
+     xb_error(XB_KEY_NOT_UNIQUE);
 
-   /* 1.7.4b  sequence keys in dbf record number order */
   if( CurNode->Leaf.NoOfKeysThisNode > 0 && rc == XB_FOUND )
   {
     rc = 0;
@@ -1833,45 +1858,25 @@ xbShort xbNdx::AddKey( xbLong DbfRec )
         if( rc == 0 && DbfRec >= GetDbfNo( CurNode->CurKeyNo, CurNode ))
         {
 #ifdef HAVE_EXCEPTIONS
-					try {
+        try {
 #endif
-						if((rc = GetNextKey(0)) == XB_EOF) {
-							if((rc == GetLastKey(0, 0)) != XB_NO_ERROR)
-                                                        {
-								return rc;
-                                                        }
-							CurNode->CurKeyNo++;
-						}
+          if((rc = GetNextKey(0)) == XB_EOF) {
+            if((rc = GetLastKey(0, 0)) != XB_NO_ERROR)
+              return rc;
+            CurNode->CurKeyNo++;
+          }
 #ifdef HAVE_EXCEPTIONS
-					} catch (xbEoFException &) {
-							GetLastKey(0, 0);
-							CurNode->CurKeyNo++;
-					}
+          } catch (xbEoFException &) {
+            GetLastKey(0, 0);
+            CurNode->CurKeyNo++;
+          }
 #endif
         }
-        else
-          break;
+        else 
+          rc = -1;
       }
     }
   }
-
-// 9/29/98
-// these lines commented out - compatibity wins over efficiency for this library
-// 1.02 next statement moves to key match w/ space in nodes to reduce splits 
-//   if( !HeadNode.Unique && rc == XB_FOUND &&
-//        HeadNode.KeysPerNode == CurNode->Leaf.NoOfKeysThisNode )
-//   {
-//      if(( rc = CloneNodeChain()) != XB_NO_ERROR ) return rc;
-//      if(( rc = GetNextKey( 0 )) != XB_NO_ERROR )
-//         UncloneNodeChain();
-//      while( HeadNode.KeysPerNode == CurNode->Leaf.NoOfKeysThisNode &&
-//             rc == XB_NO_ERROR && 
-//             (CompareKey( KeyBuf, GetKeyData( CurNode->CurKeyNo, CurNode ),
-//                HeadNode.KeyLen ) == 0 )
-//           )
-//         if(( rc = GetNextKey( 0 )) != XB_NO_ERROR )
-//            UncloneNodeChain();
-//   }
 
    /* update header node */
    HeadNode.NoOfKeys++;
@@ -2010,10 +2015,10 @@ xbShort xbNdx::RemoveKeyFromNode( xbShort pos, xbNdxNodeLink *n )
 
    /* check the node */
    if( !n )
-      xb_error(XB_INVALID_NODELINK);
+     xb_error(XB_INVALID_NODELINK);
 
    if( pos < 0 || pos > HeadNode.KeysPerNode )
-      xb_error(XB_INVALID_KEY);
+     xb_error(XB_INVALID_KEY);
 
    for( i = pos; i < n->Leaf.NoOfKeysThisNode-1; i++ )
    {
@@ -2039,18 +2044,12 @@ xbShort xbNdx::UpdateParentKey( xbNdxNodeLink * n )
    xbNdxNodeLink * TempNode;
    
    if( !n )
-		 xb_error(XB_INVALID_NODELINK);
+     xb_error(XB_INVALID_NODELINK);
 
    if( !GetDbfNo( 0, n ))
-   {
-      cout << "Fatal index error - Not a leaf node" << n->NodeNo << "\n";
-			/*      exit(0); */ /* Great code!!! We exit, then return error!!! */
-      /* Library SHOULD NOT do exit */
-		 xb_error(XB_NOT_LEAFNODE);
-   }
+      xb_error(XB_NOT_LEAFNODE);
 
    TempNode = n->PrevNode;
-
    while( TempNode )
    {
       if( TempNode->CurKeyNo < TempNode->Leaf.NoOfKeysThisNode )
