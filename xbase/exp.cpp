@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.4 2000/09/28 16:55:13 dbryson Exp $
+/*  $Id: exp.cpp,v 1.5 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -141,7 +141,7 @@ xbExpn::xbExpn( void )
       <table border=2><tr><th>Option</th><th>Description</th></tr>
         <tr><td>1</td><td>Return minimum number of parms</td></tr>
         <tr><td>2</td><td>Return function result type</td></tr>
-		<tr><td>?</td><td>Return 0 if valid function</td></tr>
+      <tr><td>?</td><td>Return 0 if valid function</td></tr>
       </table>
     \endhtmlonly
     \latexonly
@@ -151,7 +151,7 @@ xbExpn::xbExpn( void )
         \textbf{Option} & \textbf{Description} \\ \hline \hline
         1 & Return minimum number of parms \\ \hline
         2 & Return function result type \\ \hline
-		? & Return 0 if valid function \\ \hline
+      ? & Return 0 if valid function \\ \hline
       \end{tabular}
     \endlatexonly
   
@@ -238,7 +238,7 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
 
       MaxCtr++;
       if( MaxCtr >= MaxLen )
-				xb_error(XB_PARSE_ERROR);
+            xb_error(XB_PARSE_ERROR);
 
       while( s && *s )
       {
@@ -251,7 +251,7 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
                   TokenType = 'E';
                   PreviousType = 'E';
                } else
-	          xb_error(XB_PARSE_ERROR);
+             xb_error(XB_PARSE_ERROR);
 
                TokenLen += 2;
                return XB_NO_ERROR;
@@ -331,7 +331,7 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
       Wsw = Wctr = 0;
       if( *s == '.' ){
          Wctr++;
-	 s++;
+    s++;
          MaxCtr++;
          if (MaxCtr >= MaxLen)
            xb_error(XB_PARSE_ERROR);
@@ -580,7 +580,7 @@ xbExpNode * xbExpn::GetExpNode(xbShort Len) {
 xbExpNode * xbExpn::LoadExpNode( 
          const char *ENodeText,    /* pointer to text data       */
          const char EType,         /* Operand type               */
-	 const xbShort ELen,       /* length of node text data   */
+    const xbShort ELen,       /* length of node text data   */
          const xbShort BufLen )    /* length needed in the buffer*/
 {
    xbExpNode * CurNode;
@@ -675,7 +675,7 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
             Tree = CurNode;
          }
          else {        /* put as child 2 of previous node  */
-	    CurNode = LoadExpNode( p, TokenType, TokenLen, BufLen );
+       CurNode = LoadExpNode( p, TokenType, TokenLen, BufLen );
             PreviousNode->Sibling2 = CurNode;
             CurNode->Node = PreviousNode;
          }
@@ -715,7 +715,7 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
       else /* it is an operator */
       {
          if(!Tree) {
-	   if(*p == '-') {
+      if(*p == '-') {
                CurNode = LoadExpNode( p, TokenType, TokenLen, 0 );
                CurNode->ExpressionType = 'C';
             } else
@@ -797,7 +797,7 @@ char xbExpn::GetExpressionResultType( XB_EXPRESSION * e ) {
    if( e->Type == 'O' &&
       ( *e->NodeText == '<' || *e->NodeText == '>' || *e->NodeText == '=' ||
         *e->NodeText == '#' || *e->NodeText == '$' ))
-	  return 'L';
+     return 'L';
          
    while( Temp && !Temp->ExpressionType && Temp->Sibling1 )
       Temp = Temp->Sibling1;
@@ -834,7 +834,7 @@ xbShort xbExpn::OperatorWeight( const char * Oper, xbShort len )
 /*!
 */
 xbShort xbExpn::ReduceComplexExpression(const char *NextToken, xbShort Len, 
-																				xbExpNode *cn, xbDbf *d) {
+                                                            xbExpNode *cn, xbDbf *d) {
    const char *p;
    xbShort rc;
    xbExpNode * SaveTree;
@@ -873,7 +873,7 @@ xbShort xbExpn::GetFunctionTokenLen( const char * s )
    p = s;
 
    while( p && ( *p != ',' || ( *p == ',' && LeftParenCtr > 0 )) &&
-	 !( LeftParenCtr == 0 && *p == ')')) {
+    !( LeftParenCtr == 0 && *p == ')')) {
       if( *p == '(' ) 
          LeftParenCtr++;
       else if( *p == ')' ) 

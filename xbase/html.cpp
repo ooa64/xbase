@@ -1,4 +1,4 @@
-/*  $Id: html.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: html.cpp,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -90,7 +90,7 @@ void xbHtml::InitVals( void )
 */
 xbHtml::xbHtml( void )
 {
-	InitVals();
+   InitVals();
 }   
 /************************************************************************/
 //! Short description
@@ -124,10 +124,10 @@ void xbHtml::DumpArray( void )
 */
 char * xbHtml::GetData( xbShort pos )
 {
-	if( pos < NoOfDataFields && pos >= 0 )
-		return DataValueArray[pos];
-	else
-		return NULL;
+   if( pos < NoOfDataFields && pos >= 0 )
+      return DataValueArray[pos];
+   else
+      return NULL;
 }
 /************************************************************************/
 //! Short description
@@ -149,7 +149,7 @@ xbShort xbHtml::GetArrayNo( const char * FieldName )
 */
 char * xbHtml::GetDataForField( const char * FieldName )
 {
-	return( GetData( GetArrayNo( FieldName )));
+   return( GetData( GetArrayNo( FieldName )));
 }
 /************************************************************************/
 //! Short description
@@ -207,7 +207,7 @@ void xbHtml::LoadArray( void )
       DeleteEscChars( Names[i] );
       if( Len1 != Len2+1 )
       {
-	 Values[i] = (char *)malloc(sizeof(char) * (Len1 - Len2));
+    Values[i] = (char *)malloc(sizeof(char) * (Len1 - Len2));
          strcpy( Values[i], Token+Len2+1 );
          DeleteEscChars( Values[i] );
       }
@@ -233,7 +233,7 @@ void xbHtml::DeleteEscChars( char * String )
    for( s=0, t=0; String[s]; s++, t++ )
    {
       if( String[s] == '+' )
-	      String[t] = ' ';
+         String[t] = ' ';
       else if( String[s] == '%' )
       {
          HexVal[0] = String[s+1];
@@ -244,7 +244,7 @@ void xbHtml::DeleteEscChars( char * String )
          EscCnt++;
       }
       else
-			String[t] = String[s];
+         String[t] = String[s];
    }
    for( t = strlen( String ) - 1; t > 1 && EscCnt > 0; t-=2, EscCnt-- )
    {
@@ -265,47 +265,47 @@ xbLong xbHtml::Tally( const char * File )
 /* must have write access to the directory for this routine to work */
 
 #if defined(HAVE_FCNTL) && defined(XB_LOCKING_ON)
-	struct flock fl;
+   struct flock fl;
 #endif
 
-	xbLong cnt;
-	FILE *f;
-	xbShort rc;
+   xbLong cnt;
+   FILE *f;
+   xbShort rc;
 
-	if(( f = fopen( File, "r+" )) == NULL )
-	{
-		/* land here if file does not exist - initialize it */
-		if(( f = fopen( File, "w+" )) == NULL ) return 0L;
-		rc = fprintf( f, "%08lu\n", 1L );
-		fclose( f );
-		if( rc == EOF )
-			return 0L;
-		else
-			return 1L;
-	}
+   if(( f = fopen( File, "r+" )) == NULL )
+   {
+      /* land here if file does not exist - initialize it */
+      if(( f = fopen( File, "w+" )) == NULL ) return 0L;
+      rc = fprintf( f, "%08lu\n", 1L );
+      fclose( f );
+      if( rc == EOF )
+         return 0L;
+      else
+         return 1L;
+   }
 
 /* lock the file */
 #if defined(HAVE_FCNTL) && defined(XB_LOCKING_ON)
-	fl.l_type = F_WRLCK;
-	fl.l_whence = SEEK_SET;
-	fl.l_start = 0L;
-	fl.l_len = 1L;
-	fcntl( fileno( f ), F_SETLKW, &fl );
+   fl.l_type = F_WRLCK;
+   fl.l_whence = SEEK_SET;
+   fl.l_start = 0L;
+   fl.l_len = 1L;
+   fcntl( fileno( f ), F_SETLKW, &fl );
 #endif
 
-	fseek( f, 0L, SEEK_SET );
-	fscanf( f, "%08lu", &cnt );
-	fseek( f, 0L, SEEK_SET );
-	rc = fprintf( f, "%08lu\n", ++cnt );
+   fseek( f, 0L, SEEK_SET );
+   fscanf( f, "%08lu", &cnt );
+   fseek( f, 0L, SEEK_SET );
+   rc = fprintf( f, "%08lu\n", ++cnt );
 
 /* unlock the file */
 #if defined(HAVE_FCNTL) && defined(XB_LOCKING_ON)
-	fl.l_type = F_UNLCK;
-	fcntl( fileno( f ), F_SETLKW, &fl );
+   fl.l_type = F_UNLCK;
+   fcntl( fileno( f ), F_SETLKW, &fl );
 #endif
 
-	fclose( f );
-	return cnt;
+   fclose( f );
+   return cnt;
 }
 /************************************************************************/
 //! Short description
@@ -355,7 +355,7 @@ xbShort xbHtml::GetMethod( void )
   \param fl
 */
 xbShort xbHtml::GenFormFields(xbDbf *d, xbShort Option, const char *Title, 
-															xbFieldList *fl) {
+                                             xbFieldList *fl) {
    xbShort i;
    char  buf[255];
 
@@ -370,7 +370,7 @@ xbShort xbHtml::GenFormFields(xbDbf *d, xbShort Option, const char *Title,
       if( fl[i].Option == 2 )
       {
          if( !d )
-					 xb_error(XB_NOT_OPEN);
+                xb_error(XB_NOT_OPEN);
          d->GetField( fl[i].FieldNo, buf );
          cout << "<TD>" << buf;
       }
@@ -385,8 +385,8 @@ xbShort xbHtml::GenFormFields(xbDbf *d, xbShort Option, const char *Title,
          cout << " value = ";
          if( Option == 1 )
          {
-	    if( !d )
-	       xb_error(XB_NOT_OPEN);
+       if( !d )
+          xb_error(XB_NOT_OPEN);
             d->GetField( fl[i].FieldNo, buf );
             cout << "\"" << buf << "\"";
          }
@@ -456,7 +456,7 @@ xbShort xbHtml::SetCookie( const char * Name,const char * Value,
       ( !Name || !Value ) ||
       ( ExpDate && !TimeZone)
      )
-	   xb_error(XB_INVALID_OPTION);
+      xb_error(XB_INVALID_OPTION);
 
    cout << "\nSet-Cookie: " << Name << "=" << Value << ";";
    if( ExpDate )

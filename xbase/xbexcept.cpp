@@ -1,4 +1,4 @@
-/*  $Id: xbexcept.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: xbexcept.cpp,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -195,7 +195,7 @@ const char *xbException::error() {
   \param err
 */
 xbIOException::xbIOException (int err) : xbException(err) {
-	m_errno = errno;
+   m_errno = errno;
   name = NULL;
 }
 
@@ -205,8 +205,8 @@ xbIOException::xbIOException (int err) : xbException(err) {
   \param n
 */
 xbIOException::xbIOException (int err, const char *n) : xbException(err) {
-	name = n;
-	m_errno = errno;
+   name = n;
+   m_errno = errno;
 }
 
 //! Short description.
@@ -226,7 +226,7 @@ const char* xbIOException::what() const XB_THROW {
 /*!
 */
 const char *xbIOException::_errno() const {
-	return (strerror(m_errno));
+   return (strerror(m_errno));
 }
 
 //! Short description.

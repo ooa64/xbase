@@ -1,4 +1,4 @@
-/*  $Id: index.h,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: index.h,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -72,7 +72,7 @@ class XBDLLEXPORT xbIndex
 
     int IndexStatus;            /* 0 = closed, 1 = open */
 
-    xbLong  CurDbfRec;		/* current Dbf record number */
+    xbLong  CurDbfRec;     /* current Dbf record number */
     char  *KeyBuf;               /* work area key buffer */
     char  *KeyBuf2;              /* work area key buffer */
 

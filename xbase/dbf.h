@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.4 2000/09/28 17:34:29 dbryson Exp $
+/*  $Id: dbf.h,v 1.5 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -349,7 +349,7 @@ public:
              char * Buf, const xbShort LockOption );
    xbLong    GetMemoFieldLen( const xbShort FieldNo );
    xbShort   UpdateMemoData( const xbShort FieldNo, const xbLong len,
-			     const char * Buf, const xbShort LockOption );
+              const char * Buf, const xbShort LockOption );
    xbShort   MemoFieldExists( const xbShort FieldNo ) const;
    xbShort   LockMemoFile( const xbShort WaitOption, const xbShort LockType );
    xbShort   MemoFieldsPresent( void ) const;
@@ -369,11 +369,11 @@ public:
    //! Turn on "real" deletes
    /*!
      This should be done before creating a database (with 
-	 xbDbf::CreateDatatabase()) and thereafter before opening
-	 a database with xbDbfCreateDatabase().
-	 
-	 You cannot "turn on" real deletes once a database has been created
-	 and records added.
+    xbDbf::CreateDatatabase()) and thereafter before opening
+    a database with xbDbfCreateDatabase().
+    
+    You cannot "turn on" real deletes once a database has been created
+    and records added.
    */
    void      RealDeleteOn(void) { RealDelete = 1; if(fp) ReadHeader(1); }
    /*! Turn off "real" deletes
@@ -382,7 +382,7 @@ public:
    //! Return whether "real" deletes are on or off
    /*!
      Use this to determine if "real deletes" are being used with
-	 the database.
+    the database.
    */
    xbShort   GetRealDelete(void) { return RealDelete; }
 
@@ -483,5 +483,5 @@ protected:
             {return (( Version==(char)0x8B || Version==(char)0x8E ) ? 1:0 );}
 #endif
 };
-#endif		// __XB_DBF_H__
+#endif      // __XB_DBF_H__
 

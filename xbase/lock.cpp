@@ -1,4 +1,4 @@
-/*  $Id: lock.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: lock.cpp,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -132,7 +132,7 @@ xbShort xbDbf::LockDatabase( const xbShort WaitOption, const xbShort LockType,
 // LockType == F_RDLCK ? "F_RDLCK" : LockType == F_WRLCK ? "F_WRLCK" : "F_UNLCK",
 // CurLockCount);
    if( LRecNo > NoOfRecs )
-		 xb_error(XB_INVALID_RECORD);
+       xb_error(XB_INVALID_RECORD);
 
    if( LRecNo == 0L )
    {
@@ -284,10 +284,10 @@ xbShort xbDbf::LockDatabase( const xbShort WaitOption, const xbShort LockType,
    }
 #else
    if( fseek( fp, offset, whence ) != 0 )
-		 xb_error(XB_SEEK_ERROR);
+       xb_error(XB_SEEK_ERROR);
    Cmd = UnixToDosLockCommand( WaitOption, LockType );
    if( locking( fileno( fp ), Cmd, length ) != 0 )
-		 xb_error(XB_LOCK_FAILED)
+       xb_error(XB_LOCK_FAILED)
    else
    {
       if(LRecNo) /* record lock */
@@ -327,7 +327,7 @@ xbShort xbDbf::LockDatabase( const xbShort WaitOption, const xbShort LockType,
 #ifdef XB_INDEX_ANY
 
 xbShort xbIndex::LockIndex( const xbShort WaitOption,
-			    const xbShort LockType )
+             const xbShort LockType )
 {
    /*  This method locks the first 512 bytes of the index file,
        effectively locking the file from other processes that are
@@ -387,7 +387,7 @@ xbShort xbIndex::LockIndex( const xbShort WaitOption,
    fl.l_len = 1;
 
    if( fcntl( fileno( indexfp ), WaitOption, &fl ) == -1 )
-		 xb_error(XB_LOCK_FAILED)
+       xb_error(XB_LOCK_FAILED)
    else
    {
       if(LockType != F_UNLCK)
@@ -404,7 +404,7 @@ xbShort xbIndex::LockIndex( const xbShort WaitOption,
      return XB_SEEK_ERROR;
    if( locking( fileno( indexfp ),
     dbf->UnixToDosLockCommand( WaitOption, LockType ),XB_NDX_NODE_SIZE ) != 0 )
-		 xb_error(XB_LOCK_FAILED)
+       xb_error(XB_LOCK_FAILED)
    else
    {
       if(LockType != F_UNLCK)
@@ -418,7 +418,7 @@ xbShort xbIndex::LockIndex( const xbShort WaitOption,
    }
 #endif
 }
-#endif	/* XB_INDEX_ANY  */
+#endif   /* XB_INDEX_ANY  */
 /************************************************************************/
 //! Short description
 /*!
@@ -486,7 +486,7 @@ xbShort xbDbf::LockMemoFile( const xbShort WaitOption, const xbShort LockType )
    fl.l_len    = 4L;
 
    if( fcntl( fileno( mfp ), WaitOption, &fl ) == -1 )
-		 xb_error(XB_LOCK_FAILED)
+       xb_error(XB_LOCK_FAILED)
    else
    {
       if(LockType != F_UNLCK)
@@ -500,11 +500,11 @@ xbShort xbDbf::LockMemoFile( const xbShort WaitOption, const xbShort LockType )
    }
 #else
    if( fseek( mfp , 0L, SEEK_SET ) != 0 )
-		 xb_error(XB_SEEK_ERROR);
+       xb_error(XB_SEEK_ERROR);
 
    if( locking( fileno( mfp ),
     UnixToDosLockCommand( WaitOption, LockType ), 4L ) != 0 )
-		 xb_error(XB_LOCK_FAILED)
+       xb_error(XB_LOCK_FAILED)
    else
    {
       if(LockType != F_UNLCK)
@@ -518,7 +518,7 @@ xbShort xbDbf::LockMemoFile( const xbShort WaitOption, const xbShort LockType )
    }
 #endif
 }
-#endif	/* XB_MEMO_FIELDS  */
+#endif   /* XB_MEMO_FIELDS  */
 /***********************************************************************/
 //! Short description
 /*!
@@ -533,7 +533,7 @@ xbShort xbDbf::ExclusiveLock( const xbShort LockWaitOption )
 
    AutoLockOff();
    if(( rc = LockDatabase( LockWaitOption, F_WRLCK, 0 )) != XB_NO_ERROR )
-	   return rc;
+      return rc;
 
 #ifdef XB_MEMO_FIELDS
    if( MemoFieldsPresent())
@@ -546,21 +546,21 @@ xbShort xbDbf::ExclusiveLock( const xbShort LockWaitOption )
    while( i ) 
    {
 #ifdef HAVE_EXCEPTIONS
-		 try {
+       try {
 #endif
       if(( rc = i->index->LockIndex( LockWaitOption, F_WRLCK )) != XB_NO_ERROR )
       {
          ExclusiveUnlock();
 #ifndef HAVE_EXCEPTIONS
-				 return rc;
+             return rc;
 #endif
       }
 
 #ifdef HAVE_EXCEPTIONS
-		 } catch (xbException &x) {
-			 ExclusiveUnlock();
-			 xb_error(XB_LOCK_FAILED);
-		 }
+       } catch (xbException &x) {
+          ExclusiveUnlock();
+          xb_error(XB_LOCK_FAILED);
+       }
 #endif
       i = i->NextIx;
    }

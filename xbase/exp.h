@@ -1,4 +1,4 @@
-/*  $Id: exp.h,v 1.4 2000/09/28 17:34:29 dbryson Exp $
+/*  $Id: exp.h,v 1.5 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code 
 
@@ -73,7 +73,7 @@ class XBDLLEXPORT xbDbf;
 */
 
 struct xbFuncDtl {
-   const char * FuncName;		/* function name               */
+   const char * FuncName;     /* function name               */
    xbShort ParmCnt;                  /* no of parms it needs        */
    char    ReturnType;               /* return type of function     */
    void    (*ExpFuncPtr)();          /* pointer to function routine */

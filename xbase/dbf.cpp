@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.3 2000/09/27 17:25:08 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
    
@@ -50,10 +50,10 @@
                          Updated EOR and EOF processing
     V 1.9.2 4/16/2000  - fixed record locking logic in GetRecord reoutines
                        - turned off buffering when locking is on
-	V 1.9.2 6/14/2000  - Fixed Version header field to match empirical
-	                     values for dBASE III+ and dBASE IV.
-	V 1.9.2 6/15/2000  - Added call to InitVars() to cleanup error handling
-	                     in CreateDatabase() and OpenDatabase().
+   V 1.9.2 6/14/2000  - Fixed Version header field to match empirical
+                        values for dBASE III+ and dBASE IV.
+   V 1.9.2 6/15/2000  - Added call to InitVars() to cleanup error handling
+                        in CreateDatabase() and OpenDatabase().
 */
 
 #include <xbase/xbconfig.h>
@@ -282,7 +282,7 @@ xbShort xbDbf::ReadHeader( xbShort PositionOption )
 #if 0
    char buf[4];
    if (PositionOption)
-		 rewind(fp);
+       rewind(fp);
    if (fread(&Version, 4, 1, fp) != 1)
      xb_error(XB_READ_ERROR);
 
@@ -530,9 +530,9 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    if (MemoSw) 
    {
      if(XFV & 0x7 == 3)
-	   Version |= 0x80;    // memo presence - bit 7
-	 else 
-	   Version = 0x8b;
+      Version |= 0x80;    // memo presence - bit 7
+    else 
+      Version = 0x8b;
    }
 #endif
 
@@ -541,7 +541,7 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    xbDate d;
    UpdateYY = (d.YearOf() - 1900);
    if(XFV & 0x7 == 3)
-     UpdateYY %= 100;	// dBASE III seems to do this, but IV does not.  DTB
+     UpdateYY %= 100;   // dBASE III seems to do this, but IV does not.  DTB
    
    UpdateMM = d.MonthOf();
    UpdateDD = d.DayOf( XB_FMT_MONTH );
@@ -693,8 +693,8 @@ xbShort xbDbf::CloseDatabase(bool deleteIndexes)
    if (DbfStatus == XB_UPDATED /*&& AutoUpdate*/ ) {
       xbDate d;
       UpdateYY = d.YearOf() - 1900;
-	  if(XFV == 3)
-	    UpdateYY %= 100;	// dBASE III seems to do this, IV does not.  DTB
+     if(XFV == 3)
+       UpdateYY %= 100; // dBASE III seems to do this, IV does not.  DTB
       UpdateMM = d.MonthOf();
       UpdateDD = d.DayOf( XB_FMT_MONTH );
 
@@ -816,7 +816,7 @@ xbShort xbDbf::DumpHeader( xbShort Option )
          if( SchemaPtr[i].Type == 'C' && SchemaPtr[i].NoOfDecs > 0 )
            printf( "%10s    %1c     %4d    %4d\n", SchemaPtr[i].FieldName,
                   SchemaPtr[i].Type, SchemaPtr[i].FieldLen, 0 );
-	 else	   
+    else    
            printf( "%10s    %1c     %4d    %4d\n", SchemaPtr[i].FieldName,
                   SchemaPtr[i].Type, SchemaPtr[i].FieldLen, SchemaPtr[i].NoOfDecs );
       }
@@ -905,7 +905,7 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
    }
    
    /* check the version */
-   if( Version == 3 || Version == (char)0x83 )   	/* dBASE III+ */
+   if( Version == 3 || Version == (char)0x83 )     /* dBASE III+ */
    {
       XFV = 3;
 #ifdef XB_MEMO_FIELDS
@@ -977,7 +977,7 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
       if( SchemaPtr[i].Type == 'C' && SchemaPtr[i].NoOfDecs > 0 )
       {
         SchemaPtr[i].LongFieldLen = xbase->GetShort( p + 4 );
-     	j += SchemaPtr[i].LongFieldLen;
+      j += SchemaPtr[i].LongFieldLen;
       }
       else
         j += SchemaPtr[i].FieldLen;
@@ -1047,8 +1047,8 @@ xbShort xbDbf::BlankRecord( void )
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No error \\ \hline
-	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
-	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+   XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+   XB\_WRITE\_ERROR & Error writing to file \\ \hline
       \end{tabular}
     \endlatexonly
 */
@@ -1129,7 +1129,7 @@ xbShort xbDbf::AppendRecord( void )
          if(( rc = i->index->CreateKey( 0, 0 )) != XB_NO_ERROR ) /* then do it before the add    */
             return rc;
       if(( rc =  i->index->AddKey(nextRecNo)) != XB_NO_ERROR )
-	return rc;
+   return rc;
       i->index->TouchIndex();
       i = i->NextIx;
    }
@@ -1190,7 +1190,7 @@ xbShort xbDbf::AppendRecord( void )
    xbDate d; 
    UpdateYY = d.YearOf() - 1900;
    if(XFV == 3)
-      UpdateYY %= 100;	// dBASE III seems to do this, IV does not.  DTB
+      UpdateYY %= 100;  // dBASE III seems to do this, IV does not.  DTB
    UpdateMM = d.MonthOf();
    UpdateDD = d.DayOf( XB_FMT_MONTH );
 #ifndef XB_REAL_DELETE
@@ -1252,10 +1252,10 @@ xbShort xbDbf::AppendRecord( void )
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No error \\ \hline
-	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
-	XB\_NOT\_OPEN & File is not open \\ \hline
-	XB\_INVALID\_RECORD & Invalid record number \\ \hline
-	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+   XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+   XB\_NOT\_OPEN & File is not open \\ \hline
+   XB\_INVALID\_RECORD & Invalid record number \\ \hline
+   XB\_WRITE\_ERROR & Error writing to file \\ \hline
       \end{tabular}
     \endlatexonly
 */
@@ -1343,11 +1343,11 @@ xbShort xbDbf::GetRecord( xbULong RecNo )
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No error \\ \hline
-	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
-	XB\_NOT\_OPEN & File is not open \\ \hline
-	XB\_INVALID\_RECORD & Invalid record number \\ \hline
-	XB\_SEEK\_ERROR & Error seeking file \\ \hline
-	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+   XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+   XB\_NOT\_OPEN & File is not open \\ \hline
+   XB\_INVALID\_RECORD & Invalid record number \\ \hline
+   XB\_SEEK\_ERROR & Error seeking file \\ \hline
+   XB\_WRITE\_ERROR & Error writing to file \\ \hline
       \end{tabular}
     \endlatexonly
 */
@@ -1396,12 +1396,12 @@ xbShort xbDbf::GetFirstRecord( void )
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No error \\ \hline
-	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
-	XB\_EOF & At end of file \\ \hline
-	XB\_NOT\_OPEN & File is not open \\ \hline
-	XB\_INVALID\_RECORD & Invalid record number \\ \hline
-	XB\_SEEK\_ERROR & Error seeking file \\ \hline
-	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+   XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+   XB\_EOF & At end of file \\ \hline
+   XB\_NOT\_OPEN & File is not open \\ \hline
+   XB\_INVALID\_RECORD & Invalid record number \\ \hline
+   XB\_SEEK\_ERROR & Error seeking file \\ \hline
+   XB\_WRITE\_ERROR & Error writing to file \\ \hline
       \end{tabular}
     \endlatexonly
 */
@@ -1450,12 +1450,12 @@ xbShort xbDbf::GetLastRecord( void )
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No error \\ \hline
-	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
-	XB\_EOF & At end of file \\ \hline
-	XB\_NOT\_OPEN & File is not open \\ \hline
-	XB\_INVALID\_RECORD & Invalid record number \\ \hline
-	XB\_SEEK\_ERROR & Error seeking file \\ \hline
-	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+   XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+   XB\_EOF & At end of file \\ \hline
+   XB\_NOT\_OPEN & File is not open \\ \hline
+   XB\_INVALID\_RECORD & Invalid record number \\ \hline
+   XB\_SEEK\_ERROR & Error seeking file \\ \hline
+   XB\_WRITE\_ERROR & Error writing to file \\ \hline
       \end{tabular}
     \endlatexonly
 */
@@ -1507,12 +1507,12 @@ xbShort xbDbf::GetNextRecord( void )
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No error \\ \hline
-	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
-	XB\_BOF & At beginning of file \\ \hline
-	XB\_NOT\_OPEN & File is not open \\ \hline
-	XB\_INVALID\_RECORD & Invalid record number \\ \hline
-	XB\_SEEK\_ERROR & Error seeking file \\ \hline
-	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+   XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+   XB\_BOF & At beginning of file \\ \hline
+   XB\_NOT\_OPEN & File is not open \\ \hline
+   XB\_INVALID\_RECORD & Invalid record number \\ \hline
+   XB\_SEEK\_ERROR & Error seeking file \\ \hline
+   XB\_WRITE\_ERROR & Error writing to file \\ \hline
       \end{tabular}
     \endlatexonly
 */
@@ -1597,16 +1597,16 @@ xbShort xbDbf::DumpRecord( xbULong RecNo )
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No error \\ \hline
-	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
-	XB\_NOT\_OPEN & File is not open \\ \hline
-	XB\_INVALID\_RECORD & Invalid record number \\ \hline
-	XB\_SEEK\_ERROR & Error seeking file \\ \hline
-	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+   XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+   XB\_NOT\_OPEN & File is not open \\ \hline
+   XB\_INVALID\_RECORD & Invalid record number \\ \hline
+   XB\_SEEK\_ERROR & Error seeking file \\ \hline
+   XB\_WRITE\_ERROR & Error writing to file \\ \hline
       \end{tabular}
     \endlatexonly
 */
 xbShort xbDbf::PutRecord(void) {
-	return PutRecord(CurRec);
+   return PutRecord(CurRec);
 }
 
 //! Write the current record buffer to the specified record in the data file.
@@ -1633,11 +1633,11 @@ xbShort xbDbf::PutRecord(void) {
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No error \\ \hline
-	XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
-	XB\_NOT\_OPEN & File is not open \\ \hline
-	XB\_INVALID\_RECORD & Invalid record number \\ \hline
-	XB\_SEEK\_ERROR & Error seeking file \\ \hline
-	XB\_WRITE\_ERROR & Error writing to file \\ \hline
+   XB\_LOCK\_FAILED & Couldn't lock file \\ \hline
+   XB\_NOT\_OPEN & File is not open \\ \hline
+   XB\_INVALID\_RECORD & Invalid record number \\ \hline
+   XB\_SEEK\_ERROR & Error seeking file \\ \hline
+   XB\_WRITE\_ERROR & Error writing to file \\ \hline
       \end{tabular}
     \endlatexonly
 */
@@ -1732,8 +1732,8 @@ perror("failed index lock");
          i->index->DeleteKey( CurRec );
 
          i->index->CreateKey( 0, 0 );
-	 if(( rc = i->index->AddKey(CurRec)) != XB_NO_ERROR ) return rc;
-	 i->index->TouchIndex();
+    if(( rc = i->index->AddKey(CurRec)) != XB_NO_ERROR ) return rc;
+    i->index->TouchIndex();
       }
       i = i->NextIx;
    }
@@ -1802,7 +1802,7 @@ perror("failed file unlock");
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No error \\ \hline
-	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+   XB\_INVALID\_RECORD & Invalid record number \\ \hline
       \end{tabular}
     \endlatexonly
 */
@@ -1961,7 +1961,7 @@ xbShort xbDbf::DeleteRecord( void )
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No error \\ \hline
-	XB\_INVALID\_RECORD & Invalid record number \\ \hline
+   XB\_INVALID\_RECORD & Invalid record number \\ \hline
       \end{tabular}
     \endlatexonly
 */
@@ -2060,7 +2060,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
       TempDbtName.putAt(TempDbtName.len()-1, 'T');
 
       if ((t = fopen( TempDbtName, "w+b" )) == NULL)
-	xb_open_error(TempDbtName);
+   xb_open_error(TempDbtName);
 
       l = 1L;
       memset( tbuf, 0x00, 4 );
@@ -2077,18 +2077,18 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
       } else {
          for( i = 0; i < 4; i++ ) fputc( 0x00, t );
          if ((fwrite(&MemoHeader.FileName, 8, 1, t)) != 1)
-	   xb_io_error(XB_WRITE_ERROR, TempDbfName);
+      xb_io_error(XB_WRITE_ERROR, TempDbfName);
          for( i = 0; i < 4; i++ ) fputc( 0x00, t );
          memset( tbuf, 0x00, 2 );
          xbase->PutShort( tbuf, MemoHeader.BlockSize );
          if ((fwrite(&tbuf, 2, 1, t)) != 1)
-	    xb_io_error(XB_WRITE_ERROR, TempDbfName);
+       xb_io_error(XB_WRITE_ERROR, TempDbfName);
 
          for( i = 22; i < MemoHeader.BlockSize; i++ ) fputc( 0x00, t );
       }
  
       if( fclose( t ) != 0 )
-				xb_io_error(XB_CLOSE_ERROR, TempDbfName);
+            xb_io_error(XB_CLOSE_ERROR, TempDbfName);
    }
 #endif   /* XB_MEMO_FIELDS */
 
@@ -2126,7 +2126,7 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
                   if( BufSize ) 
                      free( Buf );
                   if ((Buf = (char *)malloc(len)) == NULL)
-										xb_memory_error;
+                              xb_memory_error;
                   BufSize = len;
                }
                GetMemoField( i, len, Buf, -1 );
@@ -2136,9 +2136,9 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
 #endif
 
          if(( rc = Temp.AppendRecord()) != XB_NO_ERROR )
-	 {
-	    if(Buf) free(Buf);
-	    return rc;
+    {
+       if(Buf) free(Buf);
+       return rc;
          }
       }
    }
@@ -2146,13 +2146,13 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
    Temp.CloseDatabase();
  
    if (fclose(fp) != 0)
-			xb_io_error(XB_CLOSE_ERROR, DatabaseName);
+         xb_io_error(XB_CLOSE_ERROR, DatabaseName);
 
    if(remove(DatabaseName) != 0)
-			xb_io_error(XB_WRITE_ERROR, DatabaseName);
+         xb_io_error(XB_WRITE_ERROR, DatabaseName);
 
    if(rename(TempDbfName, DatabaseName) != 0)
-			xb_io_error(XB_WRITE_ERROR, TempDbfName);
+         xb_io_error(XB_WRITE_ERROR, TempDbfName);
 
 #ifdef XB_MEMO_FIELDS
    if( MemoFields )
@@ -2237,12 +2237,12 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
       <p>
       <table border=2><tr><th>Return Code</th><th>Description</th></tr>
         <tr><td>XB_NO_ERROR</td><td>No error</td></tr>
-	<tr><td>XB_CLOSE_ERROR</td><td>Unable to close intermediate work file</td></tr>
-	<tr><td>XB_OPEN_ERROR</td><td>Could not open file</td></tr>
-	<tr><td>XB_NO_MEMORY</td><td>Memory allocation error</td></tr>
+   <tr><td>XB_CLOSE_ERROR</td><td>Unable to close intermediate work file</td></tr>
+   <tr><td>XB_OPEN_ERROR</td><td>Could not open file</td></tr>
+   <tr><td>XB_NO_MEMORY</td><td>Memory allocation error</td></tr>
         <tr><td>XB_WRITE_ERROR</td><td>Couldn't write to disk</td></tr>
-	<tr><td>XB_SEEK_ERROR</td><td>Error seeking file</td></tr>
-	<tr><td>XB_LOCK_FAILED</td><td>Unable to lock file or index</td></tr>
+   <tr><td>XB_SEEK_ERROR</td><td>Error seeking file</td></tr>
+   <tr><td>XB_LOCK_FAILED</td><td>Unable to lock file or index</td></tr>
       </table>
     \endhtmlonly
     \latexonly
@@ -2251,12 +2251,12 @@ xbShort xbDbf::PackDatafiles(void (*statusFunc)(xbLong itemNum, xbLong numItems)
       \begin{tabular}{|l|l|} \hline
         \textbf{Return Code} & \textbf{Description} \\ \hline \hline
         XB\_NO\_ERROR & No Error \\ \hline
-	XB\_CLOSE\_ERROR & Unable to close intermediate work file \\ \hline
+   XB\_CLOSE\_ERROR & Unable to close intermediate work file \\ \hline
         XB\_OPEN\_ERROR & Couldn't open the file \\ \hline
-	XB\_NO\_MEMORY & Memory allocation error \\ \hline
+   XB\_NO\_MEMORY & Memory allocation error \\ \hline
         XB\_WRITE\_ERROR & Couldn't write to disk \\ \hline
-	XB\_SEEK\_ERROR & Error seeking file \\ \hline
-	XB\_LOCK\_FAILED & Unable to lock file or index \\ \hline
+   XB\_SEEK\_ERROR & Error seeking file \\ \hline
+   XB\_LOCK\_FAILED & Unable to lock file or index \\ \hline
       \end{tabular}
     \endlatexonly
 */
@@ -2554,7 +2554,7 @@ xbShort xbDbf::Zap( xbShort WaitOption )
      TempDbfName.assign(DatabaseName, 0, rc);
       TempDbfName += "TMPXBASE.DBF";
    } else
-		 TempDbfName = "TMPXBASE.DBF";
+       TempDbfName = "TMPXBASE.DBF";
 
    if(( rc = CopyDbfStructure( TempDbfName, 1 )) != XB_NO_ERROR) {
       return rc;
@@ -2595,10 +2595,10 @@ xbShort xbDbf::Zap( xbShort WaitOption )
       char lb = DatabaseName[dbnlen];
       if( lb == 'F' ) {
          DatabaseName.putAt(dbnlen, 'T');
-	 TempDbfName.putAt(dbnlen, 'T');
+    TempDbfName.putAt(dbnlen, 'T');
       } else {
          DatabaseName.putAt(dbnlen, 't');
-	 TempDbfName.putAt(dbnlen, 't');
+    TempDbfName.putAt(dbnlen, 't');
       }
 
       if(( rc = remove( DatabaseName )) != 0 )
@@ -2608,12 +2608,12 @@ xbShort xbDbf::Zap( xbShort WaitOption )
       }
       if(( rc = rename( TempDbfName, DatabaseName )) != 0 )
       {
-	ExclusiveUnlock();
-	xb_open_error(DatabaseName);
+   ExclusiveUnlock();
+   xb_open_error(DatabaseName);
       }
       if(( mfp = fopen( DatabaseName, "r+b" )) == NULL ){
-	ExclusiveUnlock();
-	xb_open_error(DatabaseName);
+   ExclusiveUnlock();
+   xb_open_error(DatabaseName);
       }
 #ifdef XB_LOCKING_ON
       setbuf( mfp, NULL );

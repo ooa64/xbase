@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: memo.cpp,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -518,7 +518,7 @@ xbShort xbDbf::GetMemoField( const xbShort FieldNo, const xbLong len,
 #ifdef XB_LOCKING_ON
    if( LockOpt != -1 )
       if(( rc = LockMemoFile( LockOpt, F_RDLCK )) != XB_NO_ERROR )
-      	return XB_LOCK_FAILED;
+         return XB_LOCK_FAILED;
 #endif
 
    if(( BlockNo = GetLongField( FieldNo )) == 0 )
@@ -710,11 +710,11 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
       NextFreeBlock = SNextBlock;
       FreeBlockCnt = SNoOfBlocks;
       if(( rc = WriteMemoBlock( SBlockNo, 2 )) != XB_NO_ERROR )
-  			return rc;
+         return rc;
       
       MemoHeader.NextBlock = SBlockNo;
       if(( rc = UpdateHeadNextNode()) != XB_NO_ERROR )
-    	  return rc;
+        return rc;
       PutField( FieldNo, "          " );
       return XB_NO_ERROR;
    }
@@ -723,11 +723,11 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
    if(( LastFreeBlockCnt + LastFreeBlock ) == SBlockNo )
    {
       if(( rc = ReadMemoBlock( LastFreeBlock, 2 )) != XB_NO_ERROR )
-			  return rc;
+           return rc;
       NextFreeBlock = SNextBlock;
       FreeBlockCnt += SNoOfBlocks;
       if(( rc = WriteMemoBlock( LastFreeBlock, 2 )) != XB_NO_ERROR )
-  			return rc;
+         return rc;
       PutField( FieldNo, "          " );
       return XB_NO_ERROR;
    }
@@ -741,12 +741,12 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
 
    FreeBlockCnt = SNoOfBlocks;
    if(( rc = WriteMemoBlock( SBlockNo, 2 )) != XB_NO_ERROR )
-	   return rc;
+      return rc;
    if(( rc = ReadMemoBlock( LastFreeBlock, 2 )) != XB_NO_ERROR )
-	   return rc;
+      return rc;
    NextFreeBlock = SBlockNo;
    if(( rc = WriteMemoBlock( LastFreeBlock, 2 )) != XB_NO_ERROR )
-	   return rc;
+      return rc;
    PutField( FieldNo, "          " );
    return XB_NO_ERROR;
 }
@@ -807,7 +807,7 @@ xbShort xbDbf::AddMemoData( const xbShort FieldNo, const xbLong DataLen,
          /* if header block needed updated, already done by here */
          if(( rc = PutMemoData( LastDataBlock, BlocksNeeded, DataLen, Buf )) 
               != XB_NO_ERROR )
-  	   return rc;
+      return rc;
          HeadBlock = LastDataBlock;
          if(( rc = ReadMemoBlock( PrevNode, 2 )) != XB_NO_ERROR )
            return rc;
@@ -913,7 +913,7 @@ xbShort xbDbf::UpdateMemoData( const xbShort FieldNo, const xbLong DataLen,
    #ifdef XB_LOCKING_ON
    if( LockOpt != -1 )
       if(( rc = LockMemoFile( LockOpt, F_WRLCK )) != XB_NO_ERROR )
-	   return XB_LOCK_FAILED;
+      return XB_LOCK_FAILED;
    #endif
 
    if( DataLen ){
@@ -1045,7 +1045,7 @@ xbShort xbDbf::DumpMemoFreeChain( void )
    xbLong  CurBlock, LastDataBlock;
 
    if(( rc = GetDbtHeader(1)) != XB_NO_ERROR )
-	   return rc;
+      return rc;
    LastDataBlock = CalcLastDataBlock();
    CurBlock = MemoHeader.NextBlock;
    cout << "\nTotal blocks in file = " << LastDataBlock;

@@ -126,7 +126,7 @@ xbString::xbString(const char *s, size_t maxlen) {
   size = maxlen+1;
   data = (char *)malloc(size);
   strncpy(data, s, maxlen);
-	data[maxlen] = 0;
+   data[maxlen] = 0;
 }
 
 //! Short description.
@@ -175,7 +175,7 @@ void xbString::ctor(const char *s,size_t maxlen) {
   size = maxlen+1;
   data = (char *)malloc(size);
   strncpy(data, s, maxlen);
-	data[maxlen] = 0;
+   data[maxlen] = 0;
 }
 
 //! Short description.
@@ -223,11 +223,11 @@ xbString &xbString::operator=(const char *s) {
   if (data != NULL)
     free(data);
 
-	if (s == NULL) {
-		data = NULL;
-		size = 0;
-		return (*this);
-	}
+   if (s == NULL) {
+      data = NULL;
+      size = 0;
+      return (*this);
+   }
 
   data = (char *)malloc(strlen(s)+1);
   strcpy(data, s);
@@ -359,8 +359,8 @@ xbString &xbString::operator+=(const char *s) {
   int oldlen = this->len();
 
   data = (char *)realloc(data, oldlen+len+1);
-	if (oldlen == 0)
-		data[0] = 0;
+   if (oldlen == 0)
+      data[0] = 0;
   strcat(data, s);
 
   size += len;
@@ -456,8 +456,8 @@ bool operator==(const xbString &s1, const char *s2) {
     return false;
   }
 
-	if ((s2[0] == 0) && s1.getData() == NULL)
-		return true;
+   if ((s2[0] == 0) && s1.getData() == NULL)
+      return true;
 
   if (s1.getData() == NULL)
     return false;
@@ -475,8 +475,8 @@ bool operator!=(const xbString &s1, const char *s2) {
     return true;
   }
 
-	if ((s2[0] == 0) && s1.getData() == NULL)
-		return false;
+   if ((s2[0] == 0) && s1.getData() == NULL)
+      return false;
 
   if (s1.getData() == NULL)
     return true;
@@ -573,54 +573,54 @@ ostream& operator << ( ostream& os, const xbString& xbs ) {
 /*!
 */
 xbString operator-(const xbString &s1, const xbString &s2) {
-	xbString tmp(s1.getData());
-	tmp -= s2;
-	return tmp;
+   xbString tmp(s1.getData());
+   tmp -= s2;
+   return tmp;
 }
 
 //! Short description.
 /*!
 */
 xbString operator+(const xbString &s1, const xbString &s2) {
-	xbString tmp(s1.getData());
-	tmp += s2;
-	return tmp;
+   xbString tmp(s1.getData());
+   tmp += s2;
+   return tmp;
 }
 
 //! Short description.
 /*!
 */
 xbString operator+(const xbString &s1, const char *s2) {
-	xbString tmp(s1.getData());
-	tmp += s2;
-	return tmp;
+   xbString tmp(s1.getData());
+   tmp += s2;
+   return tmp;
 }
 
 //! Short description.
 /*!
 */
 xbString operator+(const char *s1, const xbString &s2) {
-	xbString tmp(s1);
-	tmp += s2;
-	return tmp;
+   xbString tmp(s1);
+   tmp += s2;
+   return tmp;
 }
 
 //! Short description.
 /*!
 */
 xbString operator+(const xbString &s1, char c2) {
-	xbString tmp(s1.getData());
-	tmp += c2;
-	return tmp;
+   xbString tmp(s1.getData());
+   tmp += c2;
+   return tmp;
 }
 
 //! Short description.
 /*!
 */
 xbString operator+(char c1, const xbString &s2) {
-	xbString tmp(c1);
-	tmp += s2;
-	return tmp;
+   xbString tmp(c1);
+   tmp += s2;
+   return tmp;
 }
 
 //! Short description.
@@ -629,10 +629,10 @@ xbString operator+(char c1, const xbString &s2) {
   \param c
 */
 void xbString::putAt(size_t pos, char c) {
-	if (pos>len())
-		return;
+   if (pos>len())
+      return;
 
-	data[pos] = c;
+   data[pos] = c;
 }
 
 //! Short description.
@@ -642,34 +642,34 @@ void xbString::putAt(size_t pos, char c) {
   \param n
 */
 xbString& xbString::assign(const xbString& str, size_t pos, int n) {
-	if (data != NULL)
-		free(data);
+   if (data != NULL)
+      free(data);
 
-	if (str.len() <= pos) {
-		size = 0;
-		return (*this);
-	}
+   if (str.len() <= pos) {
+      size = 0;
+      return (*this);
+   }
 
-	if (str.len() < pos+n) {
-		n = str.len()-pos;
-	}
+   if (str.len() < pos+n) {
+      n = str.len()-pos;
+   }
 
-	const char *d = str;
-		
-	if (n == -1) {
+   const char *d = str;
+      
+   if (n == -1) {
 //        data = (char *)malloc(str.len()-pos+1); ms win/nt bug fix
           data = (char *)calloc(str.len()-pos+1, sizeof( char ));
-	  strcpy(data, d+pos);
-	  size = str.len()-pos+1;
-	} else {
-//	  data = (char *)malloc(n);  ms win/nt bug fix
+     strcpy(data, d+pos);
+     size = str.len()-pos+1;
+   } else {
+//   data = (char *)malloc(n);  ms win/nt bug fix
           data = (char *)calloc( n+1, sizeof(char));
-	  strncpy(data, d+pos, n);
-	  data[n] = '\0';
-	  size = n+1;
-	}
+     strncpy(data, d+pos, n);
+     data[n] = '\0';
+     size = n+1;
+   }
 
-	return (*this);
+   return (*this);
 }
 
 //! Short description.
@@ -678,14 +678,14 @@ xbString& xbString::assign(const xbString& str, size_t pos, int n) {
 void xbString::trim() {
   int l = len()-1;
 
-	for (;;) {
-		if (data[l] != ' ')
-			break;
-		data[l] = 0;
-		if (l == 0)
-			break;
-		l--;
-	}
+   for (;;) {
+      if (data[l] != ' ')
+         break;
+      data[l] = 0;
+      if (l == 0)
+         break;
+      l--;
+   }
 }
 
 //! Short description.

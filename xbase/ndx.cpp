@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -96,7 +96,7 @@ xbShort xbNdx::CloneNodeChain()
    while( TempNodeS )
    {
       if(( TempNodeT = GetNodeMemory()) == NULL ) {
-	 xb_memory_error;
+    xb_memory_error;
       }
       memcpy( TempNodeT, TempNodeS, sizeof( struct xbNdxNodeLink ));
       TempNodeT->NextNode = NULL;
@@ -491,7 +491,7 @@ void xbNdx::DumpNodeRec( xbLong n )
    if(( log = fopen( "xbase.log", "a+t" )) == NULL ) return;
    GetLeafNode( n, 0 );
    NoOfKeys = dbf->xbase->GetLong( Node );
-   p = Node + 4;			/* go past no of keys */
+   p = Node + 4;        /* go past no of keys */
  
    fprintf( log, "\n--------------------------------------------------------" );
    fprintf( log,  "\nNode # %ld", n );
@@ -724,7 +724,7 @@ xbShort xbNdx::GetNextKey( xbShort RetrieveSw )
           if( dbf->GetAutoLock() )
              LockIndex(F_SETLKW, F_UNLCK);
 #endif
-	   xb_eof_error;
+      xb_eof_error;
    }
 
    /* this logic assumes that interior nodes have n+1 left node no's where */
@@ -754,7 +754,7 @@ xbShort xbNdx::GetNextKey( xbShort RetrieveSw )
            if( dbf->GetAutoLock() )
               LockIndex(F_SETLKW, F_UNLCK);
 #endif
-	   xb_eof_error;
+      xb_eof_error;
    }
 
    /* move one to the right */
@@ -767,7 +767,7 @@ xbShort xbNdx::GetNextKey( xbShort RetrieveSw )
            if( dbf->GetAutoLock() )
               LockIndex(F_SETLKW, F_UNLCK);
 #endif
-	   return rc;
+      return rc;
    }
 
 /* traverse down the left side of the tree */
@@ -840,7 +840,7 @@ xbShort xbNdx::GetLastKey( xbLong NodeNo, xbShort RetrieveSw )
          if( dbf->GetAutoLock() )
            LockIndex(F_SETLKW, F_UNLCK);
 #endif
-				 return rc;
+             return rc;
       }
    }
    else
@@ -852,7 +852,7 @@ xbShort xbNdx::GetLastKey( xbLong NodeNo, xbShort RetrieveSw )
          if( dbf->GetAutoLock() )
             LockIndex(F_SETLKW, F_UNLCK);
 #endif
-				 return rc;
+             return rc;
       }
    }
    CurNode->CurKeyNo = CurNode->Leaf.NoOfKeysThisNode;
@@ -868,7 +868,7 @@ xbShort xbNdx::GetLastKey( xbLong NodeNo, xbShort RetrieveSw )
          if( dbf->GetAutoLock() )
             LockIndex(F_SETLKW, F_UNLCK);
 #endif
-				 return rc;
+             return rc;
       }
       CurNode->CurKeyNo = CurNode->Leaf.NoOfKeysThisNode;
    }
@@ -941,7 +941,7 @@ xbShort xbNdx::GetPrevKey( xbShort RetrieveSw )
       if( dbf->GetAutoLock() )
          LockIndex(F_SETLKW, F_UNLCK);
 #endif
-	   xb_eof_error;
+      xb_eof_error;
    }
 
    TempxbNodeLink = CurNode;
@@ -966,7 +966,7 @@ xbShort xbNdx::GetPrevKey( xbShort RetrieveSw )
       if( dbf->GetAutoLock() )
          LockIndex(F_SETLKW, F_UNLCK);
 #endif
-	   xb_eof_error;
+      xb_eof_error;
    }
 
    /* move one to the left */
@@ -979,26 +979,26 @@ xbShort xbNdx::GetPrevKey( xbShort RetrieveSw )
       if( dbf->GetAutoLock() )
          LockIndex(F_SETLKW, F_UNLCK);
 #endif
-	   return rc;
+      return rc;
    }
 
-   if( GetLeftNodeNo( 0, CurNode ))	/* if interior node */
+   if( GetLeftNodeNo( 0, CurNode )) /* if interior node */
       CurNode->CurKeyNo = CurNode->Leaf.NoOfKeysThisNode;
-   else					/* leaf node */
+   else              /* leaf node */
       CurNode->CurKeyNo = CurNode->Leaf.NoOfKeysThisNode - 1;
 
 /* traverse down the right side of the tree */
-   while( GetLeftNodeNo( 0, CurNode ))		/* while interior node */
+   while( GetLeftNodeNo( 0, CurNode ))    /* while interior node */
    {
       TempNodeNo = GetLeftNodeNo( CurNode->Leaf.NoOfKeysThisNode, CurNode );     
       if(( rc = GetLeafNode( TempNodeNo, 1 )) != 0 )
       {
          CurDbfRec = 0L;
-				 return rc;
+             return rc;
       }
-      if( GetLeftNodeNo( 0, CurNode ))	/* if interior node */
+      if( GetLeftNodeNo( 0, CurNode )) /* if interior node */
          CurNode->CurKeyNo = CurNode->Leaf.NoOfKeysThisNode;
-      else					/* leaf node */
+      else              /* leaf node */
          CurNode->CurKeyNo = CurNode->Leaf.NoOfKeysThisNode - 1;
    }
    CurDbfRec = GetDbfNo( CurNode->Leaf.NoOfKeysThisNode - 1, CurNode );
@@ -1057,7 +1057,7 @@ xbShort xbNdx::CompareKey( const char * Key1, const char * Key2, xbShort Klen )
       return 0;
 #endif
    }
-   else		/* key is numeric */
+   else     /* key is numeric */
    {
       d1 = dbf->xbase->GetDouble( Key1 );
       d2 = dbf->xbase->GetDouble( Key2 );
@@ -1258,14 +1258,14 @@ xbShort xbNdx::FindKey( const char * Tkey, xbLong DbfRec )
           if( dbf->GetAutoLock() )
              LockIndex(F_SETLKW, F_UNLCK);
 #endif
-	   return XB_NOT_FOUND;
+      return XB_NOT_FOUND;
       }
    }
 #ifdef XB_LOCKING_ON
    if( dbf->GetAutoLock() )
       LockIndex(F_SETLKW, F_UNLCK);
 #endif
-	 return XB_NOT_FOUND;
+    return XB_NOT_FOUND;
 }
 /***********************************************************************/
 //! Short description
@@ -1325,7 +1325,7 @@ xbShort xbNdx::FindKey( const char * Tkey, xbShort Klen, xbShort RetrieveSw )
    }
 
    /* traverse down the tree until it hits a leaf */
-   while( GetLeftNodeNo( 0, CurNode ))	/* while interior node */
+   while( GetLeftNodeNo( 0, CurNode )) /* while interior node */
    {
       TempNodeNo = GetLeafFromInteriorNode( Tkey, Klen );
       if(( rc = GetLeafNode( TempNodeNo, 1 )) != 0 )
@@ -1351,8 +1351,8 @@ xbShort xbNdx::FindKey( const char * Tkey, xbShort Klen, xbShort RetrieveSw )
          if( dbf->GetAutoLock() )
             LockIndex(F_SETLKW, F_UNLCK);
 #endif
-	 if (RetrieveSw)
-	    dbf->GetRecord(CurDbfRec);
+    if (RetrieveSw)
+       dbf->GetRecord(CurDbfRec);
                                          
          return XB_FOUND;
       }
@@ -1367,7 +1367,7 @@ xbShort xbNdx::FindKey( const char * Tkey, xbShort Klen, xbShort RetrieveSw )
          if (RetrieveSw)
             dbf->GetRecord(CurDbfRec);
                                          
-	 return XB_NOT_FOUND;
+    return XB_NOT_FOUND;
       }
    }
 #else
@@ -1499,7 +1499,7 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
      fclose(indexfp);
 
    if(( indexfp = fopen( IndexName, "w+b" )) == NULL )
-		 xb_open_error(IndexName);
+       xb_open_error(IndexName);
 
 #ifdef XB_LOCKING_ON   
    /*
@@ -1595,8 +1595,8 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
          if( dbf->GetAutoLock() )
             LockIndex(F_SETLKW, F_UNLCK);
 #endif
-   	 fclose( indexfp );
-	 xb_io_error(XB_WRITE_ERROR, IndexName);
+       fclose( indexfp );
+    xb_io_error(XB_WRITE_ERROR, IndexName);
       }
    }
    IndexStatus = XB_OPEN;
@@ -1990,10 +1990,10 @@ xbShort xbNdx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
    xbExpNode * TempNode;
 
    if(( rc = dbf->xbase->ProcessExpression( ExpressionTree, RecBufSw )) != XB_NO_ERROR )
-	   return rc;
+      return rc;
    TempNode = (xbExpNode *) dbf->xbase->Pop();
    if( !TempNode )
-		 xb_error(XB_INVALID_KEY);
+       xb_error(XB_INVALID_KEY);
 
    if( KeyBufSw )
    {
@@ -2135,7 +2135,7 @@ xbShort xbNdx::AddKey( xbLong DbfRec )
    {
       TempNode = GetNodeMemory();
       if( !TempNode ) {
-	      xb_memory_error;
+         xb_memory_error;
       }
 
       rc = SplitINode( Tparent, TempNode, TempNodeNo );
@@ -2161,7 +2161,7 @@ xbShort xbNdx::AddKey( xbLong DbfRec )
    {
       TempNode = GetNodeMemory();
       if( !TempNode ) {
-	      xb_memory_error;
+         xb_memory_error;
       }
 
       SaveNodeChain = NodeChain;
@@ -2453,13 +2453,13 @@ xbShort xbNdx::MoveToLeftNode( xbNdxNodeLink * n, xbNdxNodeLink * Left )
    GetLastKey( Left->NodeNo, 0 );
    memcpy( KeyBuf, GetKeyData( CurNode->CurKeyNo, CurNode ), HeadNode.KeyLen);
    ReleaseNodeMemory( NodeChain );
-   NodeChain = NULL;			/* for next GetLastKey */
+   NodeChain = NULL;       /* for next GetLastKey */
    PutKeyData( Left->Leaf.NoOfKeysThisNode, Left); 
    PutLeftNodeNo( Left->Leaf.NoOfKeysThisNode+1, Left, GetLeftNodeNo( j,n ));
    Left->Leaf.NoOfKeysThisNode++;
    Left->CurKeyNo = Left->Leaf.NoOfKeysThisNode;
    if(( rc = PutLeafNode( Left->NodeNo, Left )) != 0 )
-	   return rc;
+      return rc;
 
    n->PrevNode->NextNode = NULL;
    UpdateDeleteList( n );

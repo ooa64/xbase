@@ -1,4 +1,4 @@
-/*  $Id: expfunc.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: expfunc.cpp,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -1014,7 +1014,7 @@ char *xbExpn::UPPER( const char *String )
     WorkBuf[i++] = toupper(*String);
     String++;
   }
-  WorkBuf[i] = 0x00;	
+  WorkBuf[i] = 0x00; 
   return WorkBuf;
 }
 /*************************************************************************/

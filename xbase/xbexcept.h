@@ -1,4 +1,4 @@
-/*  $Id: xbexcept.h,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: xbexcept.h,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -78,7 +78,7 @@ using std::exception;
 /*!
 */
 
-/* FIXME:	class exception is member of <stdexcept.h> -- willy */
+/* FIXME:   class exception is member of <stdexcept.h> -- willy */
 class XBDLLEXPORT xbException : public exception {
 public:
   xbException (int err);

@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.5 2000/09/27 19:23:36 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.6 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -106,15 +106,15 @@ xbDbf *xbXBase::GetDbfPtr(const char *Name) {
 */
 xbXBase::~xbXBase()
 {
-	xbDbList *i = FreeDbfList;
-	while (i) {
-		xbDbList *t = i->NextDbf;
-		if (i->DbfName) {
-			free(i->DbfName);
-		}
-		free(i);
-		i = t;
-	}
+   xbDbList *i = FreeDbfList;
+   while (i) {
+      xbDbList *t = i->NextDbf;
+      if (i->DbfName) {
+         free(i->DbfName);
+      }
+      free(i);
+      i = t;
+   }
 }
 
 /*************************************************************************/
@@ -144,34 +144,34 @@ xbXBase::~xbXBase()
     \endlatexonly
 */
 xbShort xbXBase::AddDbfToDbfList(xbDbf *d, const char *DatabaseName) {
-	xbDbList *i, *s, *t;
+   xbDbList *i, *s, *t;
 
-	if(!FreeDbfList) {
-		if((i = (xbDbList *)malloc(sizeof(xbDbList))) == NULL) {
-			xb_memory_error;
-		}
-	} else {
-		i = FreeDbfList;
-		FreeDbfList = i->NextDbf;
-	}
-	memset(i, 0x00, sizeof(xbDbList));
+   if(!FreeDbfList) {
+      if((i = (xbDbList *)malloc(sizeof(xbDbList))) == NULL) {
+         xb_memory_error;
+      }
+   } else {
+      i = FreeDbfList;
+      FreeDbfList = i->NextDbf;
+   }
+   memset(i, 0x00, sizeof(xbDbList));
 
-	i->DbfName  = strdup(DatabaseName);
-	i->dbf      = d;
+   i->DbfName  = strdup(DatabaseName);
+   i->dbf      = d;
 
-	s = NULL;
-	t = DbfList;
-	while(t && strcmp(t->DbfName, DatabaseName) < 0) {
-		s = t;
-		t = t->NextDbf;
-	}
-	i->NextDbf = t;
-	if (s == NULL)
-		DbfList = i;
-	else
-		s->NextDbf = i;
-		
-	return 0;
+   s = NULL;
+   t = DbfList;
+   while(t && strcmp(t->DbfName, DatabaseName) < 0) {
+      s = t;
+      t = t->NextDbf;
+   }
+   i->NextDbf = t;
+   if (s == NULL)
+      DbfList = i;
+   else
+      s->NextDbf = i;
+      
+   return 0;
 }
 
 /***********************************************************************/
@@ -198,32 +198,32 @@ xbShort xbXBase::AddDbfToDbfList(xbDbf *d, const char *DatabaseName) {
     \endlatexonly
 */
 xbShort xbXBase::RemoveDbfFromDbfList(xbDbf *d) {
-	xbDbList *i, *s;
+   xbDbList *i, *s;
 
-	i = DbfList;
-	s = NULL;
+   i = DbfList;
+   s = NULL;
 
-	while (i) {
-		if(i->dbf == d) {
-			/* remove it from current chain */
-			if(s)
-				s->NextDbf = i->NextDbf;
-			else
-				DbfList = i->NextDbf;
+   while (i) {
+      if(i->dbf == d) {
+         /* remove it from current chain */
+         if(s)
+            s->NextDbf = i->NextDbf;
+         else
+            DbfList = i->NextDbf;
 
-			/* add i to the current free chain */
-			i->NextDbf = FreeDbfList;
-			FreeDbfList = i;
-			free(FreeDbfList->DbfName);
-			FreeDbfList->DbfName = NULL;
-			FreeDbfList->NextDbf = NULL; 
-			break;
-		} else {
-			s = i;
-			i = i->NextDbf;
-		}
-	}
-	return XB_NO_ERROR;
+         /* add i to the current free chain */
+         i->NextDbf = FreeDbfList;
+         FreeDbfList = i;
+         free(FreeDbfList->DbfName);
+         FreeDbfList->DbfName = NULL;
+         FreeDbfList->NextDbf = NULL; 
+         break;
+      } else {
+         s = i;
+         i = i->NextDbf;
+      }
+   }
+   return XB_NO_ERROR;
 } 
 
 // FIXME: byte reverse methods are awful, compared to bitwise shifts  -- willy

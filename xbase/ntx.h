@@ -1,4 +1,4 @@
-/*  $Id: ntx.h,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: ntx.h,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -58,11 +58,11 @@
 /*!
 */
 
-struct NtxHeadNode {			/* ntx header on disk */
+struct NtxHeadNode {       /* ntx header on disk */
     xbUShort Signature;           /* Clipper 5.x or Clipper 87 */
     xbUShort Version;             /* Compiler Version */
                                 /* Also turns out to be a last modified counter */
-    xbLong   StartNode;			/* Offset in file for first index */
+    xbLong   StartNode;       /* Offset in file for first index */
     xbULong  UnusedOffset;        /* First free page offset */
     xbUShort KeySize;             /* Size of items (KeyLen + 8) */
     xbUShort KeyLen;              /* Size of the Key */
@@ -78,7 +78,7 @@ struct NtxHeadNode {			/* ntx header on disk */
 /*!
 */
 
-struct NtxLeafNode {			/* ndx node on disk */
+struct NtxLeafNode {       /* ndx node on disk */
     xbUShort NoOfKeysThisNode;
     char     KeyRecs[XB_NTX_NODE_SIZE];
 };
@@ -99,7 +99,7 @@ struct NtxItem
 /*!
 */
 
-struct xbNodeLink {			/* ndx node memory */
+struct xbNodeLink {        /* ndx node memory */
    xbNodeLink * PrevNode;
    xbNodeLink * NextNode;
    xbUShort       CurKeyNo;                 /* 0 - KeysPerNode-1 */
@@ -214,8 +214,8 @@ class XBDLLEXPORT xbNtx : public xbIndex  {
    xbShort  KeyExists( char * Key ) { return FindKey( Key, strlen( Key ), 0 ); }
    xbShort  KeyExists( xbDouble );
 
-	xbShort xbNtx::AllocKeyBufs(void);
+   xbShort xbNtx::AllocKeyBufs(void);
 
    virtual void GetExpression(char *buf, int len);
 };
-#endif		/* __XB_NTX_H__ */
+#endif      /* __XB_NTX_H__ */

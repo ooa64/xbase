@@ -1,4 +1,4 @@
-/*  $Id: options.h,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: options.h,v 1.4 2000/10/31 00:59:48 dbryson Exp $
     
     Xbase project source code
 
@@ -80,7 +80,7 @@
 /* Define if you want Castellano (Spanish) Dates */
 /* #undef XB_CASTELLANO */
 
-#define XB_DBT_BLOCK_SIZE  512		/* default memo block size	*/
-					/* must be increment of 512	*/
+#define XB_DBT_BLOCK_SIZE  512      /* default memo block size */
+               /* must be increment of 512   */
 
-#endif		// __XB_OPTIONS_H__
+#endif      // __XB_OPTIONS_H__

@@ -1,10 +1,10 @@
-/*  $Id: xbcf_b32.h,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: xbcf_b32.h,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
     This file contains settings for Borland C++ 4.5
 
-    Copyright (C) 1999	Vitaly Fedrushkov <fedrushkov@acm.org>
+    Copyright (C) 1999  Vitaly Fedrushkov <fedrushkov@acm.org>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -46,12 +46,12 @@
 
    Settings for:
 
-   Borland C++ 4.5	Win32 GUI	<fedrushkov@acm.org>
+   Borland C++ 4.5   Win32 GUI   <fedrushkov@acm.org>
 */
 
 /* Safety net to prevent misconfiguration */
 #if !defined(__BORLANDC__) || (__BORLANDC__ != 0x460)
-#error	wrong <xbase/xbconfig.h> for this compiler and/or version
+#error   wrong <xbase/xbconfig.h> for this compiler and/or version
 #endif
 
 #include <xbase/options.h>
@@ -63,7 +63,7 @@
 /* Define if the C++ compiler supports BOOL */
 /* #undef HAVE_BOOL */
 
-/* FIXME:	Borland C++ 4.5 can do exceptions, but has no 'class
+/* FIXME:   Borland C++ 4.5 can do exceptions, but has no 'class
    exception' to inherit from.  Either we provide a substitute or
    define class xbException from scratch.  -- willy */
 /* Define if your compiler support exceptions */

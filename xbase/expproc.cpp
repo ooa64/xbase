@@ -1,4 +1,4 @@
-/*  $Id: expproc.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: expproc.cpp,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -197,7 +197,7 @@ xbShort xbExpn::ProcessExpression( xbExpNode * Wtree, xbShort RecBufSw )
       }
       else if( WorkNode->Type == 'F' )
          if(( rc = ProcessFunction( WorkNode->NodeText )) != XB_NO_ERROR )
-    			return rc;
+            return rc;
       WorkNode = GetNextTreeNode( WorkNode );
    }
    if( GetStackDepth() != 1 )    /* should only have result left in stack */
@@ -224,8 +224,8 @@ char xbExpn::GetOperandType( xbExpNode * e )
    if( e->Type == 'C' ) {
       if(e->NodeText[0]=='-' || e->NodeText[0]=='+' || 
          (isdigit(e->NodeText[0]) &&
-	  !(e->NodeText[e->DataLen] == '\'' || e->NodeText[e->DataLen] == '"'))
-	 )
+     !(e->NodeText[e->DataLen] == '\'' || e->NodeText[e->DataLen] == '"'))
+    )
         return 'N';
       else
         return 'C';
@@ -256,7 +256,7 @@ xbShort xbExpn::ProcessOperator( xbShort RecBufSw )
    if( WorkNode->Len > 5 /*2*/) // changed for logical ops 3/26/00 dtb
 {
 //printf("WorkNode->Len = %d\n", WorkNode->Len);
-		 xb_error(XB_PARSE_ERROR);
+       xb_error(XB_PARSE_ERROR);
 }
 
    memset( Operator, 0x00, 6 /*3*/ );  // changed for logical ops 3/26/00 dtb
@@ -273,7 +273,7 @@ xbShort xbExpn::ProcessOperator( xbShort RecBufSw )
    if( OpLen1 < WorkNode->DataLen+1 && WorkNode->Type != 'd' ) {
       if( OpLen1 > 0 ) free( Op1 );
       if(( Op1 = (char *) malloc( WorkNode->DataLen+1 )) == NULL ) {
-	      xb_memory_error;
+         xb_memory_error;
       }
       OpLen1 = WorkNode->DataLen+1;
    }
@@ -532,4 +532,4 @@ xbShort xbExpn::AlphaOperation( char * Operator )
    return XB_NO_ERROR;
 }
 /*************************************************************************/
-#endif  	//	XB_EXPRESSIONS
+#endif   // XB_EXPRESSIONS

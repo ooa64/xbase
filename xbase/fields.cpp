@@ -1,4 +1,4 @@
-/*  $Id: fields.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: fields.cpp,v 1.4 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -213,9 +213,9 @@ xbShort xbDbf::GetFieldNo( const char * name ) const
     \returns One of the following:
 */
 xbShort xbDbf::GetField(const char *Name, char *buf,
-			const xbShort RecBufSw ) const
+         const xbShort RecBufSw ) const
 {
-	return GetField(GetFieldNo(Name), buf, RecBufSw);
+   return GetField(GetFieldNo(Name), buf, RecBufSw);
 }
 
 //! Get the value of the specified field.
@@ -230,7 +230,7 @@ xbShort xbDbf::GetField(const char *Name, char *buf,
 */
 xbShort xbDbf::GetField(const char *Name, char *buf) const
 {
-	return GetField(GetFieldNo(Name), buf);
+   return GetField(GetFieldNo(Name), buf);
 }
 
 //! Get the raw value of the specified field.
@@ -245,7 +245,7 @@ xbShort xbDbf::GetField(const char *Name, char *buf) const
 */
 xbShort xbDbf::GetRawField(const char *Name, char *buf) const
 {
-	return GetRawField(GetFieldNo(Name), buf);
+   return GetRawField(GetFieldNo(Name), buf);
 }
 
 static char __buf[1024];
@@ -266,9 +266,9 @@ static void trim(char *s) {
     \returns Value of the specified field.
 */
 const char *xbDbf::GetField(const char *Name) const {
-	GetField(GetFieldNo(Name), __buf);
-	trim(__buf);
-	return __buf;
+   GetField(GetFieldNo(Name), __buf);
+   trim(__buf);
+   return __buf;
 }
 
 //! Get the value of the specified field.
@@ -278,9 +278,9 @@ const char *xbDbf::GetField(const char *Name) const {
     \returns Value of the specified field.
 */
 const char *xbDbf::GetField(xbShort FieldNo) const {
-	GetField(FieldNo, __buf);
-	trim(__buf);
-	return __buf;
+   GetField(FieldNo, __buf);
+   trim(__buf);
+   return __buf;
 }
 /************************************************************************/
 /* This function fills a buffer with data from the record buffer
@@ -303,7 +303,7 @@ const char *xbDbf::GetField(xbShort FieldNo) const {
     \returns The length of the field.
 */
 xbShort xbDbf::GetField(const xbShort FieldNo, char * buf, 
-			const xbShort RecBufSw) const
+         const xbShort RecBufSw) const
 {
      xbShort length = 0;        
      if( FieldNo < 0 || FieldNo >= NoOfFields ) {
@@ -331,7 +331,7 @@ xbShort xbDbf::GetField(const xbShort FieldNo, char * buf,
 /************************************************************************/
 
 xbShort xbDbf::GetField(const xbShort FieldNo, xbString & sf, 
-			const xbShort RecBufSw) const
+         const xbShort RecBufSw) const
 {
      xbShort length = 0;        
      if( FieldNo < 0 || FieldNo >= NoOfFields ) {
@@ -375,14 +375,14 @@ xbShort xbDbf::GetField(const xbShort FieldNo, xbString & sf,
 /*!
 */
 xbShort xbDbf::PutField(const char *Name, const char *buf) {
-	return PutField(GetFieldNo(Name), buf);
+   return PutField(GetFieldNo(Name), buf);
 }
 
 //! Put a raw value into the specified field.
 /*!
 */
 xbShort xbDbf::PutRawField(const char *Name, const char *buf) {
-	return PutRawField(GetFieldNo(Name), buf);
+   return PutRawField(GetFieldNo(Name), buf);
 }
 
 //! Put a value into the specified field.
@@ -391,8 +391,8 @@ xbShort xbDbf::PutRawField(const char *Name, const char *buf) {
 xbShort xbDbf::PutField(const xbShort FieldNo, const char *buf) {
    xbShort len, i;
    char * startpos;
-   char * tp;				/*  target pointer */
-   const char * sp;			/*  source pointer */
+   char * tp;           /*  target pointer */
+   const char * sp;        /*  source pointer */
 
    if( FieldNo < 0 || FieldNo >= NoOfFields )
       xb_error(XB_INVALID_FIELDNO);
@@ -432,12 +432,12 @@ xbShort xbDbf::PutField(const xbShort FieldNo, const char *buf) {
    if( SchemaPtr[FieldNo].Type == 'F' || SchemaPtr[FieldNo].Type == 'N' 
        || SchemaPtr[FieldNo].Type == 'M' 
      ) {
-	   const char *sdp = strchr( buf, '.' ); /*  source decimal point */
-	   len = 0;
-	   sp =buf;
-	   while( *sp && *sp != '.' ) { len++; sp++; }
-	   
-	   if( SchemaPtr[FieldNo].NoOfDecs > 0 )
+      const char *sdp = strchr( buf, '.' ); /*  source decimal point */
+      len = 0;
+      sp =buf;
+      while( *sp && *sp != '.' ) { len++; sp++; }
+      
+      if( SchemaPtr[FieldNo].NoOfDecs > 0 )
       {
          /* do the right of decimal area */
          tp = SchemaPtr[FieldNo].Address;
@@ -492,7 +492,7 @@ xbShort xbDbf::PutRawField(const xbShort FieldNo, const char *buf) {
 /*!
 */
 xbShort xbDbf::GetField(const xbShort FieldNo, char *buf) const {
-	return GetField(FieldNo, buf, 0);
+   return GetField(FieldNo, buf, 0);
 }
 
 /************************************************************************/
@@ -500,7 +500,7 @@ xbShort xbDbf::GetField(const xbShort FieldNo, char *buf) const {
 /*!
 */
 xbShort xbDbf::GetRawField(const xbShort FieldNo, char *buf) const {
-	return GetField(FieldNo, buf, 0);
+   return GetField(FieldNo, buf, 0);
 }
 
 /************************************************************************/

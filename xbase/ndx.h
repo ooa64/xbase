@@ -1,4 +1,4 @@
-/*  $Id: ndx.h,v 1.4 2000/09/28 17:34:29 dbryson Exp $
+/*  $Id: ndx.h,v 1.5 2000/10/31 00:59:48 dbryson Exp $
 
     Xbase project source code
 
@@ -76,7 +76,7 @@
 /*!
 */
 
-struct xbNdxHeadNode {			/* ndx header on disk */
+struct xbNdxHeadNode {        /* ndx header on disk */
    xbLong   StartNode;                    /* header node is node 0 */
    xbLong   TotalNodes;                   /* includes header node */
    xbLong   NoOfKeys;                     /* actual count + 1 */
@@ -98,7 +98,7 @@ struct xbNdxHeadNode {			/* ndx header on disk */
 /*!
 */
 
-struct xbNdxLeafNode {			/* ndx node on disk */
+struct xbNdxLeafNode {        /* ndx node on disk */
    xbLong   NoOfKeysThisNode;
 #ifndef XB_VAR_NODESIZE
    char   KeyRecs[XB_NDX_NODE_SIZE-4];
@@ -111,7 +111,7 @@ struct xbNdxLeafNode {			/* ndx node on disk */
 /*!
 */
 
-struct xbNdxNodeLink {			/* ndx node memory */
+struct xbNdxNodeLink {        /* ndx node memory */
    xbNdxNodeLink * PrevNode;
    xbNdxNodeLink * NextNode;
    xbLong       CurKeyNo;                 /* 0 - KeysPerNode-1 */
@@ -230,7 +230,7 @@ protected:
          return 1;
        return 0;
      }
-     else		/* key is numeric */
+     else      /* key is numeric */
      {
         d1 = dbf->xbase->GetDouble( Key1 );
         d2 = dbf->xbase->GetDouble( Key2 );
@@ -305,4 +305,4 @@ protected:
 //#endif
 
 };
-#endif		/* __XB_NDX_H__ */
+#endif      /* __XB_NDX_H__ */
