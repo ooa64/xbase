@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.7 2001/01/13 20:20:53 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.8 2001/02/20 17:54:15 dbryson Exp $
 
     Xbase project source code
    
@@ -656,7 +656,14 @@ xbShort xbDbf::CreateDatabase( const char * TableName, xbSchema * s,
    }
 #ifdef XB_MEMO_FIELDS
    if( MemoSw )
-      CreateMemoFile();
+      if((rc = CreateMemoFile()) != XB_NO_ERROR)
+      {
+        fclose(fp);
+        free(RecBuf);
+        free(RecBuf2);
+        InitVars();
+        xb_error(rc);
+      }
 #endif
 
    DbfStatus = XB_OPEN;
