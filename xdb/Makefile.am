@@ -22,17 +22,17 @@ lib_LTLIBRARIES = libxdb.la
 
 pkginclude_HEADERS = dbf.h exp.h html.h ndx.h options.h retcodes.h xbase.h \
 	xdate.h xstack.h xtypes.h xbexcept.h xbstring.h index.h ntx.h   \
-        xbconfig.h
+        xbconfig.h xbfilter.h
 
 install-data-hook:
 	(cd $(includedir); rm -f xbase.h; ln -s xbase/xbase.h xbase.h)
 
 libxdb_la_SOURCES = dbf.cpp exp.cpp expfunc.cpp expproc.cpp fields.cpp \
 	html.cpp lock.cpp memo.cpp ndx.cpp stack.cpp xbase.cpp xdate.cpp \
-	xbexcept.cpp xbstring.cpp index.cpp ntx.cpp
+	xbexcept.cpp xbstring.cpp index.cpp ntx.cpp xbfilter.cpp
 
 #libxdb_la_LDFLAGS = -version-info 0:0:0
-libxdb_la_LDFLAGS = -release 1.2.0
+libxdb_la_LDFLAGS = -release 2.0.0
 libxdb_la_LIBADD = 
 
 MAINTAINERCLEANFILES = Makefile.in stamp-h.in xbconfig.h.in
