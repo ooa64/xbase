@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.10 2002/12/17 03:03:56 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.11 2003/03/08 17:56:07 dbryson Exp $
 
     Xbase project source code
 
@@ -225,7 +225,6 @@ xbShort xbXBase::RemoveDbfFromDbfList(xbDbf *d) {
          FreeDbfList = i;
          free(FreeDbfList->DbfName);
          FreeDbfList->DbfName = NULL;
-         FreeDbfList->NextDbf = NULL; 
          break;
       } else {
          s = i;
