@@ -1,4 +1,4 @@
-/*  $Id: copydbf.cpp,v 1.2 2000/06/07 04:42:30 dbryson Exp $
+/*  $Id: copydbf.cpp,v 1.3 2000/06/07 04:50:59 dbryson Exp $
 
     Xbase project source code
 
@@ -25,7 +25,7 @@
 
 */
 
-#include <xbase/xbase.h>
+#include <xdb/xbase.h>
 
 int main(int ac,char** av)
 {

@@ -1,4 +1,4 @@
-/*  $Id: dumpdbt.cpp,v 1.2 2000/06/07 04:42:30 dbryson Exp $
+/*  $Id: dumpdbt.cpp,v 1.3 2000/06/07 04:50:59 dbryson Exp $
 
     Xbase project source code
 
@@ -28,7 +28,7 @@
     V 1.8   11/29/98   - Version 1.8 upgrade
 */
 
-#include <xbase/xbase.h>
+#include <xdb/xbase.h>
 
 int main( int ac, char **av )
 {

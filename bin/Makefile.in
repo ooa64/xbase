@@ -97,19 +97,19 @@ LDADD = -L$(topdir)/xdb/.libs -lxdb
 
 INSTALL_PROGRAM = @INSTALL@
 
-bin_PROGRAMS = checkndx copydbf deletall dumphdr dumprecs packdbf reindex                   undelall zap dbfutil1
+bin_PROGRAMS = checkndx copydbf dbfxtrct deletall dumphdr dumprecs packdbf                  reindex undelall zap dbfutil1
 
 
-noinst_PROGRAMS = dumpdbt locktest
+noinst_PROGRAMS = dumpdbt
 
 checkndx_SOURCES = checkndx.cpp 
 copydbf_SOURCES = copydbf.cpp 
+dbfxtrct_SOURCES = dbfxtrct.cpp
 dbfutil1_SOURCES = dbfutil1.cpp
 deletall_SOURCES = deletall.cpp 
 dumpdbt_SOURCES = dumpdbt.cpp 
 dumphdr_SOURCES = dumphdr.cpp 
 dumprecs_SOURCES = dumprecs.cpp 
-locktest_SOURCES = locktest.cpp 
 packdbf_SOURCES = packdbf.cpp 
 reindex_SOURCES = reindex.cpp 
 undelall_SOURCES = undelall.cpp
@@ -136,6 +136,10 @@ copydbf_OBJECTS =  copydbf.o
 copydbf_LDADD = $(LDADD)
 copydbf_DEPENDENCIES = 
 copydbf_LDFLAGS = 
+dbfxtrct_OBJECTS =  dbfxtrct.o
+dbfxtrct_LDADD = $(LDADD)
+dbfxtrct_DEPENDENCIES = 
+dbfxtrct_LDFLAGS = 
 deletall_OBJECTS =  deletall.o
 deletall_LDADD = $(LDADD)
 deletall_DEPENDENCIES = 
@@ -172,10 +176,6 @@ dumpdbt_OBJECTS =  dumpdbt.o
 dumpdbt_LDADD = $(LDADD)
 dumpdbt_DEPENDENCIES = 
 dumpdbt_LDFLAGS = 
-locktest_OBJECTS =  locktest.o
-locktest_LDADD = $(LDADD)
-locktest_DEPENDENCIES = 
-locktest_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -191,11 +191,11 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/checkndx.P .deps/copydbf.P .deps/dbfutil1.P \
-.deps/deletall.P .deps/dumpdbt.P .deps/dumphdr.P .deps/dumprecs.P \
-.deps/locktest.P .deps/packdbf.P .deps/reindex.P .deps/undelall.P \
+.deps/dbfxtrct.P .deps/deletall.P .deps/dumpdbt.P .deps/dumphdr.P \
+.deps/dumprecs.P .deps/packdbf.P .deps/reindex.P .deps/undelall.P \
 .deps/zap.P
-SOURCES = $(checkndx_SOURCES) $(copydbf_SOURCES) $(deletall_SOURCES) $(dumphdr_SOURCES) $(dumprecs_SOURCES) $(packdbf_SOURCES) $(reindex_SOURCES) $(undelall_SOURCES) $(zap_SOURCES) $(dbfutil1_SOURCES) $(dumpdbt_SOURCES) $(locktest_SOURCES)
-OBJECTS = $(checkndx_OBJECTS) $(copydbf_OBJECTS) $(deletall_OBJECTS) $(dumphdr_OBJECTS) $(dumprecs_OBJECTS) $(packdbf_OBJECTS) $(reindex_OBJECTS) $(undelall_OBJECTS) $(zap_OBJECTS) $(dbfutil1_OBJECTS) $(dumpdbt_OBJECTS) $(locktest_OBJECTS)
+SOURCES = $(checkndx_SOURCES) $(copydbf_SOURCES) $(dbfxtrct_SOURCES) $(deletall_SOURCES) $(dumphdr_SOURCES) $(dumprecs_SOURCES) $(packdbf_SOURCES) $(reindex_SOURCES) $(undelall_SOURCES) $(zap_SOURCES) $(dbfutil1_SOURCES) $(dumpdbt_SOURCES)
+OBJECTS = $(checkndx_OBJECTS) $(copydbf_OBJECTS) $(dbfxtrct_OBJECTS) $(deletall_OBJECTS) $(dumphdr_OBJECTS) $(dumprecs_OBJECTS) $(packdbf_OBJECTS) $(reindex_OBJECTS) $(undelall_OBJECTS) $(zap_OBJECTS) $(dbfutil1_OBJECTS) $(dumpdbt_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -282,6 +282,10 @@ copydbf: $(copydbf_OBJECTS) $(copydbf_DEPENDENCIES)
 	@rm -f copydbf
 	$(CXXLINK) $(copydbf_LDFLAGS) $(copydbf_OBJECTS) $(copydbf_LDADD) $(LIBS)
 
+dbfxtrct: $(dbfxtrct_OBJECTS) $(dbfxtrct_DEPENDENCIES)
+	@rm -f dbfxtrct
+	$(CXXLINK) $(dbfxtrct_LDFLAGS) $(dbfxtrct_OBJECTS) $(dbfxtrct_LDADD) $(LIBS)
+
 deletall: $(deletall_OBJECTS) $(deletall_DEPENDENCIES)
 	@rm -f deletall
 	$(CXXLINK) $(deletall_LDFLAGS) $(deletall_OBJECTS) $(deletall_LDADD) $(LIBS)
@@ -317,10 +321,6 @@ dbfutil1: $(dbfutil1_OBJECTS) $(dbfutil1_DEPENDENCIES)
 dumpdbt: $(dumpdbt_OBJECTS) $(dumpdbt_DEPENDENCIES)
 	@rm -f dumpdbt
 	$(CXXLINK) $(dumpdbt_LDFLAGS) $(dumpdbt_OBJECTS) $(dumpdbt_LDADD) $(LIBS)
-
-locktest: $(locktest_OBJECTS) $(locktest_DEPENDENCIES)
-	@rm -f locktest
-	$(CXXLINK) $(locktest_LDFLAGS) $(locktest_OBJECTS) $(locktest_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 .cpp.lo:
