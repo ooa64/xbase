@@ -1,4 +1,4 @@
-/*  $Id: sample4.cpp,v 1.1 2000/06/01 06:06:19 dbryson Exp $
+/*  $Id: sample4.cpp,v 1.2 2000/06/07 03:32:03 dbryson Exp $
 
     Xbase project source code
 
@@ -32,7 +32,7 @@
     V 1.8   11/29/98   - Version 1.8 upgrade
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 #ifdef __XBDOS
 #include <stdio.h>
@@ -44,19 +44,16 @@ int main()
   xbShort rc;
   xbXBase x;
   xbDbf MyFile( &x );
-#ifdef XB_INDEX_NDX
   xbNdx MyIndex1( &MyFile );
   xbNdx MyIndex2( &MyFile );
   xbNdx MyIndex3( &MyFile );
   xbNdx MyIndex4( &MyFile );
-#endif // XB_INDEX_NDX
 
   if(( rc = MyFile.OpenDatabase( "MYFILE.DBF" )) != XB_NO_ERROR )
   {
      cout << "\nError opening file rc = " << rc << "\n";
      exit(1);
   }
-#ifdef XB_INDEX_NDX
   if(( rc = MyIndex1.OpenIndex( "MYINDEX1.NDX" )) != XB_NO_ERROR )
   {
      cout << "\nError opening index1 rc = " << rc << "\n";
@@ -78,7 +75,6 @@ int main()
      cout << "\nError opening index4 rc = " << rc << "\n";
      exit(1);
   }
-#endif // XB_INDEX_NDX
 
 
   cout << "Sample GetRecord\n"; 

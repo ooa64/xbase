@@ -1,0 +1,16 @@
+#! /bin/bash
+#
+#  XBase Sample Report Script
+#
+echo Extract report data 
+../bin/dbfxtrct -iMYFILE.DBF -dMMM-DD-YYYY > myfile.dat
+#
+echo Generating report
+awk -freport.awk myfile.dat > report.out
+#
+echo Printing report
+cat report.out
+#
+echo Deleting work files
+rm -f myfile.dat
+rm -f report.out

@@ -1,4 +1,4 @@
-/*  $Id: sample3.cpp,v 1.1 2000/06/01 06:06:19 dbryson Exp $
+/*  $Id: sample3.cpp,v 1.2 2000/06/07 03:32:03 dbryson Exp $
 
     Xbase project source code
 
@@ -34,7 +34,7 @@
     V 1.8    11/29/98    - Version 1.8 upgrade 
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS
@@ -64,26 +64,25 @@ int main()
   memo      = MyFile.GetFieldNo( "MEMO1" );
 
   cout << "\nThere are " << MyFile.FieldCount() << " fields in the file";
-
-  cout << "\nSample NoOfRecs" << endl;
   recs = MyFile.NoOfRecords();
   cout << "There are " << recs << " records in the file." << endl;  
 
-  cout << "\nLASTNAME  is type: " << MyFile.GetFieldType( lname )
+  cout << "\nLASTNAME   is type: " << MyFile.GetFieldType( lname )
    << " length: " << MyFile.GetFieldLen( lname );
   cout << "\nFIRSTNAME  is type: " << MyFile.GetFieldType( fname )
    << " length: " << MyFile.GetFieldLen( fname );
-  cout << "\nBIRTHDATE is type: " << MyFile.GetFieldType( birthdate )
+  cout << "\nBIRTHDATE  is type: " << MyFile.GetFieldType( birthdate )
    << " length: " << MyFile.GetFieldLen( birthdate );
-  cout << "\nAMOUNT    is type: " << MyFile.GetFieldType( amount )
+  cout << "\nAMOUNT     is type: " << MyFile.GetFieldType( amount )
    << " length: " << MyFile.GetFieldLen( amount );
-  cout << "\nSWITCH    is type: " << MyFile.GetFieldType( sw )
+  cout << "\nSWITCH     is type: " << MyFile.GetFieldType( sw )
    << " length: " << MyFile.GetFieldLen( sw ) << "\n\n";
 
   cout << "Sample GetRecord" << endl; 
   MyFile.GetRecord( 1L );
   MyFile.GetField( lname, buf );  
   cout << "Name 1 = " << buf << endl;
+  cout << "Name 1 = " << MyFile.GetStringField( lname ) << endl;
 
   f = MyFile.GetFloatField( f1 );
   cout << "FLOAT1 = " << f << endl;

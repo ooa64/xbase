@@ -1,4 +1,4 @@
-/*  $Id: testdate.cpp,v 1.1 2000/06/01 06:06:22 dbryson Exp $
+/*  $Id: testdate.cpp,v 1.2 2000/06/07 03:32:03 dbryson Exp $
 
     Xbase project source code
 
@@ -26,59 +26,157 @@
     V 1.5   1/2/98     - Added memo field support
     V 1.6a  5/1/98     - Added expression support
     V 1.8   11/29/98   - Version 1.8 upgrade
+    V 1.9   7/10/99    - CPP ified the date class
+
+
+    This program tests and demonstrates usage of the various xbDate methods
+
+    Several of the tests pass either StringDate or Chardate to the method 
+    being tested - this is done to test the class methods.  In actual usage, 
+    this may not be necessary due to the instance of the class already 
+    containing a date value.  
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 int main()
 {
-   xbXBase x;
-   long l;
+   xbString StringDate( "19601007" );      /* oct 7 1960 */
+   char     CharDate[9] = "19611109";      /* nov 9 1961 */
+
+   xbDate d1;                              /* today is default   */
+   xbDate d2( StringDate );                /* from string data   */ 
+   xbDate d3( CharDate );                  /* from char data     */
+   xbDate d4;                              /* another date class */
 
    cout << "This program tests the XDATE routines" << endl;
+   cout << "Date 1 (Sysdate) is    " << d1.GetDate() << endl;
+   cout << "Date 2 (StringDate) is " << d2.GetDate() << endl;
+   cout << "Date 3 (CharDate) is   " << d3.GetDate() << endl;
 
-   cout << "\nThis year is  " << x.YearOf ( x.Sysdate() );
-   cout << "\nThis Month is " << x.MonthOf( x.Sysdate() );
-   cout << "\nToday is day " << x.DayOf( XB_FMT_WEEK, x.Sysdate()) << "  of the week"; 
-   cout << "\nToday is day " << x.DayOf( XB_FMT_MONTH, x.Sysdate()) << " of the month";
-   cout << "\nToday is day " << x.DayOf( XB_FMT_YEAR, x.Sysdate()) << " of the year";
+   cout << "This year is  " << d1.YearOf() << endl;
+   cout << "Year of xbString Date is " <<  d2.YearOf( StringDate ) << endl;
+   cout << "Year of char Date is "     <<  d3.YearOf( CharDate ) << endl;
 
-   if( x.IsLeapYear( x.Sysdate()))
-      cout << "\nThis is a leapyear";
+   cout << "This Month is " << d1.MonthOf() << endl;
+   cout << "Month of xbString Date is " <<  d2.MonthOf( StringDate ) << endl;
+   cout << "Month of char Date is "     <<  d3.MonthOf( CharDate ) << endl;
+
+   cout << "Today is day " << d1.DayOf( XB_FMT_WEEK ) << " of the week" << endl; 
+   cout << "StringDate is day " << d2.DayOf( XB_FMT_MONTH, StringDate ) << " of the month" << endl;
+   cout << "CharDate is day " << d3.DayOf( XB_FMT_YEAR, CharDate ) << " of the year" << endl;
+
+   if( d1.IsLeapYear())
+      cout << "This is a leapyear" << endl;
    else
-      cout << "\nThis is not a leap year."; 
-
-   cout << "\nToday is " << x.Sysdate();
-
-   if( x.DateIsValid( "19951301" ))
-      cout << "\n19951301 is a valid date";
+      cout << "This is not a leap year." << endl;
+ 
+   if( d2.IsLeapYear( StringDate ))
+      cout << "StringDate is a leapyear" << endl;
    else
-      cout << "\n19951301 is not a valid date";
+      cout << "StringDate is not a leap year." << endl;
+ 
+   if( d3.IsLeapYear( CharDate ))
+      cout << "CharDate is a leapyear" << endl;
+   else
+      cout << "CharDate is not a leap year." << endl;
+ 
+   cout << "Today is " << d1.Sysdate() << endl;
 
-   l =  x.JulianDays( "19951101" ) - x.JulianDays( "19951001" );
+   if( d1.DateIsValid( "19951301" ))
+      cout << "19951301 is a valid date" << endl;
+   else
+      cout << "19951301 is not a valid date" << endl;
 
-   cout << "\nThere are " << l
-        << " days between 10/1/95 and 11/1/95.";
+   if( d1.DateIsValid( "19920229" ))
+      cout << "19920229 is a valid date" << endl;
+   else
+      cout << "19920229 is not a valid date" << endl;
 
-   cout << "\nIn 7 days it will be "  
-        << x.JulToDate8( x.JulianDays( x.Sysdate()) + 7L );
+   if( d2.DateIsValid( StringDate ))
+      cout << StringDate << " is a valid date" << endl;
+   else
+      cout << StringDate << " is not a valid date" << endl;
 
-   cout << "\nToday is " << x.CharDayOf( x.Sysdate());
-   cout << "\nThis month is " << x.CharMonthOf( x.Sysdate());
+   cout << "Today's Julian date " << d1.JulianDays() << endl;
+   cout << "StringDate Julian date " << d2.JulianDays( StringDate ) << endl;
 
-   cout << "\nFormat (YYDDD)              " << x.FormatDate( "YYDDD", x.Sysdate());
-   cout << "\nFormat (MM/DD/YY)           " << x.FormatDate( "MM/DD/YY", x.Sysdate());
-   cout << "\nFormat (MMMM DD,YYYY)       " << x.FormatDate( "MMMM DD,YYYY", x.Sysdate());
-   cout << "\nFormat (DDDD, MMMM DD YYYY) " << x.FormatDate( "DDDD, MMMM DD YYYY", x.Sysdate());
+   cout << "There are " << 
+        ( d1.JulianDays( "19951101" ) - d1.JulianDays( "19951001" ))
+        << " days between 10/1/95 and 11/1/95." << endl;
 
-   cout << "\nDefault DateFormat is       " << x.GetDefaultDateFormat();
-   //cout << "  " << x.DTOC( x.Sysdate() );
-   cout << "\nSetting DefaultDateFormat to DD/MM/YY";
-   x.SetDefaultDateFormat( "DD/MM/YY" );
-   cout << "\nDefault DateFormat is now   " << x.GetDefaultDateFormat();
-   //cout << "  " << x.DTOC( x.Sysdate() );
+   cout << "Todays Julian date (Number of days since Jan 1 0100):"
+        << d1.JulianDays() << endl; 
 
-   cout << "\n";
+   d4 = d1;    // set d4 class = to sysdate 
+   cout << "Object d4 initialized to " << d4.GetDate() << endl;
+   cout << "This should be todays date: "  
+        << d4.JulToDate8(d4.JulianDays()) << endl;
+   cout << "In 7 days it will be "  
+        << d4.JulToDate8(d4.JulianDays() + 7L ) << endl;
+
+   cout << "Today is " << d1.CharDayOf() << endl;
+   cout << "StringDate day is " << d2.CharDayOf( StringDate ) << endl;
+   cout << "This month is " << d1.CharMonthOf() << endl;
+   cout << "StringDate month is " << d2.CharMonthOf() << endl;
+
+
+   /* various format routines using different formats, strings and chars */
+   xbString xbStFmt( "MM/DD/YY" );
+   cout << "Format (YYDDD)     " << d1.FormatDate( "YYDDD" ) << endl;
+   cout << "Format (MM/DD/YY)  " << d1.FormatDate( xbStFmt ) << endl;
+   xbStFmt = "DD/MM/YY";
+   cout << "Format (DD/MM/YY)  " << d1.FormatDate(xbStFmt, "19730110") << endl;
+   cout << "Format (MMMM DD,YYYY)    " <<
+      d1.FormatDate( "MMMM DD,YYYY", d1.GetDate()) << endl;
+   xbStFmt = "DDDD, MMMM DD YYYY";
+   cout << "Format (DDDD, MMMM DD YYYY) " <<
+      d2.FormatDate( xbStFmt, d2.GetDate()) << endl;
+
+   cout << "Last day this month " << d1.LastDayOfMonth() << endl;
+   cout << "Last day of month for StringDate is " <<
+      d2.LastDayOfMonth( d2.GetDate()) << endl;
+
+   cout << "Overloaded operators test..." << endl;
+
+   if( d1 == d2 )
+     cout << d1.GetDate() << " is equal to " << d2.GetDate() << endl;
+   else
+     cout << d1.GetDate() << " is not equal to " << d2.GetDate() << endl;
+
+   if( d1 != d3 )
+     cout << d1.GetDate() << " is not equal to " << d3.GetDate() << endl;
+   else
+     cout << d1.GetDate() << " is equal to " << d3.GetDate() << endl;
+     
+   if( d1 < d2 )
+     cout << d1.GetDate() << " is less than " << d2.GetDate() << endl;
+   else
+     cout << d1.GetDate() << " is not less than " << d2.GetDate() << endl;
+     
+   if( d1 > d2 )
+     cout << d1.GetDate() << " is greater than " << d2.GetDate() << endl;
+   else
+     cout << d1.GetDate() << " is not greater than " << d2.GetDate() << endl;
+     
+   if( d1 <= d2 )
+     cout << d1.GetDate() << " is less than or equal to " << d2.GetDate() << endl;
+   else
+     cout << d1.GetDate() << " is not less than or equal to " << d2.GetDate() << endl;
+     
+   if( d1 >= d2 )
+     cout << d1.GetDate() << " is greater than or equal to " << d2.GetDate() << endl;
+   else
+     cout << d1.GetDate() << " is not greater than or equal to " << d2.GetDate() << endl;
+
+   d1.Sysdate();
+   d1++;
+   cout << "Tomorrow is " << d1.GetDate() << endl;
+   d1-=2;
+   cout << "Yesterday was " << d1.GetDate() << endl;
+   cout << "There are " << d1 - d2 << " days between " << d1.GetDate() 
+        << " and " << d2.GetDate() << endl;
+
    return 0;
 }
     

@@ -1,4 +1,4 @@
-/*  $Id: sample5.cpp,v 1.1 2000/06/01 06:06:21 dbryson Exp $
+/*  $Id: sample5.cpp,v 1.2 2000/06/07 03:32:03 dbryson Exp $
 
     Xbase project source code
 
@@ -26,7 +26,7 @@
     V 1.8   1/29/99    - V1.8 upgrade
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS
@@ -39,17 +39,14 @@ int main()
    xbShort rc;     /* return code */
    xbXBase x;
    xbDbf d( &x );
-#ifdef XB_INDEX_NDX
    xbNdx i1( &d );
    xbNdx i2( &d );
    xbNdx i3( &d );
    xbNdx i4( &d );
-#endif // XB_INDEX_NDX
 
    rc = d.OpenDatabase( "MYFILE" );
    cout << "OpenDatabase rc = " << rc << "\n";
 
-#ifdef XB_INDEX_NDX
    rc = i1.OpenIndex( "MYINDEX1" );
    cout << "OpenIndex 1 rc = " << rc << "\n";
 
@@ -79,7 +76,6 @@ int main()
 
    rc = i1.GetPrevKey();
    cout << "GetPrevKey rc = " << rc << "\n";
-#endif // XB_INDEX_NDX
 
    d.CloseDatabase();
    return 0;

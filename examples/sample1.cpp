@@ -1,4 +1,4 @@
-/*  $Id: sample1.cpp,v 1.1 2000/06/01 06:06:15 dbryson Exp $
+/*  $Id: sample1.cpp,v 1.2 2000/06/07 03:32:03 dbryson Exp $
 
     Xbase project source code
 
@@ -28,7 +28,7 @@
     V 1.8   11/29/98   - Version 1.8 upgrade 
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS
@@ -58,12 +58,10 @@ int main()
   /* define the classes */
   xbXBase x;			/* initialize xbase  */
   xbDbf MyFile( &x );		/* class for table   */
-#ifdef XB_INDEX_NDX
   xbNdx MyIndex1( &MyFile );	/* class for index 1 */
   xbNdx MyIndex2( &MyFile );	/* class for index 2 */
   xbNdx MyIndex3( &MyFile );	/* class for index 3 */
   xbNdx MyIndex4( &MyFile );	/* class for index 4 */
-#endif // XB_INDEX_NDX
 
 
   xbShort rc;
@@ -75,7 +73,7 @@ int main()
   else
   {
      /* define a simple index */
-#ifdef XB_INDEX_NDX
+
      if(( rc = MyIndex1.CreateIndex( 
        "MYINDEX1.NDX", "LASTNAME", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
         cout << "\nError creating index 1 = " << rc << "\n";
@@ -94,7 +92,6 @@ int main()
      if(( rc = MyIndex4.CreateIndex( 
        "MYINDEX4.NDX", "ZIPCODE", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
         cout << "\nError creating index 4 = " << rc << "\n";
-#endif // XB_INDEX_NDX
   }
 
   MyFile.CloseDatabase();   /* Close database and associated indexes */

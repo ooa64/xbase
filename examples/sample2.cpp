@@ -1,4 +1,4 @@
-/*  $Id: sample2.cpp,v 1.1 2000/06/01 06:06:18 dbryson Exp $
+/*  $Id: sample2.cpp,v 1.2 2000/06/07 03:32:03 dbryson Exp $
 
     Xbase project source code
 
@@ -31,9 +31,10 @@
     V 1.5   1/2/98     - Added memo field support
     V 1.6a  5/1/98     - Added expression support
     V 1.8   11/29/98   - Version 1.8 upgrade
+    V 1.9.1 8/18/99    - Modifications to xbDate class
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS
@@ -48,15 +49,15 @@ int main()
 
   xbXBase x;
   xbDbf MyFile( &x );
-#ifdef XB_INDEX_NDX
   xbNdx MyIndex1( &MyFile );
   xbNdx MyIndex2( &MyFile );
   xbNdx MyIndex3( &MyFile );
   xbNdx MyIndex4( &MyFile );
-#endif // XB_INDEX_NDX
+
+  xbDate d;
+
 
   MyFile.OpenDatabase( "MYFILE.DBF" );
-#ifdef XB_INDEX_NDX
   if(( rc = MyIndex1.OpenIndex( "MYINDEX1.NDX" )) != XB_NO_ERROR )
      cout << "\nError opening index1 rc=" << rc;
   if(( rc = MyIndex2.OpenIndex( "MYINDEX2.NDX" )) != XB_NO_ERROR )
@@ -65,7 +66,6 @@ int main()
      cout << "\nError opening index3 rc=" << rc;
   if(( rc = MyIndex4.OpenIndex( "MYINDEX4.NDX" )) != XB_NO_ERROR )
      cout << "\nError opening index4 rc=" << rc;
-#endif // XB_INDEX_NDX
 
   lname     = MyFile.GetFieldNo( "LASTNAME" );
   fname     = MyFile.GetFieldNo( "FIRSTNAME" ); 
@@ -97,7 +97,7 @@ int main()
   MyFile.BlankRecord();			/* blank out the record buffer */
   MyFile.PutField( lname, "Queue" );			/* a name */
   MyFile.PutField( fname, "Suzy" );			/* a name */
-  MyFile.PutField( birthdate, x.Sysdate());		/* a date */
+  MyFile.PutField( birthdate, d.Sysdate());		/* a date */
   MyFile.PutField( amount, "99.99" );			/* an amount */
   MyFile.PutField( sw, "Y" );				/* a switch */
   f = 1.466f;

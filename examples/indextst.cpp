@@ -1,4 +1,4 @@
-/*  $Id: indextst.cpp,v 1.1 2000/06/01 06:06:27 dbryson Exp $
+/*  $Id: indextst.cpp,v 1.2 2000/06/07 03:32:03 dbryson Exp $
 
     Xbase project source code
 
@@ -29,7 +29,7 @@
     V 1.8   11/29/98   - Version 1.8 upgrade 
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS
@@ -55,18 +55,12 @@ main()
   /* define the classes */
   xbXBase x;			/* initialize xbase  */
   xbDbf MyFile( &x );		/* class for table   */
-#ifdef XB_INDEX_ANY
-#ifdef XB_INDEX_NDX
   xbNdx indx1( &MyFile );	/* class for ndx index 1 */
   xbNdx indx2( &MyFile );	/* class for ndx index 2 */
   xbNdx indx3( &MyFile );	/* class for ndx index 3 */
-#endif // XB_INDEX_NDX
-#ifdef XB_INDEX_NTX
   xbNtx intx1( &MyFile );	/* class for ntx index 1 */
   xbNtx intx2( &MyFile );	/* class for ntx index 2 */
   xbNtx intx3( &MyFile );	/* class for ntx index 3 */
-#endif // XB_INDEX_NTX
-#endif // XB_INDEX_ANY
 
   cout << "Creating test database and indices" << endl;
   if(( rc = MyFile.CreateDatabase( "IXTEST.DBF", MyRecord, XB_OVERLAY )) 
@@ -74,8 +68,7 @@ main()
      cout << "Error creating database = " << rc << "\n";
   else
   {
-#ifdef XB_INDEX_ANY
-#ifdef XB_INDEX_NDX  
+  
      if(( rc = indx1.CreateIndex( 
        "IXNDX1.NDX", "CHARFLD1", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
@@ -96,9 +89,7 @@ main()
         cout << "Error creating index 3 = " << rc << endl;
         exit( 1 );
      }
-#endif // XB_INDEX_NDX
 
-#ifdef XB_INDEX_NTX
      if(( rc = intx1.CreateIndex( 
        "IXNTX1.NTX", "CHARFLD1", XB_NOT_UNIQUE, XB_OVERLAY )) != XB_NO_ERROR )
      {
@@ -119,8 +110,7 @@ main()
         cout << "Error creating index 6 = " << rc << endl;
         exit( 1 );
      }
-#endif // XB_INDEX_NTX
-#endif // XB_INDEX_ANY
+
   }
 
   f1 = MyFile.GetFieldNo( "CHARFLD1" );
@@ -138,8 +128,6 @@ main()
     MyFile.AppendRecord();
   }
 
-#ifdef XB_INDEX_ANY
-#ifdef XB_INDEX_NDX
   cout << "Testing NDX index 1" << endl;
   if(( rc = indx1.CheckIndexIntegrity(0)) != XB_NO_ERROR ){
     cout << "Error " << rc << " with index indx1" << endl;
@@ -157,9 +145,7 @@ main()
     cout << "Error " << rc << " with index indx3" << endl;
     sts++;
   }
-#endif
 
-#ifdef XB_INDEX_NTX
   cout << "Testing NTX index 1" << endl;
   if(( rc = intx1.CheckIndexIntegrity(1)) != XB_NO_ERROR ){
     cout << "Error " << rc << " with index intx1" << endl;
@@ -177,8 +163,6 @@ main()
     cout << "Error " << rc << " with index intx3" << endl;
     sts++;
   }
-#endif // XB_INDEX_NTX
-#endif // XB_INDEX_ANY
 
   cout << "Index testing completed" << endl;
   MyFile.CloseDatabase();   /* Close database and associated indexes */
