@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.4 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.5 2000/06/21 04:38:40 dbryson Exp $
 
     Xbase project source code
 
@@ -59,6 +59,9 @@
 #define USE_BSEARCH
 
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbNdx::CloneNodeChain()
 {
    xbNdxNodeLink * TempNodeS;
@@ -95,6 +98,9 @@ xbShort xbNdx::CloneNodeChain()
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbNdx::UncloneNodeChain()
 {
    if( NodeChain )
@@ -107,6 +113,9 @@ xbShort xbNdx::UncloneNodeChain()
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 /* This routine dumps the node chain to stdout                         */
 #ifdef XBASE_DEBUG
 void xbNdx::DumpNodeChain()
@@ -137,6 +146,10 @@ void xbNdx::DumpNodeChain()
 }
 #endif
 /***********************************************************************/
+//! Short description
+/*!
+  \param n
+*/
 /* This routine returns a chain of one or more index nodes back to the */
 /* free node chain                                                     */
 
@@ -156,6 +169,9 @@ void xbNdx::ReleaseNodeMemory( xbNdxNodeLink * n )
    return;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 /* This routine returns a node from the free chain if available,       */
 /* otherwise it allocates new memory for the requested node             */
 
@@ -177,6 +193,9 @@ xbNdxNodeLink * xbNdx::GetNodeMemory( void )
    return temp;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 #ifdef XBASE_DEBUG
 void xbNdx::DumpHdrNode()
 {
@@ -214,6 +233,10 @@ void xbNdx::DumpHdrNode()
 }
 #endif
 /***********************************************************************/
+//! Short description
+/*!
+  \param pdbf
+*/
 xbNdx::xbNdx(xbDbf *pdbf) : xbIndex(pdbf) {
 #ifndef XB_VAR_NODESIZE
    memset( Node, 0x00, XB_NDX_NODE_SIZE );
@@ -235,6 +258,10 @@ xbNdx::xbNdx(xbDbf *pdbf) : xbIndex(pdbf) {
 #endif // XB_VAR_NODESIZE
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param FileName
+*/
 xbShort xbNdx::OpenIndex( const char * FileName )
 {
    int NameLen, rc;
@@ -309,6 +336,9 @@ xbShort xbNdx::OpenIndex( const char * FileName )
    return rc;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbNdx::CloseIndex( void )
 {
    if( KeyBuf )    { free ( KeyBuf );    KeyBuf = NULL;    }
@@ -320,6 +350,9 @@ xbShort xbNdx::CloseIndex( void )
    return 0;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbNdx::GetHeadNode( void )
 {
    char *p, *q;
@@ -368,6 +401,11 @@ xbShort xbNdx::GetHeadNode( void )
    return 0;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param NodeNo
+  \param SetNodeChain
+*/
 /* This routine reads a leaf node from disk                            */
 /*                                                                     */
 /*  If SetNodeChain 2, then the node is not appended to the node chain */
@@ -420,6 +458,10 @@ xbShort xbNdx::GetLeafNode( xbLong NodeNo, xbShort SetNodeChain )
    return 0;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param n
+*/
 #ifdef XBASE_DEBUG
 void xbNdx::DumpNodeRec( xbLong n )
 {
@@ -475,6 +517,11 @@ xbLong xbNdx::GetDbfNo( xbShort RecNo, xbNdxNodeLink * n )
 }
 #endif
 /***********************************************************************/
+//! Short description
+/*!
+  \param RecNo
+  \param n
+*/
 xbLong xbNdx::GetLeftNodeNo( xbShort RecNo, xbNdxNodeLink * n )
 {
    xbNdxLeafNode *temp;
@@ -487,6 +534,11 @@ xbLong xbNdx::GetLeftNodeNo( xbShort RecNo, xbNdxNodeLink * n )
    return( dbf->xbase->GetLong( p ));
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param RecNo
+  \param n
+*/
 char * xbNdx::GetKeyData( xbShort RecNo, xbNdxNodeLink * n )
 {
    xbNdxLeafNode *temp;
@@ -499,6 +551,9 @@ char * xbNdx::GetKeyData( xbShort RecNo, xbNdxNodeLink * n )
    return( p );
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbLong xbNdx::GetTotalNodes( void ) 
 {
    if( &HeadNode )
@@ -507,6 +562,9 @@ xbLong xbNdx::GetTotalNodes( void )
       return 0L;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbUShort xbNdx::GetKeysPerNode( void ) 
 {
    if( &HeadNode )
@@ -515,6 +573,10 @@ xbUShort xbNdx::GetKeysPerNode( void )
       return 0L;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param RetrieveSw
+*/
 xbShort xbNdx::GetFirstKey( xbShort RetrieveSw )
 {
 /* This routine returns 0 on success and sets CurDbfRec to the record  */
@@ -583,6 +645,10 @@ xbShort xbNdx::GetFirstKey( xbShort RetrieveSw )
       return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param RetrieveSw
+*/
 xbShort xbNdx::GetNextKey( xbShort RetrieveSw )
 {
 /* This routine returns 0 on success and sets CurDbfRec to the record  */
@@ -708,6 +774,11 @@ xbShort xbNdx::GetNextKey( xbShort RetrieveSw )
       return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param NodeNo
+  \param RetrieveSw
+*/
 xbShort xbNdx::GetLastKey( xbLong NodeNo, xbShort RetrieveSw )
 {
 /* This routine returns 0 on success and sets CurDbfRec to the record  */
@@ -795,6 +866,10 @@ xbShort xbNdx::GetLastKey( xbLong NodeNo, xbShort RetrieveSw )
       return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param RetrieveSw
+*/
 xbShort xbNdx::GetPrevKey( xbShort RetrieveSw )
 {
 /* This routine returns 0 on success and sets CurDbfRec to the record  */
@@ -921,6 +996,12 @@ xbShort xbNdx::GetPrevKey( xbShort RetrieveSw )
 
 #if 0
 /***********************************************************************/
+//! Short description
+/*!
+  \param Key1
+  \param Key2
+  \param Klen
+*/
 xbShort xbNdx::CompareKey( const char * Key1, const char * Key2, xbShort Klen )
 {
 /*   if key1 = key2  --> return 0      */
@@ -970,6 +1051,13 @@ xbShort xbNdx::CompareKey( const char * Key1, const char * Key2, xbShort Klen )
 #endif
 
 /*************************************************************************
+//! Short description
+/*!
+  \param key
+  \param klen
+  \param node
+  \param comp
+*/
 **
 **  This is a pretty basic binary search with two exceptions:  1) it will
 **  find the first of duplicate key values and 2) will return the index
@@ -1023,6 +1111,11 @@ xbNdx::BSearchNode(const char *key, xbShort klen, const xbNdxNodeLink *node,
 }
 
 /***********************************************************************/
+//! Short description
+/*!
+  \param Tkey
+  \param Klen
+*/
 xbLong xbNdx::GetLeafFromInteriorNode( const char * Tkey, xbShort Klen )
 {
    /* This function scans an interior node for a key and returns the   */
@@ -1054,6 +1147,10 @@ xbLong xbNdx::GetLeafFromInteriorNode( const char * Tkey, xbShort Klen )
    return GetLeftNodeNo( p, CurNode );
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param d
+*/
 xbShort xbNdx::KeyExists( xbDouble d )
 {
    char buf[9];
@@ -1062,6 +1159,10 @@ xbShort xbNdx::KeyExists( xbDouble d )
    return FindKey( buf, 8, 0 );
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param d
+*/
 xbShort xbNdx::FindKey( xbDouble d )
 {
    char buf[9];
@@ -1070,11 +1171,20 @@ xbShort xbNdx::FindKey( xbDouble d )
    return FindKey( buf, 8, 1 );
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param Key
+*/
 xbShort xbNdx::FindKey( const char * Key )
 {
    return FindKey( Key, strlen( Key ), 1 );
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param Tkey
+  \param DbfRec
+*/
 xbShort xbNdx::FindKey( const char * Tkey, xbLong DbfRec )
 {
    /* find a key with a specifc DBF record number */
@@ -1140,12 +1250,21 @@ xbShort xbNdx::FindKey( const char * Tkey, xbLong DbfRec )
 	 return XB_NOT_FOUND;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbNdx::FindKey( void )
 {
    /* if no paramaters given, use KeyBuf */
    return( FindKey( KeyBuf, HeadNode.KeyLen, 0 ));
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param Tkey
+  \param Klen
+  \param RetrieveSw
+*/
 xbShort xbNdx::FindKey( const char * Tkey, xbShort Klen, xbShort RetrieveSw )
 {
    /* This routine sets the current key to the found key */
@@ -1277,6 +1396,9 @@ xbShort xbNdx::FindKey( const char * Tkey, xbShort Klen, xbShort RetrieveSw )
    return XB_NOT_FOUND;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbNdx::CalcKeyLen( void )
 {
    xbShort rc;
@@ -1317,6 +1439,13 @@ xbShort xbNdx::CalcKeyLen( void )
    return rc;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param IxName
+  \param Exp
+  \param Unique
+  \param Overlay
+*/
 xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp, 
          xbShort Unique, xbShort Overlay )
 {
@@ -1460,6 +1589,12 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
    return dbf->AddIndexToIxList( index, IndexName );  
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param RecNo
+  \param n
+  \param NodeNo
+*/
 xbShort xbNdx::PutLeftNodeNo( xbShort RecNo, xbNdxNodeLink *n, xbLong NodeNo )
 {
    /* This routine sets n node's leftnode number */
@@ -1478,6 +1613,12 @@ xbShort xbNdx::PutLeftNodeNo( xbShort RecNo, xbNdxNodeLink *n, xbLong NodeNo )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param RecNo
+  \param n
+  \param DbfNo
+*/
 xbShort xbNdx::PutDbfNo( xbShort RecNo, xbNdxNodeLink *n, xbLong DbfNo )
 {
    /* This routine sets n node's dbf number */
@@ -1497,6 +1638,11 @@ xbShort xbNdx::PutDbfNo( xbShort RecNo, xbNdxNodeLink *n, xbLong DbfNo )
    return XB_NO_ERROR;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param l
+  \param n
+*/
 xbShort xbNdx::PutLeafNode( xbLong l, xbNdxNodeLink *n )
 {
    if ((fseek(indexfp, l * XB_NDX_NODE_SIZE , SEEK_SET)) != 0) {
@@ -1518,6 +1664,12 @@ xbShort xbNdx::PutLeafNode( xbLong l, xbNdxNodeLink *n )
    return 0;   
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param Head
+  \param f
+  \param UpdateOnly
+*/
 xbShort xbNdx::PutHeadNode( xbNdxHeadNode * Head, FILE * f, xbShort UpdateOnly )
 {
    char buf[4];
@@ -1588,6 +1740,11 @@ xbShort xbNdx::PutHeadNode( xbNdxHeadNode * Head, FILE * f, xbShort UpdateOnly )
    return 0;   
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param RecNo
+  \param n
+*/
 xbShort xbNdx::PutKeyData( xbShort RecNo, xbNdxNodeLink *n )
 {
    /* This routine copies the KeyBuf data into xbNdxNodeLink n */
@@ -1611,6 +1768,14 @@ xbShort xbNdx::PutKeyData( xbShort RecNo, xbNdxNodeLink *n )
    return XB_NO_ERROR;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param n
+  \param pos
+  \param d
+  \param l
+  \param w
+*/
 xbShort xbNdx::PutKeyInNode( xbNdxNodeLink * n, xbShort pos, xbLong d, 
     xbLong l, xbShort w )
 {
@@ -1657,6 +1822,13 @@ xbShort xbNdx::PutKeyInNode( xbNdxNodeLink * n, xbShort pos, xbLong d,
       return 0;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param n1
+  \param n2
+  \param pos
+  \param d
+*/
 xbShort xbNdx::SplitLeafNode( xbNdxNodeLink *n1, xbNdxNodeLink *n2,
    xbShort pos, xbLong d )
 {
@@ -1702,6 +1874,12 @@ xbShort xbNdx::SplitLeafNode( xbNdxNodeLink *n1, xbNdxNodeLink *n2,
    return 0;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param n1
+  \param n2
+  \param t
+*/
 xbShort xbNdx::SplitINode( xbNdxNodeLink *n1, xbNdxNodeLink *n2, xbLong t )
                    /* parent, tempnode, tempnodeno */
 {
@@ -1778,6 +1956,11 @@ xbShort xbNdx::SplitINode( xbNdxNodeLink *n1, xbNdxNodeLink *n2, xbLong t )
    return 0;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param RecBufSw
+  \param KeyBufSw
+*/
 xbShort xbNdx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
 { 
    /* RecBufSw   0   Use RecBuf    */
@@ -1819,6 +2002,10 @@ xbShort xbNdx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
    return 0;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param key
+*/
 xbShort  
 xbNdx::GetCurrentKey(char *key)
 {
@@ -1831,6 +2018,10 @@ xbNdx::GetCurrentKey(char *key)
   return 0;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param DbfRec
+*/
 xbShort xbNdx::AddKey( xbLong DbfRec )
 {
  /* This routine assumes KeyBuf contains the contents of the index to key */
@@ -2012,6 +2203,11 @@ xbShort xbNdx::AddKey( xbLong DbfRec )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param pos
+  \param n
+*/
 xbShort xbNdx::RemoveKeyFromNode( xbShort pos, xbNdxNodeLink *n )
 {
    xbShort i;
@@ -2039,6 +2235,10 @@ xbShort xbNdx::RemoveKeyFromNode( xbShort pos, xbNdxNodeLink *n )
    return PutLeafNode( n->NodeNo, n );
 }   
 /***********************************************************************/
+//! Short description
+/*!
+  \param n
+*/
 xbShort xbNdx::UpdateParentKey( xbNdxNodeLink * n )
 {
 /* this routine goes backwards thru the node chain looking for a parent
@@ -2066,6 +2266,10 @@ xbShort xbNdx::UpdateParentKey( xbNdxNodeLink * n )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param n
+*/
 /* This routine queues up a list of nodes which have been emptied      */
 void xbNdx::UpdateDeleteList( xbNdxNodeLink *n )
 {
@@ -2073,6 +2277,9 @@ void xbNdx::UpdateDeleteList( xbNdxNodeLink *n )
    DeleteChain = n;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 /* Delete nodes from the node list - for now we leave the empty nodes  */
 /* dangling in the file. Eventually we will remove nodes from the file */
 
@@ -2085,6 +2292,9 @@ void xbNdx::ProcessDeleteList( void )
    }
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbNdx::KeyWasChanged( void )
 {
    CreateKey( 0, 0 );            /* use KeyBuf,  RecBuf    */
@@ -2095,6 +2305,10 @@ xbShort xbNdx::KeyWasChanged( void )
       return 0;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param n
+*/
 xbNdxNodeLink * xbNdx::LeftSiblingHasSpace( xbNdxNodeLink * n )
 {
    xbNdxNodeLink * TempNode;
@@ -2123,6 +2337,10 @@ xbNdxNodeLink * xbNdx::LeftSiblingHasSpace( xbNdxNodeLink * n )
    }
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param n
+*/
 xbNdxNodeLink * xbNdx::RightSiblingHasSpace( xbNdxNodeLink * n )
 {
  /* returns a Nodelink to xbNdxNodeLink n's right sibling if it has space */
@@ -2153,6 +2371,11 @@ xbNdxNodeLink * xbNdx::RightSiblingHasSpace( xbNdxNodeLink * n )
    }
 }
 /*************************************************************************/
+//! Short description
+/*!
+  \param n
+  \param Right
+*/
 xbShort xbNdx::MoveToRightNode( xbNdxNodeLink * n, xbNdxNodeLink * Right )
 {
    xbShort j;
@@ -2188,6 +2411,11 @@ xbShort xbNdx::MoveToRightNode( xbNdxNodeLink * n, xbNdxNodeLink * Right )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param n
+  \param Left
+*/
 xbShort xbNdx::MoveToLeftNode( xbNdxNodeLink * n, xbNdxNodeLink * Left )
 {
    xbShort j, rc;
@@ -2235,6 +2463,10 @@ xbShort xbNdx::MoveToLeftNode( xbNdxNodeLink * n, xbNdxNodeLink * Left )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param n
+*/
 xbShort xbNdx::DeleteSibling( xbNdxNodeLink * n )
 {
    xbNdxNodeLink * Left;
@@ -2366,6 +2598,10 @@ xbShort xbNdx::DeleteSibling( xbNdxNodeLink * n )
    return XB_NO_ERROR;   
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param DbfRec
+*/
 xbShort xbNdx::DeleteKey( xbLong DbfRec )
 {
 /* this routine assumes the key to be deleted is in KeyBuf */
@@ -2416,6 +2652,10 @@ xbShort xbNdx::DeleteKey( xbLong DbfRec )
    return XB_NO_ERROR;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param option
+*/
 #ifdef XBASE_DEBUG
 xbShort xbNdx::CheckIndexIntegrity( const xbShort option )
 {
@@ -2455,6 +2695,10 @@ xbShort xbNdx::CheckIndexIntegrity( const xbShort option )
 }
 #endif
 /***********************************************************************/
+//! Short description
+/*!
+  \param statusFunc
+*/
 xbShort xbNdx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
 {
    /* this method assumes the index has been locked in exclusive mode */
@@ -2547,6 +2791,10 @@ Outtahere:
    return rc;
 }
 
+//! Short description
+/*!
+  \param size
+*/
 void 
 xbNdx::SetNodeSize(xbShort size)
 {
@@ -2564,6 +2812,11 @@ xbNdx::SetNodeSize(xbShort size)
 #endif
 }
 
+//! Short description
+/*!
+  \param buf
+  \param len
+*/
 void
 xbNdx::GetExpression(char *buf, int len)
 {

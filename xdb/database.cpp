@@ -165,6 +165,10 @@ static char
 #define XBDB_REPORT_FIELDLIST           7
 #define XBDB_REPORT_FORMAT              8
     
+//! Short description
+/*!
+  \param xbase
+*/
 xbDatabase::xbDatabase(xbXBase *xbase)
 {
   int
@@ -191,6 +195,9 @@ xbDatabase::xbDatabase(xbXBase *xbase)
   m_rc = 0;
 }
 
+//! Short description
+/*!
+*/
 xbDatabase::~xbDatabase()
 {
   if(m_databaseDbf)
@@ -205,6 +212,10 @@ xbDatabase::~xbDatabase()
     m_reportDbf->CloseDatabase(1);
 }
 
+//! Short description
+/*!
+  \param path
+*/
 xbShort 
 xbDatabase::Open(const char *path)
 {
@@ -356,6 +367,11 @@ Outtahere:
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param path
+  \param overlay
+*/
 xbShort 
 xbDatabase::Create(const char *path, xbShort overlay)
 {
@@ -513,6 +529,9 @@ Outtahere:
   return m_rc;
 }
 
+//! Short description
+/*!
+*/
 void 
 xbDatabase::Close(void)
 {
@@ -551,6 +570,10 @@ xbDatabase::Close(void)
 //
 // Database stuff
 //
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::GetDatabaseName(char *val)
 {
@@ -566,6 +589,10 @@ xbDatabase::GetDatabaseName(char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::GetDatabaseDesc(char *val)
 {
@@ -581,6 +608,10 @@ xbDatabase::GetDatabaseDesc(char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::GetDatabaseCompany(char *val)
 {
@@ -596,6 +627,10 @@ xbDatabase::GetDatabaseCompany(char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::GetDatabaseVersion(char *val)
 {
@@ -611,6 +646,10 @@ xbDatabase::GetDatabaseVersion(char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::GetDatabaseCreateDate(char *val)
 {
@@ -626,6 +665,10 @@ xbDatabase::GetDatabaseCreateDate(char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::GetDatabaseModDate(char *val)
 {
@@ -641,6 +684,10 @@ xbDatabase::GetDatabaseModDate(char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::GetDatabaseXDBVersion(char *val)
 {
@@ -656,6 +703,10 @@ xbDatabase::GetDatabaseXDBVersion(char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::SetDatabaseName(const char *val)
 {
@@ -674,6 +725,10 @@ xbDatabase::SetDatabaseName(const char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::SetDatabaseDesc(const char *val)
 {
@@ -692,6 +747,10 @@ xbDatabase::SetDatabaseDesc(const char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::SetDatabaseCompany(const char *val)
 {
@@ -710,6 +769,10 @@ xbDatabase::SetDatabaseCompany(const char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::SetDatabaseVersion(const char *val)
 {
@@ -728,6 +791,10 @@ xbDatabase::SetDatabaseVersion(const char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::SetDatabaseCreateDate(const char *val)
 {
@@ -746,6 +813,10 @@ xbDatabase::SetDatabaseCreateDate(const char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::SetDatabaseModDate(const char *val)
 {
@@ -764,6 +835,10 @@ xbDatabase::SetDatabaseModDate(const char *val)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param val
+*/
 xbShort 
 xbDatabase::SetDatabaseXDBVersion(const char *val)
 {
@@ -785,6 +860,9 @@ xbDatabase::SetDatabaseXDBVersion(const char *val)
 //
 // Table stuff
 //
+//! Short description
+/*!
+*/
 xbShort 
 xbDatabase::GetNumTables(void)
 {
@@ -793,6 +871,11 @@ xbDatabase::GetNumTables(void)
   return 0;
 }
   
+//! Short description
+/*!
+  \param tableNum
+  \param tableId
+*/
 xbShort 
 xbDatabase::GetTableId(xbShort tableNum, char *tableId)
 {
@@ -819,6 +902,11 @@ xbDatabase::GetTableId(xbShort tableNum, char *tableId)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param tableName
+*/
 xbShort 
 xbDatabase::GetTableFileName(const char *tableId, char *tableName)
 {
@@ -836,6 +924,11 @@ xbDatabase::GetTableFileName(const char *tableId, char *tableName)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param desc
+*/
 xbShort 
 xbDatabase::GetTableDesc(const char *tableId, char *desc)
 {
@@ -853,6 +946,11 @@ xbDatabase::GetTableDesc(const char *tableId, char *desc)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param realDelete
+*/
 xbShort 
 xbDatabase::GetTableRealDelete(const char *tableId, bool *realDelete)
 {
@@ -878,6 +976,11 @@ xbDatabase::GetTableRealDelete(const char *tableId, bool *realDelete)
   return m_rc;    
 }
   
+//! Short description
+/*!
+  \param tableId
+  \param version
+*/
 xbShort 
 xbDatabase::GetTableVersion(const char *tableId, xbShort *version)
 {
@@ -899,6 +1002,14 @@ xbDatabase::GetTableVersion(const char *tableId, xbShort *version)
   return m_rc;    
 }
   
+//! Short description
+/*!
+  \param tableId
+  \param tableName
+  \param desc
+  \param version
+  \param realDelete
+*/
 xbShort 
 xbDatabase::AddTable(const char *tableId, const char *tableName, const char *desc, 
                     xbShort version, bool realDelete)
@@ -929,6 +1040,10 @@ Outtahere:
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param tableId
+*/
 xbShort 
 xbDatabase::RemoveTable(const char *tableId)
 {
@@ -969,6 +1084,14 @@ xbDatabase::RemoveTable(const char *tableId)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param tableName
+  \param desc
+  \param version
+  \param realDelete
+*/
 xbShort 
 xbDatabase::ChangeTable(const char *tableId, const char *tableName, 
                        const char *desc, xbShort version, bool realDelete)
@@ -1001,6 +1124,10 @@ Outtahere:
   return m_rc;
 }
     
+//! Short description
+/*!
+  \param tableId
+*/
 bool 
 xbDatabase::TableExists(const char *tableId)
 {
@@ -1023,6 +1150,10 @@ xbDatabase::TableExists(const char *tableId)
   return 0;
 }
 
+//! Short description
+/*!
+  \param tableId
+*/
 void 
 xbDatabase::RemoveTableFiles(const char *tableId)
 {
@@ -1067,6 +1198,10 @@ xbDatabase::RemoveTableFiles(const char *tableId)
 //
 // Field stuff
 //
+//! Short description
+/*!
+  \param tableId
+*/
 xbShort 
 xbDatabase::GetNumFields(const char *tableId)
 {
@@ -1095,6 +1230,11 @@ xbDatabase::GetNumFields(const char *tableId)
   return count;
 }
   
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+*/
 xbShort
 xbDatabase::LookupField(const char *tableId, const char *fieldName)
 {
@@ -1106,6 +1246,11 @@ xbDatabase::LookupField(const char *tableId, const char *fieldName)
   return m_fieldIndex[1]->FindKey(key);
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+*/
 xbShort
 xbDatabase::LookupField(const char *tableId, xbShort fieldNum)
 {
@@ -1117,6 +1262,12 @@ xbDatabase::LookupField(const char *tableId, xbShort fieldNum)
   return m_fieldIndex[0]->FindKey(key);
 }
   
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+  \param fieldNum
+*/
 xbShort 
 xbDatabase::GetFieldNum(const char *tableId, const char *fieldName, 
                         xbShort *fieldNum)
@@ -1139,6 +1290,12 @@ xbDatabase::GetFieldNum(const char *tableId, const char *fieldName,
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+  \param type
+*/
 xbShort 
 xbDatabase::GetFieldType(const char *tableId, const char *fieldName, char *type)
 {
@@ -1156,6 +1313,12 @@ xbDatabase::GetFieldType(const char *tableId, const char *fieldName, char *type)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+  \param desc
+*/
 xbShort 
 xbDatabase::GetFieldDesc(const char *tableId, const char *fieldName, char *desc)
 {
@@ -1173,6 +1336,12 @@ xbDatabase::GetFieldDesc(const char *tableId, const char *fieldName, char *desc)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+  \param prompt
+*/
 xbShort 
 xbDatabase::GetFieldPrompt(const char *tableId, const char *fieldName, char *prompt)
 {
@@ -1190,6 +1359,12 @@ xbDatabase::GetFieldPrompt(const char *tableId, const char *fieldName, char *pro
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+  \param inputSpec
+*/
 xbShort 
 xbDatabase::GetFieldInputSpec(const char *tableId, const char *fieldName, char *inputSpec)
 {
@@ -1207,6 +1382,12 @@ xbDatabase::GetFieldInputSpec(const char *tableId, const char *fieldName, char *
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+  \param minValue
+*/
 xbShort 
 xbDatabase::GetFieldMinValue(const char *tableId, const char *fieldName, char *minValue)
 {
@@ -1224,6 +1405,12 @@ xbDatabase::GetFieldMinValue(const char *tableId, const char *fieldName, char *m
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+  \param maxValue
+*/
 xbShort 
 xbDatabase::GetFieldMaxValue(const char *tableId, const char *fieldName, char *maxValue)
 {
@@ -1241,6 +1428,12 @@ xbDatabase::GetFieldMaxValue(const char *tableId, const char *fieldName, char *m
   return m_rc;    
 }
   
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+  \param length
+*/
 xbShort 
 xbDatabase::GetFieldLength(const char *tableId, const char *fieldName, 
                       xbShort *length)
@@ -1263,6 +1456,12 @@ xbDatabase::GetFieldLength(const char *tableId, const char *fieldName,
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+  \param decimals
+*/
 xbShort 
 xbDatabase::GetFieldDecimals(const char *tableId, const char *fieldName, 
                         xbShort *decimals)
@@ -1285,6 +1484,12 @@ xbDatabase::GetFieldDecimals(const char *tableId, const char *fieldName,
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param fieldName
+*/
 xbShort 
 xbDatabase::GetFieldName(const char *tableId, xbShort fieldNum, char *fieldName)
 {
@@ -1302,6 +1507,12 @@ xbDatabase::GetFieldName(const char *tableId, xbShort fieldNum, char *fieldName)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param type
+*/
 xbShort 
 xbDatabase::GetFieldType(const char *tableId, xbShort fieldNum, char *type)
 {
@@ -1319,6 +1530,12 @@ xbDatabase::GetFieldType(const char *tableId, xbShort fieldNum, char *type)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param desc
+*/
 xbShort 
 xbDatabase::GetFieldDesc(const char *tableId, xbShort fieldNum, char *desc)
 {
@@ -1336,6 +1553,12 @@ xbDatabase::GetFieldDesc(const char *tableId, xbShort fieldNum, char *desc)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param prompt
+*/
 xbShort 
 xbDatabase::GetFieldPrompt(const char *tableId, xbShort fieldNum, char *prompt)
 {
@@ -1353,6 +1576,12 @@ xbDatabase::GetFieldPrompt(const char *tableId, xbShort fieldNum, char *prompt)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param inputSpec
+*/
 xbShort 
 xbDatabase::GetFieldInputSpec(const char *tableId, xbShort fieldNum, char *inputSpec)
 {
@@ -1370,6 +1599,12 @@ xbDatabase::GetFieldInputSpec(const char *tableId, xbShort fieldNum, char *input
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param minValue
+*/
 xbShort 
 xbDatabase::GetFieldMinValue(const char *tableId, xbShort fieldNum, char *minValue)
 {
@@ -1387,6 +1622,12 @@ xbDatabase::GetFieldMinValue(const char *tableId, xbShort fieldNum, char *minVal
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param maxValue
+*/
 xbShort 
 xbDatabase::GetFieldMaxValue(const char *tableId, xbShort fieldNum, char *maxValue)
 {
@@ -1404,6 +1645,12 @@ xbDatabase::GetFieldMaxValue(const char *tableId, xbShort fieldNum, char *maxVal
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param length
+*/
 xbShort 
 xbDatabase::GetFieldLength(const char *tableId, xbShort fieldNum, 
                       xbShort *length)
@@ -1426,6 +1673,12 @@ xbDatabase::GetFieldLength(const char *tableId, xbShort fieldNum,
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param decimals
+*/
 xbShort 
 xbDatabase::GetFieldDecimals(const char *tableId, xbShort fieldNum, 
                         xbShort *decimals)
@@ -1448,6 +1701,20 @@ xbDatabase::GetFieldDecimals(const char *tableId, xbShort fieldNum,
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param fieldName
+  \param type
+  \param desc
+  \param prompt
+  \param inputSpec
+  \param minValue
+  \param maxValue
+  \param length
+  \param decimals
+*/
 xbShort 
 xbDatabase::AddField(const char *tableId, xbShort fieldNum, const char *fieldName, 
                      const char type, const char *desc, const char *prompt,
@@ -1495,6 +1762,11 @@ Outtahere:
   return m_rc;
 }
                     
+//! Short description
+/*!
+  \param tableId
+  \param fieldName
+*/
 xbShort 
 xbDatabase::RemoveField(const char *tableId, const char *fieldName)
 {
@@ -1544,6 +1816,11 @@ Outtahere:
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+*/
 xbShort 
 xbDatabase::RemoveField(const char *tableId, xbShort fieldNum)
 {
@@ -1589,6 +1866,20 @@ Outtahere:
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param fieldNum
+  \param fieldName
+  \param type
+  \param desc
+  \param prompt
+  \param inputSpec
+  \param minValue
+  \param maxValue
+  \param length
+  \param decimals
+*/
 xbShort 
 xbDatabase::ChangeField(const char *tableId, xbShort fieldNum, const char *fieldName, 
                         const char type, const char *desc, const char *prompt,
@@ -1643,6 +1934,10 @@ Outtahere:
 //
 //  Index stuff
 //
+//! Short description
+/*!
+  \param tableId
+*/
 xbShort 
 xbDatabase::GetNumIndexes(const char *tableId)
 {
@@ -1671,6 +1966,11 @@ xbDatabase::GetNumIndexes(const char *tableId)
   return count;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexName
+*/
 xbShort
 xbDatabase::LookupIndex(const char *tableId, const char *indexName)
 {
@@ -1682,6 +1982,11 @@ xbDatabase::LookupIndex(const char *tableId, const char *indexName)
   return m_indexIndex[1]->FindKey(key);
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+*/
 xbShort
 xbDatabase::LookupIndex(const char *tableId, xbShort indexNum)
 {
@@ -1693,6 +1998,12 @@ xbDatabase::LookupIndex(const char *tableId, xbShort indexNum)
   return m_indexIndex[0]->FindKey(key);
 }
   
+//! Short description
+/*!
+  \param tableId
+  \param indexName
+  \param num
+*/
 xbShort 
 xbDatabase::GetIndexNum(const char *tableId, const char *indexName, xbShort *num)
 {
@@ -1714,6 +2025,12 @@ xbDatabase::GetIndexNum(const char *tableId, const char *indexName, xbShort *num
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexName
+  \param unique
+*/
 xbShort 
 xbDatabase::GetIndexUnique(const char *tableId, const char *indexName, bool *unique)
 {
@@ -1735,6 +2052,12 @@ xbDatabase::GetIndexUnique(const char *tableId, const char *indexName, bool *uni
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexName
+  \param expression
+*/
 xbShort 
 xbDatabase::GetIndexExpression(const char *tableId, const char *indexName, char *expression)
 {
@@ -1752,6 +2075,12 @@ xbDatabase::GetIndexExpression(const char *tableId, const char *indexName, char 
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexName
+  \param desc
+*/
 xbShort 
 xbDatabase::GetIndexDesc(const char *tableId, const char *indexName, char *desc)
 {
@@ -1769,6 +2098,12 @@ xbDatabase::GetIndexDesc(const char *tableId, const char *indexName, char *desc)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexName
+  \param nodeSize
+*/
 xbShort 
 xbDatabase::GetIndexNodeSize(const char *tableId, const char *indexName, xbShort *nodeSize)
 {
@@ -1790,6 +2125,12 @@ xbDatabase::GetIndexNodeSize(const char *tableId, const char *indexName, xbShort
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexName
+  \param type
+*/
 xbShort 
 xbDatabase::GetIndexType(const char *tableId, const char *indexName, char *type)
 {
@@ -1807,6 +2148,12 @@ xbDatabase::GetIndexType(const char *tableId, const char *indexName, char *type)
   return m_rc;    
 }
   
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+  \param name
+*/
 xbShort 
 xbDatabase::GetIndexName(const char *tableId, xbShort indexNum, char *name)
 {
@@ -1824,6 +2171,12 @@ xbDatabase::GetIndexName(const char *tableId, xbShort indexNum, char *name)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+  \param unique
+*/
 xbShort 
 xbDatabase::GetIndexUnique(const char *tableId, xbShort indexNum, bool *unique)
 {
@@ -1845,6 +2198,12 @@ xbDatabase::GetIndexUnique(const char *tableId, xbShort indexNum, bool *unique)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+  \param expression
+*/
 xbShort 
 xbDatabase::GetIndexExpression(const char *tableId, xbShort indexNum, char *expression)
 {
@@ -1862,6 +2221,12 @@ xbDatabase::GetIndexExpression(const char *tableId, xbShort indexNum, char *expr
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+  \param desc
+*/
 xbShort 
 xbDatabase::GetIndexDesc(const char *tableId, xbShort indexNum, char *desc)
 {
@@ -1879,6 +2244,12 @@ xbDatabase::GetIndexDesc(const char *tableId, xbShort indexNum, char *desc)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+  \param nodeSize
+*/
 xbShort 
 xbDatabase::GetIndexNodeSize(const char *tableId, xbShort indexNum, xbShort *nodeSize)
 {
@@ -1900,6 +2271,12 @@ xbDatabase::GetIndexNodeSize(const char *tableId, xbShort indexNum, xbShort *nod
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+  \param type
+*/
 xbShort 
 xbDatabase::GetIndexType(const char *tableId, xbShort indexNum, char *type)
 {
@@ -1917,6 +2294,17 @@ xbDatabase::GetIndexType(const char *tableId, xbShort indexNum, char *type)
   return m_rc;    
 }
   
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+  \param indexName
+  \param unique
+  \param expression
+  \param desc
+  \param nodeSize
+  \param type
+*/
 xbShort 
 xbDatabase::AddIndex(const char *tableId, xbShort indexNum, const char *indexName,
                      bool unique, const char *expression, const char *desc,
@@ -1956,6 +2344,11 @@ Outtahere:
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+*/
 xbShort 
 xbDatabase::RemoveIndex(const char *tableId, xbShort indexNum)
 {
@@ -2033,6 +2426,11 @@ Outtahere:
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexName
+*/
 xbShort 
 xbDatabase::RemoveIndex(const char *tableId, const char *indexName)
 {
@@ -2112,6 +2510,17 @@ Outtahere:
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+  \param indexName
+  \param unique
+  \param expression
+  \param desc
+  \param nodeSize
+  \param type
+*/
 xbShort 
 xbDatabase::ChangeIndex(const char *tableId, xbShort indexNum, const char *indexName,
                         bool unique, const char *expression, const char *desc,
@@ -2155,6 +2564,11 @@ Outtahere:
   return m_rc;
 }
                       
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+*/
 bool 
 xbDatabase::IndexExists(const char *tableId, xbShort indexNum)
 {
@@ -2190,6 +2604,11 @@ Outtahere:
   return 0;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+*/
 void 
 xbDatabase::RemoveIndexFile(const char *tableId, xbShort indexNum)
 {
@@ -2212,6 +2631,9 @@ xbDatabase::RemoveIndexFile(const char *tableId, xbShort indexNum)
 //
 //  Report stuff
 //
+//! Short description
+/*!
+*/
 xbShort 
 xbDatabase::GetNumReports(void)
 {
@@ -2226,6 +2648,10 @@ xbDatabase::GetNumReports(void)
   return -1;
 }
 
+//! Short description
+/*!
+  \param reportNum
+*/
 xbShort 
 xbDatabase::LookupReport(xbShort reportNum)
 {
@@ -2236,6 +2662,11 @@ xbDatabase::LookupReport(xbShort reportNum)
   return m_reportIndex[0]->FindKey(key);
 }
 
+//! Short description
+/*!
+  \param reportNum
+  \param tableId
+*/
 xbShort 
 xbDatabase::GetReportTableId(xbShort reportNum, char *tableId)
 {
@@ -2253,6 +2684,11 @@ xbDatabase::GetReportTableId(xbShort reportNum, char *tableId)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param reportNum
+  \param title
+*/
 xbShort 
 xbDatabase::GetReportTitle(xbShort reportNum, char *title)
 {
@@ -2270,6 +2706,11 @@ xbDatabase::GetReportTitle(xbShort reportNum, char *title)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param reportNum
+  \param indexNum
+*/
 xbShort 
 xbDatabase::GetReportIndexNum(xbShort reportNum, xbShort *indexNum)
 {
@@ -2291,6 +2732,11 @@ xbDatabase::GetReportIndexNum(xbShort reportNum, xbShort *indexNum)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param reportNum
+  \param minKey
+*/
 xbShort
 xbDatabase::GetReportMinKey(xbShort reportNum, char *minKey)
 {
@@ -2308,6 +2754,11 @@ xbDatabase::GetReportMinKey(xbShort reportNum, char *minKey)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param reportNum
+  \param maxKey
+*/
 xbShort 
 xbDatabase::GetReportMaxKey(xbShort reportNum, char *maxKey)
 {
@@ -2325,6 +2776,11 @@ xbDatabase::GetReportMaxKey(xbShort reportNum, char *maxKey)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param reportNum
+  \param query
+*/
 xbShort 
 xbDatabase::GetReportQuery(xbShort reportNum, char *query)
 {
@@ -2342,6 +2798,11 @@ xbDatabase::GetReportQuery(xbShort reportNum, char *query)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param reportNum
+  \param fieldList
+*/
 xbShort 
 xbDatabase::GetReportFieldList(xbShort reportNum, char *fieldList)
 {
@@ -2359,6 +2820,11 @@ xbDatabase::GetReportFieldList(xbShort reportNum, char *fieldList)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param reportNum
+  \param format
+*/
 xbShort 
 xbDatabase::GetReportFormat(xbShort reportNum, char *format)
 {
@@ -2376,6 +2842,18 @@ xbDatabase::GetReportFormat(xbShort reportNum, char *format)
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param reportNum
+  \param title
+  \param indexNum
+  \param minKey
+  \param maxKey
+  \param query
+  \param fieldList
+  \param format
+*/
 xbShort 
 xbDatabase::AddReport(const char *tableId, xbShort reportNum, const char *title,
                       xbShort indexNum, const char *minKey, const char *maxKey,
@@ -2417,6 +2895,10 @@ Outtahere:
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param reportNum
+*/
 xbShort 
 xbDatabase::RemoveReport(xbShort reportNum)
 {
@@ -2464,6 +2946,18 @@ Outtahere:
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param reportNum
+  \param title
+  \param indexNum
+  \param minKey
+  \param maxKey
+  \param query
+  \param fieldList
+  \param format
+*/
 xbShort 
 xbDatabase::ChangeReport(const char *tableId, xbShort reportNum, const char *title,
                          xbShort indexNum, const char *minKey, const char *maxKey,
@@ -2509,6 +3003,10 @@ Outtahere:
 //
 //  Dbf stuff
 //
+//! Short description
+/*!
+  \param tableId
+*/
 xbDbf *
 xbDatabase::OpenDbf(const char *tableId)
 {
@@ -2634,6 +3132,11 @@ Outtahere:
   return dbf;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param overlay
+*/
 xbDbf *
 xbDatabase::CreateDbf(const char *tableId, xbShort overlay)
 {
@@ -2794,6 +3297,12 @@ Outtahere:
 //
 // Misc
 //
+//! Short description
+/*!
+  \param tableId
+  \param packStatusFunc
+  \param indexStatusFunc
+*/
 xbShort 
 xbDatabase::Pack(const char *tableId,
                  void (*packStatusFunc)(xbLong itemNum, xbLong numItems),
@@ -2815,6 +3324,12 @@ xbDatabase::Pack(const char *tableId,
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param tableId
+  \param indexNum
+  \param statusFunc
+*/
 xbShort 
 xbDatabase::ReIndex(const char *tableId, xbShort indexNum,
                     void (*statusFunc)(xbLong itemNum, xbLong numItems))
@@ -2857,6 +3372,10 @@ xbDatabase::ReIndex(const char *tableId, xbShort indexNum,
   return m_rc;    
 }
 
+//! Short description
+/*!
+  \param tableId
+*/
 xbShort 
 xbDatabase::Zap(const char *tableId)
 {
@@ -2880,6 +3399,10 @@ xbDatabase::Zap(const char *tableId)
   return m_rc;
 }
 
+//! Short description
+/*!
+  \param s
+*/
 char *
 xbDatabase::ltrim(char *s)
 {
@@ -2896,6 +3419,10 @@ xbDatabase::ltrim(char *s)
   return s;
 }
 
+//! Short description
+/*!
+  \param s
+*/
 char *
 xbDatabase::rtrim(char *s)
 {
@@ -2908,6 +3435,10 @@ xbDatabase::rtrim(char *s)
   return s;
 }
 
+//! Short description
+/*!
+  \param tableName, buf
+*/
 char *
 xbDatabase::MakeDbfName(const char *tableName, char *buf)
 {
@@ -2915,6 +3446,13 @@ xbDatabase::MakeDbfName(const char *tableName, char *buf)
   return buf;
 }
 
+//! Short description
+/*!
+  \param tableName
+  \param indexNum
+  \param suffix
+  \param buf
+*/
 char *
 xbDatabase::MakeIndexName(const char *tableName, xbShort indexNum, 
                           const char *suffix, char *buf)

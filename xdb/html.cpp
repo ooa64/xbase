@@ -1,4 +1,4 @@
-/*  $Id: html.cpp,v 1.2 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: html.cpp,v 1.3 2000/06/21 04:38:40 dbryson Exp $
 
     Xbase project source code
 
@@ -45,11 +45,18 @@
 */
 
 /************************************************************************/
+//! Short description
+/*!
+  \param String
+*/
 void xbHtml::TextOut( const char * String )
 {
    cout << String;
 }
 /************************************************************************/
+//! Short description
+/*!
+*/
 void xbHtml::InitVals( void )
 {
    FieldNameArray = NULL;
@@ -60,11 +67,17 @@ void xbHtml::InitVals( void )
    LoadArray();
 }
 /************************************************************************/
+//! Short description
+/*!
+*/
 xbHtml::xbHtml( void )
 {
 	InitVals();
 }   
 /************************************************************************/
+//! Short description
+/*!
+*/
 void xbHtml::DumpArray( void )
 {
    /* dont forget Content-type  */
@@ -87,6 +100,10 @@ void xbHtml::DumpArray( void )
    }
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param pos
+*/
 char * xbHtml::GetData( xbShort pos )
 {
 	if( pos < NoOfDataFields && pos >= 0 )
@@ -95,6 +112,10 @@ char * xbHtml::GetData( xbShort pos )
 		return NULL;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param FieldName
+*/
 xbShort xbHtml::GetArrayNo( const char * FieldName )
 {
    xbShort i;
@@ -104,11 +125,18 @@ xbShort xbHtml::GetArrayNo( const char * FieldName )
    return -1;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param FieldName
+*/
 char * xbHtml::GetDataForField( const char * FieldName )
 {
 	return( GetData( GetArrayNo( FieldName )));
 }
 /************************************************************************/
+//! Short description
+/*!
+*/
 void xbHtml::LoadArray( void )
 {
    xbShort Len;               /* length of data string from form */
@@ -174,6 +202,10 @@ void xbHtml::LoadArray( void )
    DataValueArray = Values;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param String
+*/
 void xbHtml::DeleteEscChars( char * String )
 {
    xbShort s,t;         /* source && target */
@@ -203,6 +235,10 @@ void xbHtml::DeleteEscChars( char * String )
    }
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param File
+*/
 xbLong xbHtml::Tally( const char * File )
 {
 /* FIXME:  Locking works under Unix only: <fcntl.h> does not warrant fcntl() 
@@ -254,6 +290,9 @@ xbLong xbHtml::Tally( const char * File )
 	return cnt;
 }
 /************************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbHtml::PostMethod( void )
 {
    char s[5];
@@ -270,6 +309,9 @@ xbShort xbHtml::PostMethod( void )
    return 0;
 }
 /************************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbHtml::GetMethod( void )
 {
    char s[4];
@@ -287,6 +329,13 @@ xbShort xbHtml::GetMethod( void )
    return 0;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param d
+  \param Option
+  \param Title
+  \param fl
+*/
 xbShort xbHtml::GenFormFields(xbDbf *d, xbShort Option, const char *Title, 
 															xbFieldList *fl) {
    xbShort i;
@@ -331,12 +380,20 @@ xbShort xbHtml::GenFormFields(xbDbf *d, xbShort Option, const char *Title,
    return XB_NO_ERROR;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param Title
+*/
 void xbHtml::StartHtmlPage( const char * Title )
 {
    cout << "Content-type: text/html\n\n";
    cout << "\n<HTML><HEAD><TITLE>" << Title << "</TITLE></HEAD><BODY>";
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param c
+*/
 void xbHtml::PrintEncodedChar( char c )
 {
    switch( c )
@@ -350,6 +407,10 @@ void xbHtml::PrintEncodedChar( char c )
    return;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param s
+*/
 void xbHtml::PrintEncodedString( const char * s )
 {
    const char *p;
@@ -358,6 +419,17 @@ void xbHtml::PrintEncodedString( const char * s )
    return;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param Name
+  \param Value
+  \param ExpDate
+  \param ExpTime
+  \param TimeZone
+  \param Path
+  \param Domain
+  \param Secure
+*/
 xbShort xbHtml::SetCookie( const char * Name,const char * Value, 
    const char * ExpDate, const char * ExpTime, const char * TimeZone, 
    const char * Path, const char * Domain, xbShort Secure )
@@ -388,6 +460,10 @@ xbShort xbHtml::SetCookie( const char * Name,const char * Value,
    return XB_NO_ERROR;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param String
+*/
 void xbHtml::SpaceToPlus( char * String )
 {
    char * p;
@@ -406,11 +482,19 @@ void xbHtml::SpaceToPlus( char * String )
    }
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param url
+*/
 void xbHtml::SendRedirect( char * url ) const
 {  
    cout << "Location: " << url << endl << endl; 
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param String
+*/
 void xbHtml::PlusToSpace( char * String )
 {
    char * p;
@@ -422,6 +506,10 @@ void xbHtml::PlusToSpace( char * String )
    }
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param CookieName
+*/
 const char * xbHtml::GetCookie( const char * CookieName )
 {
    char * CookieData;

@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.3 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: dbf.h,v 1.4 2000/06/21 04:38:40 dbryson Exp $
 
     Xbase project source code
 
@@ -161,23 +161,47 @@ public:
    xbShort   CloseDatabase(bool deleteIndexes = 0);
    xbShort   CopyDbfStructure( const char *, xbShort );
    xbShort   CreateDatabase( const char * Name, xbSchema *, const xbShort Overlay );
+   //! Return the current position in the dbf file
+   /*!
+   */
    xbLong    DbfTell( void ) { return ftell( fp ); }
+   //! Delete all records
+   /*!
+   */
    xbShort   DeleteAllRecords( void ) { return DeleteAll(0); }
    xbShort   DeleteRecord( void );
 #ifdef XBASE_DEBUG
    xbShort   DumpHeader( xbShort );
 #endif
    xbShort   DumpRecord( xbULong );
+   //! Return number of fields
+   /*!
+   */
    xbLong    FieldCount( void ) { return NoOfFields; }
+   //! Return Dbf name
+   /*!
+   */
    xbString& GetDbfName( void ) { return DatabaseName; }
+   //! Return status
+   /*!
+   */
    xbShort   GetDbfStatus( void ) { return DbfStatus; }
    xbShort   GetFirstRecord( void );
    xbShort   GetLastRecord( void );
    xbShort   GetNextRecord( void );
    xbShort   GetPrevRecord( void );
+   //! Return current record number
+   /*!
+   */
    xbLong    GetCurRecNo( void ) { return CurRec; }
    xbShort   GetRecord( xbULong );
+   //! Return a pointer to the record buffer
+   /*!
+   */
    char *    GetRecordBuf( void ) { return RecBuf; }
+   //! Return record length
+   /*!
+   */
    xbShort   GetRecordLen( void ) { return RecordLen; }
    xbShort   NameSuffixMissing( xbShort, const char * );
    xbLong    NoOfRecords( void );
@@ -190,8 +214,14 @@ public:
    xbShort   PutRecord(xbULong);
    xbShort   RebuildAllIndices(void (*statusFunc)(xbLong itemNum, xbLong numItems) = 0);
    xbShort   RecordDeleted( void );
+   //! Set number of records to zero????
+   /*!
+   */
    void      ResetNoOfRecs( void ) { NoOfRecs = 0L; }
    xbShort   SetVersion( xbShort );
+   //! Undelete all records
+   /*!
+   */
    xbShort   UndeleteAllRecords( void ) { return DeleteAll(1); }
    xbShort   UndeleteRecord( void );
    xbShort   Zap( xbShort );
@@ -252,8 +282,17 @@ public:
    xbShort   ExclusiveUnlock( void )      { return XB_NO_ERROR; };
 #endif
 
+   //! Turn autolock on
+   /*!
+   */
    void    AutoLockOn( void )  { AutoLock = 1; }
+   //! Turn autolock off
+   /*!
+   */
    void    AutoLockOff( void ) { AutoLock = 0; }
+   //! Return whether or not autolocking is on or off
+   /*!
+   */
    xbShort GetAutoLock(void) { return AutoLock; }
 
 #ifdef XB_MEMO_FIELDS
@@ -278,8 +317,17 @@ public:
 #endif
 #endif
 
+   //! Turn on "real" deletes
+   /*!
+   */
    void      RealDeleteOn(void) { RealDelete = 1; ReadHeader(1); }
+   //! Turn off "real" deletes
+   /*!
+   */
    void      RealDeleteOff(void) { RealDelete = 0; ReadHeader(1); }
+   //! Return whether "real" deletes are on or off
+   /*!
+   */
    xbShort   GetRealDelete(void) { return RealDelete; }
 
 #if defined(XB_INDEX_ANY)

@@ -1,4 +1,4 @@
-/*  $Id: expproc.cpp,v 1.3 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: expproc.cpp,v 1.4 2000/06/21 04:38:40 dbryson Exp $
 
     Xbase project source code
 
@@ -40,6 +40,10 @@
 */
 
 /*************************************************************************/
+//! Short description
+/*!
+  \param e
+*/
 xbExpNode * xbExpn::GetFirstTreeNode( xbExpNode * e )
 {
    xbExpNode * WorkNode;
@@ -50,6 +54,12 @@ xbExpNode * xbExpn::GetFirstTreeNode( xbExpNode * e )
    return WorkNode;
 }
 /*************************************************************************/
+//! Short description
+/*!
+  \param Operand
+  \param Op1
+  \pamam Op2
+*/
 xbShort xbExpn::ValidOperation( char * Operand, char Op1, char Op2 )
 {
    /*  Valid operation table
@@ -105,6 +115,10 @@ xbShort xbExpn::ValidOperation( char * Operand, char Op1, char Op2 )
    }
 }
 /*************************************************************************/
+//! Short description
+/*!
+  \param e
+*/
 xbExpNode * xbExpn::GetNextTreeNode( xbExpNode * e )
 {
    if( !e->Node ) return NULL;
@@ -121,11 +135,20 @@ xbExpNode * xbExpn::GetNextTreeNode( xbExpNode * e )
       return e->Node;
 }
 /*************************************************************************/
+//! Short description
+/*!
+  \param e
+*/
 xbShort xbExpn::ProcessExpression( xbExpNode * e )
 {
    return ProcessExpression( e, 0 );
 }
 /*************************************************************************/
+//! Short description
+/*!
+  \param Wtree
+  \param RecBufSw
+*/
 xbShort xbExpn::ProcessExpression( xbExpNode * Wtree, xbShort RecBufSw )
 {
    xbExpNode * WorkNode;
@@ -164,6 +187,10 @@ xbShort xbExpn::ProcessExpression( xbExpNode * Wtree, xbShort RecBufSw )
    return XB_NO_ERROR;
 }
 /*************************************************************************/
+//! Short description
+/*!
+  \param e
+*/
 char xbExpn::GetOperandType( xbExpNode * e )
 {
    /* this routine returns
@@ -196,6 +223,10 @@ char xbExpn::GetOperandType( xbExpNode * e )
       return 0;
 }
 /*************************************************************************/
+//! Short description
+/*!
+  \param RecBufSw
+*/
 xbShort xbExpn::ProcessOperator( xbShort RecBufSw )
 {
    xbExpNode * WorkNode;
@@ -293,6 +324,10 @@ xbShort xbExpn::ProcessOperator( xbShort RecBufSw )
       return  AlphaOperation( Operator );
 }
 /*************************************************************************/
+//! Short description
+/*!
+  \param Operator
+*/
 xbShort xbExpn::NumericOperation( char * Operator )
 {
    xbDouble  Operand1, Operand2;
@@ -391,6 +426,10 @@ xbShort xbExpn::NumericOperation( char * Operator )
    return 0;
 }
 /*************************************************************************/
+//! Short description
+/*!
+  \param Operator
+*/
 xbShort xbExpn::AlphaOperation( char * Operator )
 {
    xbShort ResultLen, i;

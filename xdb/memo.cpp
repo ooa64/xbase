@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.3 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: memo.cpp,v 1.4 2000/06/21 04:38:40 dbryson Exp $
 
     Xbase project source code
 
@@ -40,6 +40,9 @@
 */
 
 /************************************************************************/
+//! Short description
+/*!
+*/
 xbLong xbDbf::CalcLastDataBlock()
 {
   xbShort rc;
@@ -48,6 +51,12 @@ xbLong xbDbf::CalcLastDataBlock()
   return ( ftell( mfp ) / MemoHeader.BlockSize );
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param BlocksNeeded
+  \param Location
+  \param PrevNode
+*/
 xbShort xbDbf::GetBlockSetFromChain( const xbLong BlocksNeeded,
    const xbLong Location, const xbLong PrevNode )
 
@@ -108,6 +117,13 @@ xbShort xbDbf::GetBlockSetFromChain( const xbLong BlocksNeeded,
   return 0;
 }   
 /************************************************************************/
+//! Short description
+/*!
+  \param BlocksNeeded
+  \param LastDataBlock
+  \param Location
+  \param PreviousNode
+*/
 xbShort xbDbf::FindBlockSetInChain( const xbLong BlocksNeeded,
    const xbLong LastDataBlock, xbLong &Location, xbLong &PreviousNode )
 
@@ -160,6 +176,10 @@ xbShort xbDbf::FindBlockSetInChain( const xbLong BlocksNeeded,
   }
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param BlockSize
+*/
 xbShort xbDbf::SetMemoBlockSize( const xbShort BlockSize )
 {
    if(IsType3Dbt())
@@ -171,6 +191,10 @@ xbShort xbDbf::SetMemoBlockSize( const xbShort BlockSize )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param Option
+*/
 xbShort xbDbf::GetDbtHeader( const xbShort Option )
 {
    char *p;
@@ -204,6 +228,9 @@ xbShort xbDbf::GetDbtHeader( const xbShort Option )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbDbf::OpenMemoFile( void )
 {
    xbLong  Size, NewSize, l;
@@ -264,6 +291,9 @@ xbShort xbDbf::OpenMemoFile( void )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbDbf::CreateMemoFile( void )
 {
    xbShort len,i;
@@ -350,6 +380,12 @@ xbShort xbDbf::CreateMemoFile( void )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param BlockNo
+  \param Option
+*/
+
 /* Option = 0 - 1st Block of a set of valid data blocks, load buckets  */
 /* Option = 1 - subsequant block of data in a multi block set or db III*/
 /* Option = 2 - 1st block of a set of free blocks, load buckets        */                     
@@ -394,6 +430,11 @@ xbShort xbDbf::ReadMemoBlock( const xbLong BlockNo, const xbShort Option )
    return XB_NO_ERROR;
 }
 /************************************************************************/
+//! Short description
+/*!
+  \param BlockNo
+  \param Option
+*/
 xbShort xbDbf::WriteMemoBlock( const xbLong BlockNo, const xbShort Option )
 {
 /* Option = 0 - 1st Block of a set of valid data blocks, set buckets    */
@@ -435,6 +476,13 @@ xbShort xbDbf::WriteMemoBlock( const xbLong BlockNo, const xbShort Option )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param FieldNo
+  \param len
+  \param Buf
+  \param LockOpt
+*/
 xbShort xbDbf::GetMemoField( const xbShort FieldNo, const xbLong len, 
         char * Buf, const xbShort LockOpt )
 {
@@ -512,6 +560,10 @@ xbShort xbDbf::GetMemoField( const xbShort FieldNo, const xbLong len,
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param FieldNo
+*/
 xbLong xbDbf::GetMemoFieldLen( const xbShort FieldNo ) 
 {
    xbLong  BlockNo, ByteCnt;
@@ -555,6 +607,9 @@ xbLong xbDbf::GetMemoFieldLen( const xbShort FieldNo )
    }
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbDbf::MemoFieldsPresent( void ) const
 {
    xbShort i;
@@ -565,6 +620,10 @@ xbShort xbDbf::MemoFieldsPresent( void ) const
    return 0;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param FieldNo
+*/
 xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
 {
    xbLong SBlockNo, SNoOfBlocks = 0L, SNextBlock;
@@ -674,6 +733,12 @@ xbShort xbDbf::DeleteMemoField( const xbShort FieldNo )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param FieldNo
+  \param DataLen
+  \param Buf
+*/
 xbShort xbDbf::AddMemoData( const xbShort FieldNo, const xbLong DataLen,
      const char * Buf )
 {
@@ -737,6 +802,9 @@ xbShort xbDbf::AddMemoData( const xbShort FieldNo, const xbLong DataLen,
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbDbf::UpdateHeadNextNode( void ) const
 {      
    char buf[4];
@@ -751,6 +819,13 @@ xbShort xbDbf::UpdateHeadNextNode( void ) const
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param StartBlock
+  \param BlocksNeeded
+  \param DataLen
+  \param Buf
+*/
 xbShort xbDbf::PutMemoData( const xbLong StartBlock,
     const xbLong BlocksNeeded, const xbLong DataLen, const char *Buf )
 {
@@ -803,6 +878,13 @@ xbShort xbDbf::PutMemoData( const xbLong StartBlock,
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param FieldNo
+  \param DataLen
+  \param Buf
+  \param LockOpt
+*/
 xbShort xbDbf::UpdateMemoData( const xbShort FieldNo, const xbLong DataLen, 
      const char * Buf, const xbShort LockOpt )
 {
@@ -904,6 +986,10 @@ xbShort xbDbf::UpdateMemoData( const xbShort FieldNo, const xbLong DataLen,
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+  \param FieldNo
+*/
 xbShort xbDbf::MemoFieldExists( const xbShort FieldNo ) const
 {
    if( GetLongField( FieldNo ) == 0L )
@@ -912,6 +998,9 @@ xbShort xbDbf::MemoFieldExists( const xbShort FieldNo ) const
       return 1;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 #ifdef XBASE_DEBUG
 void xbDbf::DumpMemoHeader( void ) const
 {
@@ -929,6 +1018,9 @@ void xbDbf::DumpMemoHeader( void ) const
    return;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbDbf::DumpMemoFreeChain( void ) 
 {
    xbShort rc;
@@ -953,6 +1045,9 @@ xbShort xbDbf::DumpMemoFreeChain( void )
    return XB_NO_ERROR;
 }
 /***********************************************************************/
+//! Short description
+/*!
+*/
 void xbDbf::DumpMemoBlock( void ) const
 {
    xbShort i;

@@ -1,4 +1,4 @@
-/*  $Id: lock.cpp,v 1.2 2000/06/20 04:30:18 dbryson Exp $
+/*  $Id: lock.cpp,v 1.3 2000/06/21 04:38:40 dbryson Exp $
 
     Xbase project source code
 
@@ -56,6 +56,11 @@
 */
 
 /************************************************************************/
+//! UnixToDosLockCommand
+/*!
+  \param WaitOption
+  \param LockType
+*/
 #ifndef HAVE_FCNTL
 xbShort xbDbf::UnixToDosLockCommand( const xbShort WaitOption, 
     const xbShort LockType ) const
@@ -71,6 +76,12 @@ xbShort xbDbf::UnixToDosLockCommand( const xbShort WaitOption,
 }
 #endif
 /************************************************************************/
+//! Short description
+/*!
+  \param WaitOption
+  \param LockType
+  \param LRecNo
+*/
 xbShort xbDbf::LockDatabase( const xbShort WaitOption, const xbShort LockType, 
     const xbULong LRecNo )
 {
@@ -290,6 +301,11 @@ xbShort xbDbf::LockDatabase( const xbShort WaitOption, const xbShort LockType,
 #endif
 } 
 /************************************************************************/
+//! Short Description
+/*!
+  \param WaitOption
+  \param LockType
+*/
 #ifdef XB_INDEX_ANY
 
 xbShort xbIndex::LockIndex( const xbShort WaitOption,
@@ -386,8 +402,12 @@ xbShort xbIndex::LockIndex( const xbShort WaitOption,
 }
 #endif	/* XB_INDEX_ANY  */
 /************************************************************************/
+//! Short description
+/*!
+  \param WaitOption
+  \param LockType
+*/
 #ifdef XB_MEMO_FIELDS 
-
 xbShort xbDbf::LockMemoFile( const xbShort WaitOption, const xbShort LockType )
 {
    /*  This method locks the first 4 bytes of the memo file,
@@ -482,6 +502,10 @@ xbShort xbDbf::LockMemoFile( const xbShort WaitOption, const xbShort LockType )
 }
 #endif	/* XB_MEMO_FIELDS  */
 /***********************************************************************/
+//! Short description
+/*!
+  \param LockWaitOption
+*/
 xbShort xbDbf::ExclusiveLock( const xbShort LockWaitOption )
 {
    /* this routine locks all files and indexes for a database file */
@@ -527,6 +551,9 @@ xbShort xbDbf::ExclusiveLock( const xbShort LockWaitOption )
    return XB_NO_ERROR;
 }  
 /***********************************************************************/
+//! Short description
+/*!
+*/
 xbShort xbDbf::ExclusiveUnlock( void )
 {
    /* this routine unlocks all files and indexes for a database file */

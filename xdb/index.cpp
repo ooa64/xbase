@@ -7,6 +7,10 @@
 */
 
 #ifdef XB_INDEX_ANY
+//! Constructor
+/*!
+  \param pdbf
+*/
 xbIndex::xbIndex(xbDbf * pdbf)
 {
   index          = this;
