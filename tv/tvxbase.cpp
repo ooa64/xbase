@@ -1,4 +1,4 @@
-/*  $Id: tvxbase.cpp,v 1.1 2000/06/01 06:08:29 dbryson Exp $
+/*  $Id: tvxbase.cpp,v 1.2 2000/09/20 20:34:02 dbryson Exp $
 
     Xbase project source code
 
@@ -41,7 +41,7 @@
 #define Uses_TStatusLine
 #define Uses_TSubMenu
 #include <tvision/tv.h>
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 #include "tvbrowse.h"
 

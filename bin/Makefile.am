@@ -1,6 +1,6 @@
 
 INCLUDES= -I$(topdir) $(all_includes)
-LDADD	= -L$(topdir)/xdb/.libs -lxdb
+LDADD	= -L$(topdir)/xbase/.libs -lxdb
 
 INSTALL_PROGRAM = @INSTALL@
 

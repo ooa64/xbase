@@ -1,5 +1,5 @@
-/* xdb/xbconfig.h.  Generated automatically by configure.  */
-/* xdb/xbconfig.h.in.  Generated automatically from configure.in by autoheader.  */
+/* xbase/xbconfig.h.  Generated automatically by configure.  */
+/* xbase/xbconfig.h.in.  Generated automatically from configure.in by autoheader.  */
 
 /* Define if on AIX 3.
    System headers sometimes define this.
@@ -136,7 +136,7 @@
 /* #undef HAVE_TVISION_TV_H */
 
 /* Name of package */
-#define PACKAGE "xdb"
+#define PACKAGE "xbase"
 
 /* Version number of package */
 #define VERSION "2.0.0"

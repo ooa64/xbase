@@ -1,4 +1,4 @@
-/*  $Id: sample2.cpp,v 1.3 2000/06/07 04:37:59 dbryson Exp $
+/*  $Id: sample2.cpp,v 1.4 2000/09/20 20:34:02 dbryson Exp $
 
     Xbase project source code
 
@@ -34,7 +34,7 @@
     V 1.9.1 8/18/99    - Modifications to xbDate class
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS

@@ -1,4 +1,4 @@
-/*  $Id: sample4.cpp,v 1.3 2000/06/07 04:37:59 dbryson Exp $
+/*  $Id: sample4.cpp,v 1.4 2000/09/20 20:34:02 dbryson Exp $
 
     Xbase project source code
 
@@ -32,7 +32,7 @@
     V 1.8   11/29/98   - Version 1.8 upgrade
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 #ifdef __XBDOS
 #include <stdio.h>

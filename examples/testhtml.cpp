@@ -1,4 +1,4 @@
-/*  $Id: testhtml.cpp,v 1.3 2000/06/07 04:37:59 dbryson Exp $
+/*  $Id: testhtml.cpp,v 1.4 2000/09/20 20:34:02 dbryson Exp $
 
     Xbase project source code
 
@@ -29,7 +29,7 @@
 
 #define HTML_PAGE 
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 int main()
 {

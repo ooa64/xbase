@@ -34,9 +34,9 @@ oldincludedir = /usr/include
 
 DESTDIR =
 
-pkgdatadir = $(datadir)/xdb
-pkglibdir = $(libdir)/xdb
-pkgincludedir = $(includedir)/xdb
+pkgdatadir = $(datadir)/xbase
+pkglibdir = $(libdir)/xbase
+pkgincludedir = $(includedir)/xbase
 
 top_builddir = ..
 
@@ -77,7 +77,7 @@ LIBTOOL = $(SHELL) $(top_builddir)/libtool --silent
 LN_S = ln -s
 MAKEINFO = makeinfo
 NM = /usr/bin/nm -B
-PACKAGE = xdb
+PACKAGE = xbase
 PAMINC = @PAMINC@
 PAMLIBPATHS = @PAMLIBPATHS@
 PAMLIBS = @PAMLIBS@
@@ -93,7 +93,7 @@ x_includes = @x_includes@
 x_libraries = @x_libraries@
 
 INCLUDES = -I$(topdir) $(all_includes)
-LDADD = -L$(topdir)/xdb/.libs -lxdb
+LDADD = -L$(topdir)/xbase/.libs -lxdb
 
 # for shadow passwords override the value
 INSTALL_PROGRAM = /usr/bin/install -c
@@ -114,12 +114,12 @@ noinst_HEADERS =
 
 MAINTAINERCLEANFILES = Makefile.in
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../xdb/xbconfig.h
+CONFIG_HEADER = ../xbase/xbconfig.h
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
-DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I../xdb
+DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I../xbase
 CPPFLAGS = 
 LDFLAGS = 
 LIBS = 

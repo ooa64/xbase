@@ -30,7 +30,7 @@
 */
 
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 
 int main()

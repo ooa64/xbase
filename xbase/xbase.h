@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.1 2000/09/20 19:45:31 dbryson Exp $
+/*  $Id: xbase.h,v 1.2 2000/09/20 20:34:02 dbryson Exp $
 
     Xbase project source code
 
@@ -37,6 +37,7 @@
 //  Identify ourselves
 //
 #define XDB_VERSION        "2.0.0"
+#define XBASE_VERSION        "2.0.0"
 
 #include <string.h>
 
@@ -91,14 +92,14 @@
 #  define XBDLLEXPORT_CTORFN
 #endif // Win/!Win
 
-#include <xdb/xtypes.h>
-#include <xdb/retcodes.h>
-#include <xdb/xdate.h>
+#include <xbase/xtypes.h>
+#include <xbase/retcodes.h>
+#include <xbase/xdate.h>
 
-#include <xdb/xbstring.h>
+#include <xbase/xbstring.h>
 
 #if defined(XB_EXPRESSIONS)
-#include <xdb/exp.h>
+#include <xbase/exp.h>
 #endif
 
 /*! \file xbase.h
@@ -154,24 +155,24 @@ public:
    xbShort  RemoveDbfFromDbfList( xbDbf * );
 };
 
-#include <xdb/dbf.h>
+#include <xbase/dbf.h>
 
 #if defined(XB_INDEX_ANY)
-#include <xdb/index.h>
+#include <xbase/index.h>
 #endif
 
 #ifdef XB_INDEX_NDX
-#include <xdb/ndx.h>
+#include <xbase/ndx.h>
 #endif
 
 #ifdef XB_INDEX_NTX
-#include <xdb/ntx.h>
+#include <xbase/ntx.h>
 #endif
 
 #if defined(XB_FILTERS) && !defined(XB_INDEX_ANY)
 #error XB_FILTERS cant be used without index support
 #elif defined(XB_FILTERS)
-#include <xdb/xbfilter.h>
+#include <xbase/xbfilter.h>
 #endif
 
 #ifdef XB_LOCKING_ON
@@ -194,7 +195,7 @@ enum { F_SETLKW = 0, F_WRLCK = 0 };
 #endif
 
 #ifdef XB_HTML
-#include <xdb/html.h>
+#include <xbase/html.h>
 #endif
 
 #endif		// __XB_XBASE_H__

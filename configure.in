@@ -6,10 +6,10 @@ AC_CANONICAL_SYSTEM
 AC_ARG_PROGRAM
 
 dnl You have to change this
-AM_INIT_AUTOMAKE(xdb, 2.0.0) dnl searches for some needed programs
+AM_INIT_AUTOMAKE(xbase, 2.0.0) dnl searches for some needed programs
 
 dnl generate the config header
-AM_CONFIG_HEADER(xdb/xbconfig.h) dnl at the distribution this done
+AM_CONFIG_HEADER(xbase/xbconfig.h) dnl at the distribution this done
 
 dnl Checks for programs.
 AC_CHECK_COMPILERS
@@ -128,13 +128,13 @@ AC_SUBST(TVPROGS)
 dnl add here all your Makefiles
 AC_OUTPUT(
 	Makefile
-	xdb/Makefile
-	xdb/xbase.h
+	xbase/Makefile
+	xbase/xbase.h
 	examples/Makefile
-    bin/Makefile
+    	bin/Makefile
 	html/Makefile
 	tv/Makefile
-    libtest/Makefile
+    	libtest/Makefile
 	ybase/Makefile
 )
 

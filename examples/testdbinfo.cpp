@@ -1,4 +1,4 @@
-/*  $Id: testdbinfo.cpp,v 1.1 2000/06/01 06:06:28 dbryson Exp $
+/*  $Id: testdbinfo.cpp,v 1.2 2000/09/20 20:34:02 dbryson Exp $
 
     Xbase project source code
 
@@ -28,7 +28,7 @@
     V 1.8   11/29/98   - Version 1.8 upgrade 
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS

@@ -116,7 +116,7 @@ EXTRA_DIST = COPYING.LIB Xb2cpp.html cvsdoc xbase.html xbase.jpg	      	xbase_a1
 
 MAINTAINERCLEANFILES = Makefile.in
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../xdb/xbconfig.h
+CONFIG_HEADER = ../xbase/xbconfig.h
 CONFIG_CLEAN_FILES = 
 DIST_COMMON =  COPYING.LIB ChangeLog Makefile.am Makefile.in
 

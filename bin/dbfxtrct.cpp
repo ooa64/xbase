@@ -28,7 +28,7 @@
     V 1.8   4/15/99    - Initial creation of this program
 */
 
-#include "xdb/xbase.h"
+#include "xbase/xbase.h"
 
 /*************************************************************************/
 void Usage();

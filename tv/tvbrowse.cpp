@@ -1,4 +1,4 @@
-/*  $Id: tvbrowse.cpp,v 1.1 2000/06/01 06:08:32 dbryson Exp $
+/*  $Id: tvbrowse.cpp,v 1.2 2000/09/20 20:34:02 dbryson Exp $
 
     Xbase project source code
 
@@ -23,7 +23,7 @@
     Foundation, Inc., or see http://www.gnu.org/.
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 #include <stdlib.h>
 #include <stdio.h>

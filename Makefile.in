@@ -111,17 +111,17 @@ topdir = @topdir@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
-SUBDIRS = xdb examples bin html tv
+SUBDIRS = xbase examples bin html tv
 
 MAINTAINERCLEANFILES = Makefile.in configure aclocal.m4 libtool
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ./xdb/xbconfig.h
+CONFIG_HEADER = ./xbase/xbconfig.h
 CONFIG_CLEAN_FILES = 
 DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
 Makefile.in NEWS TODO acconfig.h acinclude.m4 aclocal.m4 config.guess \
 config.sub configure configure.in install-sh ltconfig ltmain.sh missing \
-mkinstalldirs xdb/stamp-h.in xdb/xbconfig.h.in
+mkinstalldirs xbase/stamp-h.in xbase/xbconfig.h.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -145,31 +145,31 @@ config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure: $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-xdb/xbconfig.h: xdb/stamp-h
+xbase/xbconfig.h: xbase/stamp-h
 	@if test ! -f $@; then \
-		rm -f xdb/stamp-h; \
-		$(MAKE) xdb/stamp-h; \
+		rm -f xbase/stamp-h; \
+		$(MAKE) xbase/stamp-h; \
 	else :; fi
-xdb/stamp-h: $(srcdir)/xdb/xbconfig.h.in $(top_builddir)/config.status
+xbase/stamp-h: $(srcdir)/xbase/xbconfig.h.in $(top_builddir)/config.status
 	cd $(top_builddir) \
-	  && CONFIG_FILES= CONFIG_HEADERS=xdb/xbconfig.h \
+	  && CONFIG_FILES= CONFIG_HEADERS=xbase/xbconfig.h \
 	     $(SHELL) ./config.status
-	@echo timestamp > xdb/stamp-h 2> /dev/null
-$(srcdir)/xdb/xbconfig.h.in: $(srcdir)/xdb/stamp-h.in
+	@echo timestamp > xbase/stamp-h 2> /dev/null
+$(srcdir)/xbase/xbconfig.h.in: $(srcdir)/xbase/stamp-h.in
 	@if test ! -f $@; then \
-		rm -f $(srcdir)/xdb/stamp-h.in; \
-		$(MAKE) $(srcdir)/xdb/stamp-h.in; \
+		rm -f $(srcdir)/xbase/stamp-h.in; \
+		$(MAKE) $(srcdir)/xbase/stamp-h.in; \
 	else :; fi
-$(srcdir)/xdb/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) acconfig.h
+$(srcdir)/xbase/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) acconfig.h
 	cd $(top_srcdir) && $(AUTOHEADER)
-	@echo timestamp > $(srcdir)/xdb/stamp-h.in 2> /dev/null
+	@echo timestamp > $(srcdir)/xbase/stamp-h.in 2> /dev/null
 
 mostlyclean-hdr:
 
 clean-hdr:
 
 distclean-hdr:
-	-rm -f xdb/xbconfig.h
+	-rm -f xbase/xbconfig.h
 
 maintainer-clean-hdr:
 

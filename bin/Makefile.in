@@ -93,7 +93,7 @@ x_includes = @x_includes@
 x_libraries = @x_libraries@
 
 INCLUDES = -I$(topdir) $(all_includes)
-LDADD = -L$(topdir)/xdb/.libs -lxdb
+LDADD = -L$(topdir)/xbase/.libs -lxdb
 
 INSTALL_PROGRAM = @INSTALL@
 
@@ -119,12 +119,12 @@ noinst_HEADERS =
 
 MAINTAINERCLEANFILES = Makefile.in
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../xdb/xbconfig.h
+CONFIG_HEADER = ../xbase/xbconfig.h
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(bin_PROGRAMS) $(noinst_PROGRAMS)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../xdb
+DEFS = @DEFS@ -I. -I$(srcdir) -I../xbase
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@

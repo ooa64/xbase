@@ -1,4 +1,4 @@
-/*  $Id: dbfutil1.cpp,v 1.3 2000/06/07 04:50:59 dbryson Exp $
+/*  $Id: dbfutil1.cpp,v 1.4 2000/09/20 20:34:02 dbryson Exp $
 
     dbf utility program
 
@@ -6,7 +6,7 @@
 
 */
 
-#include <xdb/xbase.h>
+#include <xbase/xbase.h>
 
 xbXBase x;
 xbDbf d( &x );
