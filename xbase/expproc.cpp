@@ -1,4 +1,4 @@
-/*  $Id: expproc.cpp,v 1.4 2000/10/31 00:59:48 dbryson Exp $
+/*  $Id: expproc.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
 
     Xbase project source code
 
@@ -43,7 +43,12 @@
     V 1.7.1 5/25/98    - Enhanced expression support
 */
 
+#ifdef __WIN32__
+#include <xbase/xbconfigw32.h>
+#else
 #include <xbase/xbconfig.h>
+#endif
+
 #include <xbase/xbase.h>
 
 #ifdef XB_EXPRESSIONS

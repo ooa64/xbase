@@ -42,7 +42,12 @@
 */
 
 #include <xbase/xbase.h>
+
+#ifdef __WIN32__
+#include <xbase/xbconfigw32.h>
+#else
 #include <xbase/xbconfig.h>
+#endif
 
 #include <stdlib.h>
 #include <stdio.h>

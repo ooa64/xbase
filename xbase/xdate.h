@@ -1,4 +1,4 @@
-/*  $Id: xdate.h,v 1.5 2000/10/31 00:59:48 dbryson Exp $
+/*  $Id: xdate.h,v 1.6 2000/11/07 20:31:20 dbryson Exp $
 
     Xbase project source code
 
@@ -55,7 +55,12 @@
 #ifndef __XB_XDATE_H__
 #define __XB_XDATE_H__
 
+#ifdef __WIN32__
+#include <xbase/xbconfigw32.h>
+#else
 #include <xbase/xbconfig.h>
+#endif
+
 #include <xbase/xbstring.h>
 
 #define XB_FMT_WEEK   1

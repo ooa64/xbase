@@ -1,4 +1,4 @@
-/*  $Id: xdate.cpp,v 1.4 2000/09/28 16:55:13 dbryson Exp $
+/*  $Id: xdate.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
 
     Xbase project source code
 
@@ -56,7 +56,11 @@
 #include <stdlib.h>  
 #include <string.h>
 #include <time.h>
+#ifdef __WIN32__
+#include <xbase/xbconfigw32.h>
+#else
 #include <xbase/xbconfig.h>
+#endif
 #include <xbase/xbase.h>
 #include <xbase/xdate.h>
 #include <xbase/retcodes.h>

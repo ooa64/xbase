@@ -43,11 +43,16 @@
     V 1.0   10/10/97   - Initial release of software
     V 1.5   1/2/97     - Added memo field support
     V 1.6a  4/1/98     - Added expression support
-    V 1.6b  4/8/98     - Numeric index keys 
+    V 1.6b  4/8/98     - Numeric index keys
     V 1.8.x 3/29/99    - Initial support for filters added
 */
 
+#ifdef __WIN32__
+#include <xbase/xbconfigw32.h>
+#else
 #include <xbase/xbconfig.h>
+#endif
+
 #include <xbase/xbase.h>
 #include <xbase/xbexcept.h>
 

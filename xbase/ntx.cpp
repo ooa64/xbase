@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.4 2000/10/31 00:54:24 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
 
     Xbase project source code
 
@@ -42,7 +42,12 @@
     V 1.0   10/10/97   - Initial release of software
 */
 
+#ifdef __WIN32__
+#include <xbase/xbconfigw32.h>
+#else
 #include <xbase/xbconfig.h>
+#endif
+
 #include <xbase/xbase.h>
 
 #ifdef XB_INDEX_NTX

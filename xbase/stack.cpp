@@ -1,4 +1,4 @@
-/*  $Id: stack.cpp,v 1.3 2000/09/27 17:25:09 dbryson Exp $
+/*  $Id: stack.cpp,v 1.4 2000/11/07 20:31:20 dbryson Exp $
 
     Xbase project source code
 
@@ -45,7 +45,12 @@
     V 1.6b  4/8/98     - Added expression support
 */
 
+#ifdef __WIN32__
+#include <xbase/xbconfigw32.h>
+#else
 #include <xbase/xbconfig.h>
+#endif
+
 #include <xbase/xbase.h>
 
 #include <string.h>

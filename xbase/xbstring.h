@@ -45,7 +45,12 @@
 #ifndef __XBSTRING_H__
 #define __XBSTRING_H__
 
+#ifdef __WIN32__
+#include <xbase/xbconfigw32.h>
+#else
 #include <xbase/xbconfig.h>
+#endif
+
 #include <stdlib.h>
 #include <iostream.h>
 
