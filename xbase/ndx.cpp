@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.9 2001/01/27 05:00:32 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.10 2001/03/21 00:28:53 dbryson Exp $
 
     Xbase project source code
 
@@ -1058,6 +1058,7 @@ xbShort xbNdx::CompareKey( const char * Key1, const char * Key2, xbShort Klen )
       }
       return 0;
 #else
+//printf("comparing '%s' to '%s'\n", Key1, Key2);
       c = memcmp(Key1, Key2, Klen);
       if(c < 0)
         return 2;
@@ -1123,6 +1124,7 @@ xbNdx::BSearchNode(const char *key, xbShort klen, const xbNdxNodeLink *node,
     }
   } while(start <= end && c);
 
+  
   if(c == 1)
     while(p < node->Leaf.NoOfKeysThisNode &&
           (c = CompareKey(key, GetKeyData(p, (xbNdxNodeLink *)node), klen)) == 1)
@@ -1395,7 +1397,7 @@ xbShort xbNdx::FindKey( const char * Tkey, xbShort Klen, xbShort RetrieveSw )
      return XB_FOUND;
      
      case 1 : /* less than */
-       if(i < CurNode->Leaf.NoOfKeysThisNode)
+//       if(i < CurNode->Leaf.NoOfKeysThisNode)
          break;
 //       i++;
      
@@ -1413,9 +1415,20 @@ xbShort xbNdx::FindKey( const char * Tkey, xbShort Klen, xbShort RetrieveSw )
 #endif
 
    CurNode->CurKeyNo = i;
+   if(i >= CurNode->Leaf.NoOfKeysThisNode)
+   {
+     CurDbfRec = 0;
+#ifdef XB_LOCKING_ON
+     if( dbf->GetAutoLock() )
+        LockIndex(F_SETLKW, F_UNLCK);
+#endif
+     return XB_EOF;
+   }
+   
    CurDbfRec = GetDbfNo( i, CurNode );
    if ((RetrieveSw) && (CurDbfRec > 0))
-      dbf->GetRecord( CurDbfRec );
+     dbf->GetRecord( CurDbfRec );
+   
 #ifdef XB_LOCKING_ON
    if( dbf->GetAutoLock() )
       LockIndex(F_SETLKW, F_UNLCK);
