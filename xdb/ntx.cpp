@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.2 2000/06/06 23:08:49 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.3 2000/06/07 03:25:39 dbryson Exp $
 
     Xbase project source code
 
@@ -1050,7 +1050,7 @@ xbULong xbNtx::GetLeafFromInteriorNode( const char * Tkey, xbShort )
    /* This function scans an interior node for a key and returns the   */
    /* correct interior leaf node no                                    */
 
-   xbShort p;
+   xbShort rc, p;
 
    /* if Tkey > any keys in node, return right most key */
    p = CurNode->Leaf.NoOfKeysThisNode -1 ;
@@ -1061,7 +1061,6 @@ xbULong xbNtx::GetLeafFromInteriorNode( const char * Tkey, xbShort )
    }
    
    /* otherwise, start at the beginning and scan up */
-#if 0
    p = 0;
    while( p < CurNode->Leaf.NoOfKeysThisNode)
    {
@@ -1075,12 +1074,6 @@ xbULong xbNtx::GetLeafFromInteriorNode( const char * Tkey, xbShort )
        }
        p++;
    }
-#else
-   p = 0;
-   while( p < CurNode->Leaf.NoOfKeysThisNode &&
-          ( CompareKey( Tkey, GetKeyData( p, CurNode ), Klen ) == 1 ))
-      p++;
-#endif
 
    CurNode->CurKeyNo = p;
    return GetLeftNodeNo( p, CurNode );
@@ -3008,17 +3001,9 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
             return rc;
       }
    } 
-<<<<<<< ntx.cpp
    if(saveAutoLock)
       dbf->AutoLockOn();
-=======
-   dbf->AutoLockOn();
-
-#ifdef XB_LOCKING_ON
-   setbuf( indexfp, NULL );
-#endif
-
->>>>>>> ../../xbase/xbase/ntx.cpp
+	  
    return XB_NO_ERROR;
 }
 

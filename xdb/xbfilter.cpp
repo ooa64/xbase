@@ -30,8 +30,8 @@
     V 1.8.x 3/29/99    - Initial support for filters added
 */
 
-#include <xbase/xbase.h>
-#include <xbase/xbexcept.h>
+#include <xdb/xbase.h>
+#include <xdb/xbexcept.h>
 
 #ifdef XB_FILTERS
 /************************************************************************/

@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.3 2000/06/07 02:09:00 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.4 2000/06/07 03:25:39 dbryson Exp $
 
     Xbase project source code
    
@@ -1738,6 +1738,8 @@ xbShort xbDbf::UndeleteRecord( void )
    }
    else
      xb_error(XB_INVALID_RECORD);
+
+   return 0;
 }
 /************************************************************************/
 //! Determine if current record is deleted

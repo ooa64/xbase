@@ -32,7 +32,7 @@
 #ifndef __XB_FILTER_H__
 #define __XB_FILTER_H__
 
-class xbFilter {
+class XBDLLEXPORT xbFilter {
   public:
    xbFilter( xbDbf * dbf, xbIndex * index, char * expression );
    xbShort GetFirstFilterRec();

@@ -24,7 +24,8 @@
     V 1.9.2  9/14/99    - misc user supplied updates
 */
 
-#include <xbase/xbconfig.h>
+#include <xdb/xbase.h>
+#include <xdb/xbconfig.h>
 
 #include <stdlib.h>
 #include <stdio.h>

@@ -1,4 +1,4 @@
-/*  $Id: ndx.h,v 1.3 2000/06/07 02:09:01 dbryson Exp $
+/*  $Id: ndx.h,v 1.4 2000/06/07 03:25:39 dbryson Exp $
 
     Xbase project source code
 
@@ -104,6 +104,7 @@ public:
    xbLong   GetTotalNodes();
    xbLong   GetCurDbfRec() { return CurDbfRec; }
    xbShort  CreateKey( xbShort, xbShort );
+   xbShort  GetCurrentKey(char *key);
    xbShort  AddKey( xbLong );
    xbShort  UniqueIndex() { return HeadNode.Unique; }
    xbShort  DeleteKey( xbLong );
@@ -210,9 +211,9 @@ private:
    xbShort    GetLeafNode( xbLong, xbShort );
    xbNdxNodeLink * GetNodeMemory();
    void       ReleaseNodeMemory( xbNdxNodeLink * );
-   xbShort    xbNdx::BSearchNode(const char *key, xbShort klen, 
-                                 const xbNdxNodeLink *node, 
-                                 xbShort *comp);
+   xbShort    BSearchNode(const char *key, xbShort klen, 
+                          const xbNdxNodeLink *node, 
+                          xbShort *comp);
    xbLong     GetLeafFromInteriorNode( const char *Tkey, xbShort Klen );
    xbShort    CalcKeyLen();
    xbShort    PutKeyData( xbShort, xbNdxNodeLink * );
@@ -239,6 +240,7 @@ private:
    xbShort    DeleteSibling( xbNdxNodeLink * );
    xbShort    MoveToLeftNode( xbNdxNodeLink *, xbNdxNodeLink * );
    xbShort    MoveToRightNode( xbNdxNodeLink *, xbNdxNodeLink * );
+   xbShort    FindKey( const char *Tkey, xbLong DbfRec );   /* for a specific dbf no */
 
    xbShort    CloneNodeChain();          
    xbShort    UncloneNodeChain();        
