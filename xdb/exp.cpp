@@ -1,4 +1,4 @@
-/*  $Id: exp.cpp,v 1.1 2000/06/01 06:03:56 dbryson Exp $
+/*  $Id: exp.cpp,v 1.2 2000/06/06 22:17:50 dbryson Exp $
 
     Xbase project source code
 
@@ -21,6 +21,7 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
 
     V 1.0    10/10/97   - Initial release of software
     V 1.5    1/2/97     - Added memo field support
@@ -53,14 +54,12 @@ static xbFuncDtl FuncList[] =
    { "CDOW",      1,    'C' },
    { "CHR",       1,    'C' },
    { "CMONTH",    1,    'C' },
-   
    { "DATE",      0,    'C' },
    { "DAY",       1,    'N' },
    { "DESCEND",   1,    'C' },
    { "DOW",       1,    'N' },
    { "DTOC",      1,    'C' },
    { "DTOS",      1,    'C' },
-     
    { "EXP",       1,    'N' },
    { "IIF",       3,    'C' },
    { "INT",       1,    'N' },
@@ -76,18 +75,13 @@ static xbFuncDtl FuncList[] =
    { "MIN",       2,    'N' },
    { "MONTH",     1,    'N' },  
    { "RECNO",     0,    'N' }, 
-   { "RECNO",     0,    'L' }, 
    { "REPLICATE", 2,    'C' },
    { "RIGHT",     2,    'C' },
    { "RTRIM",     1,    'C' },
    { "SPACE",     1,    'C' },
    { "SQRT",      1,    'N' },
    { "STR",       1,    'C' },
-   { "STR",       2,    'C' },
-   { "STR",       3,    'C' },
    { "STRZERO",   1,    'C' },
-   { "STRZERO",   2,    'C' },
-   { "STRZERO",   3,    'C' },
    { "SUBSTR",    3,    'C' },
    { "TRIM",      1,    'C' },
    { "UPPER",     1,    'C' },
@@ -99,7 +93,6 @@ static xbFuncDtl FuncList[] =
 xbExpn::xbExpn( void )
 {
    TokenType       = 0x00;
-   NextFreeExpNode = NULL;
    Tree            = NULL;
    TokenLen        = 0;
    OpLen1          = 0;
@@ -114,8 +107,8 @@ xbExpn::xbExpn( void )
 /*************************************************************************/
 xbShort xbExpn::GetFuncInfo( const char * Function, xbShort Option )
 {
-/*  Option = 0 - return array offset no
-             1 - return number of needed parms
+/*  Option =
+             1 - return minimum number of needed parms
              2 - return function result type
              ? - return 0 if valid function
 */
@@ -123,34 +116,25 @@ xbShort xbExpn::GetFuncInfo( const char * Function, xbShort Option )
    xbShort i, len;
    const char *s;
 
+   if(( Option<1 )||( Option>2 )) xb_error( XB_INVALID_OPTION );
+
    s = Function;
    len = 0;
    while( *s && *s != '(' ) { s++; len++; }
 
    f = XbaseFuncList;
    i = 0;
-   while( f[i].FuncName )
-   {
-      if( strncmp( f[i].FuncName, Function, len ) == 0 )
-      {
-         if( Option == 0 ) return i;
-         if( Option == 1 ) return f[i].ParmCnt;
-         if( Option == 2 ) return f[i].ReturnType;
-         return 0;
-      }
-      i++;
+   while( f[i].FuncName ){
+    if( strncmp( f[i].FuncName, Function, len ) == 0 )
+      return( (Option==1) ? f[i].ParmCnt : f[i].ReturnType );    
+    i++;
    }
-
-   cout << "\nGetFuncInfo error function = " << Function << "\n";
    return -1;
 }
 /*************************************************************************/
 xbShort xbExpn::IsWhiteSpace( char c )
 {
-   if( c == 0x20 ) 
-      return 1;
-   else
-      return 0;
+   return(( c == 0x20 )? 1 : 0 ); 
 }
 /*************************************************************************/
 xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
@@ -174,16 +158,14 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
    EmptyCtr    = 0;
    MaxCtr      = 0;
 
-   if( !s || ! *s )
-		 xb_error(XB_NO_DATA);
+   if( !s || ! *s ) xb_error(XB_NO_DATA);
 
    /* go past any initial white space */
-   while( s && *s && IsWhiteSpace( *s ))
-   {
-      s++;
-      MaxCtr++;
-      if (MaxCtr >= MaxLen)
-				return XB_NO_ERROR;
+   while( s && *s && IsWhiteSpace( *s )){
+     s++;
+     MaxCtr++;
+     if (MaxCtr >= MaxLen)
+     return XB_NO_ERROR;
    }
 
 /* 1 check for parens */
@@ -220,89 +202,82 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
             Wctr++;
             EmptyCtr++;
          }
-         else if( *s != ' ' )
-            EmptyCtr++;
-         s++;
-         TokenLen++;
-         MaxCtr++;
-         if( MaxCtr >= MaxLen )
-           xb_error(XB_PARSE_ERROR);
+       }
+       else if(( *s == '(' && Wtype == 1 ) || (*s == '{' && Wtype == 0 )){
+         Wctr++;
+         EmptyCtr++;
+       }
+       else if( *s != ' ' )
+         EmptyCtr++;
+       s++;
+       TokenLen++;
+       MaxCtr++;
+       if( MaxCtr >= MaxLen )
+         xb_error(XB_PARSE_ERROR);
       }
       xb_error(XB_PARSE_ERROR);
    }
 
 /* 2 - Check for Constants */
 /* check for "'" or """, if no corresponding quote return -1 */
-   if( *s == '"' || *s == '\'' )
-   {
-      if( *s == '"' ) Wtype = 0; else Wtype = 1;
-      TokenType  = 'C';               /* set to constant  */
-      PreviousType = 'C';
-//      if( !TreeResultType ) TreeResultType = 'C';
-      s++;
+   if( *s == '"' || *s == '\'' ){
+     if( *s == '"' ) Wtype = 0; else Wtype = 1;
+     TokenType  = 'C';               /* set to constant  */
+     PreviousType = 'C';
+     s++;
 
-      MaxCtr++;
-      if (MaxCtr >= MaxLen)
-        return XB_NO_ERROR;
+     MaxCtr++;
+     if (MaxCtr >= MaxLen)
+       return XB_NO_ERROR;
 
-      while( s && *s )
-      {
-         if(( *s == '"' && Wtype == 0 ) || (*s == '\'' && Wtype == 1 ))
-            return XB_NO_ERROR;
-         s++;
-         TokenLen++;
-         MaxCtr++;
-         if (MaxCtr >= MaxLen)
-           return XB_NO_ERROR;
-      }
-      xb_error(XB_PARSE_ERROR);
-   }
+     while( s && *s ){
+       if(( *s == '"' && Wtype == 0 ) || (*s == '\'' && Wtype == 1 ))
+         return XB_NO_ERROR;
+       s++;
+       TokenLen++;
+       MaxCtr++;
+       if (MaxCtr >= MaxLen)
+         return XB_NO_ERROR;
+     }
+     xb_error(XB_PARSE_ERROR);
+    }
 
 /* check for .T. .F. .TRUE. or .FALSE.  */
 
-   if( s && *s && *s == '.' )
-   {
-      if(( strncmp( s, ".T.", 3 ) == 0 ) || ( strncmp( s, ".F.", 3 ) == 0 ))
-      {
-         TokenLen   = 3;
-         TokenType  = 'C';      /* constant */
-         PreviousType = 'C';
-         LogicalType = 1;
-//         if( !TreeResultType ) TreeResultType = 'L';
-         return XB_NO_ERROR;
-      }
-      else if( strncmp( s, ".TRUE.", 6 ) == 0 )
-      {
-         TokenLen   = 6;
-         TokenType  = 'C';      /* constant */
-         PreviousType = 'C';
-         LogicalType = 1;
-//         if( !TreeResultType ) TreeResultType = 'L';
-         return XB_NO_ERROR;
-      }
-      else if( strncmp( s, ".FALSE.", 7 ) == 0 )
-      {
-         TokenLen   = 7;
-         TokenType  = 'C';      /* constant */
-         PreviousType = 'C';
-         LogicalType = 1;
-//         if( !TreeResultType ) TreeResultType = 'L';
-         return XB_NO_ERROR;
-      }
+   if( s && *s && *s == '.' ){
+     if(( strncmp( s, ".T.", 3 ) == 0 ) || ( strncmp( s, ".F.", 3 ) == 0 )){
+       TokenLen   = 3;
+       TokenType  = 'C';      /* constant */
+       PreviousType = 'C';
+       LogicalType = 1;
+       return XB_NO_ERROR;
+     }
+     else if( strncmp( s, ".TRUE.", 6 ) == 0 ){
+       TokenLen   = 6;
+       TokenType  = 'C';      /* constant */
+       PreviousType = 'C';
+       LogicalType = 1;
+       return XB_NO_ERROR;
+     }
+     else if( strncmp( s, ".FALSE.", 7 ) == 0 ){
+       TokenLen   = 7;
+       TokenType  = 'C';      /* constant */
+       PreviousType = 'C';
+       LogicalType = 1;
+       return XB_NO_ERROR;
+     }
    }
 
 /* check for positive, negative or decimal number constants */
    if(( *s == '-' && ( PreviousType == 'O' || PreviousType == 0 )) ||
       ( *s == '+' && ( PreviousType == 'O' || PreviousType == 0 )) ||
-        *s == '.' || isdigit( *s ))
-   {
+        *s == '.' || isdigit( *s )){
       sp = s;
       MaxCtrSave = MaxCtr;
       Wsw = Wctr = 0;
-      if( *s == '.' )
-      {
+      if( *s == '.' ){
          Wctr++;
-         s++;
+	 s++;
          MaxCtr++;
          if (MaxCtr >= MaxLen)
            xb_error(XB_PARSE_ERROR);
@@ -312,8 +287,7 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
          else
             Wsw++;
       }
-      else if( *s == '-' )
-      {
+      else if( *s == '-' ){
          s++;
          TokenLen++;
          MaxCtr++;
@@ -321,8 +295,7 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
            xb_error(XB_PARSE_ERROR);
 
          /* go past any white space between sign and number */
-         while( s && *s && IsWhiteSpace( *s )) 
-         {
+         while( s && *s && IsWhiteSpace( *s )){
             s++;
             TokenLen++;
             MaxCtr++;
@@ -331,22 +304,17 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
          }
       }
 
-      if( isdigit( *s ) || (*s == '.' && !Wsw ))
-      {
-         while(s && *s && ((*s == '.' && Wctr < 2 ) || isdigit(*s)) && !Wsw )
-         {
-            if( *s == '.' ) 
-            {
+      if( isdigit( *s ) || (*s == '.' && !Wsw )){
+         while(s && *s && ((*s == '.' && Wctr < 2 ) || isdigit(*s)) && !Wsw ){
+            if( *s == '.' ) {
                Wctr++; 
                if( Wctr > 1 ) break;
                s++;
 
                MaxCtr++;
-               if( MaxCtr >= MaxLen ) 
-               {
+               if( MaxCtr >= MaxLen ){
                   TokenType = 'N';
                   PreviousType = 'N';
- //                 if( !TreeResultType ) TreeResultType = 'N';
                   return XB_NO_ERROR;
                }
 
@@ -355,29 +323,24 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
                else
                   Wsw++;
             }
-            else
-            {
-               s++;
-               TokenLen++;
-               MaxCtr++;
-               if( MaxCtr >= MaxLen ) 
-               {
-                  TokenType = 'N';
-                  PreviousType = 'N';
-   //               if( !TreeResultType ) TreeResultType = 'N';
-                  return XB_NO_ERROR;
-               }
+            else{
+              s++;
+              TokenLen++;
+              MaxCtr++;
+              if( MaxCtr >= MaxLen ) {
+                TokenType = 'N';
+                PreviousType = 'N';
+                return XB_NO_ERROR;
+              }
             }
          }
          TokenType  = 'N';      /* constant */
          PreviousType = 'N'; 
-     //    if( !TreeResultType ) TreeResultType = 'N';
          return XB_NO_ERROR;
       }
-      else
-      {
-         s = sp;
-         MaxCtr = MaxCtrSave;
+      else {
+        s = sp;
+        MaxCtr = MaxCtrSave;
       }
    }
 
@@ -418,19 +381,16 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
 
       TokenType = 'O';
       PreviousType = 'O';
-      if( *s == '*' )
-      {
+      if( *s == '*' ){
          TokenLen = 2;
          return XB_NO_ERROR;
       }
-      else
-      {
+      else{
          TokenLen = 1;
          return XB_NO_ERROR;
       }
    }
-   if( *s == '<' || *s == '>' )
-   {
+   if( *s == '<' || *s == '>' ) {
       s++;
 
       MaxCtr++;
@@ -440,13 +400,11 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
       LogicalType = 1;  // added 3/25/00 dtb
       TokenType = 'O';
       PreviousType = 'O';
-      if( *s == '<' || *s == '>' || *s == '=' )
-      {
+      if( *s == '<' || *s == '>' || *s == '=' ){
          TokenLen = 2;
          return XB_NO_ERROR;
       }
-      else
-      {
+      else {
          TokenLen = 1;
          return XB_NO_ERROR;
       }
@@ -454,53 +412,42 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
 
 /* check for .NOT. .OR. .AND. */
 
-   if( s && *s && *s == '.' )
-   {
-      if( strncmp( s, ".NOT.", 5 ) == 0 )
-      {
+   if( s && *s && *s == '.' ){
+      if( strncmp( s, ".NOT.", 5 ) == 0 ){
          TokenLen   = 5;
          TokenType  = 'O';      /* constant */
          PreviousType = 'O';
          LogicalType = 1;
-//         if( TreeResultType != 'L' ) TreeResultType = 'L';
          return XB_NO_ERROR;
       }
-      else if( strncmp( s, ".AND.", 5 ) == 0 )
-      {
+      else if( strncmp( s, ".AND.", 5 ) == 0 ){
          TokenLen   = 5;
          TokenType  = 'O';      /* constant */
          PreviousType = 'O';
          LogicalType = 1;
-//         if( TreeResultType != 'L' ) TreeResultType = 'L';
          return XB_NO_ERROR;
       }
-      else if( strncmp( s, ".OR.", 4 ) == 0 )
-      {
+      else if( strncmp( s, ".OR.", 4 ) == 0 ){
          TokenLen   = 4;
          TokenType  = 'O';      /* constant */
          PreviousType = 'O';
          LogicalType = 1;
-//         if( TreeResultType != 'L' ) TreeResultType = 'L';
          return XB_NO_ERROR;
       }
    } 
 
    /* If get this far, must be function or database field */
-//   sp = s;   /* for GetFuncInfo */
-   while( s && *s )
-   {
+   while( s && *s ){
       s++;
       TokenLen++;
       MaxCtr++;
-      if( MaxCtr >= MaxLen )
-      {
+      if( MaxCtr >= MaxLen ) {
          TokenType = 'D';
          PreviousType = 'D';
          return XB_NO_ERROR;
       }
 
-      if( s && *s && *s == '(' )
-      {
+      if( s && *s && *s == '(' ) {
          /* look for corresponding ) */
          Wctr = 1;
          s++;
@@ -509,17 +456,13 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
          if( MaxCtr >= MaxLen )
            xb_error(XB_PARSE_ERROR);
       
-         while( s && *s )
-         {
-            if( *s == ')' )
-            {
+         while( s && *s ) {
+            if( *s == ')' ) {
                Wctr--;
-               if( !Wctr )
-               {
+               if( !Wctr ) {
                   TokenType = 'F';     /* function */
                   PreviousType = 'F';
                   TokenLen++;
- //                 TreeResultType = GetFuncInfo( sp, 2 );
                   return XB_NO_ERROR;
                }
             }
@@ -536,13 +479,9 @@ xbShort xbExpn::GetNextToken( const char * s, xbShort MaxLen )
       {
          np = s + 1;
          pp = s - 1;
-         if( !s || !*s || 
-             (IsSeparator( *s ) && 
-             !(*s == '-' && *np == '>' )  &&
-             !(*s == '>' && *pp == '-' )))
-         {
-            if(TokenLen > 0) 
-            {
+         if( !s || !*s || (IsSeparator( *s ) && 
+             !(*s == '-' && *np == '>' ) && !(*s == '>' && *pp == '-' ))) {
+            if(TokenLen > 0) {
                TokenType = 'D';      /* database field */
                PreviousType = 'D';
                return XB_NO_ERROR;
@@ -564,66 +503,11 @@ char xbExpn::IsSeparator( char c )
 }
 /*************************************************************************/
 xbExpNode * xbExpn::GetExpNode(xbShort Len) {
-   xbExpNode * Save;
    xbExpNode * Temp;
-   xbShort   SaveLen;
-   char    * SavePtr;
 
-
-   if( NextFreeExpNode )
-   {
-      Save = NULL;
-      Temp = NextFreeExpNode;
-      while( Temp->Node && Len > Temp->ResultLen )
-      {
-         Save = Temp;
-         Temp = Temp->Node;
-      }
-      /* check for end of chain */
-      if( Len <= Temp->ResultLen )
-      {
-         if( Save )
-            Save->Node = Temp->Node;
-         else
-            NextFreeExpNode = Temp->Node;
-
-         SaveLen = Temp->ResultLen;
-         SavePtr = Temp->Result;
-         memset( Temp, 0x00, sizeof( xbExpNode ));
-         Temp->ResultLen = SaveLen;
-         Temp->Result = SavePtr;
-
-         return Temp;
-      }
-      /* if none loaded w/ big enough result areas */
-      if( NextFreeExpNode->ResultLen == 0 )
-      {
-         Temp = NextFreeExpNode;
-         NextFreeExpNode = Temp->Node;
-         memset( Temp, 0x00, sizeof( xbExpNode ));
-         if(( Temp->Result = (char *) malloc( Len )) == NULL ) return NULL;
-         memset( Temp->Result, 0x00, Len );
-         Temp->ResultLen = Len;
-         return Temp;
-      }
-   }
-
-   /* get here if it couldn't use an already allocated but unused node */
-   if(( Temp = (xbExpNode *) malloc( sizeof( xbExpNode ))) == NULL )
-      return NULL;
-   memset( Temp, 0x00, sizeof( xbExpNode ));
-
-   if( Len > 0 )
-   {
-      if(( Temp->Result = (char *) malloc( Len )) == NULL ) 
-      {
-         free( Temp );
-         return NULL;
-      }
-      memset( Temp->Result, 0x00, Len );
-      *Temp->Result = 0x00;
+   Temp = new xbExpNode;
+   if( Temp && Len > 0 )
       Temp->ResultLen = Len;
-   }
    return Temp;
 }
 /*************************************************************************/
@@ -639,70 +523,9 @@ xbExpNode * xbExpn::LoadExpNode(
    CurNode->NodeText       = strdup( ENodeText );
    CurNode->Type           = EType;
    CurNode->Len            = ELen;
-   CurNode->Node           = NULL;
-   CurNode->Sibling1       = NULL;
-   CurNode->Sibling2       = NULL;
-   CurNode->Sibling3       = NULL;
-   CurNode->FieldNo        = -1;
-   CurNode->dbf            = NULL;
    CurNode->InTree         = 1;
    CurNode->ResultLen      = BufLen;
-   CurNode->dbf            = NULL;
-   CurNode->ExpressionType = 0;
    return CurNode;
-}
-/*************************************************************************/
-void xbExpn::FreeExpNode( xbExpNode * n )
-{
-   xbExpNode * Temp;
-   xbExpNode * Save;
-
-   if( n->Sibling1 )
-   {
-      FreeExpNode( n->Sibling1 );
-      n->Sibling1 = NULL;
-   }
-   if( n->Sibling2 )
-   {
-      FreeExpNode( n->Sibling2 );
-      n->Sibling2 = NULL;
-   }
-   if( n->Sibling3 )
-   {
-      FreeExpNode( n->Sibling3 );
-      n->Sibling3 = NULL;
-   }
-   if( !NextFreeExpNode )
-      NextFreeExpNode = n;
-   else if ( n->ResultLen == 0 )
-   {
-      n->Node = NextFreeExpNode;
-      NextFreeExpNode = n;
-   }
-   else
-   {
-      Temp = NextFreeExpNode;
-      Save = NULL;
-      while( Temp->Node && ( n->ResultLen > Temp->Node->ResultLen ))
-      {
-         Save = Temp;
-         Temp = Temp->Node;
-      }
-      if( n->ResultLen > Temp->ResultLen )
-      {
-         n->Node = Temp->Node;
-         Temp->Node = n;
-      }
-      else
-      {
-         n->Node = Temp;
-         if( Save )
-            Save->Node = n;
-         else
-            NextFreeExpNode = n;
-      }
-   } 
-   return;
 }
 /*************************************************************************/
 xbShort xbExpn::BuildExpressionTree( const char * Expression, 
@@ -719,9 +542,8 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
    char  TableName[31];
    xbDbf * TempDbf=0;
 
-   if( Tree )
-   {
-      FreeExpNode( Tree );
+   if( Tree ) {
+      delete Tree;
       Tree = NULL;
    }
 
@@ -729,38 +551,38 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
    PreviousNode = NULL;
    PreviousType = TokenLenCtr = 0;
 
-   while( IsWhiteSpace( *p ))
-   {
+   while( IsWhiteSpace( *p )) {
       p++;
       TokenLenCtr++;
       if(TokenLenCtr >= MaxTokenLen)
-				return XB_NO_ERROR;
+        return XB_NO_ERROR;
    }
 
    rc = GetNextToken( p, MaxTokenLen-TokenLenCtr );
    if( rc != XB_NO_DATA && rc != XB_NO_ERROR )
-	   return rc;
+     return rc;
 
-   while( rc == 0 )
-   {
-      if( TokenType == 'D' && d )
-      {
+   while( rc == 0 ){
+      if( TokenType == 'D' && d ){
          if( TokenLen > 30 )
-            strncpy( TableName, p, 30 );
+            strncpy( TableName, p, 30 );     
          else
             strncpy( TableName, p, TokenLen );
 
          memset( TempField, 0x00, 11 );
 
-         if( strstr( p, "->" ) != NULL )
-         {
+         if( strstr( p, "->" ) != NULL ) {
             if(( TempDbf = d->xbase->GetDbfPtr( TableName )) == NULL )
               xb_error(XB_INVALID_FIELD);
-
-            strncpy( TempField, strtok( NULL, "->" ), TokenLen-strlen(TableName)-2 );
+            xbShort tlen = 0;
+            while( TableName[tlen] != '-' && TableName[tlen+1] != '>' )
+              tlen++;
+            tlen = TokenLen - tlen - 2;    // length of field name
+            const char * fp = strstr( p, "->" ); 
+            fp += 2;                       // ptr to beginning of field name
+            strncpy( TempField, fp, tlen );
          }
-         else
-         {
+         else {
             TempDbf = d;
             if( TokenLen > 10 )
             xb_error(XB_INVALID_FIELD);
@@ -777,34 +599,28 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
 
       if( TokenType == 'C' ) p++;   /* go past first ' */
              
-      if( TokenType != 'O' )
-      {
-         if( !Tree )   /* create root node with this token */
-         {
+      if( TokenType != 'O' ){
+         if( !Tree ) {  /* create root node with this token */
             CurNode = LoadExpNode( p, TokenType, TokenLen, BufLen );
             Tree = CurNode;
          }
-         else          /* put as child 2 of previous node  */
-         {
-            CurNode = LoadExpNode( p, TokenType, TokenLen, BufLen );
+         else {        /* put as child 2 of previous node  */
+	    CurNode = LoadExpNode( p, TokenType, TokenLen, BufLen );
             PreviousNode->Sibling2 = CurNode;
             CurNode->Node = PreviousNode;
          }
 
-         if( TokenType == 'E' )
-         {
+         if( TokenType == 'E' ){
             if((rc=ReduceComplexExpression(p,TokenLen,CurNode,d))!=0)
                return rc;
          }
-         else if( TokenType == 'F' )
-         {
+         else if( TokenType == 'F' ) {
             if(( rc = ReduceFunction( p, CurNode, d)) != 0 )
                return rc;
             CurNode->ExpressionType = GetFuncInfo( p, 2 );
             CurNode->dbf = d; 
          }
-         else if( TokenType == 'D' && d )
-         {
+         else if( TokenType == 'D' && d ) {
             CurNode->DataLen = BufLen - 1;
             CurNode->FieldNo = FieldNo;
             CurNode->dbf = TempDbf;
@@ -814,14 +630,12 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
             else if( c == 'N' || c == 'F' ) CurNode->ExpressionType = 'N';
             else if( c == 'D' ) CurNode->ExpressionType = 'D';
          }
-         else if( TokenType == 'C' || TokenType == 'N' )
-         {
+         else if( TokenType == 'C' || TokenType == 'N' ) {
             CurNode->DataLen = CurNode->Len;
-            memset( CurNode->Result, 0x00, CurNode->DataLen + 1 );
-            strncpy( CurNode->Result, CurNode->NodeText, CurNode->DataLen );
-            if( TokenType == 'N' )
-            { 
-               CurNode->DoubResult = strtod(  CurNode->Result, 0 );
+            CurNode->StringResult.ctor( CurNode->NodeText );
+            CurNode->StringResult.resize( CurNode->DataLen+1 );
+            if( TokenType == 'N' ) { 
+               CurNode->DoubResult = strtod( CurNode->StringResult, 0 );
                CurNode->ExpressionType = 'N';
             }
             else
@@ -831,23 +645,20 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
       else /* it is an operator */
       {
          if(!Tree) {
-					 if(*p == '-') {
+	   if(*p == '-') {
                CurNode = LoadExpNode( p, TokenType, TokenLen, 0 );
                CurNode->ExpressionType = 'C';
             } else
             xb_error(XB_EXP_SYNTAX_ERROR);
          }
-         else
-         {
-            if( Tree->Type != 'O' )
-            {
+         else {
+            if( Tree->Type != 'O' ) {
                CurNode = LoadExpNode( p, TokenType, TokenLen, 0 );
                Tree->Node = CurNode;       /* link the new parent to old tree */
                CurNode->Sibling1 = Tree;   /* connect the sibling             */
                Tree = CurNode;             /*  root in tree                 */
             }
-            else
-            {
+            else {
                PreviousNode = CurNode->Node;
                CurNode = LoadExpNode( p, TokenType, TokenLen, 0 );
                while( PreviousNode &&
@@ -856,15 +667,13 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
                   OperatorWeight( PreviousNode->NodeText, TokenLen ))))
                     PreviousNode = PreviousNode->Node;
 
-               if( PreviousNode )
-               {
+               if( PreviousNode ) {
                   CurNode->Node = PreviousNode;
                   CurNode->Sibling1 = PreviousNode->Sibling2;
                   PreviousNode->Sibling2 = CurNode;
                   CurNode->Sibling1->Node = CurNode;
                }
-               else
-               { /* insert at root */
+               else { /* insert at root */
                   CurNode->Sibling1 = Tree;
                   Tree = CurNode;
                   CurNode->Sibling1->Node = CurNode;
@@ -876,8 +685,7 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
       }
       PreviousNode = CurNode;
       p += CurNode->Len; 
-      if( TokenType == 'C' )
-      {
+      if( TokenType == 'C' ) {
          p++;              /* go past last ' */
          TokenLenCtr+=2;   /* add the quotes */
       }
@@ -885,14 +693,12 @@ xbShort xbExpn::BuildExpressionTree( const char * Expression,
       TokenLenCtr += CurNode->Len;
       if( TokenLenCtr >= MaxTokenLen )
          return XB_NO_ERROR;
-      if( p && *p && TokenType == 'E' )
-      {
+      if( p && *p && TokenType == 'E' ) {
          p++;
          TokenLenCtr++;
       }
 
-      while( IsWhiteSpace( *p ))
-      {
+      while( IsWhiteSpace( *p )) {
          p++;
          TokenLenCtr++;
          if( TokenLenCtr >= MaxTokenLen ) 
@@ -913,7 +719,12 @@ char xbExpn::GetExpressionResultType( XB_EXPRESSION * e ) {
       Temp = Tree;
    else
       return 0;
- 
+
+   if( e->Type == 'O' &&
+      ( *e->NodeText == '<' || *e->NodeText == '>' || *e->NodeText == '=' ||
+        *e->NodeText == '#' || *e->NodeText == '$' ))
+	  return 'L';
+         
    while( Temp && !Temp->ExpressionType && Temp->Sibling1 )
       Temp = Temp->Sibling1;
    return Temp->ExpressionType;
@@ -951,15 +762,14 @@ xbShort xbExpn::ReduceComplexExpression(const char *NextToken, xbShort Len,
    if(( rc = BuildExpressionTree( p, Len-2, d )) != XB_NO_ERROR )
      return rc;
  
-   if(cn->Node)   /* then this is the base tree */
-   {
+   if(cn->Node) {  /* then this is the base tree */
       cn->Node->Sibling2 = Tree;
       Tree->Node = cn->Node;
-      FreeExpNode( cn );
+      delete cn;
       Tree = SaveTree;
    }
    else
-      FreeExpNode( cn );
+      delete cn;
 
    return XB_NO_ERROR;
 }
@@ -972,10 +782,8 @@ xbShort xbExpn::GetFunctionTokenLen( const char * s )
    cnt = LeftParenCtr = 0;
    p = s;
 
-   while( p &&
-         ( *p != ',' || ( *p == ',' && LeftParenCtr > 0 )) &&
-	 !( LeftParenCtr == 0 && *p == ')'))
-   {
+   while( p && ( *p != ',' || ( *p == ',' && LeftParenCtr > 0 )) &&
+	 !( LeftParenCtr == 0 && *p == ')')) {
       if( *p == '(' ) 
          LeftParenCtr++;
       else if( *p == ')' ) 
@@ -1000,7 +808,7 @@ xbShort xbExpn::ReduceFunction(const char *NextToken, xbExpNode *cn, xbDbf *d)
    p++;
    while( IsWhiteSpace( *p )) p++;
    if (*p == ')')
-		 return XB_NO_ERROR;
+     return XB_NO_ERROR;
 
    /* do function paramater 1 */
    FuncTokenLen = GetFunctionTokenLen( p );
@@ -1063,11 +871,9 @@ xbShort xbExpn::ParseExpression(const char *exp, xbDbf *d) {
 xbShort xbExpn::ProcessExpression(const char *e, xbDbf *d) {
    xbShort rc;
    if(( rc = BuildExpressionTree( e, strlen( e ), d )) != XB_NO_ERROR )
-		 return rc;
-
+     return rc;
    if(( rc = ProcessExpression( Tree )) != XB_NO_ERROR )
-  	 return rc;
-
+     return rc;
    return XB_NO_ERROR;
 }
 /*************************************************************************/
@@ -1084,20 +890,6 @@ void xbExpn::DumpExpressionTree( xbExpNode * E )
    return;
 }
 /*************************************************************************/
-void xbExpn::DumpExpFreeChain( void )
-{
-   xbExpNode * Temp;
-   Temp = NextFreeExpNode;
-
-   cout << "\nFree Exp Node chain...";
-   while( Temp )
-   {
-      DumpExpNode( Temp );
-      Temp = Temp->Node;
-   }
-   return;
-}
-/************************************************************************/
 void xbExpn::DumpExpNode(xbExpNode *e) {
    cout << "\n\n****** Exp Node ******";
    cout << "\nExp Node Address " << e;
@@ -1108,7 +900,7 @@ void xbExpn::DumpExpNode(xbExpNode *e) {
    cout << "\nParent = "     << e->Node;
    cout << "\nField No = "   << e->FieldNo;
    cout << "\nExpressionType = " << e->ExpressionType;
-   cout << "\nResult = "     << e->Result;
+   cout << "\nStringResult = "     << e->StringResult;
    cout << " DoubResult = "  << e->DoubResult;
    cout << " IntResult = "   << e->IntResult;
    cout << " ResultLen = "   << e->ResultLen;
