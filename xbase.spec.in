@@ -1,0 +1,61 @@
+%define xbase_ver @VERSION@
+
+Summary: Xbase dBase database file library
+Name: xbase
+Version: %{xbase_ver}
+Release: 1
+Source: xbase-@VERSION@.tar.gz
+Copyright: LGPL
+Group: Development/Libraries
+Packager: Derry Bryson <derry@techass.com>
+
+%description
+Library for accessing dBase .dbf, .ndx, .dbt, and Clipper .ntx files.
+
+%package -n xbase-devel
+Version: %{xbase_ver}
+Summary: Xbase development package
+Group: Development/Libraries
+
+%description -n xbase-devel
+Headers and such for compiling programs that use the Xbase library.
+
+%prep
+%setup
+CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=/usr --with-exceptions --enable-static
+
+%build
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make DESTDIR=$RPM_BUILD_ROOT install
+
+%post
+/sbin/ldconfig
+
+%postrun
+/sbin/ldconfig
+
+%files -n xbase
+/usr/bin/checkndx
+/usr/bin/copydbf
+/usr/bin/deletall
+/usr/bin/dumphdr
+/usr/bin/dumprecs
+/usr/bin/packdbf
+/usr/bin/reindex
+/usr/bin/undelall
+/usr/bin/zap
+/usr/bin/dbfutil1
+/usr/lib/libxbase.la
+/usr/lib/libxbase.a
+/usr/lib/libxbase.so
+/usr/lib/libxbase-%{xbase_ver}.so
+
+%files -n xbase-devel
+/usr/include/xbase
+/usr/bin/xbase-config
+
+%doc html/*.html html/*.gif html/*.jpg
+%doc NEWS README TODO AUTHORS COPYING ChangeLog

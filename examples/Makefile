@@ -98,7 +98,7 @@ LDADD = -L$(topdir)/xbase/.libs -lxbase
 # for shadow passwords override the value
 INSTALL_PROGRAM = /usr/bin/install -c
 
-noinst_PROGRAMS = sample1 sample2 sample3 sample4 sample5 testdate                     testhtml.cgi exfilter
+noinst_PROGRAMS = sample1 sample2 sample3 sample4 sample5                exfilter
 
 
 exfilter_SOURCES = exfilter.cpp
@@ -107,8 +107,6 @@ sample2_SOURCES = sample2.cpp
 sample3_SOURCES = sample3.cpp
 sample4_SOURCES = sample4.cpp
 sample5_SOURCES = sample5.cpp
-testdate_SOURCES = testdate.cpp
-testhtml_cgi_SOURCES = testhtml.cpp
 
 noinst_HEADERS = 
 
@@ -146,14 +144,6 @@ sample5_OBJECTS =  sample5.o
 sample5_LDADD = $(LDADD)
 sample5_DEPENDENCIES = 
 sample5_LDFLAGS = 
-testdate_OBJECTS =  testdate.o
-testdate_LDADD = $(LDADD)
-testdate_DEPENDENCIES = 
-testdate_LDFLAGS = 
-testhtml_cgi_OBJECTS =  testhtml.o
-testhtml_cgi_LDADD = $(LDADD)
-testhtml_cgi_DEPENDENCIES = 
-testhtml_cgi_LDFLAGS = 
 exfilter_OBJECTS =  exfilter.o
 exfilter_LDADD = $(LDADD)
 exfilter_DEPENDENCIES = 
@@ -173,10 +163,9 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = gtar
 GZIP_ENV = --best
 DEP_FILES =  .deps/exfilter.P .deps/sample1.P .deps/sample2.P \
-.deps/sample3.P .deps/sample4.P .deps/sample5.P .deps/testdate.P \
-.deps/testhtml.P
-SOURCES = $(sample1_SOURCES) $(sample2_SOURCES) $(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES) $(testdate_SOURCES) $(testhtml_cgi_SOURCES) $(exfilter_SOURCES)
-OBJECTS = $(sample1_OBJECTS) $(sample2_OBJECTS) $(sample3_OBJECTS) $(sample4_OBJECTS) $(sample5_OBJECTS) $(testdate_OBJECTS) $(testhtml_cgi_OBJECTS) $(exfilter_OBJECTS)
+.deps/sample3.P .deps/sample4.P .deps/sample5.P
+SOURCES = $(sample1_SOURCES) $(sample2_SOURCES) $(sample3_SOURCES) $(sample4_SOURCES) $(sample5_SOURCES) $(exfilter_SOURCES)
+OBJECTS = $(sample1_OBJECTS) $(sample2_OBJECTS) $(sample3_OBJECTS) $(sample4_OBJECTS) $(sample5_OBJECTS) $(exfilter_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -249,14 +238,6 @@ sample4: $(sample4_OBJECTS) $(sample4_DEPENDENCIES)
 sample5: $(sample5_OBJECTS) $(sample5_DEPENDENCIES)
 	@rm -f sample5
 	$(CXXLINK) $(sample5_LDFLAGS) $(sample5_OBJECTS) $(sample5_LDADD) $(LIBS)
-
-testdate: $(testdate_OBJECTS) $(testdate_DEPENDENCIES)
-	@rm -f testdate
-	$(CXXLINK) $(testdate_LDFLAGS) $(testdate_OBJECTS) $(testdate_LDADD) $(LIBS)
-
-testhtml.cgi: $(testhtml_cgi_OBJECTS) $(testhtml_cgi_DEPENDENCIES)
-	@rm -f testhtml.cgi
-	$(CXXLINK) $(testhtml_cgi_LDFLAGS) $(testhtml_cgi_OBJECTS) $(testhtml_cgi_LDADD) $(LIBS)
 
 exfilter: $(exfilter_OBJECTS) $(exfilter_DEPENDENCIES)
 	@rm -f exfilter

@@ -55,7 +55,7 @@
 #define XBASE_DEBUG 1
 
 /* Define if your compiler support exceptions */
-/* #undef HAVE_EXCEPTIONS */
+#define HAVE_EXCEPTIONS 1
 
 /* Define if you want Castellano (Spanish) Dates */
 /* #undef XB_CASTELLANO */

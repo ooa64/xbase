@@ -1,4 +1,4 @@
-/*  $Id: xbexcept.cpp,v 1.6 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: xbexcept.cpp,v 1.7 2000/11/30 22:15:24 dbryson Exp $
 
     Xbase project source code
 
@@ -51,6 +51,7 @@
 
 #include <stdlib.h>
 
+#include <xbase/xbase.h>
 #include <xbase/retcodes.h>
 #include <xbase/xbexcept.h>
 #include <xbase/xtypes.h>

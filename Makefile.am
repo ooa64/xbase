@@ -44,3 +44,8 @@ EXTRA_DIST = \
 	makefile.g95
 
 bin_SCRIPTS = xbase-config
+
+rpm : dist
+	cp xbase-@VERSION@.tar.gz /usr/src/redhat/SOURCES
+	cp xbase.spec /usr/src/redhat/SPECS
+	(cd /usr/src/redhat/SPECS ; rpm -ba --clean xbase.spec)

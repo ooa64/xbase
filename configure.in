@@ -137,6 +137,7 @@ AC_OUTPUT([
     	    libtest/Makefile
 	    ybase/Makefile
 	    xbase-config
+	    xbase.spec
 	  ],
 	  [
 	    chmod +x xbase-config
