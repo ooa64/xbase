@@ -678,7 +678,7 @@ test "$program_suffix" != NONE &&
 test "$program_transform_name" = "" && program_transform_name="s,x,x,"
 
 
-XSUBDIRS="xbase examples bin html libtest"
+XSUBDIRS="xbase examples bin html libtest tv"
 
 
 # Find a good install program.  We prefer a C program (faster),
@@ -3061,7 +3061,6 @@ trap 'rm -fr `echo "
 	    html/Makefile
 	    tv/Makefile
     	    libtest/Makefile
-	    ybase/Makefile
 	    xbase-config
 	    xbase.spec
 	    docs/doxygen.cfg
@@ -3188,7 +3187,6 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
 	    html/Makefile
 	    tv/Makefile
     	    libtest/Makefile
-	    ybase/Makefile
 	    xbase-config
 	    xbase.spec
 	    docs/doxygen.cfg

@@ -5,7 +5,7 @@ AC_INIT(acinclude.m4) dnl a source file from your sub dir, but acinclude.m4 does
 AC_CANONICAL_SYSTEM
 AC_ARG_PROGRAM
 
-XSUBDIRS="xbase examples bin html libtest"
+XSUBDIRS="xbase examples bin html libtest tv"
 AC_SUBST(XSUBDIRS)
 
 dnl You have to change this
@@ -142,7 +142,7 @@ AC_OUTPUT([
 	    html/Makefile
 	    tv/Makefile
     	    libtest/Makefile
-	    ybase/Makefile
+dnl	    ybase/Makefile
 	    xbase-config
 	    xbase.spec
 	    docs/doxygen.cfg

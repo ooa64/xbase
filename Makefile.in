@@ -146,9 +146,10 @@ CONFIG_CLEAN_FILES =  xbase-config xbase.spec
 SCRIPTS =  $(bin_SCRIPTS)
 
 DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-Makefile.in NEWS TODO acinclude.m4 aclocal.m4 config.guess config.sub \
-configure configure.in install-sh ltconfig ltmain.sh missing \
-mkinstalldirs xbase-config.in xbase.spec.in
+Makefile.in NEWS TODO acconfig.h acinclude.m4 aclocal.m4 config.guess \
+config.sub configure configure.in install-sh ltconfig ltmain.sh missing \
+mkinstalldirs xbase-config.in xbase.spec.in xbase/stamp-h.in \
+xbase/xbconfig.h.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -171,6 +172,34 @@ config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
 $(srcdir)/configure: $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
+
+xbase/xbconfig.h: xbase/stamp-h
+	@if test ! -f $@; then \
+		rm -f xbase/stamp-h; \
+		$(MAKE) xbase/stamp-h; \
+	else :; fi
+xbase/stamp-h: $(srcdir)/xbase/xbconfig.h.in $(top_builddir)/config.status
+	cd $(top_builddir) \
+	  && CONFIG_FILES= CONFIG_HEADERS=xbase/xbconfig.h \
+	     $(SHELL) ./config.status
+	@echo timestamp > xbase/stamp-h 2> /dev/null
+$(srcdir)/xbase/xbconfig.h.in: $(srcdir)/xbase/stamp-h.in
+	@if test ! -f $@; then \
+		rm -f $(srcdir)/xbase/stamp-h.in; \
+		$(MAKE) $(srcdir)/xbase/stamp-h.in; \
+	else :; fi
+$(srcdir)/xbase/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) acconfig.h
+	cd $(top_srcdir) && $(AUTOHEADER)
+	@echo timestamp > $(srcdir)/xbase/stamp-h.in 2> /dev/null
+
+mostlyclean-hdr:
+
+clean-hdr:
+
+distclean-hdr:
+	-rm -f xbase/xbconfig.h
+
+maintainer-clean-hdr:
 xbase-config: $(top_builddir)/config.status xbase-config.in
 	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
 xbase.spec: $(top_builddir)/config.status xbase.spec.in
@@ -385,29 +414,30 @@ distclean-generic:
 
 maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
-mostlyclean-am:  mostlyclean-tags mostlyclean-generic
+mostlyclean-am:  mostlyclean-hdr mostlyclean-tags mostlyclean-generic
 
 mostlyclean: mostlyclean-recursive
 
-clean-am:  clean-tags clean-generic mostlyclean-am
+clean-am:  clean-hdr clean-tags clean-generic mostlyclean-am
 
 clean: clean-recursive
 
-distclean-am:  distclean-tags distclean-generic clean-am
+distclean-am:  distclean-hdr distclean-tags distclean-generic clean-am
 	-rm -f libtool
 
 distclean: distclean-recursive
 	-rm -f config.status
 
-maintainer-clean-am:  maintainer-clean-tags maintainer-clean-generic \
-		distclean-am
+maintainer-clean-am:  maintainer-clean-hdr maintainer-clean-tags \
+		maintainer-clean-generic distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
 maintainer-clean: maintainer-clean-recursive
 	-rm -f config.status
 
-.PHONY: uninstall-binSCRIPTS install-binSCRIPTS install-data-recursive \
+.PHONY: mostlyclean-hdr distclean-hdr clean-hdr maintainer-clean-hdr \
+uninstall-binSCRIPTS install-binSCRIPTS install-data-recursive \
 uninstall-data-recursive install-exec-recursive \
 uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
 all-recursive check-recursive installcheck-recursive info-recursive \

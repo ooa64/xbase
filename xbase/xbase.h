@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.16 2001/06/26 20:56:33 dbryson Exp $
+/*  $Id: xbase.h,v 1.17 2001/06/26 22:01:20 dbryson Exp $
 
     Xbase project source code
 
