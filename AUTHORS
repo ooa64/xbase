@@ -1,7 +1,9 @@
-This is a list of the people who are or have worked on the XDB Library.
+This is a list of the people who are or have worked on the XBASE Library.
 
 Derry Bryson            <derry@techass.com>     - current maintainer
 Mario Motta                                     - testing and bugfixes
+Serge Smirnov		<sw1181@mail.ru>	- MSVC stuff and OCAML support
+Frolov Sergey					- bugfixes (memory leaks)
 
 ------------------------------------------------------------------------------
 The following is the original AUTHORS file for the xbase library
@@ -24,3 +26,8 @@ Kehl Hubertus     <kehlh@hotmail.com>        - Xbase to Xbase C++ Perl Converter
 Michael Bedward   <mbedward@ozemail.com.au>  - Expression logic support
 Paul Foster       <paulf@quillandmouse.com>  - general support
 Vitaly Fedrushkov <willy@snowyowl.csu.ac.ru> - TV support and more
+
+------------------------------------------------------------------------------
+
+If you are missing and you should be included in this file, please let me
+know at xbase@techass.com.  Thanks, Derry Bryson.
