@@ -1,4 +1,4 @@
-/*  $Id: ntx.cpp,v 1.7 2002/03/19 18:30:52 dbryson Exp $
+/*  $Id: ntx.cpp,v 1.8 2002/03/19 19:17:08 dbryson Exp $
 
     Xbase project source code
 
@@ -2308,12 +2308,12 @@ xbShort xbNtx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
    if( KeyBufSw )
    {
        memset( KeyBuf2, 0x00, HeadNode.KeyLen + 1 );
-       memcpy( KeyBuf2, TempNode->StringResult, min(HeadNode.KeyLen + 1, TempNode->DataLen) );
+       memcpy( KeyBuf2, TempNode->StringResult, XB_MIN(HeadNode.KeyLen + 1, TempNode->DataLen) );
    }
    else
    {
        memset( KeyBuf, 0x00, HeadNode.KeyLen + 1 );
-       memcpy( KeyBuf, TempNode->StringResult, min(HeadNode.KeyLen + 1, TempNode->DataLen) );
+       memcpy( KeyBuf, TempNode->StringResult, XB_MIN(HeadNode.KeyLen + 1, TempNode->DataLen) );
    }
 //   if( !TempNode->InTree ) dbf->xbase->FreeExpNode( TempNode );
    if( !TempNode->InTree ) delete TempNode;

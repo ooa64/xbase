@@ -1,4 +1,4 @@
-/*  $Id: ndx.cpp,v 1.11 2002/03/19 18:30:52 dbryson Exp $
+/*  $Id: ndx.cpp,v 1.12 2002/03/19 19:17:08 dbryson Exp $
 
     Xbase project source code
 
@@ -2078,7 +2078,7 @@ xbShort xbNdx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
       else                           /* character key */
       {
          memset( KeyBuf2, 0x00, HeadNode.KeyLen + 1 );
-         memcpy( KeyBuf2, TempNode->StringResult, min(HeadNode.KeyLen + 1, TempNode->DataLen) );
+         memcpy( KeyBuf2, TempNode->StringResult, XB_MIN(HeadNode.KeyLen + 1, TempNode->DataLen) );
       }
    }
    else
@@ -2088,7 +2088,7 @@ xbShort xbNdx::CreateKey( xbShort RecBufSw, xbShort KeyBufSw )
       else                           /* character key */
       {
          memset( KeyBuf, 0x00, HeadNode.KeyLen + 1 );
-         memcpy( KeyBuf, TempNode->StringResult.c_str(), min(HeadNode.KeyLen + 1, TempNode->DataLen) );
+         memcpy( KeyBuf, TempNode->StringResult.c_str(), XB_MIN(HeadNode.KeyLen + 1, TempNode->DataLen) );
       }
    }
 //   if( !TempNode->InTree ) dbf->xbase->FreeExpNode( TempNode );
