@@ -1,4 +1,4 @@
-/*  $Id: xbase.h,v 1.19 2001/06/26 23:43:11 dbryson Exp $
+/*  $Id: xbase.h,v 1.20 2001/08/02 16:12:47 dyp Exp $
 
     Xbase project source code
 
@@ -158,6 +158,10 @@ public:
    xbLong   GetLong  ( const char *p );
    xbULong  GetULong ( const char *p );
    xbShort  GetShort ( const char *p );
+
+   xbULong GetHBFULong( const char *p );
+   xbShort GetHBFShort ( const char *p );
+
    void   PutLong  ( char *p, const xbLong   l );
    void   PutShort ( char *p, const xbShort  s );
    void   PutULong ( char *p, const xbULong  l );

@@ -1,4 +1,4 @@
-/*  $Id: dbf.cpp,v 1.8 2001/02/20 17:54:15 dbryson Exp $
+/*  $Id: dbf.cpp,v 1.9 2001/08/02 16:12:47 dyp Exp $
 
     Xbase project source code
    
@@ -929,6 +929,13 @@ xbShort xbDbf::OpenDatabase( const char * TableName )
 #endif
    }
    else if( Version == 4 || Version == (char)0x8B )    /* dBASE IV */
+   {
+      XFV = 4;
+#ifdef XB_MEMO_FIELDS
+      MemoHeader.Version = 0x00;
+#endif
+   }
+   else if( Version == (char)0xf5 )    /* FoxPro */
    {
       XFV = 4;
 #ifdef XB_MEMO_FIELDS

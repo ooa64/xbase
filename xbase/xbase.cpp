@@ -1,4 +1,4 @@
-/*  $Id: xbase.cpp,v 1.8 2000/11/10 19:04:17 dbryson Exp $
+/*  $Id: xbase.cpp,v 1.9 2001/08/02 16:12:47 dyp Exp $
 
     Xbase project source code
 
@@ -313,6 +313,61 @@ xbULong xbXBase::GetULong( const char *p )
   
   tp = (char *) &l;
   if( EndianType == 'L' )
+    for( i = 0; i < 4; i++ ) *tp++ = *p++;
+  else{
+    p+=3;
+    for( i = 0; i < 4; i++ ) *tp++ = *p--;
+  }
+  return l;
+}
+
+/************************************************************************/
+//! Get a high byte first short value.
+/*!
+  Converts a short (16 bit integer) value stored at p from a high byte first
+  format to the machine format.
+
+  \param p pointer to memory containing the high byte first short value
+
+  \returns the short value.
+*/
+/* This routine returns a short value from a 2 byte character stream */
+xbShort xbXBase::GetHBFShort(const char *p) {
+   xbShort s, i;
+   const char *sp;
+   char *tp;
+
+   s = 0;
+   tp = (char *) &s;
+   sp = p;
+   if( EndianType == 'B' )
+      for( i = 0; i < 2; i++ ) *tp++ = *sp++;
+   else
+   {
+      sp++;
+      for( i = 0; i < 2; i++ ) *tp++ = *sp--;
+   }
+   return s;
+}
+
+//! Get a high byte first unsigned long value.
+/*!
+  Converts an unsigned long (32 bit integer) value stored at p from a high byte first
+  format to the machine format.
+
+  \param p pointer to memory containing the high byte first unsigned long value
+
+  \returns the unsigned long value.
+*/
+/* This routine returns a long value from a 4 byte character stream */
+xbULong xbXBase::GetHBFULong( const char *p )
+{
+  xbULong l;
+  char *tp;
+  xbShort i;
+
+  tp = (char *) &l;
+  if( EndianType == 'B' )
     for( i = 0; i < 4; i++ ) *tp++ = *p++;
   else{
     p+=3;

@@ -1,4 +1,4 @@
-/*  $Id: memo.cpp,v 1.5 2000/11/07 20:31:20 dbryson Exp $
+/*  $Id: memo.cpp,v 1.6 2001/08/02 16:12:47 dyp Exp $
 
     Xbase project source code
 
@@ -250,12 +250,44 @@ xbShort xbDbf::GetDbtHeader( const xbShort Option )
    MemoHeader.BlockSize = xbase->GetShort( p ); 
    return XB_NO_ERROR;
 }
+
+xbShort xbDbf::OpenFPTFile(void) {
+  if (DatabaseName.len() < 3)
+    xb_error(XB_INVALID_NAME);
+  xbShort len = DatabaseName.len() - 1;
+
+  xbString ext = DatabaseName.mid(len-2, 3);
+  xbString memofile = DatabaseName.mid(0, len-2);
+  if (ext == "DBF")
+    memofile += "FPT";
+  else
+    if (ext = "dbf")
+      memofile += "fpt";
+    else
+      xb_error(XB_INVALID_NAME);
+  if ((mfp = fopen(memofile, "r+b" )) == NULL)
+    xb_open_error(memofile);
+  char header[8];
+  if ((fread(header, 8, 1, mfp)) != 1)
+    xb_error(XB_READ_ERROR);
+
+  char *p = header;
+  MemoHeader.NextBlock = xbase->GetHBFULong(p);
+  p += 6;
+  MemoHeader.BlockSize = xbase->GetHBFShort(p);
+
+  return XB_NO_ERROR;
+}
+
 /***********************************************************************/
 //! Short description
 /*!
 */
 xbShort xbDbf::OpenMemoFile( void )
 {
+  if (Version == (char)0xf5)
+    return OpenFPTFile();
+
    xbLong  Size, NewSize, l;
    xbShort len, rc;
 
@@ -498,6 +530,63 @@ xbShort xbDbf::WriteMemoBlock( const xbLong BlockNo, const xbShort Option )
 
    return XB_NO_ERROR;
 }
+
+/***********************************************************************/
+//! Short description
+/*!
+  \param FieldNo
+  \param len
+  \param Buf
+  \param LockOpt
+*/
+xbShort xbDbf::GetFPTField(const xbShort FieldNo, const xbLong len,
+                           char * Buf, const xbShort LockOpt) {
+  if (FieldNo < 0 || FieldNo > (NoOfFields - 1))
+    xb_error(XB_INVALID_FIELDNO);
+
+  if (GetFieldType(FieldNo) != 'M')
+    xb_error(XB_NOT_MEMO_FIELD);
+
+#ifdef XB_LOCKING_ON
+   if (LockOpt != -1)
+     if (LockMemoFile(LockOpt, F_RDLCK) != XB_NO_ERROR)
+       return XB_LOCK_FAILED;
+#endif
+
+  xbLong  BlockNo;
+  if ((BlockNo = GetLongField(FieldNo)) == 0L)
+    return 0L;
+  // Seek to start_of_block + 4
+#ifdef XB_LOCKING_ON
+  try {
+#endif
+    if (fseek(mfp, (xbLong)(BlockNo * MemoHeader.BlockSize + 4), SEEK_SET) != 0)
+      xb_error(XB_SEEK_ERROR);
+    char h[4];
+    if ((fread(h, 4, 1, mfp)) != 1)
+     xb_error(XB_READ_ERROR);
+
+    xbULong fLen = xbase->GetHBFULong(h);
+
+    xbULong l = (fLen < (xbULong)len) ? fLen : len;
+    if ((fread(Buf, l, 1, mfp)) != 1)
+     xb_error(XB_READ_ERROR);
+#ifdef XB_LOCKING_ON
+  } catch (...) {
+     if (LockOpt != -1)
+       LockMemoFile(F_SETLK, F_UNLCK);
+     throw;
+  }
+#endif
+
+#ifdef XB_LOCKING_ON
+  if (LockOpt != -1)
+    LockMemoFile(F_SETLK, F_UNLCK);
+#endif
+
+  return XB_NO_ERROR;
+}
+
 /***********************************************************************/
 //! Short description
 /*!
@@ -509,6 +598,9 @@ xbShort xbDbf::WriteMemoBlock( const xbLong BlockNo, const xbShort Option )
 xbShort xbDbf::GetMemoField( const xbShort FieldNo, const xbLong len, 
         char * Buf, const xbShort LockOpt )
 {
+  if (Version == (char)0xf5)
+    return GetFPTField(FieldNo, len, Buf, LockOpt);
+
    xbLong BlockNo, Tcnt, Scnt;
    char *tp, *sp;           /* target and source pointers */
    xbShort rc;
@@ -587,8 +679,29 @@ xbShort xbDbf::GetMemoField( const xbShort FieldNo, const xbLong len,
 /*!
   \param FieldNo
 */
-xbLong xbDbf::GetMemoFieldLen( const xbShort FieldNo ) 
-{
+xbLong xbDbf::GetFPTFieldLen(const xbShort FieldNo) {
+  xbLong  BlockNo;
+  if ((BlockNo = GetLongField(FieldNo)) == 0L)
+     return 0L;
+  // Seek to start_of_block + 4
+  if (fseek(mfp, (xbLong)(BlockNo * MemoHeader.BlockSize + 4), SEEK_SET) != 0)
+    xb_error(XB_SEEK_ERROR);
+  char h[4];
+  if ((fread(h, 4, 1, mfp)) != 1)
+   xb_error(XB_READ_ERROR);
+
+  return xbase->GetHBFULong(h);
+}
+
+/***********************************************************************/
+//! Short description
+/*!
+  \param FieldNo
+*/
+xbLong xbDbf::GetMemoFieldLen(const xbShort FieldNo) {
+  if (Version == (char)0xf5)
+    return GetFPTFieldLen(FieldNo);
+
    xbLong  BlockNo, ByteCnt;
    xbShort scnt, NotDone;
    char *sp, *spp;

@@ -1,4 +1,4 @@
-/*  $Id: dbf.h,v 1.8 2001/01/13 20:20:53 dbryson Exp $
+/*  $Id: dbf.h,v 1.9 2001/08/02 16:12:47 dyp Exp $
 
     Xbase project source code
 
@@ -357,6 +357,9 @@ public:
    xbShort   GetMemoField( const xbShort FieldNo,const xbLong len,
              char * Buf, const xbShort LockOption );
    xbLong    GetMemoFieldLen( const xbShort FieldNo );
+   xbShort   GetFPTField( const xbShort FieldNo,const xbLong len,
+             char * Buf, const xbShort LockOption );
+   xbLong    GetFPTFieldLen( const xbShort FieldNo );
    xbShort   UpdateMemoData( const xbShort FieldNo, const xbLong len,
               const char * Buf, const xbShort LockOption );
    xbShort   MemoFieldExists( const xbShort FieldNo ) const;
@@ -481,6 +484,7 @@ protected:
    xbShort   GetDbtHeader( const xbShort Option );
    xbShort   GetMemoBlockSize( void ) { return MemoHeader.BlockSize; }
    xbShort   OpenMemoFile( void );
+   xbShort   OpenFPTFile(void);
    xbShort   PutMemoData( const xbLong StartBlock, const xbLong BlocksNeeded,
              const xbLong Len, const char * Buf );
    xbShort   ReadMemoBlock( const xbLong BlockNo, const xbShort Option);
