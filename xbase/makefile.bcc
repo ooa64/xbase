@@ -1,0 +1,466 @@
+#
+# Borland C++ IDE generated makefile
+# Generated 1/26/2001 at 12:50:32 PM
+#
+.AUTODEPEND
+
+
+#
+# Borland C++ tools
+#
+IMPLIB  = Implib
+BCC32   = Bcc32 +BccW32.cfg
+BCC32I  = Bcc32i +BccW32.cfg
+TLINK32 = TLink32
+TLIB    = TLib
+BRC32   = Brc32
+TASM32  = Tasm32
+#
+# IDE macros
+#
+
+
+#
+# Options
+#
+IDE_LinkFLAGS32 =  -LC:\BC5\LIB
+CompLocalOptsAtC32_xbasedlldlib =  -WCD
+LinkerLocalOptsAtC32_xbasedlldlib =  -Tpd -ap -c
+ResLocalOptsAtC32_xbasedlldlib =
+BLocalOptsAtC32_xbasedlldlib =
+CompOptsAt_xbasedlldlib = $(CompLocalOptsAtC32_xbasedlldlib)
+CompInheritOptsAt_xbasedlldlib = -IC:\BC5\INCLUDE;.. -D_RTLDLL;XBMAKINGDLL
+LinkerInheritOptsAt_xbasedlldlib = -x
+LinkerOptsAt_xbasedlldlib = $(LinkerLocalOptsAtC32_xbasedlldlib)
+ResOptsAt_xbasedlldlib = $(ResLocalOptsAtC32_xbasedlldlib)
+BOptsAt_xbasedlldlib = $(BLocalOptsAtC32_xbasedlldlib)
+CompLocalOptsAtC32_xbasedlib =  -WC
+LinkerLocalOptsAtC32_xbasedlib =  -Tpe -ap -c
+ResLocalOptsAtC32_xbasedlib =
+BLocalOptsAtC32_xbasedlib =
+CompOptsAt_xbasedlib = $(CompLocalOptsAtC32_xbasedlib)
+CompInheritOptsAt_xbasedlib = -IC:\BC5\INCLUDE;.. -D_RTLDLL;
+LinkerInheritOptsAt_xbasedlib = -x
+LinkerOptsAt_xbasedlib = $(LinkerLocalOptsAtC32_xbasedlib)
+ResOptsAt_xbasedlib = $(ResLocalOptsAtC32_xbasedlib)
+BOptsAt_xbasedlib = $(BLocalOptsAtC32_xbasedlib)
+
+#
+# Dependency List
+#
+Dep_xbase = \
+   xbasedll.lib\
+   xbase.lib
+
+xbase : BccW32.cfg $(Dep_xbase)
+  echo MakeNode
+
+xbasedll.lib : xbasedll.dll
+  $(IMPLIB) $@ xbasedll.dll
+
+
+Dep_xbasedllddll = \
+   dbf.obj\
+   xbstring.obj\
+   xbfilter.obj\
+   xbexcept.obj\
+   xbase.obj\
+   stack.obj\
+   ntx.obj\
+   ndx.obj\
+   memo.obj\
+   lock.obj\
+   index.obj\
+   html.obj\
+   fields.obj\
+   expproc.obj\
+   expfunc.obj\
+   exp.obj\
+   xdate.obj
+
+xbasedll.dll : $(Dep_xbasedllddll)
+  $(TLINK32) @&&|
+ /v $(IDE_LinkFLAGS32) $(LinkerOptsAt_xbasedlldlib) $(LinkerInheritOptsAt_xbasedlldlib) +
+C:\BC5\LIB\c0d32.obj+
+dbf.obj+
+xbstring.obj+
+xbfilter.obj+
+xbexcept.obj+
+xbase.obj+
+stack.obj+
+ntx.obj+
+ndx.obj+
+memo.obj+
+lock.obj+
+index.obj+
+html.obj+
+fields.obj+
+expproc.obj+
+expfunc.obj+
+exp.obj+
+xdate.obj
+$<,$*
+C:\BC5\LIB\import32.lib+
+C:\BC5\LIB\cw32i.lib
+
+
+
+|
+dbf.obj :  dbf.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ dbf.cpp
+|
+
+xbstring.obj :  xbstring.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ xbstring.cpp
+|
+
+xbfilter.obj :  xbfilter.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ xbfilter.cpp
+|
+
+xbexcept.obj :  xbexcept.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ xbexcept.cpp
+|
+
+xbase.obj :  xbase.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ xbase.cpp
+|
+
+stack.obj :  stack.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ stack.cpp
+|
+
+ntx.obj :  ntx.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ ntx.cpp
+|
+
+ndx.obj :  ndx.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ ndx.cpp
+|
+
+memo.obj :  memo.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ memo.cpp
+|
+
+lock.obj :  lock.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ lock.cpp
+|
+
+index.obj :  index.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ index.cpp
+|
+
+html.obj :  html.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ html.cpp
+|
+
+fields.obj :  fields.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ fields.cpp
+|
+
+expproc.obj :  expproc.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ expproc.cpp
+|
+
+expfunc.obj :  expfunc.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ expfunc.cpp
+|
+
+exp.obj :  exp.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ exp.cpp
+|
+
+xdate.obj :  xdate.cpp
+  $(BCC32) -c @&&|
+ $(CompOptsAt_xbasedlldlib) $(CompInheritOptsAt_xbasedlldlib) -o$@ xdate.cpp
+|
+
+Dep_xbasedlib = \
+   dbf.obj\
+   xbstring.obj\
+   xbfilter.obj\
+   xbexcept.obj\
+   xbase.obj\
+   stack.obj\
+   ntx.obj\
+   ndx.obj\
+   memo.obj\
+   lock.obj\
+   index.obj\
+   html.obj\
+   fields.obj\
+   expproc.obj\
+   expfunc.obj\
+   exp.obj\
+   xdate.obj
+
+xbase.lib : $(Dep_xbasedlib)
+  $(TLIB) $< $(IDE_BFLAGS) $(BOptsAt_xbasedlib) @&&|
+ -+dbf.obj &
+-+xbstring.obj &
+-+xbfilter.obj &
+-+xbexcept.obj &
+-+xbase.obj &
+-+stack.obj &
+-+ntx.obj &
+-+ndx.obj &
+-+memo.obj &
+-+lock.obj &
+-+index.obj &
+-+html.obj &
+-+fields.obj &
+-+expproc.obj &
+-+expfunc.obj &
+-+exp.obj &
+-+xdate.obj
+|
+
+#
+## The following section is generated by duplicate target dbf.obj.
+##
+#dbf.obj :  dbf.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ dbf.cpp
+#|
+#
+##
+## The above section is generated by duplicate target dbf.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target xbstring.obj.
+##
+#xbstring.obj :  xbstring.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ xbstring.cpp
+#|
+#
+##
+## The above section is generated by duplicate target xbstring.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target xbfilter.obj.
+##
+#xbfilter.obj :  xbfilter.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ xbfilter.cpp
+#|
+#
+##
+## The above section is generated by duplicate target xbfilter.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target xbexcept.obj.
+##
+#xbexcept.obj :  xbexcept.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ xbexcept.cpp
+#|
+#
+##
+## The above section is generated by duplicate target xbexcept.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target xbase.obj.
+##
+#xbase.obj :  xbase.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ xbase.cpp
+#|
+#
+##
+## The above section is generated by duplicate target xbase.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target stack.obj.
+##
+#stack.obj :  stack.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ stack.cpp
+#|
+#
+##
+## The above section is generated by duplicate target stack.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target ntx.obj.
+##
+#ntx.obj :  ntx.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ ntx.cpp
+#|
+#
+##
+## The above section is generated by duplicate target ntx.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target ndx.obj.
+##
+#ndx.obj :  ndx.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ ndx.cpp
+#|
+#
+##
+## The above section is generated by duplicate target ndx.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target memo.obj.
+##
+#memo.obj :  memo.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ memo.cpp
+#|
+#
+##
+## The above section is generated by duplicate target memo.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target lock.obj.
+##
+#lock.obj :  lock.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ lock.cpp
+#|
+#
+##
+## The above section is generated by duplicate target lock.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target index.obj.
+##
+#index.obj :  index.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ index.cpp
+#|
+#
+##
+## The above section is generated by duplicate target index.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target html.obj.
+##
+#html.obj :  html.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ html.cpp
+#|
+#
+##
+## The above section is generated by duplicate target html.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target fields.obj.
+##
+#fields.obj :  fields.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ fields.cpp
+#|
+#
+##
+## The above section is generated by duplicate target fields.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target expproc.obj.
+##
+#expproc.obj :  expproc.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ expproc.cpp
+#|
+#
+##
+## The above section is generated by duplicate target expproc.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target expfunc.obj.
+##
+#expfunc.obj :  expfunc.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ expfunc.cpp
+#|
+#
+##
+## The above section is generated by duplicate target expfunc.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target exp.obj.
+##
+#exp.obj :  exp.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ exp.cpp
+#|
+#
+##
+## The above section is generated by duplicate target exp.obj.
+##
+#
+#
+#
+## The following section is generated by duplicate target xdate.obj.
+##
+#xdate.obj :  xdate.cpp
+#  $(BCC32) -c @&&|
+# $(CompOptsAt_xbasedlib) $(CompInheritOptsAt_xbasedlib) -o$@ xdate.cpp
+#|
+#
+##
+## The above section is generated by duplicate target xdate.obj.
+##
+#
+#
+# Compiler configuration file
+BccW32.cfg :
+   Copy &&|
+-w
+-R
+-v
+-vi
+-H
+-H=xbase.csm
+| $@
+
+
