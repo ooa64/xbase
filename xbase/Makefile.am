@@ -1,3 +1,5 @@
+# $Id: Makefile.am,v 1.8 2001/06/27 04:36:44 dbryson Exp $
+#
 #	This file is part of the XBase libraries
 #    Copyright (C) 1998 Denis Pershin (dyp@inetlab.com)
 #

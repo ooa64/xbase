@@ -1,3 +1,4 @@
+# $Id: configure.in,v 1.13 2001/06/27 04:36:44 dbryson Exp $
 # Created by Denis Pershin <dyp@inetlab.com>
 
 dnl Process this file with autoconf to produce a configure script.

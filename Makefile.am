@@ -1,3 +1,5 @@
+# $Id: Makefile.am,v 1.11 2001/06/27 04:36:44 dbryson Exp $
+#
 ## Process this file with automake to produce Makefile.in
 ##
 #	This file is part of the XBase libraries
