@@ -73,10 +73,10 @@ int main(int ac,char** av)
      }
 
      std::cout << "\nLoop through forwards...\n";
-     int i = 0;
-     while(i<MyFile.NoOfRecords()) {
-       MyFile.DumpRecord(i+1);
-       i++;
+     int j = 0;
+     while(j<MyFile.NoOfRecords()) {
+       MyFile.DumpRecord(j+1);
+       j++;
      }
 
      MyFile.CloseDatabase();	/* close database */
