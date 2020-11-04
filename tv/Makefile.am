@@ -18,7 +18,7 @@
 #    write to the Free Software Foundation, Inc., or see
 #    http://www.gnu.org/.
 
-INCLUDES = -I$(topdir) $(all_includes)
+AM_CPPFLAGS = -I$(topdir) $(all_includes)
 
 noinst_PROGRAMS = @TVPROGS@
 EXTRA_PROGRAMS = tvxbase

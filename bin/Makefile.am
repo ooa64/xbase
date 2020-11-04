@@ -1,5 +1,5 @@
 
-INCLUDES= -I$(topdir)
+AM_CPPFLAGS = -I$(topdir)
 LDADD	= -L$(topdir)/xbase -lxbase
 
 INSTALL_PROGRAM = @INSTALL@

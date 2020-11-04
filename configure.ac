@@ -8,10 +8,8 @@
 #          All configuration parms moved to this file - if you make updates
 #          please add meaningful comments
 
-
-
-AC_INIT(xbase,2.1.2,xdb-devel@lists.sourceforge.net) 
-
+AC_INIT([xbase],[2.1.2],[xdb-devel@lists.sourceforge.net]) 
+AC_CONFIG_MACRO_DIRS([m4])
 
 # set variable XSUBVARS with a list of sub directories to process
 # XSUBDIRS="xbase examples bin html libtest tv ybase"
@@ -52,7 +50,7 @@ AC_CONFIG_SRCDIR( examples/exfilter.cpp,
 		 )
 		  
 # init automake
-AM_INIT_AUTOMAKE(xbase, 2.1.2)
+AM_INIT_AUTOMAKE
 
 # create this header file
 AM_CONFIG_HEADER(xbase/xbconfig.h)
@@ -80,7 +78,7 @@ AC_SUBST(RHREL)
 
 # get G++ version
 if test "$GXX" = "yes"; then
-  GXXVER=`${CXX} -v 2>&1 | grep version | cut -d " " -f 3 -`
+  GXXVER=`${CXX} -v 2>&1 | grep "gcc version" | cut -d " " -f 3 -`
   GXXVER="gcc${GXXVER}"
 else
   GXXVER=""

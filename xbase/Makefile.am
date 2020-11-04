@@ -37,7 +37,7 @@
 #        xdb.sourceforge.net
 #
 
-INCLUDES = -I$(topdir)
+AM_CPPFLAGS = -I$(topdir)
 
 lib_LTLIBRARIES = libxbase.la
 
