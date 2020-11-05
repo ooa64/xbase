@@ -1,0 +1,21 @@
+# makefile.vc for nmake
+#
+# Usage:
+#
+# nmake -nologo -f makefile.vc [DEBUG=1] [STATIC_BUILD=1] [target ...]
+#
+# Example:
+#
+# call "C:\Program Files\Microsoft Visual Studio\VC98\Bin\VCVARS32.BAT"
+# nmake -nologo -f makefile.vc clean release examples tools
+#
+
+!include "makerules.vc"
+
+NMAKE = nmake /nologo DEBUG=$(DEBUG) STATIC_BUILD=$(STATIC_BUILD) MSVCRT=$(MSVCRT) CFLAGS="$(CFLAGS)" SDKINSTALLDIR="$(SDKINSTALLDIR)"
+
+all:
+    for %i in (xbase bin examples libtest) do (pushd %i & $(NMAKE) -f Makefile.vc all & popd)
+
+clean:
+    for %i in (xbase bin examples libtest) do (pushd %i & $(NMAKE) -f Makefile.vc clean & popd)

@@ -1,0 +1,57 @@
+# makefile.vc for nmake
+#
+# Usage:
+#
+# nmake -nologo -f makefile.vc [DEBUG=1] [STATIC_BUILD=1] [target ...]
+#
+# Example:
+#
+# call "C:\Program Files\Microsoft Visual Studio\VC98\Bin\VCVARS32.BAT"
+# nmake -nologo -f makefile.vc clean release examples tools
+#
+
+!include "..\makerules.vc"
+
+NAMEPREFIX = xbase
+DOTVERSION = "2.1.2"
+VERSION = 21
+
+NAME = $(NAMEPREFIX)$(VERSION)$(DLLX)$(DBGX)
+LIB = ..\xbase\$(NAME).lib
+
+EXAMPLES = \
+    sample1.exe \
+    sample2.exe \
+    sample3.exe \
+    sample4.exe \
+    sample5.exe \
+    exfilter.exe \
+    string.exe
+
+DEFINES = $(CFLAGS) $(DEFINES) -I..
+
+!if "$(DEBUG)" == "1"
+DEFINES = $(DEFINES) -DXBASE_DEBUG
+!endif
+
+!if "$(STATIC_BUILD)" != "1"
+USINGDLL = -DXBUSINGDLL
+!endif
+
+all: release
+
+release: $(LIB) $(EXAMPLES)
+
+clean:
+    -@$(RM) *.obj
+    -@$(RM) *.exe
+    -@$(RM) *.ilk
+    -@$(RM) *.pdb
+    -@$(RM) *.DBF
+    -@$(RM) *.DBT
+    -@$(RM) *.NDX
+
+.cpp.exe:
+    $(cl32) $(cdebug) $(cflags) $(cvarsdll) $(include32) $(DEFINES) $(USINGDLL) $< \
+	/link $(ldebug) $(libpath32) $(guilibsdll) $(LIB) \
+ 	/out:$@

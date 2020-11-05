@@ -23,7 +23,7 @@
 
 */
 
-#include "xbase.h"
+#include "xbase/xbase.h"
 
 /* set the stack large for dos compiles */
 #ifdef __XBDOS
