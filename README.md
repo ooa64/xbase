@@ -1,4 +1,4 @@
-# XBASE Version 2.1.1
+# XBASE Version 2.1.2
 
 XBase is an xbase (i.e. dBase, FoxPro, etc.) compatible C++ class library 
 originally by Gary Kunkel and others (see the AUTHORS file).
@@ -13,6 +13,9 @@ OS's (we hope to fix the locking support under Win32 soon).
 Project home page https://sourceforge.net/projects/xdb/
 
 News:
-
-2020-11-04 Sources imported using https://gitlab.com/esr/cvs-fast-export.
-           Build system updated, ./configure; make now works
+    
+    - 2020-11-05 Windows build system for MSVC with nmake.
+                 32-bit library, examples, tools and tests - everything works.
+                 
+    - 2020-11-04 Sources imported using https://gitlab.com/esr/cvs-fast-export.
+                 autoconf/automake files updated, ./configure&&make should work now
