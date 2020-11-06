@@ -22,8 +22,8 @@ MSVCRT=1
 
 #######################################################################
 
-TOOLS32     = $(VCINSTALLDIR)
-TOOLS32_rc  = $(SDKINSTALLDIR)
+VCTOOLS     = $(VCINSTALLDIR)
+SDKTOOLS    = $(SDKINSTALLDIR)
 
 !if "$(DEBUG)" == "1"
 DEFINES     = $(DEFINES) -D_DEBUG=1 -DDEBUG=1
@@ -43,17 +43,32 @@ STATIC_BUILD=
 DLLX        =
 !endif
 
+!if "$(MACHINE)" == ""
 MACHINE     = IX86
+!if "$(PLATFORM)" == "x64"
+MACHINE     = IA64
+!endif
+!endif
 
-rc32        = "$(TOOLS32_rc)\bin\rc.exe"
-cl32        = "$(TOOLS32)\bin\cl.exe"
-cc32        = "$(TOOLS32)\bin\cl.exe" -c
-link32      = "$(TOOLS32)\bin\link.exe"
-lib32       = "$(TOOLS32)\bin\lib.exe"
-cvtres32    = "$(TOOLS32)\bin\cvtres.exe"
-include32   = -I"$(TOOLS32)\include"
-libpath32   = /LIBPATH:"$(TOOLS32)\lib" /LIBPATH:"$(TOOLS32_rc)\lib"
-vcvars      = "$(TOOLS32)\bin\vcvars32.bat"
+!if "$(MACHINE)" == "IA64"
+PLATFORM  = x64
+ccXX      = "$(VCTOOLS)\bin\x86_amd64\cl.exe" -c
+clXX      = "$(VCTOOLS)\bin\x86_amd64\cl.exe"
+linkXX    = "$(VCTOOLS)\bin\x86_amd64\link.exe"
+libXX     = "$(VCTOOLS)\bin\x86_amd64\lib.exe"
+!else
+PLATFORM  = x86
+ccXX      = "$(VCTOOLS)\bin\cl.exe" -c
+clXX      = "$(VCTOOLS)\bin\cl.exe"
+linkXX    = "$(VCTOOLS)\bin\link.exe"
+libXX     = "$(VCTOOLS)\bin\lib.exe"
+!endif
+
+cvtres32  = "$(VCTOOLS)\bin\cvtres.exe"
+rc32      = "$(SDKTOOLS)\bin\rc.exe"
+cinclude  = -I"$(VCTOOLS)\include"
+libpath32 = /LIBPATH:"$(VCTOOLS)\lib" /LIBPATH:"$(SDKTOOLS)\lib"
+libpath64 = /LIBPATH:"$(VCTOOLS)\lib\amd64" /LIBPATH:"$(SDKTOOLS)\lib\"
 
 RMDIR       = rmdir
 MKDIR       = mkdir
@@ -101,17 +116,15 @@ ldebug  = -release -opt:ref
 !ENDIF
 
 # declarations common to all linker options
-lflags  = /NODEFAULTLIB /NOLOGO /INCREMENTAL:NO /MACHINE:$(MACHINE) $(libpath32)
+lflags  = /NODEFAULTLIB /NOLOGO /INCREMENTAL:NO /MACHINE:$(PLATFORM)
 
 # declarations for use on Intel i386, i486, and Pentium systems
 !IF "$(MACHINE)" == "IX86"
-DLLENTRY = @12
-dlllflags = $(lflags) -entry:_DllMainCRTStartup$(DLLENTRY) -dll
+dlllflags = $(lflags) -dll
 !ELSE IF "$(MACHINE)" == "IA64"
-DLLENTRY = @12
 dlllflags = $(lflags) -dll
 !ELSE
-dlllflags = $(lflags) -entry:_DllMainCRTStartup$(DLLENTRY) -dll
+dlllflags = $(lflags) -dll
 !ENDIF
 
 conlflags = $(lflags) -subsystem:console -entry:mainCRTStartup
@@ -129,9 +142,15 @@ guilibsdll = $(libcdll) $(winlibs)
 conlibsdll = $(libcdll) $(baselibs)
 
 .cpp.obj ::
-    $(cc32) -EHsc $(cdebug) $(cflags) $(cvarsdll) $(include32) $(DEFINES) $<
+    $(clXX) -c -EHsc $(cdebug) $(cflags) $(cvarsdll) $(cinclude) $(DEFINES) $<
 
 .c.obj ::
-    $(cc32) $(cdebug) $(cflags) $(cvarsdll) $(include32) $(DEFINES) $<
+    $(clXX) -c $(cdebug) $(cflags) $(cvarsdll) $(cinclude) $(DEFINES) $<
+
+.cpp{$(MACHINE)}.obj ::
+    $(clXX) -c -EHsc $(cdebug) $(cflags) $(cvarsdll) $(cinclude) $(DEFINES) -Fo$(MACHINE)\ $<
+
+.c{$(MACHINE)}.obj ::
+    $(clXX) -c $(cdebug) $(cflags) $(cvarsdll) $(cinclude) $(DEFINES) -Fo$(MACHINE)\ $<
 
 .SUFFIXES: .cpp .c

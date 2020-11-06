@@ -17,77 +17,60 @@ DOTVERSION = "2.1.2"
 VERSION = 21
 
 NAME = $(NAMEPREFIX)$(VERSION)$(DLLX)$(DBGX)
-LIB = $(NAME).lib
+XBASELIB = $(MACHINE)\$(NAME).lib
+XBASEDLL = $(MACHINE)\$(NAME).dll
 
 OBJS = \
-    dbf.obj \
-    exp.obj \
-    expfunc.obj \
-    expproc.obj \
-    fields.obj \
-    html.obj \
-    index.obj \
-    lock.obj \
-    memo.obj \
-    ndx.obj \
-    ntx.obj \
-    stack.obj \
-    xbase.obj \
-    xbexcept.obj \
-    xbfilter.obj \
-    xbstring.obj \
-    xdate.obj
+    $(MACHINE)\dbf.obj \
+    $(MACHINE)\exp.obj \
+    $(MACHINE)\expfunc.obj \
+    $(MACHINE)\expproc.obj \
+    $(MACHINE)\fields.obj \
+    $(MACHINE)\html.obj \
+    $(MACHINE)\index.obj \
+    $(MACHINE)\lock.obj \
+    $(MACHINE)\memo.obj \
+    $(MACHINE)\ndx.obj \
+    $(MACHINE)\ntx.obj \
+    $(MACHINE)\stack.obj \
+    $(MACHINE)\xbase.obj \
+    $(MACHINE)\xbexcept.obj \
+    $(MACHINE)\xbfilter.obj \
+    $(MACHINE)\xbstring.obj \
+    $(MACHINE)\xdate.obj
 
-DEFINES = $(CFLAGS) $(DEFINES) -I..
+all: $(XBASELIB)
 
 !if "$(DEBUG)" == "1"
 DEFINES = $(DEFINES) -DXBASE_DEBUG
 !endif
 
-all: release
-
-release: $(LIB)
-
-examples: $(LIB) $(EXAMPLES)
-
-tools: $(LIB) $(TOOLS)
-
 !if "$(STATIC_BUILD)" == "1"
 
-MAKINGDLL = 
-USINGDLL = 
-
-$(LIB): xbase.h $(OBJS)
-    $(lib32) -out:$@ @<<
+$(XBASELIB): prepare $(OBJS)
+    $(libXX) -out:$@ @<<
 $(OBJS)
 <<
 
 !else
 
-MAKINGDLL = -DXBMAKINGDLL
-USINGDLL = -DXBUSINGDLL
+$(XBASELIB): prepare $(XBASEDLL)
+$(XBASEDLL): $(OBJS)
+    $(linkXX) $(ldebug) $(dlllflags) -out:$@ $(guilibsdll) $(OBJS)
 
-$(LIB): xbase.h $(NAME).dll
-$(NAME).dll: $(OBJS)
-    $(link32) $(ldebug) $(dlllflags) -out:$@ $(guilibsdll) @<<
-$(OBJS)
-<<
+DEFINES = $(DEFINES) -DXBMAKINGDLL -DXBUSINGDLL
 
 !endif
 
+DEFINES = $(CFLAGS) $(DEFINES) -I..
+
+prepare: xbase.h
+    -@mkdir $(MACHINE) 2> NUL
+
 clean:
     -@$(RM) xbase.h
-    -@$(RM) *.obj
-    -@$(RM) *.dll
-    -@$(RM) *.lib
-    -@$(RM) *.exp
-    -@$(RM) *.pch
-    -@$(RM) *.res
-    -@$(RM) *.ilk
-    -@$(RM) *.pdb
+    -@$(RM) /q $(MACHINE)\*.*
+    -@$(RMDIR) $(MACHINE)
 
 xbase.h:
     @sed -e s/@VERSION@/$(DOTVERSION)/g < xbase.h.in > xbase.h
-
-.cpp.obj:
-    $(cc32) $(cdebug) $(cflags) $(cvarsdll) $(include32) $(DEFINES) $(MAKINGDLL) $<

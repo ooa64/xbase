@@ -15,7 +15,7 @@
 NMAKE = nmake /nologo DEBUG=$(DEBUG) STATIC_BUILD=$(STATIC_BUILD) MSVCRT=$(MSVCRT) CFLAGS="$(CFLAGS)" SDKINSTALLDIR="$(SDKINSTALLDIR)"
 
 all:
-    for %i in (xbase bin examples libtest) do (pushd %i & $(NMAKE) -f Makefile.vc all & popd)
+    @for %i in (xbase bin examples libtest) do (pushd %i & $(NMAKE) -f Makefile.vc all & popd)
 
 clean:
-    for %i in (xbase bin examples libtest) do (pushd %i & $(NMAKE) -f Makefile.vc clean & popd)
+    @for %i in (xbase bin examples libtest) do (pushd %i & $(NMAKE) -f Makefile.vc clean & popd)

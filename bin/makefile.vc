@@ -7,7 +7,7 @@
 # Example:
 #
 # call "C:\Program Files\Microsoft Visual Studio\VC98\Bin\VCVARS32.BAT"
-# nmake -nologo -f makefile.vc clean release examples tools
+# nmake -nologo -f makefile.vc clean all
 #
 
 !include "..\makerules.vc"
@@ -17,23 +17,21 @@ DOTVERSION = "2.1.2"
 VERSION = 21
 
 NAME = $(NAMEPREFIX)$(VERSION)$(DLLX)$(DBGX)
-LIB = ..\xbase\$(NAME).lib
+XBASELIB = ..\xbase\$(MACHINE)\$(NAME).lib
 
 TOOLS = \
-    checkndx.exe \
-    copydbf.exe \
-    dbfutil1.exe \
-    dbfxtrct.exe \
-    deletall.exe \
-    dumpdbt.exe \
-    dumphdr.exe \
-    dumprecs.exe \
-    packdbf.exe \
-    reindex.exe \
-    undelall.exe \
-    zap.exe
-
-DEFINES = $(CFLAGS) $(DEFINES) -I..
+    $(MACHINE)\checkndx.exe \
+    $(MACHINE)\copydbf.exe \
+    $(MACHINE)\dbfutil1.exe \
+    $(MACHINE)\dbfxtrct.exe \
+    $(MACHINE)\deletall.exe \
+    $(MACHINE)\dumpdbt.exe \
+    $(MACHINE)\dumphdr.exe \
+    $(MACHINE)\dumprecs.exe \
+    $(MACHINE)\packdbf.exe \
+    $(MACHINE)\reindex.exe \
+    $(MACHINE)\undelall.exe \
+    $(MACHINE)\zap.exe
 
 !if "$(DEBUG)" == "1"
 DEFINES = $(DEFINES) -DXBASE_DEBUG
@@ -43,17 +41,19 @@ DEFINES = $(DEFINES) -DXBASE_DEBUG
 USINGDLL = -DXBUSINGDLL
 !endif
 
+DEFINES = $(CFLAGS) $(DEFINES) -I..
+
 all: release
 
-release: $(LIB) $(TOOLS)
+release: prepare $(XBASELIB) $(TOOLS)
+
+prepare:
+    -@mkdir $(MACHINE) 2> NUL
 
 clean:
-    -@$(RM) *.obj
-    -@$(RM) *.exe
-    -@$(RM) *.ilk
-    -@$(RM) *.pdb
+    -@$(RM) /q $(MACHINE)\*.* 2> NUL
+    -@$(RMDIR) $(MACHINE) 2> NUL
 
-.cpp.exe:
-    $(cl32) $(cdebug) $(cflags) $(cvarsdll) $(include32) $(DEFINES) $(USINGDLL) $< \
-	/link $(ldebug) $(libpath32) $(guilibsdll) $(LIB) \
- 	/out:$@
+.cpp{$(MACHINE)}.exe:
+    $(clXX) -EHsc $(cdebug) $(cflags) $(cvarsdll) $(include32) $(DEFINES) $(XBASELIB) -Fo$(MACHINE)\ -Fe$@ $<
+
