@@ -8,7 +8,7 @@
 #          All configuration parms moved to this file - if you make updates
 #          please add meaningful comments
 
-AC_INIT([xbase],[2.1.2],[xdb-devel@lists.sourceforge.net]) 
+AC_INIT([xbase],[2.1.3],[xdb-devel@lists.sourceforge.net]) 
 AC_CONFIG_MACRO_DIRS([m4])
 
 # set variable XSUBVARS with a list of sub directories to process

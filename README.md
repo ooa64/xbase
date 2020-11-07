@@ -14,8 +14,14 @@ Project home page https://sourceforge.net/projects/xdb/
 
 News:
     
-    - 2020-11-05 Windows build system for MSVC with nmake.
+    - 2020-11-07 Version changed to 2.1.3:
+                 autoconf/automake files updated,
+                 code fixed to run on linux-x64, 
+                 tests and examples show same result on windows-32 and linux-x64,
+                 tcl tests from xbasetcl passes on windows-32 and linux-x64.
+
+    - 2020-11-05 Windows build system for MSVC with nmake:
                  32-bit library, examples, tools and tests - everything works.
                  
-    - 2020-11-04 Sources imported using https://gitlab.com/esr/cvs-fast-export.
+    - 2020-11-04 Sources imported using https://gitlab.com/esr/cvs-fast-export,
                  autoconf/automake files updated, ./configure&&make should work now
