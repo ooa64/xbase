@@ -382,6 +382,7 @@ xbShort xbNtx::OpenIndex( const char * FileName )
          LockIndex(F_SETLKW, F_UNLCK);
 #endif
       fclose( indexfp );
+      indexfp = NULL;
       return rc;
    }
 
@@ -394,6 +395,7 @@ xbShort xbNtx::OpenIndex( const char * FileName )
          LockIndex(F_SETLKW, F_UNLCK);
 #endif
       fclose( indexfp );
+      indexfp = NULL;
       return rc;
    }
    ExpressionTree = dbf->xbase->GetTree();
@@ -407,6 +409,7 @@ xbShort xbNtx::OpenIndex( const char * FileName )
          LockIndex(F_SETLKW, F_UNLCK);
 #endif
       fclose(indexfp);
+      indexfp = NULL;
       return rc;     
    }
 
@@ -448,8 +451,10 @@ xbShort xbNtx::CloseIndex( void )
   ReleaseNodeMemory(DeleteChain, true);
   DeleteChain = 0;
 
-  if(indexfp)
+  if(indexfp) {
     fclose( indexfp );
+    indexfp = NULL;
+  }
   IndexStatus = 0;
   return 0;
 }
@@ -1620,6 +1625,7 @@ xbShort xbNtx::CreateIndex(const char * IxName, const char * Exp, xbShort Unique
    if (((indexfp = fopen( IndexName, "r" )) != NULL ) && !Overlay )
    {
       fclose( indexfp );
+      indexfp = NULL;
       xb_io_error(XB_FILE_EXISTS, IndexName);
    }
    else if( indexfp ) fclose( indexfp );
@@ -1690,6 +1696,7 @@ xbShort xbNtx::CreateIndex(const char * IxName, const char * Exp, xbShort Unique
    rc=AllocKeyBufs();
    if(rc) {
       fclose(indexfp);
+      indexfp = NULL;
       return rc;     
    };
 
@@ -1711,6 +1718,7 @@ xbShort xbNtx::CreateIndex(const char * IxName, const char * Exp, xbShort Unique
             LockIndex(F_SETLKW, F_UNLCK);
 #endif
          fclose( indexfp );
+         indexfp = NULL;
          xb_io_error(XB_WRITE_ERROR, IndexName);
       }
    }
@@ -1809,6 +1817,7 @@ xbShort xbNtx::PutLeafNode( xbLong l, xbNodeLink *n )
     if(( fseek( indexfp, l , SEEK_SET )) != 0 )
     {
         fclose( indexfp );
+        indexfp = NULL;
         xb_io_error( XB_SEEK_ERROR, IndexName );
     }
 
@@ -1828,6 +1837,7 @@ xbShort xbNtx::PutLeafNode( xbLong l, xbNodeLink *n )
     if(( fwrite( &n->Leaf.KeyRecs, XB_NTX_NODE_SIZE, 1, indexfp )) != 1 )
     {
         fclose( indexfp );
+        indexfp = NULL;
         xb_io_error(XB_WRITE_ERROR, IndexName);
     }
 
@@ -3316,6 +3326,7 @@ xbShort xbNtx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
 
    if( fclose( indexfp ) != 0 )
        xb_io_error( XB_CLOSE_ERROR, IndexName);
+   indexfp = NULL;
 
    if( fclose( t ) != 0 )
        xb_io_error( XB_CLOSE_ERROR, TempName );
