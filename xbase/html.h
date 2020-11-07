@@ -156,7 +156,7 @@ public:
    //! Short description.
    /*!
    */
-   void   PrintHtml( int i ) { std::cout << i; };
+   //void   PrintHtml( int i ) { std::cout << i; };
    void   StartHtmlPage( const char *Title );
    //! Short description.
    /*!
