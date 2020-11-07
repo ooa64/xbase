@@ -2391,7 +2391,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 # set variable XSUBVARS with a list of sub directories to process
 # XSUBDIRS="xbase examples bin html libtest tv ybase"
 
-XSUBDIRS="xbase examples bin html libtest tv"
+XSUBDIRS="xbase examples bin html libtest"
 
 
 ac_aux_dir=
@@ -16359,7 +16359,7 @@ fi
 
 
 # build the following Makefiles
-ac_config_files="$ac_config_files Makefile xbase/Makefile xbase/xbase.h examples/Makefile bin/Makefile html/Makefile tv/Makefile libtest/Makefile xbase-config xbase.spec docs/doxygen.cfg docs/Makefile"
+ac_config_files="$ac_config_files Makefile xbase/Makefile xbase/xbase.h examples/Makefile bin/Makefile html/Makefile libtest/Makefile xbase-config xbase.spec docs/doxygen.cfg docs/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -17479,7 +17479,6 @@ do
     "examples/Makefile") CONFIG_FILES="$CONFIG_FILES examples/Makefile" ;;
     "bin/Makefile") CONFIG_FILES="$CONFIG_FILES bin/Makefile" ;;
     "html/Makefile") CONFIG_FILES="$CONFIG_FILES html/Makefile" ;;
-    "tv/Makefile") CONFIG_FILES="$CONFIG_FILES tv/Makefile" ;;
     "libtest/Makefile") CONFIG_FILES="$CONFIG_FILES libtest/Makefile" ;;
     "xbase-config") CONFIG_FILES="$CONFIG_FILES xbase-config" ;;
     "xbase.spec") CONFIG_FILES="$CONFIG_FILES xbase.spec" ;;

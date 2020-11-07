@@ -9,12 +9,12 @@
 #          please add meaningful comments
 
 AC_INIT([xbase],[2.1.3],[xdb-devel@lists.sourceforge.net]) 
-AC_CONFIG_MACRO_DIRS([m4])
+AC_CONFIG_MACRO_DIR([m4])
 
 # set variable XSUBVARS with a list of sub directories to process
 # XSUBDIRS="xbase examples bin html libtest tv ybase"
 
-XSUBDIRS="xbase examples bin html libtest tv"
+XSUBDIRS="xbase examples bin html libtest"
 AC_SUBST(XSUBDIRS)
 
 AC_USE_SYSTEM_EXTENSIONS
@@ -43,7 +43,7 @@ AC_CONFIG_SRCDIR( examples/exfilter.cpp,
 		  libtest/locktest.cpp,
 		  libtest/testdate.cpp,
 		  libtest/testhtml.cpp,
-		  ybase/ybase.cpp
+		  libtest/sizeof.cpp
 		 )
 		  
 # init automake
@@ -220,7 +220,6 @@ AC_CONFIG_FILES([Makefile
 	    examples/Makefile
     	    bin/Makefile
             html/Makefile
-	    tv/Makefile
     	    libtest/Makefile
 	    xbase-config
 	    xbase.spec
