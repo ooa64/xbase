@@ -1,4 +1,4 @@
-# XBASE Version 2.1.2
+# XBASE Version 2.1.3
 
 XBase is an xbase (i.e. dBase, FoxPro, etc.) compatible C++ class library 
 originally by Gary Kunkel and others (see the AUTHORS file).
