@@ -50,7 +50,7 @@ AC_CONFIG_SRCDIR( examples/exfilter.cpp,
 AM_INIT_AUTOMAKE
 
 # create this header file
-AM_CONFIG_HEADER(xbase/xbconfig.h)
+AC_CONFIG_HEADER(xbase/xbconfig.h)
 
 #create a library
 LT_INIT
