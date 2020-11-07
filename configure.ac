@@ -17,10 +17,7 @@ AC_CONFIG_MACRO_DIRS([m4])
 XSUBDIRS="xbase examples bin html libtest tv"
 AC_SUBST(XSUBDIRS)
 
-# look for AIX and MINIX environments
-AC_AIX
-AC_MINIX
-
+AC_USE_SYSTEM_EXTENSIONS
 
 # build the following programs
 AC_CONFIG_SRCDIR( examples/exfilter.cpp,
@@ -56,7 +53,7 @@ AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(xbase/xbconfig.h)
 
 #create a library
-AM_PROG_LIBTOOL
+LT_INIT
 
 # C++ Code
 AC_PROG_CXX
@@ -217,8 +214,7 @@ AH_VERBATIM([PATH_SEPARATOR],[#define PATH_SEPARATOR '/'])
 AH_VERBATIM([XB_DBT_BLOCK_SIZE],[#define XB_DBT_BLOCK_SIZE 512])
 
 # build the following Makefiles 
-AC_OUTPUT(
-	    Makefile
+AC_CONFIG_FILES([Makefile
 	    xbase/Makefile
 	    xbase/xbase.h
 	    examples/Makefile
@@ -226,12 +222,12 @@ AC_OUTPUT(
             html/Makefile
 	    tv/Makefile
     	    libtest/Makefile
-dnl	    ybase/Makefile
 	    xbase-config
 	    xbase.spec
 	    docs/doxygen.cfg
 	    docs/Makefile
-)
+])
+AC_OUTPUT
 
 # 8/10/03 - gkunkel
 # The following may or may not be needed. There was evidence this didn't work

@@ -2394,7 +2394,6 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 XSUBDIRS="xbase examples bin html libtest tv"
 
 
-# look for AIX and MINIX environments
 ac_aux_dir=
 for ac_dir in "$srcdir" "$srcdir/.." "$srcdir/../.."; do
   if test -f "$ac_dir/install-sh"; then
@@ -3732,9 +3731,6 @@ $as_echo "$ac_cv_safe_to_define___extensions__" >&6; }
   $as_echo "#define _POSIX_PTHREAD_SEMANTICS 1" >>confdefs.h
 
   $as_echo "#define _TANDEM_SOURCE 1" >>confdefs.h
-
-
-
 
 
 

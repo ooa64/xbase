@@ -229,7 +229,7 @@ CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/xbase-config.in \
 	$(srcdir)/xbase.spec.in AUTHORS COPYING ChangeLog INSTALL NEWS \
-	README TODO compile config.guess config.sub install-sh \
+	README TODO compile config.guess config.sub depcomp install-sh \
 	ltconfig ltmain.sh missing mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
@@ -402,6 +402,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 topdir = @topdir@
 SUBDIRS = @XSUBDIRS@
+ACLOCAL_AMFLAGS = -I m4
 MAINTAINERCLEANFILES = Makefile.in configure aclocal.m4 libtool
 EXTRA_DIST = \
 	makefile.g95
