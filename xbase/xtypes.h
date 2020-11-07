@@ -44,6 +44,18 @@
 #define __XB_XTYPES_H__
 
 #include <stdio.h>
+#ifdef _MSC_VER 
+typedef __int8  int8_t;
+typedef unsigned __int8 uint8_t;
+typedef __int16 int16_t;
+typedef unsigned __int16 uint16_t;
+typedef __int32 int32_t; 
+typedef unsigned __int32 uint32_t; 
+typedef __int64 int64_t; 
+typedef unsigned __int64 uint64_t; 
+#else 
+#include <stdint.h> 
+#endif 
 
 /*! \file xtypes.h
 */
@@ -51,17 +63,21 @@
 //! xbULong type
 /*!
 */
-typedef unsigned long  int xbULong;
+//typedef unsigned long  int xbULong;
+typedef uint32_t xbULong;
 //! xbUShort type
 /*!
 */
-typedef unsigned short int xbUShort;
+//typedef unsigned short int xbUShort;
+typedef uint16_t xbUShort;
 //! xbShort type
 /*!
 */
-typedef short int          xbShort;
+//typedef short int          xbShort;
+typedef int16_t xbShort;
 
-#define xbLong long
+typedef int32_t xbLong;
+//#define xbLong long
 //typedef long             LONG;
 //! xbFloat type
 /*!
