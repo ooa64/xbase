@@ -90,7 +90,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = indextst$(EXEEXT) exptest$(EXEEXT) locktest$(EXEEXT) \
-	testdate$(EXEEXT) testhtml.cgi$(EXEEXT)
+	testdate$(EXEEXT) sizeof$(EXEEXT) testhtml.cgi$(EXEEXT)
 subdir = libtest
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -122,6 +122,10 @@ am_locktest_OBJECTS = locktest.$(OBJEXT)
 locktest_OBJECTS = $(am_locktest_OBJECTS)
 locktest_LDADD = $(LDADD)
 locktest_DEPENDENCIES =
+am_sizeof_OBJECTS = sizeof.$(OBJEXT)
+sizeof_OBJECTS = $(am_sizeof_OBJECTS)
+sizeof_LDADD = $(LDADD)
+sizeof_DEPENDENCIES =
 am_testdate_OBJECTS = testdate.$(OBJEXT)
 testdate_OBJECTS = $(am_testdate_OBJECTS)
 testdate_LDADD = $(LDADD)
@@ -146,8 +150,8 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/xbase
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/exptest.Po ./$(DEPDIR)/indextst.Po \
-	./$(DEPDIR)/locktest.Po ./$(DEPDIR)/testdate.Po \
-	./$(DEPDIR)/testhtml.Po
+	./$(DEPDIR)/locktest.Po ./$(DEPDIR)/sizeof.Po \
+	./$(DEPDIR)/testdate.Po ./$(DEPDIR)/testhtml.Po
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -168,9 +172,9 @@ am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(exptest_SOURCES) $(indextst_SOURCES) $(locktest_SOURCES) \
-	$(testdate_SOURCES) $(testhtml_cgi_SOURCES)
+	$(sizeof_SOURCES) $(testdate_SOURCES) $(testhtml_cgi_SOURCES)
 DIST_SOURCES = $(exptest_SOURCES) $(indextst_SOURCES) \
-	$(locktest_SOURCES) $(testdate_SOURCES) \
+	$(locktest_SOURCES) $(sizeof_SOURCES) $(testdate_SOURCES) \
 	$(testhtml_cgi_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -334,6 +338,7 @@ indextst_SOURCES = indextst.cpp
 exptest_SOURCES = exptest.cpp
 locktest_SOURCES = locktest.cpp
 testdate_SOURCES = testdate.cpp
+sizeof_SOURCES = sizeof.cpp
 testhtml_cgi_SOURCES = testhtml.cpp
 noinst_HEADERS = 
 EXTRA_DIST = \
@@ -398,6 +403,10 @@ locktest$(EXEEXT): $(locktest_OBJECTS) $(locktest_DEPENDENCIES) $(EXTRA_locktest
 	@rm -f locktest$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(locktest_OBJECTS) $(locktest_LDADD) $(LIBS)
 
+sizeof$(EXEEXT): $(sizeof_OBJECTS) $(sizeof_DEPENDENCIES) $(EXTRA_sizeof_DEPENDENCIES) 
+	@rm -f sizeof$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(sizeof_OBJECTS) $(sizeof_LDADD) $(LIBS)
+
 testdate$(EXEEXT): $(testdate_OBJECTS) $(testdate_DEPENDENCIES) $(EXTRA_testdate_DEPENDENCIES) 
 	@rm -f testdate$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(testdate_OBJECTS) $(testdate_LDADD) $(LIBS)
@@ -415,6 +424,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exptest.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/indextst.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/locktest.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sizeof.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdate.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testhtml.Po@am__quote@ # am--include-marker
 
@@ -580,6 +590,7 @@ distclean: distclean-am
 		-rm -f ./$(DEPDIR)/exptest.Po
 	-rm -f ./$(DEPDIR)/indextst.Po
 	-rm -f ./$(DEPDIR)/locktest.Po
+	-rm -f ./$(DEPDIR)/sizeof.Po
 	-rm -f ./$(DEPDIR)/testdate.Po
 	-rm -f ./$(DEPDIR)/testhtml.Po
 	-rm -f Makefile
@@ -630,6 +641,7 @@ maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/exptest.Po
 	-rm -f ./$(DEPDIR)/indextst.Po
 	-rm -f ./$(DEPDIR)/locktest.Po
+	-rm -f ./$(DEPDIR)/sizeof.Po
 	-rm -f ./$(DEPDIR)/testdate.Po
 	-rm -f ./$(DEPDIR)/testhtml.Po
 	-rm -f Makefile
