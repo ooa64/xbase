@@ -90,7 +90,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = indextst$(EXEEXT) exptest$(EXEEXT) locktest$(EXEEXT) \
-	testdate$(EXEEXT) testhtml.cgi$(EXEEXT)
+	testdate$(EXEEXT) sizeof$(EXEEXT) testhtml.cgi$(EXEEXT)
 subdir = libtest
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -122,6 +122,10 @@ am_locktest_OBJECTS = locktest.$(OBJEXT)
 locktest_OBJECTS = $(am_locktest_OBJECTS)
 locktest_LDADD = $(LDADD)
 locktest_DEPENDENCIES =
+am_sizeof_OBJECTS = sizeof.$(OBJEXT)
+sizeof_OBJECTS = $(am_sizeof_OBJECTS)
+sizeof_LDADD = $(LDADD)
+sizeof_DEPENDENCIES =
 am_testdate_OBJECTS = testdate.$(OBJEXT)
 testdate_OBJECTS = $(am_testdate_OBJECTS)
 testdate_LDADD = $(LDADD)
@@ -143,12 +147,8 @@ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/xbase
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/exptest.Po ./$(DEPDIR)/indextst.Po \
-	./$(DEPDIR)/locktest.Po ./$(DEPDIR)/testdate.Po \
-	./$(DEPDIR)/testhtml.Po
-am__mv = mv -f
+depcomp =
+am__maybe_remake_depfiles =
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -168,9 +168,9 @@ am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(exptest_SOURCES) $(indextst_SOURCES) $(locktest_SOURCES) \
-	$(testdate_SOURCES) $(testhtml_cgi_SOURCES)
+	$(sizeof_SOURCES) $(testdate_SOURCES) $(testhtml_cgi_SOURCES)
 DIST_SOURCES = $(exptest_SOURCES) $(indextst_SOURCES) \
-	$(locktest_SOURCES) $(testdate_SOURCES) \
+	$(locktest_SOURCES) $(sizeof_SOURCES) $(testdate_SOURCES) \
 	$(testhtml_cgi_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -197,8 +197,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp \
-	$(top_srcdir)/mkinstalldirs README
+am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/mkinstalldirs \
+	README
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -334,6 +334,7 @@ indextst_SOURCES = indextst.cpp
 exptest_SOURCES = exptest.cpp
 locktest_SOURCES = locktest.cpp
 testdate_SOURCES = testdate.cpp
+sizeof_SOURCES = sizeof.cpp
 testhtml_cgi_SOURCES = testhtml.cpp
 noinst_HEADERS = 
 EXTRA_DIST = \
@@ -356,9 +357,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu libtest/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu --ignore-deps libtest/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu libtest/Makefile
+	  $(AUTOMAKE) --gnu --ignore-deps libtest/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -398,6 +399,10 @@ locktest$(EXEEXT): $(locktest_OBJECTS) $(locktest_DEPENDENCIES) $(EXTRA_locktest
 	@rm -f locktest$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(locktest_OBJECTS) $(locktest_LDADD) $(LIBS)
 
+sizeof$(EXEEXT): $(sizeof_OBJECTS) $(sizeof_DEPENDENCIES) $(EXTRA_sizeof_DEPENDENCIES) 
+	@rm -f sizeof$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(sizeof_OBJECTS) $(sizeof_LDADD) $(LIBS)
+
 testdate$(EXEEXT): $(testdate_OBJECTS) $(testdate_DEPENDENCIES) $(EXTRA_testdate_DEPENDENCIES) 
 	@rm -f testdate$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(testdate_OBJECTS) $(testdate_LDADD) $(LIBS)
@@ -412,38 +417,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exptest.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/indextst.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/locktest.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdate.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testhtml.Po@am__quote@ # am--include-marker
-
-$(am__depfiles_remade):
-	@$(MKDIR_P) $(@D)
-	@echo '# dummy' >$@-t && $(am__mv) $@-t $@
-
-am--depfiles: $(am__depfiles_remade)
-
 .cpp.o:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
+	$(AM_V_CXX)$(CXXCOMPILE) -c -o $@ $<
 
 .cpp.obj:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+	$(AM_V_CXX)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 .cpp.lo:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+	$(AM_V_CXX)$(LTCXXCOMPILE) -c -o $@ $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -577,11 +558,6 @@ clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
 	mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/exptest.Po
-	-rm -f ./$(DEPDIR)/indextst.Po
-	-rm -f ./$(DEPDIR)/locktest.Po
-	-rm -f ./$(DEPDIR)/testdate.Po
-	-rm -f ./$(DEPDIR)/testhtml.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -627,11 +603,6 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/exptest.Po
-	-rm -f ./$(DEPDIR)/indextst.Po
-	-rm -f ./$(DEPDIR)/locktest.Po
-	-rm -f ./$(DEPDIR)/testdate.Po
-	-rm -f ./$(DEPDIR)/testhtml.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -652,9 +623,9 @@ uninstall-am:
 
 .MAKE: install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am am--depfiles check check-am clean \
-	clean-generic clean-libtool clean-noinstPROGRAMS cscopelist-am \
-	ctags ctags-am distclean distclean-compile distclean-generic \
+.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
+	clean-libtool clean-noinstPROGRAMS cscopelist-am ctags \
+	ctags-am distclean distclean-compile distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
 	install-data-am install-dvi install-dvi-am install-exec \

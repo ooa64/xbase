@@ -196,17 +196,8 @@ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
 DEFAULT_INCLUDES = -I.@am__isrc@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/dbf.Plo ./$(DEPDIR)/exp.Plo \
-	./$(DEPDIR)/expfunc.Plo ./$(DEPDIR)/expproc.Plo \
-	./$(DEPDIR)/fields.Plo ./$(DEPDIR)/html.Plo \
-	./$(DEPDIR)/index.Plo ./$(DEPDIR)/lock.Plo \
-	./$(DEPDIR)/memo.Plo ./$(DEPDIR)/ndx.Plo ./$(DEPDIR)/ntx.Plo \
-	./$(DEPDIR)/stack.Plo ./$(DEPDIR)/xbase.Plo \
-	./$(DEPDIR)/xbexcept.Plo ./$(DEPDIR)/xbfilter.Plo \
-	./$(DEPDIR)/xbstring.Plo ./$(DEPDIR)/xdate.Plo
-am__mv = mv -f
+depcomp =
+am__maybe_remake_depfiles =
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -254,8 +245,7 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/xbase.h.in \
-	$(srcdir)/xbconfig.h.in $(top_srcdir)/depcomp \
-	$(top_srcdir)/mkinstalldirs
+	$(srcdir)/xbconfig.h.in $(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -422,9 +412,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu xbase/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu --ignore-deps xbase/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu xbase/Makefile
+	  $(AUTOMAKE) --gnu --ignore-deps xbase/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -504,50 +494,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dbf.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exp.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expfunc.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expproc.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fields.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/index.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lock.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/memo.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ndx.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ntx.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stack.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xbase.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xbexcept.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xbfilter.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xbstring.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xdate.Plo@am__quote@ # am--include-marker
-
-$(am__depfiles_remade):
-	@$(MKDIR_P) $(@D)
-	@echo '# dummy' >$@-t && $(am__mv) $@-t $@
-
-am--depfiles: $(am__depfiles_remade)
-
 .cpp.o:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
+	$(AM_V_CXX)$(CXXCOMPILE) -c -o $@ $<
 
 .cpp.obj:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+	$(AM_V_CXX)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 .cpp.lo:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+	$(AM_V_CXX)$(LTCXXCOMPILE) -c -o $@ $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -705,23 +659,6 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 	mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/dbf.Plo
-	-rm -f ./$(DEPDIR)/exp.Plo
-	-rm -f ./$(DEPDIR)/expfunc.Plo
-	-rm -f ./$(DEPDIR)/expproc.Plo
-	-rm -f ./$(DEPDIR)/fields.Plo
-	-rm -f ./$(DEPDIR)/html.Plo
-	-rm -f ./$(DEPDIR)/index.Plo
-	-rm -f ./$(DEPDIR)/lock.Plo
-	-rm -f ./$(DEPDIR)/memo.Plo
-	-rm -f ./$(DEPDIR)/ndx.Plo
-	-rm -f ./$(DEPDIR)/ntx.Plo
-	-rm -f ./$(DEPDIR)/stack.Plo
-	-rm -f ./$(DEPDIR)/xbase.Plo
-	-rm -f ./$(DEPDIR)/xbexcept.Plo
-	-rm -f ./$(DEPDIR)/xbfilter.Plo
-	-rm -f ./$(DEPDIR)/xbstring.Plo
-	-rm -f ./$(DEPDIR)/xdate.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -767,23 +704,6 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/dbf.Plo
-	-rm -f ./$(DEPDIR)/exp.Plo
-	-rm -f ./$(DEPDIR)/expfunc.Plo
-	-rm -f ./$(DEPDIR)/expproc.Plo
-	-rm -f ./$(DEPDIR)/fields.Plo
-	-rm -f ./$(DEPDIR)/html.Plo
-	-rm -f ./$(DEPDIR)/index.Plo
-	-rm -f ./$(DEPDIR)/lock.Plo
-	-rm -f ./$(DEPDIR)/memo.Plo
-	-rm -f ./$(DEPDIR)/ndx.Plo
-	-rm -f ./$(DEPDIR)/ntx.Plo
-	-rm -f ./$(DEPDIR)/stack.Plo
-	-rm -f ./$(DEPDIR)/xbase.Plo
-	-rm -f ./$(DEPDIR)/xbexcept.Plo
-	-rm -f ./$(DEPDIR)/xbfilter.Plo
-	-rm -f ./$(DEPDIR)/xbstring.Plo
-	-rm -f ./$(DEPDIR)/xdate.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -804,9 +724,9 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgincludeHEADERS
 
 .MAKE: all install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am am--depfiles check check-am clean \
-	clean-generic clean-libLTLIBRARIES clean-libtool cscopelist-am \
-	ctags ctags-am distclean distclean-compile distclean-generic \
+.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
+	clean-libLTLIBRARIES clean-libtool cscopelist-am ctags \
+	ctags-am distclean distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-tags distdir dvi \
 	dvi-am html html-am info info-am install install-am \
 	install-data install-data-am install-dvi install-dvi-am \

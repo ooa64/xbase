@@ -355,6 +355,7 @@ xbShort xbNdx::OpenIndex( const char * FileName )
          LockIndex(F_SETLKW, F_UNLCK);
 #endif
       fclose( indexfp );
+      indexfp = NULL;
       return rc;
    }
 
@@ -414,8 +415,10 @@ xbShort xbNdx::CloseIndex( void )
   ReleaseNodeMemory(DeleteChain, true);
   DeleteChain = 0;
 
-  if(indexfp)
+  if(indexfp) {
     fclose(indexfp);
+    indexfp = NULL;
+  }
 
   IndexStatus = 0;
   return 0;
@@ -1553,11 +1556,14 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
    /* check if the file already exists */
    if (((indexfp = fopen( IndexName, "r" )) != NULL ) && !Overlay ) {
       fclose( indexfp );
+      indexfp = NULL;
       xb_io_error(XB_FILE_EXISTS, IndexName);
    }
 
-   if (indexfp)
+   if (indexfp) {
      fclose(indexfp);
+     indexfp = NULL;
+   }
 
    if(( indexfp = fopen( IndexName, "w+b" )) == NULL )
        xb_open_error(IndexName);
@@ -1656,8 +1662,9 @@ xbShort xbNdx::CreateIndex(const char * IxName, const char * Exp,
          if( dbf->GetAutoLock() )
             LockIndex(F_SETLKW, F_UNLCK);
 #endif
-       fclose( indexfp );
-    xb_io_error(XB_WRITE_ERROR, IndexName);
+        fclose( indexfp );
+        indexfp = NULL;
+        xb_io_error(XB_WRITE_ERROR, IndexName);
       }
    }
    IndexStatus = XB_OPEN;
@@ -1726,6 +1733,7 @@ xbShort xbNdx::PutLeafNode( xbLong l, xbNdxNodeLink *n )
 {
    if ((fseek(indexfp, l * XB_NDX_NODE_SIZE , SEEK_SET)) != 0) {
      fclose( indexfp );
+     indexfp = NULL;
      xb_io_error(XB_SEEK_ERROR, IndexName);
    }
    dbf->xbase->PutLong( Node, n->Leaf.NoOfKeysThisNode );
@@ -1733,11 +1741,13 @@ xbShort xbNdx::PutLeafNode( xbLong l, xbNdxNodeLink *n )
    if(( fwrite( Node, 4, 1, indexfp )) != 1 )
    {
      fclose( indexfp );
+     indexfp = NULL;
      xb_io_error(XB_WRITE_ERROR, IndexName);
    }
    if(( fwrite( &n->Leaf.KeyRecs, XB_NDX_NODE_SIZE-4, 1, indexfp )) != 1 )
    {
      fclose( indexfp );
+     indexfp = NULL;
      xb_io_error(XB_WRITE_ERROR, IndexName);
    }
    return 0;   
@@ -2833,6 +2843,7 @@ xbShort xbNdx::ReIndex(void (*statusFunc)(xbLong itemNum, xbLong numItems))
 
    if( fclose( indexfp ) != 0 )
       xb_io_error(XB_CLOSE_ERROR, IndexName);
+   indexfp = NULL;
 
    if( fclose( t ) != 0 )
       xb_io_error(XB_CLOSE_ERROR, TempName);

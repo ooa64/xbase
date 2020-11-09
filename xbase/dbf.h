@@ -134,8 +134,6 @@
 struct XBDLLEXPORT xbSchema {
    char      FieldName[11];
    char      Type;
-// xbUShort  FieldLen;       /* does not work */
-// xbUShort  NoOfDecs;       /* does not work */
    unsigned  char FieldLen;  /* fields are stored as one byte on record*/
    unsigned  char NoOfDecs;
 };
@@ -147,11 +145,10 @@ struct XBDLLEXPORT xbSchema {
 struct XBDLLEXPORT xbSchemaRec {
    char     FieldName[11];
    char     Type;            /* field type */
-   char     *Address;        /* pointer to field in record buffer 1 */
-// xbUShort FieldLen;        /* does not work */
-// xbUShort NoOfDecs;        /* does not work */
+   char     Displacement[4]; /* displacemant of field in record */
    unsigned char FieldLen;   /* fields are stored as one byte on record */
    unsigned char NoOfDecs;
+   char     *Address;        /* pointer to field in record buffer 1 */
    char     *Address2;       /* pointer to field in record buffer 2 */
    char     *fp;             /* pointer to null terminated buffer for field */
                              /* see method GetString */

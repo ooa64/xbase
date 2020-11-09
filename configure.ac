@@ -8,19 +8,16 @@
 #          All configuration parms moved to this file - if you make updates
 #          please add meaningful comments
 
-AC_INIT([xbase],[2.1.2],[xdb-devel@lists.sourceforge.net]) 
-AC_CONFIG_MACRO_DIRS([m4])
+AC_INIT([xbase],[2.1.3],[xdb-devel@lists.sourceforge.net]) 
+AC_CONFIG_MACRO_DIR([m4])
 
 # set variable XSUBVARS with a list of sub directories to process
 # XSUBDIRS="xbase examples bin html libtest tv ybase"
 
-XSUBDIRS="xbase examples bin html libtest tv"
+XSUBDIRS="xbase examples bin html libtest"
 AC_SUBST(XSUBDIRS)
 
-# look for AIX and MINIX environments
-AC_AIX
-AC_MINIX
-
+AC_USE_SYSTEM_EXTENSIONS
 
 # build the following programs
 AC_CONFIG_SRCDIR( examples/exfilter.cpp,
@@ -46,17 +43,17 @@ AC_CONFIG_SRCDIR( examples/exfilter.cpp,
 		  libtest/locktest.cpp,
 		  libtest/testdate.cpp,
 		  libtest/testhtml.cpp,
-		  ybase/ybase.cpp
+		  libtest/sizeof.cpp
 		 )
 		  
 # init automake
 AM_INIT_AUTOMAKE
 
 # create this header file
-AM_CONFIG_HEADER(xbase/xbconfig.h)
+AC_CONFIG_HEADER(xbase/xbconfig.h)
 
 #create a library
-AM_PROG_LIBTOOL
+LT_INIT
 
 # C++ Code
 AC_PROG_CXX
@@ -217,21 +214,19 @@ AH_VERBATIM([PATH_SEPARATOR],[#define PATH_SEPARATOR '/'])
 AH_VERBATIM([XB_DBT_BLOCK_SIZE],[#define XB_DBT_BLOCK_SIZE 512])
 
 # build the following Makefiles 
-AC_OUTPUT(
-	    Makefile
+AC_CONFIG_FILES([Makefile
 	    xbase/Makefile
 	    xbase/xbase.h
 	    examples/Makefile
     	    bin/Makefile
             html/Makefile
-	    tv/Makefile
     	    libtest/Makefile
-dnl	    ybase/Makefile
 	    xbase-config
 	    xbase.spec
 	    docs/doxygen.cfg
 	    docs/Makefile
-)
+])
+AC_OUTPUT
 
 # 8/10/03 - gkunkel
 # The following may or may not be needed. There was evidence this didn't work

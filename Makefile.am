@@ -40,6 +40,8 @@
 
 SUBDIRS = @XSUBDIRS@
 
+ACLOCAL_AMFLAGS = -I m4
+
 MAINTAINERCLEANFILES = Makefile.in configure aclocal.m4 libtool
 
 EXTRA_DIST = \
