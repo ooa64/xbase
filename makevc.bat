@@ -13,7 +13,7 @@ echo Compiler:
 cl > nul
 if errorlevel 1 goto clerror
 
-rem defaults: DEBUG=0 STATIC=0 MSVCRT=1
+rem defaults: DEBUG=0 STATIC=1 MSVCRT=1
 if not "%DEBUG%" == ""  set OPTS=%OPTS% DEBUG=%DEBUG%
 if not "%MSVCRT%" == "" set OPTS=%OPTS% MSVCRT=%MSVCRT%
 if not "%STATIC%" == "" set OPTS=%OPTS% STATIC_BUILD=%STATIC%

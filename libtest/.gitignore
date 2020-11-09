@@ -1,2 +1,11 @@
 Makefile
 .deps
+.libs
+exptest
+indextst
+locktest
+sizeof
+testdate
+testhtml.cgi
+IA64
+IX86

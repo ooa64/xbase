@@ -13,11 +13,11 @@ DEBUG = 0
 !endif
 
 !ifndef STATIC_BUILD
-STATIC_BUILD = 0
+STATIC_BUILD = 1
 !endif
 
 !ifndef MSVCRT
-MSVCRT=1 
+MSVCRT = 1
 !endif
 
 #######################################################################
@@ -89,7 +89,7 @@ cdebug = -O2 -Gs -GD
 !endif
 
 # declarations common to all compiler options
-cflags = -W3 -nologo 
+cflags = -W3 -nologo $(CFLAGS)
 
 # to include winsock2.h, not winsock.h
 cflags = $(cflags) -D_WIN32_WINNT=0x0400 -DWINVER=0x0400

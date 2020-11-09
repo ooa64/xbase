@@ -13,7 +13,7 @@
 !include "..\makerules.vc"
 
 NAMEPREFIX = xbase
-DOTVERSION = "2.1.2"
+DOTVERSION = "2.1.3"
 VERSION = 21
 
 NAME = $(NAMEPREFIX)$(VERSION)$(DLLX)$(DBGX)
@@ -24,7 +24,8 @@ TESTS = \
     $(MACHINE)\indextst.exe \
     $(MACHINE)\locktest.exe \
     $(MACHINE)\testdate.exe \
-    $(MACHINE)\testhtml.exe
+    $(MACHINE)\testhtml.exe \
+    $(MACHINE)\sizeof.exe
 
 
 !if "$(DEBUG)" == "1"

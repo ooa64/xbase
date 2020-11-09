@@ -1,6 +1,9 @@
 Makefile
 stamp*
+.libs
 .deps
 *.lo
 *.o
 *.obj
+IA64
+IX86

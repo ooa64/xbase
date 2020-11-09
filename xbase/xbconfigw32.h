@@ -4,7 +4,7 @@
 #define PACKAGE "xbase"
 
 /* Version number of package */
-#define VERSION "2.1.2"
+#define VERSION "2.1.3"
 
 /* Define if you have the ANSI C header files.  */
 #define STDC_HEADERS 1
