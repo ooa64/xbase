@@ -26,6 +26,5 @@ News:
     - 2020-11-05 Windows build system for MSVC with nmake:
                  32-bit library, examples, tools and tests - everything works.
                  
-    - 2020-11-04 Sources imported using https://gitlab.com/esr/cvs-fast-export.
     - 2020-11-04 Sources imported using https://gitlab.com/esr/cvs-fast-export,
                  autoconf/automake files updated, ./configure&&make should work now
