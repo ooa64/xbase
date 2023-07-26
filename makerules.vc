@@ -50,19 +50,10 @@ MACHINE     = IA64
 !endif
 !endif
 
-!if "$(MACHINE)" == "IA64"
-PLATFORM  = x64
-ccXX      = "$(VCTOOLS)\bin\x86_amd64\cl.exe" -c
-clXX      = "$(VCTOOLS)\bin\x86_amd64\cl.exe"
-linkXX    = "$(VCTOOLS)\bin\x86_amd64\link.exe"
-libXX     = "$(VCTOOLS)\bin\x86_amd64\lib.exe"
-!else
-PLATFORM  = x86
-ccXX      = "$(VCTOOLS)\bin\cl.exe" -c
-clXX      = "$(VCTOOLS)\bin\cl.exe"
-linkXX    = "$(VCTOOLS)\bin\link.exe"
-libXX     = "$(VCTOOLS)\bin\lib.exe"
-!endif
+ccXX      = cl -c
+clXX      = cl
+linkXX    = link
+libXX     = lib
 
 cvtres32  = "$(VCTOOLS)\bin\cvtres.exe"
 rc32      = "$(SDKTOOLS)\bin\rc.exe"

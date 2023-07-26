@@ -44,7 +44,7 @@
 #define __XB_XTYPES_H__
 
 #include <stdio.h>
-#ifdef _MSC_VER 
+#if defined(_MSC_VER) && _MSC_VER < 1920 // ??? 
 typedef __int8  int8_t;
 typedef unsigned __int8 uint8_t;
 typedef __int16 int16_t;
